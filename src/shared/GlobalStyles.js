@@ -14,7 +14,7 @@ const styles = css`
   select,
   text-align {
     border: 0;
-    outline: 0 !important;
+    outline: none !important;
   }
 `;
 
