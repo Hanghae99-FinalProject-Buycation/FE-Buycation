@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import InputBasic from "../elements/InputBasic";
+import ButtonBasic from "../elements/ButtonBasic";
 
 const SignIn = () => {
   // const navigate = useNavigate();
@@ -35,30 +38,39 @@ const SignIn = () => {
 
       <form onSubmit={onSubmitLoginValueHandler}>
         <div>
-          <input
+          <InputBasic
             name="email"
-            type="text"
+            type="email"
             placeholder="아이디 (이메일)"
+            autoComplete="off"
             value={loginValue.email}
-            onChange={onChangeInputHandler}
+            _onChange={onChangeInputHandler}
           />
-          <input
+          <InputBasic
             name="pw"
             type="password"
             placeholder="비밀번호"
             value={loginValue.pw}
-            onChange={onChangeInputHandler}
+            _onChange={onChangeInputHandler}
           />
         </div>
 
-        <div type="button">
+        <LinkDiv type="button">
           <Link to="/signup">회원가입</Link>
-        </div>
+        </LinkDiv>
 
-        <button>로그인</button>
+        <ButtonBasic>로그인</ButtonBasic>
       </form>
     </section>
   );
 };
 
 export default SignIn;
+
+const LinkDiv = styled.div`
+  display: flex;
+  justify-content: end;
+  & > a {
+    color: black;
+  }
+`;
