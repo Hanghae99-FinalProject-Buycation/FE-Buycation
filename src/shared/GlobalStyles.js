@@ -17,6 +17,7 @@ const styles = css`
   text-align {
     border: 0;
     outline: none !important;
+    box-sizing: border-box;
   }
 `;
 
