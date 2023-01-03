@@ -65,7 +65,7 @@ const SignIn = () => {
             autoComplete="off"
             value={loginValue.email}
             _onChange={onChangeInputHandler}
-            isValid={inValid.isEmail}
+            inValid={inValid.isEmail}
           />
           <InputBasic
             name="password"
@@ -73,7 +73,7 @@ const SignIn = () => {
             placeholder="비밀번호"
             value={loginValue.password}
             _onChange={onChangeInputHandler}
-            isValid={inValid.isPassword}
+            inValid={inValid.isPassword}
           />
         </InputBox>
 

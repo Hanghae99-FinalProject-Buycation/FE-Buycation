@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 
 const InputBasic = (props) => {
-  console.log(props.isValid);
   const {
     name,
     type,
@@ -16,7 +15,7 @@ const InputBasic = (props) => {
     margin,
     padding,
     _onChange,
-    isValid,
+    inValid,
   } = props;
 
   const styles = {
@@ -38,7 +37,7 @@ const InputBasic = (props) => {
       autoComplete={autoComplete}
       required={required}
       onChange={_onChange}
-      isValid={isValid}
+      inValid={inValid}
     />
   );
 };
@@ -65,5 +64,5 @@ const ElInput = styled.input`
   background: ${({ background }) => background};
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
-  border: ${(props) => (props.isValid ? "1px solid red" : `${props.border}`)};
+  border: ${(props) => (props.inValid ? "1px solid red" : `${props.border}`)};
 `;
