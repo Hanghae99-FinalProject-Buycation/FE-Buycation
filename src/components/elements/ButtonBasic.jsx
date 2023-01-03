@@ -24,7 +24,7 @@ const ButtonBasic = (props) => {
     padding,
   };
   return (
-    <ElBtn {...styles} type={type} onChange={_onClick}>
+    <ElBtn {...styles} type={type} onClick={_onClick}>
       {children}
     </ElBtn>
   );
@@ -51,4 +51,5 @@ const ElBtn = styled.button`
   background: ${({ background }) => background};
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
+  cursor: pointer;
 `;
