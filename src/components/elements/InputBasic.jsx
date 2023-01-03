@@ -2,9 +2,10 @@ import styled from "@emotion/styled";
 
 const InputBasic = (props) => {
   const {
-    type,
     name,
+    type,
     placeholder,
+    autoComplete,
     required,
     width,
     height,
@@ -25,17 +26,20 @@ const InputBasic = (props) => {
     margin,
     padding,
   };
+
   return (
     <ElInput
       {...styles}
-      type={type}
       name={name}
+      type={type}
+      placeholder={placeholder}
+      autoComplete={autoComplete}
       required={required}
       onChange={_onChange}
-      placeholder={placeholder}
     />
   );
 };
+export default InputBasic;
 
 InputBasic.defaultProps = {
   width: "100%",
@@ -43,14 +47,12 @@ InputBasic.defaultProps = {
   border: "1px solid #f5f5f5",
   borderRadius: "0.5rem",
   background: "#e7e7e7",
-  margin: "",
   padding: "0.5rem",
-  placeholder: "",
+  margin: "",
   name: "",
+  placeholder: "",
   _onChange: () => {},
 };
-
-export default InputBasic;
 
 const ElInput = styled.input`
   width: ${({ width }) => width};
@@ -58,6 +60,6 @@ const ElInput = styled.input`
   border: ${({ border }) => border};
   border-radius: ${({ borderRadius }) => borderRadius};
   background: ${({ background }) => background};
-  margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
+  margin: ${({ margin }) => margin};
 `;

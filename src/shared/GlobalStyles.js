@@ -14,10 +14,12 @@ const styles = css`
   button,
   input,
   select,
-  text-align {
+  text-align,
+  a {
     border: 0;
     outline: none !important;
     box-sizing: border-box;
+    text-decoration: none;
   }
 `;
 

@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 const ButtonBasic = (props) => {
   const {
     type,
-    children,
     width,
     height,
     border,
@@ -11,6 +10,7 @@ const ButtonBasic = (props) => {
     background,
     margin,
     padding,
+    children,
     _onClick,
   } = props;
 
@@ -23,12 +23,15 @@ const ButtonBasic = (props) => {
     margin,
     padding,
   };
+
   return (
     <ElBtn {...styles} type={type} onClick={_onClick}>
       {children}
     </ElBtn>
   );
 };
+
+export default ButtonBasic;
 
 ButtonBasic.defaultProps = {
   width: "100%",
@@ -40,8 +43,6 @@ ButtonBasic.defaultProps = {
   padding: "0.5rem",
   _onClick: () => {},
 };
-
-export default ButtonBasic;
 
 const ElBtn = styled.button`
   width: ${({ width }) => width};
