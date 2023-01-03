@@ -11,12 +11,25 @@ const SignIn = () => {
     email: "",
     password: "",
   });
+  const [isValid, setIsValid] = useState({
+    isEmail: false,
+    isPassword: false,
+  });
 
   const onChangeInputHandler = (event) => {
     const { name, value } = event.target;
     setLoginValue({ ...loginValue, [name]: value });
+
+    const isValidList = {
+      email: "isEmail",
+      password: "isPassword",
+    };
+    setIsValid({
+      ...isValid,
+      [isValidList[name]]: value ? false : true,
+    });
   };
-  console.log("onChange :", loginValue);
+  console.log("onChange 인풋 값 :", loginValue);
 
   const onSubmitLoginValueHandler = (event) => {
     event.preventDefault();
@@ -25,8 +38,11 @@ const SignIn = () => {
       password: loginValue.password,
     };
 
-    //빈 값이 아닌 경우만 통신
-    if (loginValue.email !== "" && loginValue.password !== "") {
+    if (loginValue.email === "") {
+      setIsValid({ ...isValid, isEmail: true });
+    } else if (loginValue.password === "") {
+      setIsValid({ ...isValid, isPassword: true });
+    } else {
       console.log("확인");
       sign_in(newLoginValue).then((res) => {
         alert(res.data.msg);
@@ -49,6 +65,7 @@ const SignIn = () => {
             autoComplete="off"
             value={loginValue.email}
             _onChange={onChangeInputHandler}
+            isValid={isValid.isEmail}
           />
           <InputBasic
             name="password"
@@ -56,6 +73,7 @@ const SignIn = () => {
             placeholder="비밀번호"
             value={loginValue.password}
             _onChange={onChangeInputHandler}
+            isValid={isValid.isPassword}
           />
         </InputBox>
 
