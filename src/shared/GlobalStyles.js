@@ -6,6 +6,8 @@ const styles = css`
   }
 
   body {
+    padding: 0;
+    margin: 0;
     /* font-family: ; */
   }
 
@@ -14,7 +16,7 @@ const styles = css`
   select,
   text-align {
     border: 0;
-    outline: 0 !important;
+    outline: none !important;
   }
 `;
 
