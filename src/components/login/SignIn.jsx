@@ -11,7 +11,7 @@ const SignIn = () => {
     email: "",
     password: "",
   });
-  const [isValid, setIsValid] = useState({
+  const [inValid, setInValid] = useState({
     isEmail: false,
     isPassword: false,
   });
@@ -20,13 +20,13 @@ const SignIn = () => {
     const { name, value } = event.target;
     setLoginValue({ ...loginValue, [name]: value });
 
-    const isValidList = {
+    const inValidList = {
       email: "isEmail",
       password: "isPassword",
     };
-    setIsValid({
-      ...isValid,
-      [isValidList[name]]: value ? false : true,
+    setInValid({
+      ...inValid,
+      [inValidList[name]]: value ? false : true,
     });
   };
   console.log("onChange 인풋 값 :", loginValue);
@@ -39,9 +39,9 @@ const SignIn = () => {
     };
 
     if (loginValue.email === "") {
-      setIsValid({ ...isValid, isEmail: true });
+      setInValid({ ...inValid, isEmail: true });
     } else if (loginValue.password === "") {
-      setIsValid({ ...isValid, isPassword: true });
+      setInValid({ ...inValid, isPassword: true });
     } else {
       console.log("확인");
       sign_in(newLoginValue).then((res) => {
@@ -65,7 +65,7 @@ const SignIn = () => {
             autoComplete="off"
             value={loginValue.email}
             _onChange={onChangeInputHandler}
-            isValid={isValid.isEmail}
+            isValid={inValid.isEmail}
           />
           <InputBasic
             name="password"
@@ -73,7 +73,7 @@ const SignIn = () => {
             placeholder="비밀번호"
             value={loginValue.password}
             _onChange={onChangeInputHandler}
-            isValid={isValid.isPassword}
+            isValid={inValid.isPassword}
           />
         </InputBox>
 
