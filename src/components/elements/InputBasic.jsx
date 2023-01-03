@@ -47,8 +47,8 @@ InputBasic.defaultProps = {
   border: "1px solid #f5f5f5",
   borderRadius: "0.5rem",
   background: "#e7e7e7",
-  padding: "0.5rem",
   margin: "",
+  padding: "0.5rem",
   name: "",
   placeholder: "",
   _onChange: () => {},
@@ -60,6 +60,6 @@ const ElInput = styled.input`
   border: ${({ border }) => border};
   border-radius: ${({ borderRadius }) => borderRadius};
   background: ${({ background }) => background};
-  padding: ${({ padding }) => padding};
   margin: ${({ margin }) => margin};
+  padding: ${({ padding }) => padding};
 `;

@@ -3,12 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
+import { sign_in } from "../../core/axios";
 
 const SignIn = () => {
   // const navigate = useNavigate();
   const [loginValue, setLoginValue] = useState({
     email: "",
-    pw: "",
+    password: "",
   });
 
   const onChangeInputHandler = (event) => {
@@ -19,16 +20,19 @@ const SignIn = () => {
 
   const onSubmitLoginValueHandler = (event) => {
     event.preventDefault();
-    if (loginValue.email === "") {
-      setLoginValue({ ...loginValue, isValidEmail: false });
-    } else if (loginValue.pw === "") {
-      setLoginValue({ ...loginValue, isValidPW: false });
-    } else {
-      const newLoginValue = {
-        email: loginValue.email,
-        password: loginValue.pw,
-      };
+    const newLoginValue = {
+      email: loginValue.email,
+      password: loginValue.password,
+    };
+
+    //빈 값이 아닌 경우만 통신
+    if (loginValue.email !== "" && loginValue.password !== "") {
       console.log("확인");
+      sign_in(newLoginValue).then((res) => {
+        alert(res.data.msg);
+        //localStorage.setItem("id", res.headers.authorization);
+        //navigate("/")
+      });
     }
   };
 
@@ -36,36 +40,48 @@ const SignIn = () => {
     <section>
       <p>환영합니다! 바이케이션을 시작하고 저렴하고 풍족한 삶을 누리세요.</p>
 
-      <form onSubmit={onSubmitLoginValueHandler}>
-        <div>
+      <Form onSubmit={onSubmitLoginValueHandler}>
+        <InputBox>
           <InputBasic
             name="email"
-            type="email"
+            type="text"
             placeholder="아이디 (이메일)"
             autoComplete="off"
             value={loginValue.email}
             _onChange={onChangeInputHandler}
           />
           <InputBasic
-            name="pw"
+            name="password"
             type="password"
             placeholder="비밀번호"
-            value={loginValue.pw}
+            value={loginValue.password}
             _onChange={onChangeInputHandler}
           />
-        </div>
+        </InputBox>
 
-        <LinkDiv type="button">
+        <LinkDiv>
           <Link to="/signup">회원가입</Link>
         </LinkDiv>
 
         <ButtonBasic>로그인</ButtonBasic>
-      </form>
+      </Form>
     </section>
   );
 };
 
 export default SignIn;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+const InputBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
 
 const LinkDiv = styled.div`
   display: flex;
