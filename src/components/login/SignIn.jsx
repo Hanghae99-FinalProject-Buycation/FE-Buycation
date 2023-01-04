@@ -53,10 +53,12 @@ const SignIn = () => {
   };
 
   return (
-    <section>
-      <p>환영합니다! 바이케이션을 시작하고 저렴하고 풍족한 삶을 누리세요.</p>
-
+    <Wrap>
       <Form onSubmit={onSubmitLoginValueHandler}>
+        <p>
+          환영합니다! 바이케이션을 시작하고 <br />
+          저렴하고 풍족한 삶을 누리세요.
+        </p>
         <InputBox>
           <InputBasic
             name="email"
@@ -82,17 +84,36 @@ const SignIn = () => {
         </LinkDiv>
 
         <ButtonBasic>로그인</ButtonBasic>
+        <ButtonBasic type="button" background="#FFE812">
+          카카오 계정으로 로그인 하기
+        </ButtonBasic>
       </Form>
-    </section>
+    </Wrap>
   );
 };
 
 export default SignIn;
 
+const Wrap = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 25rem;
+  padding: 1rem;
+  & > p {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 20px;
+    font-weight: 600;
+  }
 `;
 
 const InputBox = styled.div`
