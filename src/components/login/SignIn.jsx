@@ -5,18 +5,29 @@ import ButtonBasic from "../elements/ButtonBasic";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { __postSignin } from "../../redux/modules/login/signinSlice";
+import { CLIENT_ID, REDIRECT_URI } from "../../core/env";
 
 const SignIn = () => {
   const dispatch = useDispatch();
   // const navigate = useNavigate();
+
   const [loginValue, setLoginValue] = useState({
     email: "",
     password: "",
   });
+
   const [inValid, setInValid] = useState({
     isEmail: false,
     isPassword: false,
   });
+
+  //kakao
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}
+    &redirect_uri=${REDIRECT_URI}&response_type=code`;
+
+  const onClickKakaoHandler = (event) => {
+    window.location.href = KAKAO_AUTH_URL;
+  };
 
   const onChangeInputHandler = (event) => {
     const { name, value } = event.target;
@@ -81,7 +92,11 @@ const SignIn = () => {
         </LinkDiv>
 
         <ButtonBasic>로그인</ButtonBasic>
-        <ButtonBasic type="button" background="#FFE812">
+        <ButtonBasic
+          type="button"
+          background="#FFE812"
+          onClick={onClickKakaoHandler}
+        >
           카카오 계정으로 로그인 하기
         </ButtonBasic>
       </Form>
