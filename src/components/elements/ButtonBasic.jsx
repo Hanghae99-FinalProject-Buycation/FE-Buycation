@@ -10,9 +10,9 @@ const ButtonBasic = (props) => {
     background,
     margin,
     padding,
+    gridArea,
     children,
     _onClick,
-    gridArea,
   } = props;
 
   const styles = {

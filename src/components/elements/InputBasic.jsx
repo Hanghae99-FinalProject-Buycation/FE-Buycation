@@ -62,11 +62,10 @@ InputBasic.defaultProps = {
 const ElInput = styled.input`
   width: ${({ width }) => width};
   height: ${({ height }) => height};
-  border: ${({ border }) => border};
+  border: ${(style) => (style.inValid ? "1px solid red" : `${style.border}`)};
   border-radius: ${({ borderRadius }) => borderRadius};
   background: ${({ background }) => background};
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
-  border: ${(props) => (props.inValid ? "1px solid red" : `${props.border}`)};
   grid-area: ${({ gridArea }) => gridArea};
 `;
