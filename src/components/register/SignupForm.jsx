@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
-import SignupConditions from "../signup/SignupConditions";
+import SignupConditions from "../register/SignupConditions";
 import { FormContents } from "./FormContents";
 import Postcode from "../postcode/Postcode";
 import { useDispatch } from "react-redux";
@@ -148,7 +148,6 @@ export default Signup;
 
 const StSignupForm = styled.form`
   width: 100vw;
-  height: 98vh;
   ${({ theme }) => theme.common.flexCenter};
   flex-direction: column;
   h1 {
