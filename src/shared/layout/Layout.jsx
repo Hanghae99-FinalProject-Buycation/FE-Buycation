@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import styled from "@emotion/styled";
 import Header from "./Header";
 
-const Layout = (props) => {
+const Layout = () => {
   return (
     <Wrap>
       <Header />
@@ -17,7 +17,9 @@ const Layout = (props) => {
 export default Layout;
 
 const Wrap = styled.div`
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 `;
 
 const LayoutSt = styled.div`

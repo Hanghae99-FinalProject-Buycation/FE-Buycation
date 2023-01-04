@@ -96,7 +96,7 @@ export default SignIn;
 
 const Wrap = styled.div`
   width: 100vw;
-  height: 88vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
