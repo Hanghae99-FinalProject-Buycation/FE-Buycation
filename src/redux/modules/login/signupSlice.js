@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { baseURL } from "../../../core/baseURL";
-// import baseURL from '../../core/baseURL'
+import { baseURL } from "../../../core/axios";
 
 const initialState = {
   postSignup: {},
