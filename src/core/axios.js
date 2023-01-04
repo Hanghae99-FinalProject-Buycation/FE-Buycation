@@ -1,11 +1,26 @@
-import { instance } from "./instance";
+import axios from "axios";
+import { BACK_API } from "./env";
 
-//singin : 로그인
-export const sign_in = async (post) => {
-  try {
-    const data = await instance.post(`members/login`, post);
-    return data;
-  } catch (error) {
-    //alert(error.response.data.msg);
-  }
-};
+// 헤더 토큰 값 없이 사용하는 경우
+export const baseURL = axios.create({
+  baseURL: BACK_API,
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+  },
+});
+
+// 헤더 토큰 값이 들어가야 하는 경우
+export const baseURLwToken = axios.create({
+  baseURL: BACK_API,
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+  },
+});
+
+//interceptors
+baseURLwToken.interceptors.request.use((config) => {
+  if (config.headers === undefined) return;
+  const token = localStorage.getItem("id");
+  config.headers["Authorization"] = `${token}`;
+  return config;
+});

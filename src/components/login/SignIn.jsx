@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
 import { sign_in } from "../../core/axios";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const SignIn = () => {
+  const dispatch = useDispatch();
   // const navigate = useNavigate();
   const [loginValue, setLoginValue] = useState({
     email: "",
@@ -44,11 +46,8 @@ const SignIn = () => {
       setInValid({ ...inValid, isPassword: true });
     } else {
       console.log("확인");
-      sign_in(newLoginValue).then((res) => {
-        alert(res.data.msg);
-        //localStorage.setItem("id", res.headers.authorization);
-        //navigate("/")
-      });
+      dispatch(newLoginValue);
+      //navigate("/")
     }
   };
 
