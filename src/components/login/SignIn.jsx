@@ -31,7 +31,6 @@ const SignIn = () => {
       [inValidList[name]]: value ? false : true,
     });
   };
-  //console.log("onChange 인풋 값 :", loginValue);
 
   const onSubmitLoginValueHandler = (event) => {
     event.preventDefault();
@@ -45,7 +44,6 @@ const SignIn = () => {
     } else if (loginValue.password === "") {
       setInValid({ ...inValid, isPassword: true });
     } else {
-      console.log("확인");
       dispatch(__postSignin(newLoginValue));
       //navigate("/")
     }

@@ -15,7 +15,7 @@ export const __postSignin = createAsyncThunk(
       const data = await baseURL.post(`members/login`, payload);
       console.log("data", data);
       //localStorage.setItem("id", data.headers.authorization);
-      return thunkAPI.fulfillWithValue(data.data);
+      return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -26,22 +26,23 @@ export const signinSlice = createSlice({
   name: "postSignin",
   initialState,
   reducers: {},
-  extraReducers: {
-    [__postSignin.fulfilled]: (state) => {
-      state.isLoading = true;
-    },
-    [__postSignin.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      state.postSignin = [...state.signin, action.payload];
-      // localStorage.setItem("id", action.payload.headers.authorization);
-      alert(action.payload.msg);
-    },
-    [__postSignin.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(__postSignin.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__postSignin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.postSignin = [...state.postSignin, action.payload];
+        // localStorage.setItem("id", action.payload.headers.authorization);
+        alert(action.payload.data.msg);
+      })
+      .addCase(__postSignin.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
   },
 });
 
-export const { postSignin } = signinSlice.actions;
+export const {} = signinSlice.actions;
 export default signinSlice.reducer;
