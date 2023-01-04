@@ -96,18 +96,18 @@ export default SignIn;
 
 const Wrap = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 88vh;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 const Form = styled.form`
+  width: 25rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 25rem;
-  padding: 1rem;
   & > p {
     text-align: center;
     margin-bottom: 30px;
