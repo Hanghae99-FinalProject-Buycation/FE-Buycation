@@ -12,6 +12,7 @@ const ButtonBasic = (props) => {
     padding,
     children,
     _onClick,
+    gridArea,
   } = props;
 
   const styles = {
@@ -22,6 +23,7 @@ const ButtonBasic = (props) => {
     background,
     margin,
     padding,
+    gridArea,
   };
 
   return (
@@ -41,6 +43,7 @@ ButtonBasic.defaultProps = {
   background: "#888",
   margin: "",
   padding: "0.5rem",
+  gridArea: "",
   _onClick: () => {},
 };
 
@@ -52,5 +55,6 @@ const ElBtn = styled.button`
   background: ${({ background }) => background};
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
+  grid-area: ${({ gridArea }) => gridArea};
   cursor: pointer;
 `;

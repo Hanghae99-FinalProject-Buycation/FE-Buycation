@@ -14,6 +14,7 @@ const InputBasic = (props) => {
     background,
     margin,
     padding,
+    gridArea,
     _onChange,
     inValid,
   } = props;
@@ -26,6 +27,7 @@ const InputBasic = (props) => {
     background,
     margin,
     padding,
+    gridArea,
   };
 
   return (
@@ -51,6 +53,7 @@ InputBasic.defaultProps = {
   background: "#e7e7e7",
   margin: "",
   padding: "0.5rem",
+  gridArea: "",
   name: "",
   placeholder: "",
   _onChange: () => {},
@@ -65,4 +68,5 @@ const ElInput = styled.input`
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
   border: ${(props) => (props.inValid ? "1px solid red" : `${props.border}`)};
+  grid-area: ${({ gridArea }) => gridArea};
 `;
