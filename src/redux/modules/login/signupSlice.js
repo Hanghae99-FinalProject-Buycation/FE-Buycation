@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-// import baseURL from '../../core/axios'
+import { baseURL } from "../../../core/baseURL";
+// import baseURL from '../../core/baseURL'
 
 const initialState = {
   postSignup: {},
@@ -12,7 +12,7 @@ export const __postSignup = createAsyncThunk(
   "signup/post",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.post(`/members/signup`);
+      const data = await baseURL.post(`/members/signup`);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -25,7 +25,7 @@ export const signupSlice = createSlice({
   initialState,
   reducers: {
     addSignup: (state, action) => {
-      axios.post(`/members/signup`, action.content);
+      baseURL.post(`/members/signup`, action.content);
       state.postSignup = state.payload;
     },
   },
