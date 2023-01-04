@@ -11,7 +11,8 @@ export const __postSignup = createAsyncThunk(
   "signup/post",
   async (payload, thunkAPI) => {
     try {
-      const data = await baseURL.post(`/members/signup`);
+      const { data } = await baseURL.post(`members/signup`);
+      console.log(data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -24,7 +25,7 @@ export const signupSlice = createSlice({
   initialState,
   reducers: {
     addSignup: (state, action) => {
-      baseURL.post(`/members/signup`, action.content);
+      baseURL.post(`members/signup`, action.signupForm);
       state.postSignup = state.payload;
     },
   },
@@ -34,9 +35,11 @@ export const signupSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(__postSignup.fulfilled, (state, action) => {
-        console.log(action.payload);
+        // console.log(action.payload);
+        console.log(action);
         state.isLoading = false;
-        const { datas } = action.payload;
+        // const { datas } = action.payload;
+        // state.postSignup = datas
       })
       .addCase(__postSignup.rejected, (state, action) => {
         state.isLoading = false;
