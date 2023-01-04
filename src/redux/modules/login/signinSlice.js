@@ -1,18 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { baseURL } from "../../../core/axios";
 
-//초기값
 const initialState = {
-  signin: [],
+  postSignin: [],
   isLoading: false,
   error: null,
 };
 
-//__singin : 로그인
-export const __signin = createAsyncThunk(
-  "__signin",
+export const __postSignin = createAsyncThunk(
+  "signin/post",
   async (payload, thunkAPI) => {
-    console.log("__signin payload :", payload);
+    console.log("페이로드 :", payload);
     try {
       const data = await baseURL.post(`members/login`, payload);
       console.log("data", data);
@@ -25,25 +23,25 @@ export const __signin = createAsyncThunk(
 );
 
 export const signinSlice = createSlice({
-  name: "signin",
+  name: "postSignin",
   initialState,
   reducers: {},
   extraReducers: {
-    [__signin.fulfilled]: (state) => {
+    [__postSignin.fulfilled]: (state) => {
       state.isLoading = true;
     },
-    [__signin.fulfilled]: (state, action) => {
+    [__postSignin.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.signin = [...state.signin, action.payload];
+      state.postSignin = [...state.signin, action.payload];
       // localStorage.setItem("id", action.payload.headers.authorization);
       alert(action.payload.msg);
     },
-    [__signin.rejected]: (state, action) => {
+    [__postSignin.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
   },
 });
 
-export const {} = signinSlice.actions;
+export const { postSignin } = signinSlice.actions;
 export default signinSlice.reducer;

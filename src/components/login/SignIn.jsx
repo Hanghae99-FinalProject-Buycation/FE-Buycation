@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
-import { sign_in } from "../../core/axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { __postSignin } from "../../redux/modules/login/signinSlice";
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const SignIn = () => {
       [inValidList[name]]: value ? false : true,
     });
   };
-  console.log("onChange 인풋 값 :", loginValue);
+  //console.log("onChange 인풋 값 :", loginValue);
 
   const onSubmitLoginValueHandler = (event) => {
     event.preventDefault();
@@ -46,7 +46,7 @@ const SignIn = () => {
       setInValid({ ...inValid, isPassword: true });
     } else {
       console.log("확인");
-      dispatch(newLoginValue);
+      dispatch(__postSignin(newLoginValue));
       //navigate("/")
     }
   };
