@@ -4,9 +4,9 @@ import postSignin from "../modules/login/signinSlice";
 
 const store = configureStore({
   reducer: { postSignup, postSignin },
-  middleware: getDefaultMiddleware({
+  /* middleware: getDefaultMiddleware({
     serializableCheck: false,
-  }),
+  }), */
 });
 
 export default store;

@@ -4,11 +4,14 @@ import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
 import SignupConditions from "../signup/SignupConditions";
 import { FormContents } from "./FormContents";
+import Postcode from "../postcode/Postcode";
+import { useDispatch } from "react-redux";
+import { __postSignup } from "../../redux/modules/login/signupSlice";
 
 const Signup = () => {
   // 이메일 인증 버튼
   // 닉네임 중복 체크 버튼
-  // Slice 만들기
+  const dispatch = useDispatch();
   const [signupForm, setSignupForm] = useState({
     email: "",
     nickname: "",
@@ -17,13 +20,25 @@ const Signup = () => {
     addressNum: "",
     addressDetail: "",
   });
+
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
     setSignupForm({ ...signupForm, [name]: value });
   };
-  const signupHandler = () => {
+  const signupHandler = (e) => {
+    e.preventDefault();
+    dispatch(__postSignup(signupForm));
+    console.log(signupForm);
     //post 요청
   };
+  /*   const testt = async (content) => {
+    // const data = axios.get(`${baseURL}`);
+    const { data } = await axios.post(`http://13.57.186.183/`);
+    // console.log(baseURL);
+    console.log(data);
+  }; */
+
+  // testt();
   return (
     <StSignupForm>
       <h1>회원가입</h1>
@@ -114,12 +129,13 @@ const Signup = () => {
         {/* form 다 차지 않으면 disabled */}
       </StSignupWrap>
       <SignupConditions />
+      {/* <Postcode /> */}
       <ButtonBasic
         width="15rem"
         gridArea="elBtn"
         type="submit"
-        _onClick={() => {
-          signupHandler();
+        _onClick={(data) => {
+          signupHandler(data);
         }}
       >
         회원가입
