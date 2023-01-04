@@ -1,7 +1,14 @@
 import React from "react";
+import PostingList from "../components/main/PostingList";
+import Map from "../components/main/Map";
 
 const MainPage = () => {
-  return <div>Main</div>;
+  return (
+    <>
+      <PostingList />
+      <Map />
+    </>
+  );
 };
 
 export default MainPage;
