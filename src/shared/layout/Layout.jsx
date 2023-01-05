@@ -25,6 +25,6 @@ const Wrap = styled.div`
 const LayoutSt = styled.div`
   flex: 1;
   width: 100%;
-  max-width: 1440px;
+  /* min-width: 1440px; */
   min-height: 80vh;
 `;

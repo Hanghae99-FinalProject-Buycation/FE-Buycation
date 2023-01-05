@@ -5,6 +5,10 @@ const styles = css`
     font-size: 16px;
   }
 
+  * {
+    box-sizing: border-box;
+  }
+
   body {
     padding: 0;
     margin: 0;
