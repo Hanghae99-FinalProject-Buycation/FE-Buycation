@@ -5,11 +5,8 @@ const Map = () => {
   useMap();
 
   return (
-    //지도를 담기 위한 영역 만듦
-    <div
-      id="map"
-      style={{ width: "500px", height: "400px", border: "1px solid black" }}
-    ></div>
+    //id를 통해서 div태그를 읽음
+    <div id="map" style={{ gridArea: "map" }}></div>
   );
 };
 

@@ -1,12 +1,10 @@
 import React from "react";
-import PostingList from "../components/main/PostingList";
-import Map from "../components/main/Map";
+import Main from "../components/main/Main";
 
 const MainPage = () => {
   return (
     <>
-      <PostingList />
-      <Map />
+      <Main />
     </>
   );
 };

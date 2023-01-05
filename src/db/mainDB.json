@@ -1,0 +1,48 @@
+{
+  "data": [
+    {
+      "postingId": 1,
+      "title": "치킨1",
+      "image": "https://www.bhc.co.kr/images/index/banner/img_main_banner_220418_4.jpg",
+      "totalMembers": 4,
+      "currentMembers": 1,
+      "dueDate": "2023.1.20",
+      "perBudget": 20000,
+      "address": "서을특별시 강남구",
+      "category": "food"
+    },
+    {
+      "postingId": 2,
+      "title": "치킨2",
+      "image": "https://www.bhc.co.kr/images/index/banner/img_main_banner_220418_4.jpg",
+      "totalMembers": 2,
+      "currentMembers": 1,
+      "dueDate": "2023.1.20",
+      "perBudget": 30000,
+      "address": "서을특별시 강남구",
+      "category": "food"
+    },
+    {
+      "postingId": 3,
+      "title": "치킨3",
+      "image": "https://www.bhc.co.kr/images/index/banner/img_main_banner_220418_4.jpg",
+      "totalMembers": 2,
+      "currentMembers": 2,
+      "dueDate": "2023.1.20",
+      "perBudget": 40000,
+      "address": "서을특별시 강남구",
+      "category": "food"
+    },
+    {
+      "postingId": 4,
+      "title": "치킨3",
+      "image": "https://www.bhc.co.kr/images/index/banner/img_main_banner_220418_4.jpg",
+      "totalMembers": 2,
+      "currentMembers": 2,
+      "dueDate": "2023.1.20",
+      "perBudget": 40000,
+      "address": "서을특별시 강남구",
+      "category": "food"
+    }
+  ]
+}
