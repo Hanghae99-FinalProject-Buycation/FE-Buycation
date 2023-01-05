@@ -1,7 +1,8 @@
 import React from "react";
+import Detail from "../components/detail/Detail";
 
 const DatailsPage = () => {
-  return <div>DatailsPage</div>;
+  return <Detail />;
 };
 
 export default DatailsPage;
