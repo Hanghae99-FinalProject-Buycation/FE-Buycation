@@ -48,9 +48,9 @@ export default InputBasic;
 InputBasic.defaultProps = {
   width: "100%",
   height: "2.5rem",
-  border: "1px solid #f5f5f5",
+  border: "1px solid #e7e7e7",
   borderRadius: "0.5rem",
-  background: "#e7e7e7",
+  background: "white",
   margin: "",
   padding: "0.5rem",
   gridArea: "",
