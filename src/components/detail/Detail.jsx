@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import styled from "@emotion/styled";
 import ButtonBasic from "../elements/ButtonBasic";
-import dummy from "./data.json";
+import dummy from "../../db/detailDB.json";
 import useMap from "../../hooks/useMap";
 
 const Detail = () => {
