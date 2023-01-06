@@ -1,4 +1,4 @@
-export const ConditionContent = [
+export const conditionContent = [
   // {
   //   num: 1,
   //   title:

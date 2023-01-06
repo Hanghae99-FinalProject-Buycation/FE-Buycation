@@ -1,4 +1,4 @@
-export const FormContents = [
+export const formContents = [
   {
     id: 1,
     title: "이메일*",

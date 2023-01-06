@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
 import SignupConditions from "../register/SignupConditions";
-import { FormContents } from "./FormContents";
+import { formContents } from "./formContents";
 import Postcode from "../postcode/Postcode";
 import { useDispatch } from "react-redux";
 import { __postSignup } from "../../redux/modules/login/signupSlice";
@@ -14,11 +14,12 @@ const Signup = () => {
   const dispatch = useDispatch();
   const [signupForm, setSignupForm] = useState({
     email: "",
-    nickname: "",
     password: "",
-    passwordCheck: "",
-    addressNum: "",
-    addressDetail: "",
+    nickname: "",
+    address: "",
+    // passwordCheck: "",
+    // addressNum: "",
+    // addressDetail: "",
   });
 
   const onChangeHandler = (e) => {
@@ -26,29 +27,21 @@ const Signup = () => {
     setSignupForm({ ...signupForm, [name]: value });
   };
   const signupHandler = (e) => {
-    e.preventDefault();
     dispatch(__postSignup(signupForm));
     console.log(signupForm);
-    //post 요청
   };
-  /*   const testt = async (content) => {
-    // const data = axios.get(`${baseURL}`);
-    const { data } = await axios.post(`http://13.57.186.183/`);
-    // console.log(baseURL);
-    console.log(data);
-  }; */
 
-  // testt();
   return (
-    <StSignupForm>
+    <StSignupForm
+      onSubmit={(e) => {
+        e.preventDefault();
+        signupHandler(e);
+      }}
+    >
       <h1>회원가입</h1>
       <h2>내 정보 입력</h2>
 
-      <StSignupWrap
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
+      <StSignupWrap>
         <StRowEmail>
           <ElSpan>- 이메일*</ElSpan>
           <InputBasic
@@ -105,7 +98,7 @@ const Signup = () => {
             name="passwordCheck"
             placeholder="비밀번호 확인"
             required
-            _onChange={onChangeHandler}
+            // _onChange={onChangeHandler}
           />
         </StRowPasswordCheck>
         <StRowAddressNum>
@@ -114,14 +107,15 @@ const Signup = () => {
             gridArea="elInput"
             name="addressNum"
             placeholder="우편번호"
-            _onChange={onChangeHandler}
+            // _onChange={onChangeHandler}
           />
           <ButtonBasic>주소 찾기</ButtonBasic>
         </StRowAddressNum>
         <StRowAddressDetail>
           <InputBasic
             gridArea="elInput"
-            name="addressDetail"
+            // name="addressDetail"
+            name="address"
             placeholder="주소(선택사항)"
             _onChange={onChangeHandler}
           />
@@ -134,8 +128,8 @@ const Signup = () => {
         width="15rem"
         gridArea="elBtn"
         type="submit"
-        _onClick={(data) => {
-          signupHandler(data);
+        _onClick={(e) => {
+          // e.preventDefault();
         }}
       >
         회원가입
@@ -169,8 +163,9 @@ const StSignupWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: calc(94% - 4.5rem);
   max-width: 50rem;
+  /* width: calc(94% - 4.5rem); */
+  width: 100%;
   border: 1px solid #000;
   border-radius: 0.5rem;
   padding: 1.875rem 3.125rem;
@@ -183,10 +178,6 @@ const StSignupWrap = styled.div`
   }
 `;
 
-// const TestDiv = styled.div`
-//   ${({ theme }) => theme.signup.divGrid}
-// `;
-
 const StRowEmail = styled.div`
   ${({ theme }) => theme.signup.divGrid}
   grid-template-areas: "elSpan elInput elInput elBtn";
@@ -197,7 +188,7 @@ const StRowEmail = styled.div`
 
 const StRowResend = styled.div`
   ${({ theme }) => theme.signup.divGrid}
-  grid-template-areas: ". elSpan elSpan .";
+  grid-template-areas: ". elSpan elSpan elSpan";
   margin: 0.5rem;
   div {
     grid-area: elSpan;
