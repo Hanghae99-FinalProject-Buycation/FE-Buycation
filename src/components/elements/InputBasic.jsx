@@ -6,6 +6,7 @@ const InputBasic = (props) => {
     type,
     placeholder,
     autoComplete,
+    min,
     required,
     width,
     height,
@@ -37,6 +38,7 @@ const InputBasic = (props) => {
       type={type}
       placeholder={placeholder}
       autoComplete={autoComplete}
+      min={min}
       required={required}
       onChange={_onChange}
       inValid={inValid}
@@ -48,11 +50,11 @@ export default InputBasic;
 InputBasic.defaultProps = {
   width: "100%",
   height: "2.5rem",
-  border: "1px solid #f5f5f5",
-  borderRadius: "0.5rem",
-  background: "#e7e7e7",
+  border: "1px solid #e7e7e7",
+  borderRadius: "8px",
+  background: "white",
   margin: "",
-  padding: "0.5rem",
+  padding: "0.8rem",
   gridArea: "",
   name: "",
   placeholder: "",
