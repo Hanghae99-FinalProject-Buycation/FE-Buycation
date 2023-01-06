@@ -2,10 +2,10 @@ import React, { Fragment } from "react";
 import styled from "@emotion/styled";
 import ButtonBasic from "../elements/ButtonBasic";
 import dummy from "../../db/detailDB.json";
-import useMap from "../../hooks/useMap";
+import useTradeMap from "../../hooks/useTrademap";
 
 const Detail = () => {
-  useMap(33.450701, 126.570667);
+  useTradeMap(dummy.data.address);
   return (
     <StDetailWrap>
       <StDetailForm>
@@ -54,9 +54,9 @@ const Detail = () => {
           </div>
         </StApplication>
         <hr />
-        <StBuyLocation>
+        <StBuyLocation id="map">
           🔻{dummy.data.address}
-          <div id="map">지도</div>
+          {/* <div id="map"></div> */}
         </StBuyLocation>
         <hr />
         <ElApplicationBtn type="submit" height="5.25rem" margin="1.875rem 0">
@@ -100,7 +100,7 @@ const StDetailWrap = styled.div`
 `;
 
 const StDetailForm = styled.form`
-  width: 57.5rem;
+  max-width: 57.5rem;
   height: 100%;
   margin: 1.875rem 0;
   div {
@@ -150,11 +150,9 @@ const StApplication = styled.div`
 
 const StBuyLocation = styled.div`
   width: 100%;
-  div {
-    height: 18.725rem;
-    border: 1px solid #eee;
-    border-radius: 0.5rem;
-  }
+  height: 18.725rem;
+  border: 1px solid #eee;
+  border-radius: 0.5rem;
 `;
 
 const ElApplicationBtn = styled(ButtonBasic)`
