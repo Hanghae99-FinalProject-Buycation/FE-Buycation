@@ -1,8 +1,8 @@
 import React from "react";
 import { FaSearch } from "react-icons/fa";
 import styled from "@emotion/styled";
-import PostingCard from "./PostingCard";
 import { category, sort } from "./option";
+import PostingCard from "./PostingCard";
 
 //더미 데이터 사용
 import dummy from "../../db/mainDB.json";

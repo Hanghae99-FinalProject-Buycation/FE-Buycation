@@ -17,6 +17,7 @@ const styles = css`
 
   button,
   input,
+  textarea,
   select,
   text-align,
   a {
@@ -24,6 +25,10 @@ const styles = css`
     outline: none !important;
     box-sizing: border-box;
     text-decoration: none;
+  }
+
+  input::file-selector-button {
+    display: none;
   }
 `;
 
