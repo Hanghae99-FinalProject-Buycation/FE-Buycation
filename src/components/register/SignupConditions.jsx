@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
-import InputCheckboxBasic from "../elements/InputCheckboxBasic";
-import ConditionDiv from "./ConditionDiv";
-import { conditionContent } from "./conditionContent";
+// import InputCheckboxBasic from "../elements/InputCheckboxBasic";
+// import ConditionDiv from "./ConditionDiv";
+import { conditionContent } from "./ConditionContent";
 
 const SignupConditions = () => {
   const [checked, setChecked] = useState(false);

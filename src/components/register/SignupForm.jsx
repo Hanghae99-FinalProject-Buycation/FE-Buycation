@@ -3,8 +3,8 @@ import styled from "@emotion/styled";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
 import SignupConditions from "../register/SignupConditions";
-import { formContents } from "./formContents";
-import Postcode from "../postcode/Postcode";
+// import { formContents } from "./formContents";
+// import Postcode from "../postcode/Postcode";
 import { useDispatch } from "react-redux";
 import { __postSignup } from "../../redux/modules/login/signupSlice";
 

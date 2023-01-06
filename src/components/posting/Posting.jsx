@@ -1,19 +1,26 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { __postPosting } from "../../redux/modules/postingSlice";
+//style
 import { FaLink } from "react-icons/fa";
 import styled from "@emotion/styled";
-import { category } from "../main/option";
+import { categoryList } from "../../utils/option";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
+//func
+import { uploadImg } from "../../utils/uploadImg";
+import { perBudget } from "./perBudget";
+//외부 API
+// import DaumPostCode from "react-daum-postcode";
 
 const Posting = () => {
-  const categoryList = category();
-
-  //state
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [postData, setPostData] = useState({
     category: "",
     title: "",
     content: "",
-    image: "",
     address: "",
     detailAddress: "",
     totalMembers: "",
@@ -21,8 +28,11 @@ const Posting = () => {
     dueTime: "",
     budget: "",
   });
+  const [imageFile, setImageFile] = useState(null);
 
-  //함수
+  const createDateForm = `${postData.dueDate} ${postData.dueTime}`;
+  //console.log(createDateForm);
+
   const onChangeValueHandler = (event) => {
     const { name, value } = event.target;
     setPostData({
@@ -31,6 +41,40 @@ const Posting = () => {
     });
   };
   console.log("입력값확인:", postData);
+
+  const onChangeFileInputHandler = (e) => {
+    const file = e.target.files[0];
+    setImageFile(file);
+  };
+
+  const onClickSubmitHandler = () => {
+    uploadImg(imageFile)
+      .then((data) => {
+        console.log("이미지 경로", data.Location);
+
+        const newPostData = {
+          category: postData.category,
+          title: postData.title,
+          content: postData.content,
+          address: "미정",
+          totalMembers: parseInt(postData.totalMembers),
+          dueDate: createDateForm,
+          budget: parseInt(postData.content),
+          image: data.Location,
+        };
+      })
+      .catch((err) => {
+        console.log("업로드 실패");
+      });
+
+    // dispatch(__postPosting(newPostData))
+    //navigate("/")
+    console.log("등록하기");
+  };
+
+  const onClickCloseHandler = () => {
+    navigate("/");
+  };
 
   return (
     <Container>
@@ -55,15 +99,19 @@ const Posting = () => {
             height="2.8rem"
             placeholder="제목을 입력해 주세요."
           />
-          <TextArea placeholder="내용을 입력해 주세요."></TextArea>
+          <TextArea
+            name="content"
+            value={postData.content}
+            onChange={onChangeValueHandler}
+            placeholder="내용을 입력해 주세요."
+          ></TextArea>
           <Label>
             사진 첨부
             <FileInput>
               <input
                 type="file"
                 name="image"
-                // value={postData.image}
-                // onClick={onClickImageHandler}
+                onChange={onChangeFileInputHandler}
               />
               <FaLink />
             </FileInput>
@@ -71,6 +119,9 @@ const Posting = () => {
           <Label>
             거래 희망 주소
             <InputBasic
+              name="address"
+              value={postData.address}
+              _onChange={onChangeValueHandler}
               height="2rem"
               placeholder="이웃과 거래하고 싶은 장소를 선택해 주세요."
             />
@@ -80,31 +131,62 @@ const Posting = () => {
           </Label>
           <Label>
             상세주소
-            <InputBasic height="2rem" />
+            <InputBasic
+              name="detailAddress"
+              value={postData.detailAddress}
+              _onChange={onChangeValueHandler}
+              height="2rem"
+            />
           </Label>
         </LeftDivForm>
 
         <RightDivForm>
           <SelectInputForm>
             <label>모집 인원</label>
-            <InputBasic type="number" min="0" />
+            <InputBasic
+              name="totalMembers"
+              value={postData.totalMembers}
+              _onChange={onChangeValueHandler}
+              type="number"
+              min="0"
+              height="2rem"
+            />
             <label>모집 마감일 선택</label>
-            <InputBasic type="date" />
+            <InputBasic
+              name="dueDate"
+              value={postData.dueDate}
+              _onChange={onChangeValueHandler}
+              type="date"
+            />
             <label>모집 마감 시간 선택</label>
-            <InputBasic type="time" />
+            <InputBasic
+              name="dueTime"
+              value={postData.dueTime}
+              _onChange={onChangeValueHandler}
+              type="time"
+            />
             <label>
               결제 정보 <br />
               <span>공구하려는 물품의 금액을 입력해주세요.</span>
             </label>
-            <InputBasic type="number" min="0" />
+            <InputBasic
+              name="budget"
+              value={postData.budget}
+              _onChange={onChangeValueHandler}
+              type="number"
+              min="0"
+            />
             <p>
-              1인당 결제 금액 <PointContents>25,000원</PointContents>
+              1인당 결제 금액 (대략)
+              <PointContents>
+                {perBudget(postData.budget, postData.totalMembers)}원
+              </PointContents>
             </p>
           </SelectInputForm>
 
           <ButtonForm>
-            <ButtonBasic>등록</ButtonBasic>
-            <ButtonBasic>닫기</ButtonBasic>
+            <ButtonBasic _onClick={onClickSubmitHandler}>등록</ButtonBasic>
+            <ButtonBasic _onClick={onClickCloseHandler}>닫기</ButtonBasic>
           </ButtonForm>
         </RightDivForm>
       </PostingForm>
