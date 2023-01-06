@@ -40,23 +40,8 @@ const useMap = (address) => {
           map: kakao_map,
           position: coords,
         });
-        infowindow.open(kakao_map, marker);
         // 인포윈도우로 장소에 대한 설명을 표시합니다
-        // 커스텀 오버레이에 표시할 내용입니다
-        // HTML 문자열 또는 Dom Element 입니다
-        // const content = `<div style="border:none !important; background:white; height:1.5rem; border-radius:0.5rem;">거래장소</div>`;
-
-        // 커스텀 오버레이가 표시될 위치입니다
-        // const position = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-        // 커스텀 오버레이를 생성합니다
-        // const customOverlay = new kakao.maps.CustomOverlay({
-        //   position: position,
-        //   content: content,
-        // });
-
-        // 커스텀 오버레이를 지도에 표시합니다
-        // customOverlay.setMap(kakao_map);
+        infowindow.open(kakao_map, marker);
 
         // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
         kakao_map.setCenter(coords);
