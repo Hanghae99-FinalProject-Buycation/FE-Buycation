@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaLink } from "react-icons/fa";
 import styled from "@emotion/styled";
 import { category } from "../main/option";
@@ -7,24 +7,64 @@ import ButtonBasic from "../elements/ButtonBasic";
 
 const Posting = () => {
   const categoryList = category();
+
+  //state
+  const [postData, setPostData] = useState({
+    category: "",
+    title: "",
+    content: "",
+    image: "",
+    address: "",
+    detailAddress: "",
+    totalMembers: "",
+    dueDate: "",
+    dueTime: "",
+    budget: "",
+  });
+
+  //함수
+  const onChangeValueHandler = (event) => {
+    const { name, value } = event.target;
+    setPostData({
+      ...postData,
+      [name]: value,
+    });
+  };
+  console.log("입력값확인:", postData);
+
   return (
     <Container>
       <PostingForm>
         <LeftDivForm>
-          공구 글쓰기 <hr style={{ width: "100%" }} />
-          <SelectInput>
+          <p>공구 글쓰기</p>
+          <hr />
+          <SelectInput
+            name="category"
+            value={postData.category}
+            onChange={onChangeValueHandler}
+          >
+            <option value="">카테고리를 선택해 주세요.</option>
             {categoryList.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
-              </option>
+              <option key={index}>{option}</option>
             ))}
           </SelectInput>
-          <InputBasic height="2.8rem" placeholder="제목을 입력해 주세요." />
+          <InputBasic
+            name="title"
+            value={postData.title}
+            _onChange={onChangeValueHandler}
+            height="2.8rem"
+            placeholder="제목을 입력해 주세요."
+          />
           <TextArea placeholder="내용을 입력해 주세요."></TextArea>
           <Label>
             사진 첨부
             <FileInput>
-              <input type="file" />
+              <input
+                type="file"
+                name="image"
+                // value={postData.image}
+                // onClick={onClickImageHandler}
+              />
               <FaLink />
             </FileInput>
           </Label>
@@ -58,7 +98,7 @@ const Posting = () => {
             </label>
             <InputBasic type="number" min="0" />
             <p>
-              1인당 결제 금액 <span>25,000원</span>
+              1인당 결제 금액 <PointContents>25,000원</PointContents>
             </p>
           </SelectInputForm>
 
@@ -79,6 +119,7 @@ const Container = styled.div`
   height: 100%;
   padding: 1.5rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 `;
@@ -99,6 +140,14 @@ const LeftDivForm = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  & > p {
+    font-size: ${({ theme }) => theme.fontSize.xl};
+    margin-bottom: 6px;
+  }
+  & > hr {
+    width: 100%;
+    margin: 0;
+  }
   @media screen and (max-width: 760px) {
     width: 100%;
     height: 100%;
@@ -108,9 +157,8 @@ const LeftDivForm = styled.div`
 const SelectInput = styled.select`
   width: 50%;
   height: 2rem;
-  border: 1px solid #e7e7e7;
-  border-radius: 0.5rem;
-  padding-left: 0.5rem;
+  padding: 0.5rem;
+  /* border: 1px solid #e7e7e7; */
   color: #555;
   @media screen and (max-width: 760px) {
     width: 100%;
@@ -131,7 +179,7 @@ const Label = styled.label`
 
 const TextArea = styled.textarea`
   width: 100%;
-  height: 20rem;
+  height: 18rem;
   border: 1px solid #e7e7e7;
   border-radius: 0.5rem;
   padding: 1.8rem;
@@ -179,7 +227,7 @@ const SelectInputForm = styled.div`
 
   & > P {
     border-top: 1px solid #888;
-    padding: 15px 0;
+    padding: 10px 0;
     display: flex;
     justify-content: space-between;
   }
@@ -193,4 +241,9 @@ const ButtonForm = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+`;
+
+const PointContents = styled.span`
+  font-size: ${({ theme }) => theme.fontSize.lg};
+  font-weight: 600;
 `;
