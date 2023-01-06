@@ -10,8 +10,6 @@ const Posting = () => {
   return (
     <Container>
       <p>공구 글쓰기</p>
-      <hr />
-
       <PostingForm>
         <TextInputForm>
           <SelectInput>
@@ -79,24 +77,35 @@ const Posting = () => {
 export default Posting;
 
 const Container = styled.div`
+  max-width: 1440px;
+  width: 100%;
   height: 100%;
   padding: 1.5rem;
-  & > hr {
-    margin: 30px 0 23px 0;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const PostingForm = styled.div`
-  display: grid;
-  grid-template-columns: 78% 20%;
-  gap: 2%;
+  /* display: grid;
+  grid-template-columns: 65rem 20rem;
+  gap: 1.5rem;
   @media screen and (max-width: 990px) {
+    width: 100%;
+    height: 100%;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(2, 1fr);
-  }
+  } */
+  width: 100%;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const TextInputForm = styled.div`
+  width: 75%;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -127,6 +136,7 @@ const LabelFlex = styled.label`
   gap: 5px;
   & > p {
     width: 15%;
+    font-size: ${({ theme }) => theme.fontSize.s};
   }
 `;
 
@@ -147,6 +157,7 @@ const FileInput = styled.div`
 `;
 
 const SubmitForm = styled.div`
+  width: 25%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
