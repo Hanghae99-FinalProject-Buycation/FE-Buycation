@@ -1,39 +1,70 @@
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import React, { useRef, useEffect } from "react";
 import DaumPostCode from "react-daum-postcode";
+import { useDispatch, useSelector } from "react-redux";
+import { sendZonecode, sendAddress } from "../../redux/modules/postcodeSlice";
+import { sendRegisterModalStatus } from "../../redux/modules/postcodeModalSlice";
+import useOutsideClick from "../../hooks/useOutsideClick";
 
-const Postcode = () => {
-  const [openPostcode, setOpenPostcode] = useState(false);
-
-  const onClickHandler = () => {
-    setOpenPostcode(!openPostcode);
-  };
-
+const Postcode = ({ width, height, hidden }) => {
+  const dispatch = useDispatch();
   const selectAddress = (e) => {
-    console.log(`주소:${e.address}, 우편번호:${e.zonecode}`);
-    setOpenPostcode(false);
+    dispatch(sendZonecode(e.zonecode));
+    dispatch(sendAddress(e.address));
+    dispatch(sendRegisterModalStatus(false));
   };
+  const handleClickOutside = () => {
+    dispatch(sendRegisterModalStatus(false));
+  };
+
+  const ref = useOutsideClick(handleClickOutside);
+
   return (
-    <StPostcode>
-      <button onClick={() => onClickHandler()}>toggle</button>
-      {openPostcode && (
-        <DaumPostCode
+    <>
+      <StPostcodeWrap ref={ref} width={width} height={height} hidden={hidden}>
+        <StPostcode
           onComplete={(e) => selectAddress(e)}
           autoClose={false}
-          defaultQuery="판교역로 235"
+          defaultQuery=""
         />
-      )}
-    </StPostcode>
+      </StPostcodeWrap>
+      <StPostcodeBg hidden={hidden}></StPostcodeBg>
+    </>
   );
 };
 
 export default Postcode;
 
-const StPostcode = styled.div`
-  /* background: rgba(0, 0, 0, 0.25); */
-  position: fixed;
+Postcode.defaultProps = {
+  width: "",
+  height: "",
+};
+
+const StPostcodeWrap = styled.div`
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  border-radius: 1rem 1rem 0 0;
+  border: 4px solid red;
+`;
+
+const StPostcodeBg = styled.div`
+  position: absolute;
+  background: #191919;
+  top: 0%;
+  left: 0%;
+  opacity: 0.7;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 4;
+`;
+
+const StPostcode = styled(DaumPostCode)`
+  ${({ theme }) => theme.common.flexCenter}
   left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
+  right: 0;
+  margin: 0 auto 0;
+  border: 1px solid #ffffff;
+  z-index: 5;
+  position: fixed;
 `;
