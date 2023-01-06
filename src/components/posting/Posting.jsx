@@ -9,9 +9,9 @@ const Posting = () => {
   const categoryList = category();
   return (
     <Container>
-      <p>공구 글쓰기</p>
       <PostingForm>
-        <TextInputForm>
+        <LeftDivForm>
+          공구 글쓰기 <hr style={{ width: "100%" }} />
           <SelectInput>
             {categoryList.map((option, index) => (
               <option key={index} value={option}>
@@ -21,32 +21,30 @@ const Posting = () => {
           </SelectInput>
           <InputBasic height="2.8rem" placeholder="제목을 입력해 주세요." />
           <TextArea placeholder="내용을 입력해 주세요."></TextArea>
-          <LabelFlex>
-            <p>사진 첨부</p>
+          <Label>
+            사진 첨부
             <FileInput>
               <input type="file" />
               <FaLink />
             </FileInput>
-            <span>첨부 파일은 최대 1장 등록 가능합니다.</span>
-          </LabelFlex>
-          <LabelFlex>
-            <p>거래 희망 주소</p>
+          </Label>
+          <Label>
+            거래 희망 주소
             <InputBasic
-              width="35%"
               height="2rem"
               placeholder="이웃과 거래하고 싶은 장소를 선택해 주세요."
             />
-            <ButtonBasic width="10%" height="2rem">
+            <ButtonBasic width="5rem" height="2rem">
               주소 찾기
             </ButtonBasic>
-          </LabelFlex>
-          <LabelFlex>
-            <p>상세주소</p>
-            <InputBasic width="56%" height="1.8rem" />
-          </LabelFlex>
-        </TextInputForm>
+          </Label>
+          <Label>
+            상세주소
+            <InputBasic height="2rem" />
+          </Label>
+        </LeftDivForm>
 
-        <SubmitForm>
+        <RightDivForm>
           <SelectInputForm>
             <label>모집 인원</label>
             <InputBasic type="number" min="0" />
@@ -68,7 +66,7 @@ const Posting = () => {
             <ButtonBasic>등록</ButtonBasic>
             <ButtonBasic>닫기</ButtonBasic>
           </ButtonForm>
-        </SubmitForm>
+        </RightDivForm>
       </PostingForm>
     </Container>
   );
@@ -77,38 +75,58 @@ const Posting = () => {
 export default Posting;
 
 const Container = styled.div`
-  max-width: 1440px;
   width: 100%;
   height: 100%;
   padding: 1.5rem;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
 `;
 
 const PostingForm = styled.div`
-  /* display: grid;
-  grid-template-columns: 65rem 20rem;
-  gap: 1.5rem;
-  @media screen and (max-width: 990px) {
-    width: 100%;
-    height: 100%;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(2, 1fr);
-  } */
+  max-width: 1440px;
   width: 100%;
   display: flex;
   gap: 1.5rem;
-  justify-content: space-between;
-  align-items: center;
+  @media screen and (max-width: 760px) {
+    height: 100%;
+    flex-direction: column;
+  }
 `;
 
-const TextInputForm = styled.div`
+const LeftDivForm = styled.div`
   width: 75%;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  @media screen and (max-width: 760px) {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const SelectInput = styled.select`
+  width: 50%;
+  height: 2rem;
+  border: 1px solid #e7e7e7;
+  border-radius: 0.5rem;
+  padding-left: 0.5rem;
+  color: #555;
+  @media screen and (max-width: 760px) {
+    width: 100%;
+  }
+`;
+
+const Label = styled.label`
+  display: grid;
+  grid-template-columns: 6rem 22rem 5rem;
+  grid-template-rows: repeat(1, 1fr);
+  align-items: center;
+  gap: 5px;
+  @media screen and (max-width: 760px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
 `;
 
 const TextArea = styled.textarea`
@@ -120,28 +138,8 @@ const TextArea = styled.textarea`
   resize: none;
 `;
 
-const SelectInput = styled.select`
-  width: 50%;
-  height: 2rem;
-  border: 1px solid #e7e7e7;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  color: #555;
-`;
-
-const LabelFlex = styled.label`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  & > p {
-    width: 15%;
-    font-size: ${({ theme }) => theme.fontSize.s};
-  }
-`;
-
 const FileInput = styled.div`
-  width: 35%;
+  width: 22rem;
   height: 2rem;
   border: 1px solid #e7e7e7;
   border-radius: 0.5rem;
@@ -154,14 +152,21 @@ const FileInput = styled.div`
     background: none;
     color: #555;
   }
+  @media screen and (max-width: 760px) {
+    width: 100%;
+  }
 `;
 
-const SubmitForm = styled.div`
+const RightDivForm = styled.div`
   width: 25%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: flex-end;
+  gap: 37px;
+  @media screen and (max-width: 760px) {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const SelectInputForm = styled.div`
@@ -180,7 +185,7 @@ const SelectInputForm = styled.div`
   }
 
   & > label > span {
-    font-size: 13px;
+    font-size: ${({ theme }) => theme.fontSize.xs};
   }
 `;
 
