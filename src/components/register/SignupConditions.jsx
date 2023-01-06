@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 import InputCheckboxBasic from "../elements/InputCheckboxBasic";
 import ConditionDiv from "./ConditionDiv";
-import { ConditionContent } from "./ConditionContent";
+import { conditionContent } from "./conditionContent";
 
 const SignupConditions = () => {
   const [checked, setChecked] = useState(false);
@@ -14,8 +14,8 @@ const SignupConditions = () => {
     <>
       <h2>약관 동의</h2>
       <StConditionsForm>
-        {ConditionContent.map((item) => (
-          <ConditionDiv
+        {conditionContent.map((item) => (
+          <ElConditionDiv
             key={item.num}
             id={item.num}
             item={item}
@@ -24,7 +24,7 @@ const SignupConditions = () => {
             // checked={checked} 이거 들어가면 전체 적용...어떻게 하지
           >
             {item.title}
-          </ConditionDiv>
+          </ElConditionDiv>
         ))}
       </StConditionsForm>
     </>
@@ -37,7 +37,7 @@ const StConditionsForm = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: calc(94% - 4.5rem);
+  width: 100%;
   max-width: 50rem;
   border: 1px solid #000;
   border-radius: 0.5rem;
