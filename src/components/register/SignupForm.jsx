@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
 import SignupConditions from "../register/SignupConditions";
-// import { formContents } from "./formContents";
-// import Postcode from "../postcode/Postcode";
-import { useDispatch } from "react-redux";
+import Postcode from "../postcode/Postcode";
+import { formContents } from "./formContents";
 import { __postSignup } from "../../redux/modules/login/signupSlice";
+import { sendRegisterModalStatus } from "../../redux/modules/postcodeModalSlice";
+import usePostcode from "../../hooks/usePostcode";
 
 const Signup = () => {
-  // 이메일 인증 버튼
-  // 닉네임 중복 체크 버튼
   const dispatch = useDispatch();
   const [signupForm, setSignupForm] = useState({
     email: "",
@@ -21,6 +21,14 @@ const Signup = () => {
     // addressNum: "",
     // addressDetail: "",
   });
+  const postcodeModalStatus = useSelector(
+    (state) => state.postcodeModal.openRegisterModal
+  );
+  const findPostcode = usePostcode();
+
+  const onClickPostcodeHandler = () => {
+    dispatch(sendRegisterModalStatus(true));
+  };
 
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -28,9 +36,9 @@ const Signup = () => {
   };
   const signupHandler = (e) => {
     dispatch(__postSignup(signupForm));
-    console.log(signupForm);
   };
 
+  useEffect(() => {}, [dispatch]);
   return (
     <StSignupForm
       onSubmit={(e) => {
@@ -42,6 +50,7 @@ const Signup = () => {
       <h2>내 정보 입력</h2>
 
       <StSignupWrap>
+        <Postcode hidden={!postcodeModalStatus} />
         <StRowEmail>
           <ElSpan>- 이메일*</ElSpan>
           <InputBasic
@@ -109,7 +118,7 @@ const Signup = () => {
             placeholder="우편번호"
             // _onChange={onChangeHandler}
           />
-          <ButtonBasic>주소 찾기</ButtonBasic>
+          <ButtonBasic _onClick={onClickPostcodeHandler}>주소 찾기</ButtonBasic>
         </StRowAddressNum>
         <StRowAddressDetail>
           <InputBasic
@@ -124,14 +133,7 @@ const Signup = () => {
       </StSignupWrap>
       <SignupConditions />
       {/* <Postcode /> */}
-      <ButtonBasic
-        width="15rem"
-        gridArea="elBtn"
-        type="submit"
-        _onClick={(e) => {
-          // e.preventDefault();
-        }}
-      >
+      <ButtonBasic width="15rem" gridArea="elBtn" type="submit">
         회원가입
       </ButtonBasic>
     </StSignupForm>
