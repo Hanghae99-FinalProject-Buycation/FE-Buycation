@@ -22,13 +22,13 @@ const PostingCard = ({
 
         <Article>
           <p>
-            <FaMapMarkerAlt size="15px" /> {address}
+            <FaMapMarkerAlt size="12px" /> {address}
           </p>
           <p>{title}</p>
           <p>
-            <FaUser size="15px" /> {currentMembers}/{totalMembers}
+            <FaUser size="12px" /> {currentMembers}/{totalMembers}
           </p>
-          <p>~{dueData} 까지 모집</p>
+          <p>{dueData} 까지 모집</p>
           <p>
             {perBudget} <span>1인당 예산 금액</span>
           </p>
