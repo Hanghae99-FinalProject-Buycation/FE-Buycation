@@ -201,7 +201,7 @@ const Posting = () => {
               _onChange={onChangeValueHandler}
               type="number"
               min="0"
-              placeholder="공구하려는 물품의 금액을 입력해주세요."
+              placeholder="공구 물품의 금액을 입력해주세요."
             />
             <p>
               1인당 결제 금액
@@ -318,6 +318,7 @@ const RightDivForm = styled.div`
   @media screen and (max-width: 760px) {
     width: 100%;
     height: 100%;
+    padding-bottom: 1rem;
   }
 `;
 
