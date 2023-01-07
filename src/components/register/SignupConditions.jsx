@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
-// import InputCheckboxBasic from "../elements/InputCheckboxBasic";
-// import ConditionDiv from "./ConditionDiv";
+import InputCheckboxBasic from "../elements/InputCheckboxBasic";
+import ConditionDiv from "./ConditionDiv";
 import { conditionContents } from "./conditionContents";
 
 const SignupConditions = () => {
   const [checked, setChecked] = useState(false);
   const onCheckHandler = (e) => {
     setChecked(!checked);
-    console.log(checked);
+    // console.log(checked);
   };
   return (
     <>
       <h2>약관 동의</h2>
       <StConditionsForm>
         {conditionContents.map((item) => (
-          <ElConditionDiv
+          <ConditionDiv
             key={item.num}
             id={item.num}
             item={item}
@@ -24,7 +24,7 @@ const SignupConditions = () => {
             // checked={checked} 이거 들어가면 전체 적용...어떻게 하지
           >
             {item.title}
-          </ElConditionDiv>
+          </ConditionDiv>
         ))}
       </StConditionsForm>
     </>
