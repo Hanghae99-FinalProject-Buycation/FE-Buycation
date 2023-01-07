@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 //redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { __postPosting } from "../../redux/modules/postingSlice";
 //style
 import { FaLink } from "react-icons/fa";
@@ -9,13 +9,25 @@ import styled from "@emotion/styled";
 import { categoryList } from "../../utils/option";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
+//postcode
+import Postcode from "../postcode/Postcode";
+import { sendRegisterModalStatus } from "../../redux/modules/postcodeModalSlice";
+import usePostcode from "../../hooks/usePostcode";
 //func
 import { uploadImg } from "../../utils/uploadImg";
 import { perBudget } from "./perBudget";
-//외부 API
-// import DaumPostCode from "react-daum-postcode";
 
 const Posting = () => {
+  //postcode
+  const postcodeModalStatus = useSelector(
+    (state) => state.postcodeModal.openRegisterModal
+  );
+  const onClickPostcodeHandler = () => {
+    dispatch(sendRegisterModalStatus(true));
+  };
+  const findPostcode = usePostcode();
+  console.log(findPostcode);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [postData, setPostData] = useState({
@@ -49,28 +61,42 @@ const Posting = () => {
   };
 
   const onClickSubmitHandler = () => {
-    uploadImg(imageFile)
-      .then((data) => {
-        console.log("이미지 경로", data.Location);
+    if (
+      postData.category !== "" &&
+      postData.title !== "" &&
+      postData.content !== "" &&
+      postData.address !== "" &&
+      postData.detailAddress !== "" &&
+      postData.totalMembers !== "" &&
+      postData.dueDate !== "" &&
+      postData.dueTime !== "" &&
+      postData.budget !== "" &&
+      imageFile !== null
+    ) {
+      uploadImg(imageFile)
+        .then((data) => {
+          console.log("이미지 경로", data.Location);
 
-        const newPostData = {
-          category: postData.category,
-          title: postData.title,
-          content: postData.content,
-          address: "미정",
-          totalMembers: parseInt(postData.totalMembers),
-          dueDate: createDateForm,
-          budget: parseInt(postData.budget),
-          image: data.Location,
-        };
-
-        dispatch(__postPosting(newPostData));
-        // navigate("/")
-        //console.log("등록하기");
-      })
-      .catch((err) => {
-        console.log("업로드 실패");
-      });
+          const newPostData = {
+            category: postData.category,
+            title: postData.title,
+            content: postData.content,
+            address: findPostcode.address,
+            totalMembers: parseInt(postData.totalMembers),
+            dueDate: createDateForm,
+            budget: parseInt(postData.budget),
+            image: data.Location,
+          };
+          dispatch(__postPosting(newPostData));
+          //navigate("/")
+          console.log("성공여부");
+        })
+        .catch((err) => {
+          console.log("업로드 실패");
+        });
+    } else {
+      alert("모든 입력칸을 입력해 주세요 :)");
+    }
   };
 
   const onClickCloseHandler = () => {
@@ -79,6 +105,7 @@ const Posting = () => {
 
   return (
     <Container>
+      <Postcode hidden={!postcodeModalStatus} />
       <PostingForm>
         <LeftDivForm>
           <p>공구 글쓰기</p>
@@ -120,12 +147,16 @@ const Posting = () => {
             거래 희망 주소
             <InputBasic
               name="address"
-              value={postData.address}
+              value={findPostcode.address}
               _onChange={onChangeValueHandler}
               height="1.8rem"
               placeholder="이웃과 거래하고 싶은 장소를 선택해 주세요."
             />
-            <ButtonBasic width="5rem" height="1.8rem">
+            <ButtonBasic
+              width="5rem"
+              height="1.8rem"
+              _onClick={onClickPostcodeHandler}
+            >
               주소 찾기
             </ButtonBasic>
           </Label>
@@ -139,7 +170,6 @@ const Posting = () => {
             />
           </Label>
         </LeftDivForm>
-
         <RightDivForm>
           <SelectInputForm>
             <label>모집 인원</label>
@@ -180,7 +210,6 @@ const Posting = () => {
               </PointContents>
             </p>
           </SelectInputForm>
-
           <ButtonForm>
             <ButtonBasic _onClick={onClickSubmitHandler}>등록</ButtonBasic>
             <ButtonBasic _onClick={onClickCloseHandler}>닫기</ButtonBasic>
@@ -299,14 +328,12 @@ const SelectInputForm = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-
   & > P {
     border-top: 1px solid #888;
     padding: 10px 0;
     display: flex;
     justify-content: space-between;
   }
-
   & > label > span {
     font-size: ${({ theme }) => theme.fontSize.xs};
   }

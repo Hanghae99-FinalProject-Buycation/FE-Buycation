@@ -34,7 +34,6 @@ const PostingCard = ({
           </p>
         </Article>
       </ContentsBox>
-
       <ButtonBasic height="2rem">상세보기</ButtonBasic>
     </CardBasic>
   );
@@ -43,7 +42,7 @@ const PostingCard = ({
 export default PostingCard;
 
 const ContentsBox = styled.div`
-  width: 100%;
+  width: 300px;
   display: flex;
   justify-content: space-between;
   align-items: center;
