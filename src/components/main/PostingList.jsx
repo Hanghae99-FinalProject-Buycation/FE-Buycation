@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import styled from "@emotion/styled";
 import { categoryList, sortList } from "../../utils/option";
 import PostingCard from "./PostingCard";
-
+//redux
+import { useDispatch, useSelector } from "react-redux";
+import { __getPostingList } from "../../redux/modules/postingListSlice";
 //더미 데이터 사용
 import dummy from "../../db/mainDB.json";
 
 const PostingList = () => {
+  const dispatch = useDispatch();
+  // const postingList = useSelector((data) => data.getPostingList.getPostingList);
+
+  useEffect(() => {
+    dispatch(__getPostingList());
+  }, [dispatch]);
+
   return (
     <Section>
       <header>
@@ -17,17 +26,14 @@ const PostingList = () => {
         </Search>
         <Category>
           <Select>
+            <option value="">카테고리를 선택해 주세요.</option>
             {categoryList.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
-              </option>
+              <option key={index}>{option}</option>
             ))}
           </Select>
           <Select>
             {sortList.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
-              </option>
+              <option key={index}>{option}</option>
             ))}
           </Select>
         </Category>
