@@ -3,7 +3,10 @@ import React, { useRef, useEffect } from "react";
 import DaumPostCode from "react-daum-postcode";
 import { useDispatch, useSelector } from "react-redux";
 import { sendZonecode, sendAddress } from "../../redux/modules/postcodeSlice";
-import { sendRegisterModalStatus } from "../../redux/modules/postcodeModalSlice";
+import {
+  sendRegisterModalStatus,
+  sendPostingModalStatus,
+} from "../../redux/modules/postcodeModalSlice";
 import useOutsideClick from "../../hooks/useOutsideClick";
 
 const Postcode = ({ width, height, hidden }) => {
@@ -12,9 +15,11 @@ const Postcode = ({ width, height, hidden }) => {
     dispatch(sendZonecode(e.zonecode));
     dispatch(sendAddress(e.address));
     dispatch(sendRegisterModalStatus(false));
+    dispatch(sendPostingModalStatus(false));
   };
   const handleClickOutside = () => {
     dispatch(sendRegisterModalStatus(false));
+    dispatch(sendPostingModalStatus(false));
   };
 
   const ref = useOutsideClick(handleClickOutside);
