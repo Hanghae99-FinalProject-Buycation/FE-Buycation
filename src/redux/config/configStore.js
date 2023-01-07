@@ -5,6 +5,7 @@ import postcodeModal from "../modules/postcodeModalSlice";
 import postcode from "../modules/postcodeSlice";
 import getPostingList from "../modules/postingListSlice";
 import postPosting from "../modules/postingSlice";
+import getDetail from "../modules/detailSlice";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     postcode,
     getPostingList,
     postPosting,
+    getDetail,
   },
 });
 
