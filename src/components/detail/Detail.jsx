@@ -1,79 +1,110 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
+import { RiMore2Line } from "react-icons/ri";
+import { __getDetail } from "../../redux/modules/detailSlice";
+
 import ButtonBasic from "../elements/ButtonBasic";
-import dummy from "../../db/detailDB.json";
-import useTradeMap from "../../hooks/useTrademap";
+
+import useTradeMap from "../../hooks/useTradeMap";
+import useWindowResize from "../../hooks/useWindowResize";
+import InputBasic from "../elements/InputBasic";
 
 const Detail = () => {
-  useTradeMap(dummy.data.address);
+  const dispatch = useDispatch();
+  const details = useSelector((state) => state.getDetail.getDetail);
+  // const { getDetail, isLoading, error } = useSelector(
+  // (state) => state.getDetail.getDetail
+  // );
+  useTradeMap(details.address);
+  useEffect(() => {
+    // param 값?
+    dispatch(__getDetail(2));
+  }, [dispatch]);
+  const size = useWindowResize();
+
+  // if (isLoading) return <div>로딩ㅜㅜ</div>;
+
+  // if (error) return <div>{error.msg}</div>;
+
   return (
     <StDetailWrap>
       <StDetailForm>
         <ElImgWrap />
         <StCreatorProfile>
           <div>
-            {/* 프로필 이미지 어디서 가져오지......? */}
             <div></div>
             <span>
-              {dummy.data.nickname}
+              {details.nickname}
               <br />
-              {dummy.data.address.split(" ", 2)}
+              {/* {details.address.split(" ", 2)} */}
+              {details.address}
             </span>
           </div>
-          <button>더보기 버튼, 수정삭제 모달 / 글쓴이 발자국 수</button>
+          <RiMore2Line
+            size="1.875rem"
+            alt="더보기 버튼, 수정삭제 모달 / 글쓴이 발자국 수"
+            onClick={() => {}}
+          />
         </StCreatorProfile>
         <hr />
         <StContent>
-          {dummy.data.title}
+          {details.title}
           <br />
-          {dummy.data.category === "food" ? "음식" : "물건"}{" "}
-          {dummy.data.createdAt.split(" ")[0]}
-          <br />
-          {dummy.data.content}
+          <p>
+            {details.category === "food" ? "음식" : "물건"}{" "}
+            {/* {details.createdAt.split(" ")[0]} */}
+            {details.createdAt}
+            <br />
+            {details.content}
+          </p>
         </StContent>
         <hr />
         <StApplication>
           모집인원
           <br />
-          {"😀".repeat(dummy.data.currentMembers) +
-            "⭕".repeat(dummy.data.totalMembers - dummy.data.currentMembers)}
+          {"😀".repeat(details.currentMembers) +
+            "⭕".repeat(details.totalMembers - details.currentMembers)}
           <br />
           모집기간
           <br />
-          {`~${dummy.data.dueDate}`}
+          {`~${details.dueDate}`}
           <br />
           <div>
             <span>
               전체 금액 <br />
-              {dummy.data.budget}
+              {details.budget}
             </span>
             <span>
-              1인당 예상금액 <br />{" "}
-              {dummy.data.budget / dummy.data.totalMembers}
+              1인당 예상금액 <br /> {details.perBudget}
             </span>
           </div>
         </StApplication>
         <hr />
-        <StBuyLocation id="map">
-          🔻{dummy.data.address}
-          {/* <div id="map"></div> */}
-        </StBuyLocation>
+        <StBuyLocation id="map">🔻{details.address}</StBuyLocation>
         <hr />
         <ElApplicationBtn type="submit" height="5.25rem" margin="1.875rem 0">
           분기: 참가신청 하기 또는 신청 리스트 보기...이거 모달?
         </ElApplicationBtn>
         <StComments>
-          <span>댓글 {dummy.data.comments.length}</span>
+          {/* <span>댓글 {details.comments.length}</span> */}
+          <span>댓글 {details.comments}</span>
           <div>
-            <span>내 닉네임</span>
-            <textarea placeholder="댓글을 남겨보세요" />
+            {size.innerWidth > 375 ? (
+              <>
+                <span>내 닉네임</span>
+                <textarea placeholder="댓글을 남겨보세요" />
+              </>
+            ) : (
+              <InputBasic placeholder="댓글을 남겨보세요" />
+            )}
             <div>
               <ButtonBasic type="button" width="4.375rem" height="fit-content">
                 작성
               </ButtonBasic>
             </div>
           </div>
-          {dummy.data.comments.map((comment, idx) => (
+          {/*  {details.comments.map((comment, idx) => (
             <Fragment key={"frag" + idx}>
               <div key={comment.nickname[0] + idx}>
                 <span>
@@ -81,11 +112,15 @@ const Detail = () => {
                   <br />
                   {comment.content}
                 </span>
-                <button type="button">점 세개 수정삭제 버튼</button>
+                <RiMore2Line
+                  size="1.875rem"
+                  alt="수정삭제 버튼"
+                  onClick={() => {}}
+                />
               </div>
               <hr key={"hr" + idx} />
             </Fragment>
-          ))}
+          ))} */}
         </StComments>
       </StDetailForm>
     </StDetailWrap>
@@ -97,20 +132,41 @@ export default Detail;
 const StDetailWrap = styled.div`
   ${({ theme }) => theme.common.flexCenter}
   flex-direction: column;
+  padding: 0 1rem;
+
+  span,
+  p {
+    font-size: ${({ theme }) => theme.fontSize.md};
+  }
+
+  hr {
+    background: #d9d9d9;
+    height: 1px;
+    max-width: 57.5rem;
+    border: 0;
+  }
+
+  @media screen and (max-width: 23.5rem) {
+    div:first-of-type {
+      margin-top: 0;
+    }
+    background: gray;
+    padding: 0 1rem;
+  }
 `;
 
 const StDetailForm = styled.form`
   max-width: 57.5rem;
+  width: 100%;
   height: 100%;
-  margin: 1.875rem 0;
   div {
     margin: 1.875rem 0;
   }
 `;
 
 const ElImgWrap = styled.div`
-  height: 32rem;
-  background: no-repeat center/100% url(${dummy.data.image});
+  max-height: 32rem;
+  background: no-repeat center/100% url({details.image});
   background-size: cover;
 `;
 
@@ -119,6 +175,7 @@ const StCreatorProfile = styled.div`
   flex-direction: row;
   justify-content: space-between;
   height: 5rem;
+  line-height: 1.5rem;
   div {
     display: flex;
     flex-direction: row;
@@ -130,8 +187,7 @@ const StCreatorProfile = styled.div`
     height: 5rem;
     margin-right: 1.25rem;
     border-radius: 5rem;
-    background: no-repeat center/100%
-      url("https://media.wired.co.uk/photos/60c8730fa81eb7f50b44037e/3:2/w_3329,h_2219,c_limit/1521-WIRED-Cat.jpeg");
+    background: no-repeat center/100% url({details.profileImage});
     background-size: cover;
   }
 `;
