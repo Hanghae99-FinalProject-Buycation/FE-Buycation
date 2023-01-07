@@ -43,6 +43,7 @@ const ButtonBasic = (props) => {
 export default ButtonBasic;
 
 ButtonBasic.defaultProps = {
+  type: "button",
   width: "100%",
   height: "2.5rem",
   border: "1px solid #f5f5f5",
