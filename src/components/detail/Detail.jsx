@@ -6,17 +6,17 @@ import { __getDetail } from "../../redux/modules/detailSlice";
 
 import ButtonBasic from "../elements/ButtonBasic";
 
-import useTradeMap from "../../hooks/useTradeMap";
+import useBuyLocation from "../../hooks/useBuyLocation";
 import useWindowResize from "../../hooks/useWindowResize";
 import InputBasic from "../elements/InputBasic";
 
 const Detail = () => {
   const dispatch = useDispatch();
   const details = useSelector((state) => state.getDetail.getDetail);
+  useBuyLocation(details.address);
   // const { getDetail, isLoading, error } = useSelector(
   // (state) => state.getDetail.getDetail
   // );
-  useTradeMap(details.address);
   useEffect(() => {
     // param 값?
     dispatch(__getDetail(2));
