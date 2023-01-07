@@ -1,11 +1,10 @@
-import styled from "@emotion/styled";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 //함수형 컴포넌트에서는 kakao script를 인지하지 못함
 //따라서 아래와 같이 스트립트는 window 전역 객체에 들어가 있기 떄문에 window에서 객체를 뽑아서 사용
 const { kakao } = window;
 
-const useMap = (address) => {
+const useBuyLocation = (address) => {
   useEffect(() => {
     const container = document.getElementById("map"); // 지도를 표시할 div
     const options = {
@@ -63,4 +62,4 @@ const useMap = (address) => {
   }, []);
 };
 
-export default useMap;
+export default useBuyLocation;
