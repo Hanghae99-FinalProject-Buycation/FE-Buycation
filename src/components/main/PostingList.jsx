@@ -1,35 +1,63 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import styled from "@emotion/styled";
 import { categoryList, sortList } from "../../utils/option";
 import PostingCard from "./PostingCard";
 //redux
 import { useDispatch, useSelector } from "react-redux";
-import { __getPostingList } from "../../redux/modules/postingListSlice";
+import {
+  __getPostingList,
+  __getSearchKeyword,
+  __getCategory,
+} from "../../redux/modules/postingListSlice";
 //더미 데이터 사용
 import dummy from "../../db/mainDB.json";
+import { useNavigate } from "react-router-dom";
 
 const PostingList = () => {
+  const nagivate = useNavigate();
   const dispatch = useDispatch();
   const postingList = useSelector((data) => data.getPostingList.getPostingList);
   console.log(postingList);
 
   useEffect(() => {
     dispatch(__getPostingList());
+    dispatch(__getSearchKeyword());
   }, [dispatch]);
+
+  const onKeyupSearchHandler = (event) => {
+    if (event.key === "Enter") {
+      let keyword = event.target.value;
+      console.log(keyword);
+      dispatch(__getSearchKeyword(keyword));
+      nagivate(`/?q=${keyword}`);
+    }
+  };
+
+  const onChangeCategoryHandler = (event) => {
+    if (event.target.value !== "") {
+      dispatch(__getCategory(event.target.value));
+    }
+  };
 
   return (
     <Section>
       <header>
         <Search>
           <FaSearch />
-          <input placeholder="장소, 거래 물품 검색" />
+          <input
+            type="text"
+            placeholder="장소, 거래 물품 검색"
+            onKeyUp={(event) => onKeyupSearchHandler(event)}
+          />
         </Search>
         <Category>
-          <Select>
+          <Select name="category" onChange={onChangeCategoryHandler}>
             <option value="">카테고리를 선택해 주세요.</option>
             {categoryList.map((option, index) => (
-              <option key={index}>{option}</option>
+              <option key={index} value={option}>
+                {option}
+              </option>
             ))}
           </Select>
           <Select>
