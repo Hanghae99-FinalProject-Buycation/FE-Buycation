@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { FaFileExcel } from "react-icons/fa";
 
 const ButtonBasic = (props) => {
   const {
@@ -11,6 +12,9 @@ const ButtonBasic = (props) => {
     margin,
     padding,
     gridArea,
+    display,
+    alignItems,
+    justifyContent,
     children,
     _onClick,
   } = props;
@@ -24,6 +28,9 @@ const ButtonBasic = (props) => {
     margin,
     padding,
     gridArea,
+    display,
+    alignItems,
+    justifyContent,
   };
 
   return (
@@ -44,6 +51,9 @@ ButtonBasic.defaultProps = {
   margin: "",
   padding: "0.5rem",
   gridArea: "",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
   _onClick: () => {},
 };
 
@@ -56,5 +66,8 @@ const ElBtn = styled.button`
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
   grid-area: ${({ gridArea }) => gridArea};
+  display: ${({ display }) => display};
+  align-items: ${({ alignItems }) => alignItems};
+  justify-content: ${({ justifyContent }) => justifyContent};
   cursor: pointer;
 `;

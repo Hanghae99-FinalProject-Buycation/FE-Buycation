@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+//redux
 import { useDispatch } from "react-redux";
 import { __postPosting } from "../../redux/modules/postingSlice";
 //style
@@ -59,17 +60,17 @@ const Posting = () => {
           address: "미정",
           totalMembers: parseInt(postData.totalMembers),
           dueDate: createDateForm,
-          budget: parseInt(postData.content),
+          budget: parseInt(postData.budget),
           image: data.Location,
         };
+
+        dispatch(__postPosting(newPostData));
+        // navigate("/")
+        //console.log("등록하기");
       })
       .catch((err) => {
         console.log("업로드 실패");
       });
-
-    // dispatch(__postPosting(newPostData))
-    //navigate("/")
-    console.log("등록하기");
   };
 
   const onClickCloseHandler = () => {
@@ -81,7 +82,6 @@ const Posting = () => {
       <PostingForm>
         <LeftDivForm>
           <p>공구 글쓰기</p>
-          <hr />
           <SelectInput
             name="category"
             value={postData.category}
@@ -122,10 +122,10 @@ const Posting = () => {
               name="address"
               value={postData.address}
               _onChange={onChangeValueHandler}
-              height="2rem"
+              height="1.8rem"
               placeholder="이웃과 거래하고 싶은 장소를 선택해 주세요."
             />
-            <ButtonBasic width="5rem" height="2rem">
+            <ButtonBasic width="5rem" height="1.8rem">
               주소 찾기
             </ButtonBasic>
           </Label>
@@ -135,7 +135,7 @@ const Posting = () => {
               name="detailAddress"
               value={postData.detailAddress}
               _onChange={onChangeValueHandler}
-              height="2rem"
+              height="1.8rem"
             />
           </Label>
         </LeftDivForm>
@@ -149,7 +149,6 @@ const Posting = () => {
               _onChange={onChangeValueHandler}
               type="number"
               min="0"
-              height="2rem"
             />
             <label>모집 마감일 선택</label>
             <InputBasic
@@ -177,7 +176,7 @@ const Posting = () => {
               min="0"
             />
             <p>
-              1인당 결제 금액 (대략)
+              1인당 결제 금액
               <PointContents>
                 {perBudget(postData.budget, postData.totalMembers)}원
               </PointContents>
@@ -203,7 +202,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 `;
 
 const PostingForm = styled.div`
@@ -224,11 +222,8 @@ const LeftDivForm = styled.div`
   gap: 10px;
   & > p {
     font-size: ${({ theme }) => theme.fontSize.xl};
-    margin-bottom: 6px;
-  }
-  & > hr {
-    width: 100%;
-    margin: 0;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #e7e7e7;
   }
   @media screen and (max-width: 760px) {
     width: 100%;
@@ -270,7 +265,7 @@ const TextArea = styled.textarea`
 
 const FileInput = styled.div`
   width: 22rem;
-  height: 2rem;
+  height: 1.8rem;
   border: 1px solid #e7e7e7;
   border-radius: 0.5rem;
   padding: 0.5rem;
@@ -302,7 +297,7 @@ const RightDivForm = styled.div`
 const SelectInputForm = styled.div`
   background: #e7e7e7;
   border-radius: 0.5rem;
-  padding: 1rem;
+  padding: 1.8rem;
   display: flex;
   flex-direction: column;
   gap: 10px;
