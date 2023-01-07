@@ -164,16 +164,14 @@ const Posting = () => {
               _onChange={onChangeValueHandler}
               type="time"
             />
-            <label>
-              결제 정보 <br />
-              <span>공구하려는 물품의 금액을 입력해주세요.</span>
-            </label>
+            <label>결제 정보</label>
             <InputBasic
               name="budget"
               value={postData.budget}
               _onChange={onChangeValueHandler}
               type="number"
               min="0"
+              placeholder="공구하려는 물품의 금액을 입력해주세요."
             />
             <p>
               1인당 결제 금액

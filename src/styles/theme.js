@@ -7,10 +7,11 @@ const theme = {
   },
 
   fontSize: {
-    xs: "0.8rem",
-    sm: "1rem",
-    lg: "1.3rem",
-    xl: "1.5rem",
+    xs: "0.750rem",
+    sm: "0.875em",
+    md: "1em",
+    lg: "1.125rem",
+    xl: "1.313rem",
   },
 
   common: {

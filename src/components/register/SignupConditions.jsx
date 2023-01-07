@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 // import InputCheckboxBasic from "../elements/InputCheckboxBasic";
 // import ConditionDiv from "./ConditionDiv";
-import { conditionContent } from "./ConditionContent";
+import { conditionContents } from "./conditionContents";
 
 const SignupConditions = () => {
   const [checked, setChecked] = useState(false);
@@ -14,7 +14,7 @@ const SignupConditions = () => {
     <>
       <h2>약관 동의</h2>
       <StConditionsForm>
-        {conditionContent.map((item) => (
+        {conditionContents.map((item) => (
           <ElConditionDiv
             key={item.num}
             id={item.num}
