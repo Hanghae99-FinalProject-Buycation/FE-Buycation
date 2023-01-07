@@ -1,23 +1,10 @@
-import React from "react";
-import DaumPostCode from "react-daum-postcode";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 const usePostcode = () => {
-  const selectAddress = (e) => {
-    console.log(`주소:${e.address}, 우편번호:${e.zonecode}`);
-    // setOpenPostcode(false);
-  };
-  return (
-    <>
-      {/* <button onClick={() => onClickHandler()}>toggle</button> */}
-      {/* {openPostcode && ( */}
-      <DaumPostCode
-        onComplete={(e) => selectAddress(e)}
-        autoClose={false}
-        defaultQuery="판교역로 235"
-      />
-      {/* )} */}
-    </>
-  );
+  const zonecode = useSelector((state) => state.postcode.getZonecode);
+  const address = useSelector((state) => state.postcode.getAddress);
+  return { zonecode, address };
 };
 
 export default usePostcode;
