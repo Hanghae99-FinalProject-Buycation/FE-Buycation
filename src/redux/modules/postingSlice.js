@@ -14,6 +14,7 @@ export const __postPosting = createAsyncThunk(
     try {
       const { data } = await baseURLwToken.post(`posting`, payload);
       console.log("data", data);
+      alert(data.msg);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -21,7 +22,7 @@ export const __postPosting = createAsyncThunk(
   }
 );
 
-export const signinSlice = createSlice({
+export const postingSlice = createSlice({
   name: "postPosting",
   initialState,
   reducers: {},
@@ -32,8 +33,6 @@ export const signinSlice = createSlice({
       })
       .addCase(__postPosting.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.postSignin = [...state.postPosting, action.payload];
-        alert(action.payload.data.msg);
       })
       .addCase(__postPosting.rejected, (state, action) => {
         state.isLoading = false;
@@ -42,5 +41,5 @@ export const signinSlice = createSlice({
   },
 });
 
-export const {} = signinSlice.actions;
-export default signinSlice.reducer;
+export const {} = postingSlice.actions;
+export default postingSlice.reducer;

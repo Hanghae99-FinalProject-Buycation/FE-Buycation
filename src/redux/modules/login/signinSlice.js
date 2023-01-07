@@ -14,8 +14,9 @@ export const __postSignin = createAsyncThunk(
     try {
       const data = await baseURL.post(`members/login`, payload);
       console.log("data", data);
-      // localStorage.setItem("id", data.headers.authorization);
-      return thunkAPI.fulfillWithValue(data);
+      localStorage.setItem("id", data.headers.authorization);
+      alert(data.data.msg);
+      return thunkAPI.fulfillWithValue(data.data.msg);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -33,9 +34,6 @@ export const signinSlice = createSlice({
       })
       .addCase(__postSignin.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.postSignin = [...state.postSignin, action.payload];
-        localStorage.setItem("id", action.payload.headers.authorization);
-        alert(action.payload.data.msg);
       })
       .addCase(__postSignin.rejected, (state, action) => {
         state.isLoading = false;
