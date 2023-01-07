@@ -11,7 +11,8 @@ import dummy from "../../db/mainDB.json";
 
 const PostingList = () => {
   const dispatch = useDispatch();
-  // const postingList = useSelector((data) => data.getPostingList.getPostingList);
+  const postingList = useSelector((data) => data.getPostingList.getPostingList);
+  console.log(postingList);
 
   useEffect(() => {
     dispatch(__getPostingList());
