@@ -34,10 +34,10 @@ const CardBasic = (props) => {
 export default CardBasic;
 
 CardBasic.defaultProps = {
-  height: "200px",
+  height: "100%",
   borderTop: "1px solid #f5f5f5",
   background: "while",
-  padding: "1rem",
+  padding: "1rem 0",
   _onClick: () => {},
 };
 
