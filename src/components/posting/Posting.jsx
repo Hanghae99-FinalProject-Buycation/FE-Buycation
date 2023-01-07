@@ -231,7 +231,7 @@ const LeftDivForm = styled.div`
 
 const SelectInput = styled.select`
   width: 50%;
-  height: 2rem;
+  height: 2.8rem;
   padding: 0.5rem;
   /* border: 1px solid #e7e7e7; */
   color: #555;
