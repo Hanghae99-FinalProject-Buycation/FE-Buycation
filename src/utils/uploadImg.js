@@ -3,11 +3,8 @@ import { v1 } from "uuid";
 import AWS from "aws-sdk";
 import { BUCKET, REGION, ASSESSKEY_ID, SECRET_ACCESSKEY } from "../core/env";
 
-const region = REGION;
-const bucket = BUCKET;
-
 AWS.config.update({
-  region: region,
+  region: REGION,
   accessKeyId: ASSESSKEY_ID,
   secretAccessKey: SECRET_ACCESSKEY,
 });
@@ -15,7 +12,7 @@ AWS.config.update({
 export const uploadImg = (file) => {
   const uploadObject = new AWS.S3.ManagedUpload({
     params: {
-      Bucket: bucket,
+      Bucket: BUCKET,
       Body: file,
       Key: `image/${v1().toString().replace("-", "")}.${
         file.type.split("/")[1]
