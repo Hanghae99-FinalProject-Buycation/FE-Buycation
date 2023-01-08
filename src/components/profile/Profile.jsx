@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import MyProfile from "./MyProfile";
 import MyStar from "./MyStar";
@@ -6,17 +6,35 @@ import MyParicipation from "./MyParicipation";
 import MyCreation from "./MyCreation";
 
 const Profile = () => {
+  const [tagBtnValue, setTagBtnValue] = useState("default");
+
+  const onClickStarBtnHandler = () => {
+    setTagBtnValue("default");
+  };
+  const onClickGuestBtnHandler = () => {
+    setTagBtnValue("guest");
+  };
+  const onClickOwnerBtnHandler = () => {
+    setTagBtnValue("owner");
+  };
+
   return (
     <Wrap>
       <Container>
         <MyProfile />
-        <TagButton>
-          <Button>나의 평점(3)</Button>
-          <Button>참여한 공구(1)</Button>
-          <Button>오픈한 공구(0)</Button>
-        </TagButton>
+        <TagBtnDiv>
+          <Button onClick={onClickStarBtnHandler}>나의 평점(3)</Button>
+          <Button onClick={onClickGuestBtnHandler}>참여한 공구(1)</Button>
+          <Button onClick={onClickOwnerBtnHandler}>오픈한 공구(0)</Button>
+        </TagBtnDiv>
         <div>
-          <MyCreation />
+          {tagBtnValue === "guest" ? (
+            <MyParicipation />
+          ) : tagBtnValue === "owner" ? (
+            <MyCreation />
+          ) : (
+            <MyStar />
+          )}
         </div>
       </Container>
     </Wrap>
@@ -44,7 +62,7 @@ const Container = styled.div`
   }
 `;
 
-const TagButton = styled.button`
+const TagBtnDiv = styled.div`
   margin-top: 50px;
   padding: 0;
   width: 100%;

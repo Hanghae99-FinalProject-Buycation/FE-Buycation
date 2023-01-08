@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { FaFileExcel, FaLinux } from "react-icons/fa";
 
 const CardBasic = (props) => {
   const {
