@@ -4,6 +4,7 @@
   "data": {
     "memberId": 1,
     "nickname": "RyanK",
+    "profileImage": "https://i.pinimg.com/originals/37/80/ef/3780efe711f929f635de995d3a97c34b.jpg",
     "postingId": 1,
     "title": "BBQ 치즈 어쩌구 치킨 나눠 가실 분 모집",
     "address": "서울특별시 강남구 테헤란로44길 8",
@@ -11,6 +12,7 @@
     "image": "https://upload.wikimedia.org/wikipedia/commons/2/20/Korean_fried_chicken_3_banban.jpg",
     "dueDate": "2023.1.10 00:00",
     "budget": 40000,
+    "perBudget": 20000,
     "totalMembers": 2,
     "currentMembers": 1,
     "createdAt": "2023.1.5 00:00:00",
