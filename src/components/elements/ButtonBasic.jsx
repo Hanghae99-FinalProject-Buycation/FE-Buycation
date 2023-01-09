@@ -7,6 +7,7 @@ const ButtonBasic = (props) => {
     height,
     border,
     borderRadius,
+    color,
     background,
     margin,
     padding,
@@ -23,6 +24,7 @@ const ButtonBasic = (props) => {
     height,
     border,
     borderRadius,
+    color,
     background,
     margin,
     padding,
@@ -47,6 +49,7 @@ ButtonBasic.defaultProps = {
   height: "2.5rem",
   border: "1px solid #f5f5f5",
   borderRadius: "0.5rem",
+  color: "",
   background: "#888",
   margin: "",
   padding: "0.5rem",
@@ -62,6 +65,7 @@ const ElBtn = styled.button`
   height: ${({ height }) => height};
   border: ${({ border }) => border};
   border-radius: ${({ borderRadius }) => borderRadius};
+  color: ${({ color }) => color};
   background: ${({ background }) => background};
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
