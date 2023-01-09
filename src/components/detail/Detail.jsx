@@ -1,25 +1,30 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
+import { FaUserCircle } from "react-icons/fa";
 import { RiMore2Line } from "react-icons/ri";
 import { __getDetail } from "../../redux/modules/detailSlice";
+import detail from "../../db/detailDB.json";
 
 import ButtonBasic from "../elements/ButtonBasic";
+import InputBasic from "../elements/InputBasic";
+import DetailParagraph from "./DetailParagraph";
 
 import useBuyLocation from "../../hooks/useBuyLocation";
 import useWindowResize from "../../hooks/useWindowResize";
-import InputBasic from "../elements/InputBasic";
+import DetailSpan from "./DetailSpan";
 
 const Detail = () => {
   const dispatch = useDispatch();
-  const details = useSelector((state) => state.getDetail.getDetail);
+  // const details = useSelector((state) => state.getDetail.getDetail);
+  const details = detail.data;
   useBuyLocation(details.address);
   // const { getDetail, isLoading, error } = useSelector(
   // (state) => state.getDetail.getDetail
   // );
   useEffect(() => {
     // param 값?
-    dispatch(__getDetail(2));
+    dispatch(__getDetail(1));
   }, [dispatch]);
   const size = useWindowResize();
 
@@ -33,13 +38,14 @@ const Detail = () => {
         <ElImgWrap />
         <StCreatorProfile>
           <div>
+            {/* 프로필 이미지 */}
             <div></div>
-            <span>
-              {details.nickname}
-              <br />
-              {/* {details.address.split(" ", 2)} */}
-              {details.address}
-            </span>
+            {/* 유저 정보 */}
+            <DetailParagraph
+              spanText={details.nickname}
+              paraText={details.address}
+            />
+            {/* {details.address.split(" ", 2)} */}
           </div>
           <RiMore2Line
             size="1.875rem"
@@ -49,46 +55,59 @@ const Detail = () => {
         </StCreatorProfile>
         <hr />
         <StContent>
-          {details.title}
-          <br />
-          <p>
-            {details.category === "food" ? "음식" : "물건"}{" "}
-            {/* {details.createdAt.split(" ")[0]} */}
-            {details.createdAt}
-            <br />
-            {details.content}
-          </p>
+          <h3>{details.title}</h3>
+          <span>
+            {details.category === "food" ? "음식" : "물건"} {details.createdAt}
+          </span>
+          <p>{details.content}</p>
         </StContent>
         <hr />
         <StApplication>
-          모집인원
-          <br />
-          {"😀".repeat(details.currentMembers) +
-            "⭕".repeat(details.totalMembers - details.currentMembers)}
-          <br />
-          모집기간
-          <br />
-          {`~${details.dueDate}`}
-          <br />
-          <div>
-            <span>
-              전체 금액 <br />
-              {details.budget}
-            </span>
-            <span>
-              1인당 예상금액 <br /> {details.perBudget}
-            </span>
-          </div>
+          <DetailSpan
+            titleText={"모집 인원"}
+            bodyText={
+              `${(<FaUserCircle />)}`.repeat(details.currentMembers) +
+              "⭕".repeat(details.totalMembers - details.currentMembers)
+            }
+          />
+          <DetailSpan
+            titleText={"모집 기간"}
+            bodyText={`~${details.dueDate}`}
+          />
+          <DetailSpan titleText={"전체 금액"} bodyText={details.budget} />
+          <DetailSpan
+            titleText={"1인당 예상금액"}
+            bodyText={details.perBudget}
+            fontSize="10rem"
+          />
         </StApplication>
         <hr />
         <StBuyLocation id="map">🔻{details.address}</StBuyLocation>
         <hr />
-        <ElApplicationBtn type="submit" height="5.25rem" margin="1.875rem 0">
-          분기: 참가신청 하기 또는 신청 리스트 보기...이거 모달?
-        </ElApplicationBtn>
+
+        {localStorage.getItem("id") ? (
+          <ElApplicationBtn
+            height="3.125rem"
+            margin="1.875rem 0"
+            background="#FF5A5F"
+            color="white"
+          >
+            신청 리스트 보기
+          </ElApplicationBtn>
+        ) : (
+          <ElApplicationBtn
+            type="submit"
+            height="3.125rem"
+            margin="1.875rem 0"
+            background="#FF5A5F"
+            color="white"
+          >
+            참가 신청 하기
+          </ElApplicationBtn>
+        )}
         <StComments>
-          {/* <span>댓글 {details.comments.length}</span> */}
-          <span>댓글 {details.comments}</span>
+          {/* <span>댓글 {details.comments}</span> */}
+          <span>댓글 {details.comments.length}</span>
           <div>
             {size.innerWidth > 375 ? (
               <>
@@ -99,12 +118,17 @@ const Detail = () => {
               <InputBasic placeholder="댓글을 남겨보세요" />
             )}
             <div>
-              <ButtonBasic type="button" width="4.375rem" height="fit-content">
+              <ButtonBasic
+                width="4.375rem"
+                height="fit-content"
+                background="#FF5A5F"
+                color="white"
+              >
                 작성
               </ButtonBasic>
             </div>
           </div>
-          {/*  {details.comments.map((comment, idx) => (
+          {details.comments.map((comment, idx) => (
             <Fragment key={"frag" + idx}>
               <div key={comment.nickname[0] + idx}>
                 <span>
@@ -120,7 +144,7 @@ const Detail = () => {
               </div>
               <hr key={"hr" + idx} />
             </Fragment>
-          ))} */}
+          ))}
         </StComments>
       </StDetailForm>
     </StDetailWrap>
@@ -133,12 +157,6 @@ const StDetailWrap = styled.div`
   ${({ theme }) => theme.common.flexCenter}
   flex-direction: column;
   padding: 0 1rem;
-
-  span,
-  p {
-    font-size: ${({ theme }) => theme.fontSize.md};
-  }
-
   hr {
     background: #d9d9d9;
     height: 1px;
@@ -165,8 +183,11 @@ const StDetailForm = styled.form`
 `;
 
 const ElImgWrap = styled.div`
-  max-height: 32rem;
-  background: no-repeat center/100% url({details.image});
+  height: 32rem;
+  /* max-height: 100%; */
+  /* background: no-repeat center/100% url({details.image}); */
+  background: no-repeat center/100%
+    url("https://upload.wikimedia.org/wikipedia/commons/2/20/Korean_fried_chicken_3_banban.jpg");
   background-size: cover;
 `;
 
@@ -175,32 +196,45 @@ const StCreatorProfile = styled.div`
   flex-direction: row;
   justify-content: space-between;
   height: 5rem;
-  line-height: 1.5rem;
-  div {
+  div:first-of-type {
     display: flex;
     flex-direction: row;
     align-items: center;
   }
   /* 프로필 이미지 */
-  div > div {
+  div > div:first-of-type {
     width: 5rem;
     height: 5rem;
     margin-right: 1.25rem;
     border-radius: 5rem;
-    background: no-repeat center/100% url({details.profileImage});
+    /* background: no-repeat center/100% url({details.profileImage}); */
+    background: no-repeat center/100%
+      url("https://i.pinimg.com/originals/37/80/ef/3780efe711f929f635de995d3a97c34b.jpg");
     background-size: cover;
   }
 `;
 
-const StContent = styled.div``;
+const StContent = styled.div`
+  line-height: ${({ theme }) => theme.lineHeight.perDiv};
+  h3 {
+    font-weight: 700;
+    font-size: ${({ theme }) => theme.fontSize.xl};
+    margin-bottom: ${({ theme }) => theme.lineHeight.perDiv};
+  }
+  span {
+    display: inline-block;
+    margin-bottom: ${({ theme }) => theme.lineHeight.perDiv};
+    color: #a6a6a6;
+  }
+
+  p {
+    line-height: ${({ theme }) => theme.lineHeight.perParagraph};
+  }
+`;
 
 const StApplication = styled.div`
-  div {
-    display: flex;
-    flex-direction: row;
-    span {
-      margin-right: 1rem;
-    }
+  span:last-child {
+    /* font-size: larger; */
   }
 `;
 
