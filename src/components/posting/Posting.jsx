@@ -1,35 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-//redux
-import { useDispatch, useSelector } from "react-redux";
-import { __postPosting } from "../../redux/modules/postingSlice";
-//style
 import { FaLink } from "react-icons/fa";
 import styled from "@emotion/styled";
 import { categoryList } from "../../utils/option";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
-//postcode
+import { useDispatch, useSelector } from "react-redux";
+import { __postPosting } from "../../redux/modules/postingSlice";
 import Postcode from "../postcode/Postcode";
 import { sendRegisterModalStatus } from "../../redux/modules/postcodeModalSlice";
 import usePostcode from "../../hooks/usePostcode";
-//func
 import { uploadImg } from "../../utils/uploadImg";
 import { perBudget } from "./perBudget";
 
 const Posting = () => {
-  //postcode
-  const postcodeModalStatus = useSelector(
-    (state) => state.postcodeModal.openRegisterModal
-  );
-  const onClickPostcodeHandler = () => {
-    dispatch(sendRegisterModalStatus(true));
-  };
-  const findPostcode = usePostcode();
-  console.log(findPostcode);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [coords, setCoords] = useState({
+    coordsX: "",
+    coordsY: "",
+  });
+  const [imageFile, setImageFile] = useState(null);
   const [postData, setPostData] = useState({
     category: "",
     title: "",
@@ -41,10 +32,17 @@ const Posting = () => {
     dueTime: "",
     budget: "",
   });
-  const [imageFile, setImageFile] = useState(null);
-
   const createDateForm = `${postData.dueDate} ${postData.dueTime}`;
-  //console.log(createDateForm);
+
+  //postcode
+  const postcodeModalStatus = useSelector(
+    (state) => state.postcodeModal.openRegisterModal
+  );
+  const onClickPostcodeHandler = () => {
+    dispatch(sendRegisterModalStatus(true));
+  };
+  const findPostcode = usePostcode();
+  console.log(findPostcode);
 
   const onChangeValueHandler = (event) => {
     const { name, value } = event.target;
@@ -59,6 +57,7 @@ const Posting = () => {
     const file = e.target.files[0];
     setImageFile(file);
   };
+  console.log(imageFile);
 
   const onClickSubmitHandler = () => {
     if (
@@ -75,8 +74,6 @@ const Posting = () => {
     ) {
       uploadImg(imageFile)
         .then((data) => {
-          console.log("이미지 경로", data.Location);
-
           const newPostData = {
             category: postData.category,
             title: postData.title,
@@ -86,10 +83,11 @@ const Posting = () => {
             dueDate: createDateForm,
             budget: parseInt(postData.budget),
             image: data.Location,
+            // x: coords.coordsX,
+            // y: coords.coordsY,
           };
           dispatch(__postPosting(newPostData));
           //navigate("/")
-          console.log("성공여부");
         })
         .catch((err) => {
           console.log("업로드 실패");
@@ -230,7 +228,6 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-
 const PostingForm = styled.div`
   max-width: 1440px;
   width: 100%;
@@ -241,7 +238,6 @@ const PostingForm = styled.div`
     flex-direction: column;
   }
 `;
-
 const LeftDivForm = styled.div`
   width: 75%;
   display: flex;
@@ -257,7 +253,6 @@ const LeftDivForm = styled.div`
     height: 100%;
   }
 `;
-
 const SelectInput = styled.select`
   width: 50%;
   height: 2.8rem;
@@ -268,7 +263,6 @@ const SelectInput = styled.select`
     width: 100%;
   }
 `;
-
 const Label = styled.label`
   display: grid;
   grid-template-columns: 6rem 22rem 5rem;
@@ -280,7 +274,6 @@ const Label = styled.label`
     grid-template-rows: 1fr 1fr;
   }
 `;
-
 const TextArea = styled.textarea`
   width: 100%;
   height: 18rem;
@@ -289,7 +282,6 @@ const TextArea = styled.textarea`
   padding: 1.8rem;
   resize: none;
 `;
-
 const FileInput = styled.div`
   width: 22rem;
   height: 1.8rem;
@@ -308,7 +300,6 @@ const FileInput = styled.div`
     width: 100%;
   }
 `;
-
 const RightDivForm = styled.div`
   width: 25%;
   display: flex;
@@ -321,7 +312,6 @@ const RightDivForm = styled.div`
     padding-bottom: 1rem;
   }
 `;
-
 const SelectInputForm = styled.div`
   background: #e7e7e7;
   border-radius: 0.5rem;
@@ -339,13 +329,11 @@ const SelectInputForm = styled.div`
     font-size: ${({ theme }) => theme.fontSize.xs};
   }
 `;
-
 const ButtonForm = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
 `;
-
 const PointContents = styled.span`
   font-size: ${({ theme }) => theme.fontSize.lg};
   font-weight: 600;
