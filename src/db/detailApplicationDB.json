@@ -1,0 +1,24 @@
+{
+  "HttpStatus": 200,
+  "msg": "게시글 지원자 리스트 조회에 성공하였습니다",
+  "data": [
+    {
+      "applicationId": 1,
+      "nickname": "김라이언",
+      "profileImage": "https://t4.daumcdn.net/thumb/R720x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/9Ojt/image/gmFD5M1fZJ9KUllzJI9QNwmSebg.jpg",
+      "userScore": 5
+    },
+    {
+      "applicationId": 2,
+      "nickname": "쿠크르",
+      "profileImage": "https://dimg.donga.com/wps/ECONOMY/IMAGE/2017/01/03/82156312.2.jpg",
+      "userScore": 8
+    },
+    {
+      "applicationId": 3,
+      "nickname": "윙치킨치킹치킨치키치",
+      "profileImage": "http://www.cat-lab.co.kr/data/editor/1911/343204d95b75ee57a480bb41745641c6_1572855087_5228.jpg",
+      "userScore": 9
+    }
+  ]
+}
