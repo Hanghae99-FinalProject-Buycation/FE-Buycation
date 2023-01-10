@@ -1,7 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { baseURL } from "../../core/axios";
-// import axios from "axios";
-// import { RESTAPI } from "../../core/env";
 
 const initialState = {
   getPostingList: [],
@@ -10,7 +8,7 @@ const initialState = {
   error: null,
 };
 
-//전체리스트
+//전체 리스트
 export const __getPostingList = createAsyncThunk(
   "postingList/get",
   async (payload, thunkAPI) => {
@@ -25,12 +23,14 @@ export const __getPostingList = createAsyncThunk(
 );
 
 // //검색기능
-export const __getSearchKeyword = createAsyncThunk(
-  "searchKeyword/get",
+export const __getSearch = createAsyncThunk(
+  "search/get",
   async (payload, thunkAPI) => {
-    console.log(payload);
+    console.log("payload", payload);
     try {
-      const { data } = await baseURL.get(`posting?serch=${payload}`);
+      const { data } = await baseURL.get(
+        `posting/seach?serch=${payload.serch}&category=${payload.category}&sort=${payload.sort}`
+      );
       console.log("data", data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -38,41 +38,6 @@ export const __getSearchKeyword = createAsyncThunk(
     }
   }
 );
-
-//카테고리별 조회
-export const __getCategory = createAsyncThunk(
-  "category/get",
-  async (payload, thunkAPI) => {
-    console.log(payload);
-    try {
-      const { data } = await baseURL.get(`posting?category=${payload}`);
-      console.log("data", data.data);
-      return thunkAPI.fulfillWithValue(data.data);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
-//카카오 좌표 받기
-// export const __getCoords = createAsyncThunk(
-//   "coords/get",
-//   async (payload, thunkAPI) => {
-//     console.log(payload);
-//     try {
-//       const { data } = await axios.get(
-//         `https://dapi.kakao.com/v2/local/search/address.json?query=${payload}`,
-//         {
-//           headers: { Authorization: `KakaoAK ${RESTAPI}` },
-//         }
-//       );
-//       console.log("data", data.documents[0]);
-//       return thunkAPI.fulfillWithValue(data.documents[0]);
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error);
-//     }
-//   }
-// );
 
 export const postingListSlice = createSlice({
   name: "getPostingList",

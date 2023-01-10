@@ -1,45 +1,59 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import styled from "@emotion/styled";
 import { categoryList, sortList } from "../../utils/option";
 import PostingCard from "./PostingCard";
-//redux
 import { useDispatch, useSelector } from "react-redux";
 import {
   __getPostingList,
-  __getSearchKeyword,
-  __getCategory,
+  __getSearch,
   __getCoords,
 } from "../../redux/modules/postingListSlice";
 //더미 데이터 사용
 import dummy from "../../db/mainDB.json";
-import { useNavigate } from "react-router-dom";
 
 const PostingList = () => {
   const nagivate = useNavigate();
   const dispatch = useDispatch();
   const postingList = useSelector((data) => data.getPostingList.getPostingList);
-  console.log(postingList);
+  //console.log(postingList);
+  const [search, setSearch] = useState({
+    search: "",
+    category: "",
+    sort: "",
+  });
 
-  // useEffect(() => {
-  //   dispatch(__getPostingList());
-  //   dispatch(__getSearchKeyword());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(__getPostingList());
+    dispatch(__getSearch());
+  }, [dispatch]);
 
   const onKeyupSearchHandler = (event) => {
     if (event.key === "Enter") {
       let keyword = event.target.value;
-      console.log(keyword);
-      dispatch(__getSearchKeyword(keyword));
-      nagivate(`/?q=${keyword}`);
+      setSearch({ ...search, search: keyword });
+      dispatch(
+        __getSearch(
+          search({
+            ...search,
+            search: keyword,
+          })
+        )
+      );
     }
   };
-
   const onChangeCategoryHandler = (event) => {
-    if (event.target.value !== "") {
-      dispatch(__getCategory(event.target.value));
-    }
+    const categoryName = event.target.value;
+    setSearch({ ...search, category: categoryName });
+    dispatch(__getSearch({ ...search, category: categoryName }));
   };
+  const onChangeSortHandler = (event) => {
+    const sortName = event.target.value;
+    setSearch({ ...search, sort: sortName });
+    dispatch(__getSearch(search));
+  };
+  console.log(search);
 
   //게시글 카드 클릭 시 주소 좌표 구하기
   const onClickCardHandler = (coordsX, coordsY) => {
@@ -63,16 +77,17 @@ const PostingList = () => {
         </Search>
         <Category>
           <Select name="category" onChange={onChangeCategoryHandler}>
-            <option value="">카테고리를 선택해 주세요.</option>
             {categoryList.map((option, index) => (
               <option key={index} value={option}>
                 {option}
               </option>
             ))}
           </Select>
-          <Select>
+          <Select name="sort" onChange={onChangeSortHandler}>
             {sortList.map((option, index) => (
-              <option key={index}>{option}</option>
+              <option key={index} value={option}>
+                {option}
+              </option>
             ))}
           </Select>
         </Category>
