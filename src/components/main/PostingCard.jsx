@@ -14,10 +14,11 @@ const PostingCard = ({
   dueData,
   perBudget,
   image,
+  onShowMarker,
 }) => {
   return (
     <CardBasic>
-      <ContentsBox>
+      <ContentsBox onClick={onShowMarker}>
         <Image src={image}></Image>
 
         <Article>

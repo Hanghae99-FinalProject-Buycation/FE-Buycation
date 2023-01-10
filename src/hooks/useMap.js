@@ -4,22 +4,38 @@ import React, { useEffect } from "react";
 //따라서 아래와 같이 스트립트는 window 전역 객체에 들어가 있기 떄문에 window에서 객체를 뽑아서 사용
 const { kakao } = window;
 
-const useMap = () => {
+const useMap = (address) => {
   useEffect(() => {
-    const container = document.getElementById("map");
+    const container = document.getElementById("map"); //지도를 표시할 div
     const options = {
-      center: new kakao.maps.LatLng(33.450701, 126.570667),
-      lever: 3,
+      center: new kakao.maps.LatLng(33.450701, 126.570667), //지도 중심좌표
+      lever: 3, //지도 확대 레벨
     };
+
     //지도 생성
     const kakao_map = new kakao.maps.Map(container, options);
 
-    //마커 띄우기
-    const markerPosition = new kakao.maps.LatLng(33.450701, 126.570667);
-    const marker = new kakao.maps.Marker({
-      position: markerPosition,
-    });
-    marker.setMap(kakao_map);
+    //주소-좌표 변환 객체를 생성
+    const geocoder = new kakao.maps.services.Geocoder();
+    //주소로 좌표를 검색
+    geocoder.addressSearch(
+      "제주특별자치도 제주시 노형동 노연로 12",
+      (result, status) => {
+        // 정상적으로 검색이 완료됐으면
+        if (status === kakao.maps.services.Status.OK) {
+          const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+          //결과값으로 받은 위치를 마커로 표시
+          const marker = new kakao.maps.Marker({
+            map: kakao_map,
+            position: coords,
+          });
+
+          //지도의 중심을 결과값으로 받은 위치로 이동
+          marker.setMap(kakao_map);
+        }
+      }
+    );
   }, []);
 };
 
