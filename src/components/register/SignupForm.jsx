@@ -7,7 +7,7 @@ import SignupConditions from "../register/SignupConditions";
 import Postcode from "../postcode/Postcode";
 import { formContents } from "./formContents";
 import { __postSignup } from "../../redux/modules/login/signupSlice";
-import { sendRegisterModalStatus } from "../../redux/modules/postcodeModalSlice";
+import { sendRegisterModalStatus } from "../../redux/modules/postcode/postcodeModalSlice";
 import usePostcode from "../../hooks/usePostcode";
 
 const Signup = () => {
