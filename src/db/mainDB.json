@@ -2,47 +2,55 @@
   "data": [
     {
       "postingId": 1,
-      "title": "치킨1",
+      "title": "드림타워",
       "image": "https://www.bhc.co.kr/images/index/banner/img_main_banner_220418_4.jpg",
       "totalMembers": 4,
       "currentMembers": 1,
       "dueDate": "2023.1.20",
       "perBudget": 20000,
-      "address": "서을특별시 강남구",
-      "category": "food"
+      "address": "제주특별자치도 제주시 노형동 노연로 12",
+      "category": "food",
+      "x": 126.481459449471,
+      "y": 33.4852623358443
     },
     {
       "postingId": 2,
-      "title": "치킨2",
+      "title": "이마트",
       "image": "https://www.bhc.co.kr/images/index/banner/img_main_banner_220418_4.jpg",
       "totalMembers": 2,
       "currentMembers": 1,
       "dueDate": "2023.1.20",
       "perBudget": 30000,
-      "address": "서을특별시 강남구",
-      "category": "food"
+      "address": "제주특별자치도 제주시 1100로 3348",
+      "category": "food",
+      "x": 126.480431633456,
+      "y": 33.4849650136857
     },
     {
       "postingId": 3,
-      "title": "치킨3",
+      "title": "다이소",
       "image": "https://www.bhc.co.kr/images/index/banner/img_main_banner_220418_4.jpg",
       "totalMembers": 2,
       "currentMembers": 2,
       "dueDate": "2023.1.20",
       "perBudget": 40000,
-      "address": "서을특별시 강남구",
-      "category": "food"
+      "address": "제주특별자치도 제주시 노형동 1100로 3325",
+      "category": "food",
+      "x": 126.4802473266,
+      "y": 33.4834509185512
     },
     {
       "postingId": 4,
-      "title": "치킨3",
+      "title": "더큰내일센터",
       "image": "https://www.bhc.co.kr/images/index/banner/img_main_banner_220418_4.jpg",
       "totalMembers": 2,
       "currentMembers": 2,
       "dueDate": "2023.1.20",
       "perBudget": 40000,
-      "address": "서을특별시 강남구",
-      "category": "food"
+      "address": "제주특별자치도 제주시 오라동 1770",
+      "category": "food",
+      "x": 126.509422537784,
+      "y": 33.4818625809975
     }
   ]
 }

@@ -9,6 +9,7 @@ import {
   __getPostingList,
   __getSearchKeyword,
   __getCategory,
+  __getCoords,
 } from "../../redux/modules/postingListSlice";
 //더미 데이터 사용
 import dummy from "../../db/mainDB.json";
@@ -20,10 +21,10 @@ const PostingList = () => {
   const postingList = useSelector((data) => data.getPostingList.getPostingList);
   console.log(postingList);
 
-  useEffect(() => {
-    dispatch(__getPostingList());
-    dispatch(__getSearchKeyword());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(__getPostingList());
+  //   dispatch(__getSearchKeyword());
+  // }, [dispatch]);
 
   const onKeyupSearchHandler = (event) => {
     if (event.key === "Enter") {
@@ -38,6 +39,15 @@ const PostingList = () => {
     if (event.target.value !== "") {
       dispatch(__getCategory(event.target.value));
     }
+  };
+
+  //게시글 카드 클릭 시 주소 좌표 구하기
+  const onClickCardHandler = (coordsX, coordsY) => {
+    const coords = {
+      coordsX: coordsX,
+      coordsY: coordsY,
+    };
+    dispatch(__getCoords(coords));
   };
 
   return (
@@ -80,6 +90,7 @@ const PostingList = () => {
           dueData={item.dueDate}
           perBudget={item.perBudget}
           image={item.image}
+          onShowMarker={() => onClickCardHandler(item.x, item.y)}
         />
       ))}
     </Section>

@@ -1,9 +1,11 @@
 //basic
 export const BACK_API = process.env.REACT_APP_BACKAPI;
 
-//kakao
+//kakao login
 export const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 export const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
+//kakao REST_API (좌표구하기)
+export const RESTAPI = process.env.REACT_APP_KAKAO_RESTAPI_KEY;
 
 //image
 export const BUCKET = process.env.REACT_APP_BUCKET;
