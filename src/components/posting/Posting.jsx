@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaLink } from "react-icons/fa";
 import styled from "@emotion/styled";
-import { categoryList } from "../../utils/option";
+import { selectCategory } from "../../utils/option";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
 import { useDispatch, useSelector } from "react-redux";
@@ -113,7 +113,7 @@ const Posting = () => {
             onChange={onChangeValueHandler}
           >
             <option value="">카테고리를 선택해 주세요.</option>
-            {categoryList.map((option, index) => (
+            {selectCategory.map((option, index) => (
               <option key={index}>{option}</option>
             ))}
           </SelectInput>

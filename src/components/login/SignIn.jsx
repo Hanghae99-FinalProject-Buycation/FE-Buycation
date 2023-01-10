@@ -91,12 +91,8 @@ const SignIn = () => {
           <Link to="/signup">회원가입</Link>
         </LinkDiv>
 
-        <ButtonBasic>로그인</ButtonBasic>
-        <ButtonBasic
-          type="button"
-          background="#FFE812"
-          onClick={onClickKakaoHandler}
-        >
+        <ButtonBasic type="submit">로그인</ButtonBasic>
+        <ButtonBasic background="#FFE812" onClick={onClickKakaoHandler}>
           카카오 계정으로 로그인 하기
         </ButtonBasic>
       </Form>
