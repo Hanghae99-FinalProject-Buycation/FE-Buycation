@@ -16,6 +16,7 @@ const InputBasic = (props) => {
     margin,
     padding,
     gridArea,
+    value,
     _onChange,
     inValid,
   } = props;
@@ -40,6 +41,7 @@ const InputBasic = (props) => {
       autoComplete={autoComplete}
       min={min}
       required={required}
+      value={value}
       onChange={_onChange}
       inValid={inValid}
     />

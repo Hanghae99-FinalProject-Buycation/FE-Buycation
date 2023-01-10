@@ -1,48 +1,59 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaLink } from "react-icons/fa";
 import styled from "@emotion/styled";
-import { selectCategory } from "../../utils/option";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
+import { FaLink } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { sendRegisterModalStatus } from "../../redux/modules/postcodeModalSlice";
 import { __postPosting } from "../../redux/modules/postingSlice";
 import Postcode from "../postcode/Postcode";
-import { sendRegisterModalStatus } from "../../redux/modules/postcodeModalSlice";
 import usePostcode from "../../hooks/usePostcode";
+import { selectCategory } from "../../utils/option";
 import { uploadImg } from "../../utils/uploadImg";
 import { perBudget } from "./perBudget";
 
 const Posting = () => {
+  const { kakao } = window;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [coords, setCoords] = useState({
-    coordsX: "",
-    coordsY: "",
-  });
-  const [imageFile, setImageFile] = useState(null);
   const [postData, setPostData] = useState({
     category: "",
     title: "",
     content: "",
-    address: "",
     detailAddress: "",
     totalMembers: "",
     dueDate: "",
     dueTime: "",
     budget: "",
   });
+  const [imageFile, setImageFile] = useState(null);
   const createDateForm = `${postData.dueDate} ${postData.dueTime}`;
-
-  //postcode
   const postcodeModalStatus = useSelector(
     (state) => state.postcodeModal.openRegisterModal
   );
+  const { address } = usePostcode();
+  const geocoder = new kakao.maps.services.Geocoder(); //좌표 객체 생성
+  const [coords, setCoords] = useState({
+    coordsX: "",
+    coordsY: "",
+  });
+
+  useEffect(() => {
+    if (address !== "") {
+      geocoder.addressSearch(address, (result, status) => {
+        if (status === kakao.maps.services.Status.OK) {
+          const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+          console.log(coords);
+          setCoords({ coordsX: coords.La, coordsY: coords.Ma });
+        }
+      });
+    }
+  }, [address]);
+
   const onClickPostcodeHandler = () => {
     dispatch(sendRegisterModalStatus(true));
   };
-  const findPostcode = usePostcode();
-  console.log(findPostcode);
 
   const onChangeValueHandler = (event) => {
     const { name, value } = event.target;
@@ -57,15 +68,13 @@ const Posting = () => {
     const file = e.target.files[0];
     setImageFile(file);
   };
-  console.log(imageFile);
 
   const onClickSubmitHandler = () => {
     if (
       postData.category !== "" &&
       postData.title !== "" &&
       postData.content !== "" &&
-      postData.address !== "" &&
-      postData.detailAddress !== "" &&
+      address !== "" &&
       postData.totalMembers !== "" &&
       postData.dueDate !== "" &&
       postData.dueTime !== "" &&
@@ -78,13 +87,13 @@ const Posting = () => {
             category: postData.category,
             title: postData.title,
             content: postData.content,
-            address: findPostcode.address,
+            address: address,
             totalMembers: parseInt(postData.totalMembers),
             dueDate: createDateForm,
             budget: parseInt(postData.budget),
             image: data.Location,
-            // x: coords.coordsX,
-            // y: coords.coordsY,
+            coordsX: coords.coordsX,
+            coordsY: coords.coordsY,
           };
           dispatch(__postPosting(newPostData));
           //navigate("/")
@@ -107,26 +116,20 @@ const Posting = () => {
       <PostingForm>
         <LeftDivForm>
           <p>공구 글쓰기</p>
-          <SelectInput
-            name="category"
-            value={postData.category}
-            onChange={onChangeValueHandler}
-          >
+          <SelectInput name="category" onChange={onChangeValueHandler}>
             <option value="">카테고리를 선택해 주세요.</option>
             {selectCategory.map((option, index) => (
               <option key={index}>{option}</option>
             ))}
           </SelectInput>
           <InputBasic
-            name="title"
-            value={postData.title}
-            _onChange={onChangeValueHandler}
             height="2.8rem"
+            name="title"
+            _onChange={onChangeValueHandler}
             placeholder="제목을 입력해 주세요."
           />
           <TextArea
             name="content"
-            value={postData.content}
             onChange={onChangeValueHandler}
             placeholder="내용을 입력해 주세요."
           ></TextArea>
@@ -144,11 +147,11 @@ const Posting = () => {
           <Label>
             거래 희망 주소
             <InputBasic
-              name="address"
-              value={findPostcode.address}
-              _onChange={onChangeValueHandler}
               height="1.8rem"
+              name="address"
               placeholder="이웃과 거래하고 싶은 장소를 선택해 주세요."
+              value={address}
+              _onChange={onChangeValueHandler}
             />
             <ButtonBasic
               width="5rem"
@@ -161,10 +164,10 @@ const Posting = () => {
           <Label>
             상세주소
             <InputBasic
-              name="detailAddress"
-              value={postData.detailAddress}
-              _onChange={onChangeValueHandler}
               height="1.8rem"
+              name="detailAddress"
+              placeholder="(선택 사항)"
+              _onChange={onChangeValueHandler}
             />
           </Label>
         </LeftDivForm>
@@ -172,34 +175,30 @@ const Posting = () => {
           <SelectInputForm>
             <label>모집 인원</label>
             <InputBasic
-              name="totalMembers"
-              value={postData.totalMembers}
-              _onChange={onChangeValueHandler}
-              type="number"
               min="0"
+              name="totalMembers"
+              type="number"
+              _onChange={onChangeValueHandler}
             />
             <label>모집 마감일 선택</label>
             <InputBasic
               name="dueDate"
-              value={postData.dueDate}
-              _onChange={onChangeValueHandler}
               type="date"
+              _onChange={onChangeValueHandler}
             />
             <label>모집 마감 시간 선택</label>
             <InputBasic
               name="dueTime"
-              value={postData.dueTime}
-              _onChange={onChangeValueHandler}
               type="time"
+              _onChange={onChangeValueHandler}
             />
             <label>결제 정보</label>
             <InputBasic
-              name="budget"
-              value={postData.budget}
-              _onChange={onChangeValueHandler}
-              type="number"
               min="0"
+              name="budget"
+              type="number"
               placeholder="공구 물품의 금액을 입력해주세요."
+              _onChange={onChangeValueHandler}
             />
             <p>
               1인당 결제 금액
