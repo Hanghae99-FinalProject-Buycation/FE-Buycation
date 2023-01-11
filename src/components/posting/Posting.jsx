@@ -15,7 +15,6 @@ import { perBudget } from "./perBudget";
 
 const Posting = () => {
   const { kakao } = window;
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [postData, setPostData] = useState({

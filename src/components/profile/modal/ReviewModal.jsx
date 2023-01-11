@@ -48,7 +48,11 @@ const ReviewModal = (props) => {
               ))}
             </StarBox>
           </PersonInfo>
-          <ButtonBasic width="3rem" _onClick={onClickPostReviewHandler}>
+          <ButtonBasic
+            width="3.5rem"
+            height="2rem"
+            _onClick={onClickPostReviewHandler}
+          >
             등록
           </ButtonBasic>
         </PersonCard>
@@ -68,14 +72,13 @@ const Backdrop = styled.div`
   z-index: 1;
   background: rgba(0, 0, 0, 0.75);
 `;
-
 const ModalCard = styled.div`
   position: fixed;
   margin: auto;
   left: 0;
   right: 0;
   top: 30%;
-  width: 50%;
+  width: 37rem;
   z-index: 10;
   background: white;
   border-radius: 5px;
@@ -83,7 +86,6 @@ const ModalCard = styled.div`
     width: 100%;
   }
 `;
-
 const Header = styled.header`
   padding: 1rem;
   border-bottom: 1px solid #888;
@@ -92,40 +94,35 @@ const Header = styled.header`
   align-items: center;
   & > p {
     font-size: ${({ theme }) => theme.fontSize.xl};
+    font-weight: 600;
     margin: auto;
   }
 `;
-
 const CloseBtn = styled.button`
   background: none;
   cursor: pointer;
 `;
-
 const PersonCard = styled.div`
   padding: 0 1.2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
-
 const PersonInfo = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
 `;
-
 const StarBox = styled.div`
   display: flex;
   /* gap: 0.2rem; */
-
   i {
     margin: 20px 10px 20px 0;
     opacity: 0.1;
     font-size: 30px;
     cursor: pointer;
   }
-
   .yellowStar {
     color: orange;
     opacity: 1;
