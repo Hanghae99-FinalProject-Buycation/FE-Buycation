@@ -5,23 +5,24 @@ import ConditionDiv from "./ConditionDiv";
 import { conditionContents } from "./conditionContents";
 
 const SignupConditions = () => {
-  const [checked, setChecked] = useState(false);
+  const [checkedAll, setCheckedAll] = useState(false);
   const onCheckHandler = (e) => {
-    setChecked(!checked);
-    // console.log(checked);
+    setCheckedAll(!setCheckedAll);
   };
   return (
     <>
-      <h2>약관 동의</h2>
+      <ElH2>
+        <h2>약관 동의</h2>
+      </ElH2>
       <StConditionsForm>
         {conditionContents.map((item) => (
           <ConditionDiv
-            key={item.num}
-            id={item.num}
+            key={item.id}
+            id={item.id}
             item={item}
             _onChange={(e) => onCheckHandler(e)}
             _onClick={item.clickEvent}
-            // checked={checked} 이거 들어가면 전체 적용...어떻게 하지
+            // checked={checkedAll} // 이거 들어가면 전체 적용...어떻게 하지
           >
             {item.title}
           </ConditionDiv>
@@ -34,31 +35,20 @@ const SignupConditions = () => {
 export default SignupConditions;
 
 const StConditionsForm = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   width: 100%;
-  max-width: 50rem;
-  border: 1px solid #000;
+  max-width: 57.5rem;
+  border: 1px solid ${({ theme }) => theme.colors.main};
   border-radius: 0.5rem;
   padding: 1.875rem 3.125rem;
-  input {
-    background: white;
-    border: 1px solid #d9d9d9;
-  }
-  button {
-    background: #d9d9d9;
-  }
+  margin-bottom: 2.25rem;
 `;
 
-const ElConditionDiv = styled.div`
+const ElH2 = styled.div`
   width: 100%;
+  max-width: 57.5rem;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  span {
-    display: flex;
-    align-items: center;
-    font-size: ${({ theme }) => theme.fontSize.xs};
-  }
+  align-items: start;
+  font-size: ${({ theme }) => theme.fontSize.md};
+  font-weight: 600;
+  margin: 1.5rem;
 `;
