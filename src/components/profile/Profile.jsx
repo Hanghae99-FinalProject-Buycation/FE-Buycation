@@ -8,13 +8,13 @@ import MyCreation from "./MyCreation";
 const Profile = () => {
   const [tagBtnValue, setTagBtnValue] = useState("default");
 
-  const onClickStarBtnHandler = () => {
+  const onClickStarBtnHandler = (e) => {
     setTagBtnValue("default");
   };
-  const onClickGuestBtnHandler = () => {
+  const onClickGuestBtnHandler = (e) => {
     setTagBtnValue("guest");
   };
-  const onClickOwnerBtnHandler = () => {
+  const onClickOwnerBtnHandler = (e) => {
     setTagBtnValue("owner");
   };
 
@@ -47,40 +47,39 @@ const Wrap = styled.div`
   width: 100%;
   height: 100%;
   padding: 6rem 16rem;
-  @media screen and (max-width: 760px) {
+  display: flex;
+  justify-content: center;
+  @media screen and (max-width: 768px) {
     padding: 2.2rem 0;
+    display: block;
   }
 `;
-
 const Container = styled.div`
-  /* border: 1px solid #888; */
-  width: 100%;
-  display: grid;
-  grid-template-rows: 100px auto;
-  @media screen and (max-width: 760px) {
-    grid-template-rows: 1fr;
+  width: 920px;
+  display: flex;
+  flex-direction: column;
+  @media screen and (max-width: 768px) {
+    width: 100%;
   }
 `;
-
 const TagBtnDiv = styled.div`
-  margin-top: 50px;
-  padding: 0;
   width: 100%;
+  margin-top: 5rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  @media screen and (max-width: 768px) {
+    margin-top: 2.7rem;
+  }
 `;
-
 const Button = styled.button`
-  border-bottom: 1px solid #888;
-  margin: 0;
-  padding-bottom: 20px;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grayStrong};
+  padding: 0 0 20px 0;
   width: 100%;
-  height: 3rem;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: ${({ theme }) => theme.fontSize.md};
+  font-weight: 500;
   background: white;
   cursor: pointer;
-  :hover {
-    border-bottom: 2px solid #888;
+  :focus {
+    border-bottom: 2px solid ${({ theme }) => theme.colors.main};
   }
 `;

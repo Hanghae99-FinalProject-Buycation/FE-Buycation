@@ -16,6 +16,7 @@ const styles = css`
 
   body {
     font-size: 1rem;
+    color: #000000;
     padding: 0;
     margin: 0;
     font-family: "Pretendard-Regular";

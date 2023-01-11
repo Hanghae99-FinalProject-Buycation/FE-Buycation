@@ -21,18 +21,26 @@ const MyCreation = () => {
           <Image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz1cuwGu33uyLO0kXmE5WT3upryL1ng6rdRLHpDmqmEj2TUyKgZLvjc-CkdErVNwmF05g&usqp=CAU"></Image>
           <Contents>
             <p>
-              <FaMapMarkerAlt size="12px" /> 위치
+              <FaMapMarkerAlt size="11px" /> 위치
             </p>
-            <Title>맛있는 치킨 나눠먹어요</Title>
+            <p> 맛있는 치킨 나눠먹어요</p>
             <p>2023.1.1 13:00분 까지 모집</p>
             <p>
-              <FaUser size="12px" /> 3/5
+              <FaUser size="11px" /> 3/5
             </p>
+            <ButtonBasic
+              width="5rem"
+              height="2rem"
+              background="inherit"
+              border="1px solid #FF5A5F"
+              color={({ theme }) => theme.colors.main}
+              fontSize={({ theme }) => theme.fontSize.xs}
+              _onClick={onClickReviewHandler}
+            >
+              후기 작성
+            </ButtonBasic>
           </Contents>
         </Box>
-        <ButtonBasic width="5rem" height="2rem" _onClick={onClickReviewHandler}>
-          후기 작성
-        </ButtonBasic>
       </ContentsBox>
     </>
   );
@@ -45,11 +53,12 @@ const ContentsBox = styled.div`
   justify-content: space-between;
   align-items: end;
   width: 100%;
-  height: 10rem;
+  height: 15rem;
   padding: 1rem 0;
   border-bottom: 1px solid #eee;
-  @media screen and (max-width: 760px) {
-    padding: 1rem;
+  @media screen and (max-width: 768px) {
+    height: 10rem;
+    padding: 0 1rem;
   }
 `;
 
@@ -58,28 +67,40 @@ const Box = styled.div`
   display: flex;
   align-items: center;
   gap: 3rem;
-  @media screen and (max-width: 760px) {
-    gap: 0.5rem;
+  @media screen and (max-width: 768px) {
+    gap: 1rem;
   }
 `;
 
 const Image = styled.img`
-  width: 8rem;
-  height: 8rem;
+  width: 12rem;
+  height: 12rem;
   border-radius: 5px;
-  @media screen and (max-width: 760px) {
-    width: 7rem;
-    height: 7rem;
+  @media screen and (max-width: 768px) {
+    width: 8rem;
+    height: 8rem;
   }
 `;
 
 const Contents = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-`;
+  gap: 1rem;
 
-const Title = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.lg};
-  font-weight: 700;
+  & > p:nth-child(1) {
+    font-size: ${({ theme }) => theme.fontSize.sm};
+  }
+  & > p:nth-child(2) {
+    font-weight: 600;
+  }
+  & > p:nth-child(3) {
+    font-size: ${({ theme }) => theme.fontSize.sm};
+  }
+  & > p:nth-child(4) {
+    font-size: ${({ theme }) => theme.fontSize.sm};
+  }
+
+  @media screen and (max-width: 768px) {
+    gap: 0.5rem;
+  }
 `;

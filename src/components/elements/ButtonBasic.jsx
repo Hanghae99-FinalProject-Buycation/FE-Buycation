@@ -10,6 +10,7 @@ const ButtonBasic = (props) => {
     fontSize,
     color,
     background,
+    margin,
     padding,
     gridArea,
     display,
@@ -27,6 +28,7 @@ const ButtonBasic = (props) => {
     fontSize,
     color,
     background,
+    margin,
     padding,
     gridArea,
     display,
@@ -68,6 +70,7 @@ const ElBtn = styled.button`
   font-size: ${({ fontSize }) => fontSize};
   color: ${({ color }) => color};
   background: ${({ background }) => background};
+  margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
   grid-area: ${({ gridArea }) => gridArea};
   display: ${({ display }) => display};

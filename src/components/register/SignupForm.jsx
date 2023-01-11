@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import ButtonBasic from "../elements/ButtonBasic";
 import SignupConditions from "../register/SignupConditions";
 import Postcode from "../postcode/Postcode";
-import { formContents } from "./FormContents";
+import { formContents } from "./formContents";
 import { __postSignup } from "../../redux/modules/login/signupSlice";
 import { sendRegisterModalStatus } from "../../redux/modules/postcode/postcodeModalSlice";
 import usePostcode from "../../hooks/usePostcode";

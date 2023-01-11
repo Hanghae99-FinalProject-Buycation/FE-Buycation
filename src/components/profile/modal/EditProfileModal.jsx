@@ -18,7 +18,14 @@ const EditProfileModal = (props) => {
         <ContentsBox>
           <Item>
             <label>닉네임 변경</label>
-            <ButtonBasic width="5rem" height="2rem">
+            <ButtonBasic
+              width="5rem"
+              height="2rem"
+              background="inherit"
+              border="1px solid #FF5A5F"
+              color={({ theme }) => theme.colors.main}
+              fontSize={({ theme }) => theme.fontSize.xs}
+            >
               중복 체크
             </ButtonBasic>
           </Item>
@@ -32,13 +39,22 @@ const EditProfileModal = (props) => {
 
           <Item>
             <label>주소 변경</label>
-            <ButtonBasic width="5rem" height="2rem">
+            <ButtonBasic
+              width="5rem"
+              height="2rem"
+              background="inherit"
+              border="1px solid #FF5A5F"
+              color={({ theme }) => theme.colors.main}
+              fontSize={({ theme }) => theme.fontSize.xs}
+            >
               주소 찾기
             </ButtonBasic>
           </Item>
           <InputBasic name="address" height="2rem" />
 
-          <ButtonBasic margin="10px 0">수정</ButtonBasic>
+          <ButtonBasic margin="10px 0" height="2.5rem">
+            수정
+          </ButtonBasic>
         </ContentsBox>
       </ModalCard>
     </Backdrop>
@@ -63,7 +79,7 @@ const ModalCard = styled.div`
   left: 0;
   right: 0;
   top: 20%;
-  width: 50%;
+  width: 37rem;
   z-index: 10;
   background: white;
   border-radius: 5px;
@@ -74,7 +90,7 @@ const ModalCard = styled.div`
 
 const Header = styled.header`
   padding: 1rem;
-  border-bottom: 1px solid #888;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grayStrong};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -92,7 +108,7 @@ const CloseBtn = styled.button`
 const ContentsBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 0.8rem;
   padding: 1rem;
 `;
 
@@ -104,7 +120,7 @@ const Item = styled.div`
 
 const FileInput = styled.div`
   height: 2rem;
-  border: 1px solid #e7e7e7;
+  border: 1px solid ${({ theme }) => theme.colors.grayWeak};
   border-radius: 0.5rem;
   padding: 0.5rem;
   display: flex;
@@ -113,7 +129,7 @@ const FileInput = styled.div`
   & > input {
     width: 100%;
     background: none;
-    color: #555;
+    color: ${({ theme }) => theme.colors.grayMid};
   }
   @media screen and (max-width: 760px) {
     width: 100%;
