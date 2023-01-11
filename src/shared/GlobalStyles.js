@@ -9,16 +9,13 @@ const styles = css`
     font-style: normal;
   }
 
-  html {
-    font-size: 1rem;
-  }
-
   * {
     box-sizing: border-box;
     font-family: "Pretendard-Regular";
   }
 
   body {
+    font-size: 1rem;
     padding: 0;
     margin: 0;
     font-family: "Pretendard-Regular";
@@ -34,6 +31,19 @@ const styles = css`
     outline: none !important;
     box-sizing: border-box;
     text-decoration: none;
+    resize: none;
+  }
+
+  select {
+    color: #a6a6a6;
+  }
+
+  textarea::placeholder {
+    color: #a6a6a6;
+  }
+
+  input::placeholder {
+    color: #a6a6a6;
   }
 
   input::file-selector-button {

@@ -51,7 +51,7 @@ export default InputBasic;
 
 InputBasic.defaultProps = {
   width: "100%",
-  height: "2.8rem",
+  height: "1.938rem",
   border: "1px solid #D9D9D9",
   borderRadius: "8px",
   background: "white",

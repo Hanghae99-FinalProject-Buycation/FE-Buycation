@@ -136,10 +136,10 @@ const Form = styled.form`
   & > p {
     font-size: ${({ theme }) => theme.fontSize.xl};
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 1.5rem;
     font-weight: 600;
     letter-spacing: 0.18rem;
-    line-height: 22px;
+    line-height: 28px;
   }
 `;
 const InputBox = styled.div`
