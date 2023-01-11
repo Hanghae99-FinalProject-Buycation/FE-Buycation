@@ -31,17 +31,6 @@ const theme = {
     justify-content: center;
     `,
   },
-
-  signup: {
-    divGrid: `
-    display: grid;
-    grid-template-columns: 8rem 12rem 4.5rem 8rem;
-    // grid-template-columns: 8rem 1fr auto 8rem;
-    align-items:center;
-    gap:0.5rem;
-    margin: 0.5rem;
-    `,
-  },
 };
 
 export default theme;
