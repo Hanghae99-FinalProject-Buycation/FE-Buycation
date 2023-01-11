@@ -116,7 +116,16 @@ const Wrap = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 7.5rem;
-  /* align-items: center; */
+
+  @media screen and (max-width: 375px) {
+    margin-top: 0;
+    align-items: center;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-areas:
+      "map"
+      "list";
+  }
 `;
 const Form = styled.form`
   width: 25rem;
@@ -130,6 +139,7 @@ const Form = styled.form`
     margin-bottom: 3rem;
     font-weight: 600;
     letter-spacing: 0.18rem;
+    line-height: 22px;
   }
 `;
 const InputBox = styled.div`

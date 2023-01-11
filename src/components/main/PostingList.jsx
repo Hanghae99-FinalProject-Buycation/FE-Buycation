@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaSearch } from "react-icons/fa";
 import styled from "@emotion/styled";
+import { FaSearch } from "react-icons/fa";
 import { categoryList, sortList } from "../../utils/option";
 import PostingCard from "./PostingCard";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,16 +31,9 @@ const PostingList = () => {
 
   const onKeyupSearchHandler = (event) => {
     if (event.key === "Enter") {
-      let keyword = event.target.value;
+      const keyword = event.target.value;
       setSearch({ ...search, search: keyword });
-      dispatch(
-        __getSearch(
-          search({
-            ...search,
-            search: keyword,
-          })
-        )
-      );
+      dispatch(__getSearch({ ...search, search: keyword }));
     }
   };
   const onChangeCategoryHandler = (event) => {
@@ -51,11 +44,11 @@ const PostingList = () => {
   const onChangeSortHandler = (event) => {
     const sortName = event.target.value;
     setSearch({ ...search, sort: sortName });
-    dispatch(__getSearch(search));
+    dispatch(__getSearch({ ...search, sort: sortName }));
   };
-  console.log(search);
+  console.log("상태값 :", search);
 
-  //게시글 카드 클릭 시 주소 좌표 구하기
+  //해당 게시글 클릭 시 좌표 값
   const onClickCardHandler = (coordsX, coordsY) => {
     const coords = {
       coordsX: coordsX,
@@ -66,16 +59,16 @@ const PostingList = () => {
 
   return (
     <Section>
-      <header>
-        <Search>
-          <FaSearch />
+      <SearchBox>
+        <SearchKeyword>
+          <FaSearch size="13px" color="#FF5A5F" />
           <input
             type="text"
             placeholder="장소, 거래 물품 검색"
             onKeyUp={(event) => onKeyupSearchHandler(event)}
           />
-        </Search>
-        <Category>
+        </SearchKeyword>
+        <SelectBox>
           <Select name="category" onChange={onChangeCategoryHandler}>
             {categoryList.map((option, index) => (
               <option key={index} value={option}>
@@ -90,8 +83,8 @@ const PostingList = () => {
               </option>
             ))}
           </Select>
-        </Category>
-      </header>
+        </SelectBox>
+      </SearchBox>
 
       {dummy.data.map((item) => (
         <PostingCard
@@ -120,21 +113,22 @@ const Section = styled.div`
   flex-direction: column;
   align-items: center;
   overflow: auto;
-  grid-area: list;
-
-  & > header {
-    width: 90%;
-    align-items: center;
-    margin: 10px 0;
-  }
+  grid-area: "list";
 `;
 
-const Search = styled.div`
+const SearchBox = styled.header`
+  width: 90%;
+  margin: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const SearchKeyword = styled.div`
   width: 100%;
-  height: 2.5rem;
-  border: 1px solid #f5f5f5;
+  height: 2.25rem;
+  border: 1px solid ${({ theme }) => theme.colors.main};
   border-radius: 0.5rem;
-  background: #e7e7e7;
   display: flex;
   align-items: center;
   gap: 2px;
@@ -145,19 +139,18 @@ const Search = styled.div`
   }
 `;
 
-const Category = styled.div`
-  display: grid;
-  grid-template-columns: 65% 30%;
-  gap: 5%;
+const SelectBox = styled.div`
   width: 100%;
-  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 64% 34%;
+  gap: 2%;
 `;
 
 const Select = styled.select`
   width: 100%;
   height: 2rem;
-  padding: 4px;
+  padding: 0 0.6rem;
   border-radius: 11rem;
-  border: 1px solid #e7e7e7;
-  background: #e7e7e7;
+  border: 1px solid ${({ theme }) => theme.colors.grayStrong};
+  color: ${({ theme }) => theme.colors.black};
 `;
