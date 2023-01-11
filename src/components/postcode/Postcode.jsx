@@ -2,11 +2,14 @@ import styled from "@emotion/styled";
 import React, { useRef, useEffect } from "react";
 import DaumPostCode from "react-daum-postcode";
 import { useDispatch, useSelector } from "react-redux";
-import { sendZonecode, sendAddress } from "../../redux/modules/postcodeSlice";
+import {
+  sendZonecode,
+  sendAddress,
+} from "../../redux/modules/postcode/postcodeSlice";
 import {
   sendRegisterModalStatus,
   sendPostingModalStatus,
-} from "../../redux/modules/postcodeModalSlice";
+} from "../../redux/modules/postcode/postcodeModalSlice";
 import useOutsideClick from "../../hooks/useOutsideClick";
 
 const Postcode = ({ width, height, hidden }) => {

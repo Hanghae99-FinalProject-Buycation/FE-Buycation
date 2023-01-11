@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import postSignup from "../modules/login/signupSlice";
 import postSignin from "../modules/login/signinSlice";
-import postcodeModal from "../modules/postcodeModalSlice";
-import postcode from "../modules/postcodeSlice";
+import postcodeModal from "../modules/postcode/postcodeModalSlice";
+import postcode from "../modules/postcode/postcodeSlice";
 import getPostingList from "../modules/postingListSlice";
 import postPosting from "../modules/postingSlice";
-import getDetail from "../modules/detailSlice";
+import getDetail from "../modules/details/detailSlice";
 
 const store = configureStore({
   reducer: {

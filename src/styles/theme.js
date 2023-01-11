@@ -7,6 +7,7 @@ const theme = {
     secondary: "#8c",
     grayList: "#ECF0F2", // 리스트 비강조
     grayWeak: "#D9D9D9", // 회색 비강조
+    grayMid: "#A6A6A6",
     grayStrong: "#939393", // 회색 강조
   },
 
