@@ -10,7 +10,7 @@ const styles = css`
   }
 
   html {
-    font-size: 0.875em;
+    font-size: 1rem;
   }
 
   * {
