@@ -13,12 +13,12 @@ const Header = () => {
 export default Header;
 
 const HeaderDiv = styled.div`
-  height: 50px;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.main};
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 50px;
   padding: 0.5rem;
-  background: #888;
   & > a {
     color: black;
   }

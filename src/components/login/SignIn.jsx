@@ -1,31 +1,30 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
-import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { __postSignin } from "../../redux/modules/login/signinSlice";
 import { CLIENT_ID, REDIRECT_URI } from "../../core/env";
 
 const SignIn = () => {
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [loginValue, setLoginValue] = useState({
     email: "",
     password: "",
   });
-
   const [inValid, setInValid] = useState({
     isEmail: false,
     isPassword: false,
   });
 
-  //kakao
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}
-    &redirect_uri=${REDIRECT_URI}&response_type=code`;
+  &redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   const onClickKakaoHandler = (event) => {
+    console.log("?");
     window.location.href = KAKAO_AUTH_URL;
   };
 
@@ -69,6 +68,8 @@ const SignIn = () => {
         </p>
         <InputBox>
           <InputBasic
+            height="3rem"
+            background="#EDEDED"
             name="email"
             type="text"
             placeholder="아이디 (이메일)"
@@ -78,6 +79,8 @@ const SignIn = () => {
             inValid={inValid.isEmail}
           />
           <InputBasic
+            height="3rem"
+            background="#EDEDED"
             name="password"
             type="password"
             placeholder="비밀번호"
@@ -86,15 +89,20 @@ const SignIn = () => {
             inValid={inValid.isPassword}
           />
         </InputBox>
-
-        <LinkDiv>
-          <Link to="/signup">회원가입</Link>
-        </LinkDiv>
-
         <ButtonBasic type="submit">로그인</ButtonBasic>
-        <ButtonBasic background="#FFE812" onClick={onClickKakaoHandler}>
+        <OrTxt>or</OrTxt>
+        <ButtonBasic
+          background="#FFE812"
+          color="#000000"
+          _onClick={onClickKakaoHandler}
+        >
           카카오 계정으로 로그인 하기
         </ButtonBasic>
+        <LinkDiv>
+          <Link to="/signup">
+            바이케이션이 처음 이신가요? <span>회원가입</span>
+          </Link>
+        </LinkDiv>
       </Form>
     </Wrap>
   );
@@ -107,33 +115,58 @@ const Wrap = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  margin-top: 7.5rem;
+  /* align-items: center; */
 `;
-
 const Form = styled.form`
   width: 25rem;
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
   & > p {
+    font-size: ${({ theme }) => theme.fontSize.xl};
     text-align: center;
-    margin-bottom: 30px;
-    font-size: 20px;
+    margin-bottom: 3rem;
     font-weight: 600;
+    letter-spacing: 0.18rem;
   }
 `;
-
 const InputBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 `;
-
+const OrTxt = styled.span`
+  color: ${({ theme }) => theme.colors.grayStrong};
+  text-align: center;
+  position: relative;
+  ::before {
+    content: "";
+    position: absolute;
+    top: 7px;
+    left: 0;
+    width: 44%;
+    height: 1px;
+    background-color: ${({ theme }) => theme.colors.grayStrong};
+  }
+  ::after {
+    content: "";
+    position: absolute;
+    top: 7px;
+    right: 0;
+    width: 44%;
+    height: 1px;
+    background-color: ${({ theme }) => theme.colors.grayStrong};
+  }
+`;
 const LinkDiv = styled.div`
-  display: flex;
-  justify-content: end;
+  text-align: center;
   & > a {
-    color: black;
+    font-size: ${({ theme }) => theme.fontSize.sm};
+    color: ${({ theme }) => theme.colors.black};
+  }
+  & span {
+    font-weight: 600;
   }
 `;

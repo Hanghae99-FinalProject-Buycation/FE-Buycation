@@ -2,7 +2,10 @@ import React from "react";
 import styled from "@emotion/styled";
 import DaumPostCode from "react-daum-postcode";
 import { useDispatch } from "react-redux";
-import { sendZonecode, sendAddress } from "../../redux/modules/postcodeSlice";
+import {
+  sendZonecode,
+  sendAddress,
+} from "../../redux/modules/postcode/postcodeSlice";
 import {
   sendRegisterModalStatus,
   sendPostingModalStatus,
