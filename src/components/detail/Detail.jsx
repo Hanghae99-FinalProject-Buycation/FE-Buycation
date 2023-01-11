@@ -2,8 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
 import { FaUserCircle } from "react-icons/fa";
-import { RiMore2Line } from "react-icons/ri";
-import { __getDetail } from "../../redux/modules/detailSlice";
+import { __getDetail } from "../../redux/modules/details/detailSlice";
 import detail from "../../db/detailDB.json";
 
 import ButtonBasic from "../elements/ButtonBasic";
@@ -13,20 +12,36 @@ import DetailParagraph from "./DetailParagraph";
 import useBuyLocation from "../../hooks/useBuyLocation";
 import useWindowResize from "../../hooks/useWindowResize";
 import DetailSpan from "./DetailSpan";
+import DetailMoreButton from "./DetailMoreButton";
+import DetailPostingOptionModal from "./DetailPostingOptionModal";
+import DetailCommentModal from "./DetailCommentModal";
+import DetailApplicationList from "./DetailApplicationList";
 
 const Detail = () => {
   const dispatch = useDispatch();
   // const details = useSelector((state) => state.getDetail.getDetail);
   const details = detail.data;
+  const [postingModal, setPostingModal] = useState(false);
+  const [commentModal, setCommentModal] = useState(false);
+  const [applicationModal, setApplicationModal] = useState(false);
+  const onClickPostingModalHandler = () => {
+    setPostingModal(!postingModal);
+  };
+  const onClickCommentModalHandler = () => {
+    setCommentModal(!commentModal);
+  };
+  const onClickApplicationModalHandler = () => {
+    setApplicationModal(!applicationModal);
+  };
   useBuyLocation(details.address);
   // const { getDetail, isLoading, error } = useSelector(
   // (state) => state.getDetail.getDetail
   // );
+  const size = useWindowResize();
   useEffect(() => {
     // param 값?
-    dispatch(__getDetail(1));
+    // dispatch(__getDetail(1));
   }, [dispatch]);
-  const size = useWindowResize();
 
   // if (isLoading) return <div>로딩ㅜㅜ</div>;
 
@@ -35,23 +50,27 @@ const Detail = () => {
   return (
     <StDetailWrap>
       <StDetailForm>
-        <ElImgWrap />
+        <ElImgWrap>
+          <img src={details.image} alt="" />
+        </ElImgWrap>
         <StCreatorProfile>
           <div>
             {/* 프로필 이미지 */}
-            <div></div>
+            <div className="profileWrap">
+              <img src={details.profileImage} alt="" />
+            </div>
             {/* 유저 정보 */}
-            <DetailParagraph
-              spanText={details.nickname}
-              paraText={details.address}
+            <DetailSpan
+              titleText={details.nickname}
+              bodyText={details.address}
+              // color="#a6a6a6"
             />
             {/* {details.address.split(" ", 2)} */}
           </div>
-          <RiMore2Line
-            size="1.875rem"
-            alt="더보기 버튼, 수정삭제 모달 / 글쓴이 발자국 수"
-            onClick={() => {}}
-          />
+          <div className="postingOption">
+            {postingModal && <DetailPostingOptionModal />}
+            <DetailMoreButton onClick={onClickPostingModalHandler} />
+          </div>
         </StCreatorProfile>
         <hr />
         <StContent>
@@ -84,7 +103,7 @@ const Detail = () => {
         <hr />
         <StBuyLocation id="map">🔻{details.address}</StBuyLocation>
         <hr />
-
+        {/* 나중에 닉네임 같은 걸로 분기 수정 */}
         {localStorage.getItem("id") ? (
           <ElApplicationBtn
             height="3.125rem"
@@ -95,57 +114,69 @@ const Detail = () => {
             신청 리스트 보기
           </ElApplicationBtn>
         ) : (
-          <ElApplicationBtn
-            type="submit"
-            height="3.125rem"
-            margin="1.875rem 0"
-            background="#FF5A5F"
-            color="white"
-          >
-            참가 신청 하기
-          </ElApplicationBtn>
+          <ElApplicationWrap>
+            {applicationModal && <DetailApplicationList />}
+            <ElApplicationBtn
+              // type="submit"
+              type="button"
+              height="3.125rem"
+              margin="1.875rem 0"
+              background="#FF5A5F"
+              color="white"
+              _onClick={onClickApplicationModalHandler}
+            >
+              참가 신청 하기
+            </ElApplicationBtn>
+          </ElApplicationWrap>
         )}
-        <StComments>
+        <StComment>
           {/* <span>댓글 {details.comments}</span> */}
           <span>댓글 {details.comments.length}</span>
-          <div>
-            {size.innerWidth > 375 ? (
-              <>
-                <span>내 닉네임</span>
-                <textarea placeholder="댓글을 남겨보세요" />
-              </>
-            ) : (
-              <InputBasic placeholder="댓글을 남겨보세요" />
-            )}
+          {localStorage.getItem("id") ? (
             <div>
-              <ButtonBasic
-                width="4.375rem"
-                height="fit-content"
-                background="#FF5A5F"
-                color="white"
-              >
-                작성
-              </ButtonBasic>
-            </div>
-          </div>
-          {details.comments.map((comment, idx) => (
-            <Fragment key={"frag" + idx}>
-              <div key={comment.nickname[0] + idx}>
-                <span>
-                  {comment.nickname} / {comment.createdAt.split(" ", 1)}
-                  <br />
-                  {comment.content}
-                </span>
-                <RiMore2Line
-                  size="1.875rem"
-                  alt="수정삭제 버튼"
-                  onClick={() => {}}
-                />
+              {size.innerWidth > 375 ? (
+                <>
+                  <span>내 닉네임</span>
+                  <textarea placeholder="댓글을 남겨보세요" />
+                </>
+              ) : (
+                <InputBasic placeholder="댓글을 남겨보세요" />
+              )}
+              <div>
+                <ButtonBasic
+                  width="4.375rem"
+                  height="fit-content"
+                  color="white"
+                >
+                  등록
+                </ButtonBasic>
               </div>
-              <hr key={"hr" + idx} />
-            </Fragment>
-          ))}
-        </StComments>
+            </div>
+          ) : null}
+        </StComment>
+        {details.comments.map((comment, idx) => (
+          <StCommentList key={comment.nickname[0] + idx}>
+            <div>
+              <span>
+                <span>
+                  {comment.nickname}
+                  &nbsp;&nbsp;&nbsp;
+                </span>
+                <span>{comment.createdAt.split(" ", 1)}</span>
+                <p>{comment.content}</p>
+              </span>
+              {comment.nickname === details.nickname ? (
+                <div className="commentOption">
+                  {commentModal && <DetailCommentModal />}
+                  <DetailMoreButton onClick={onClickCommentModalHandler} />
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+            <hr key={"hr" + idx} />
+          </StCommentList>
+        ))}
       </StDetailForm>
     </StDetailWrap>
   );
@@ -158,8 +189,8 @@ const StDetailWrap = styled.div`
   flex-direction: column;
   padding: 0 1rem;
   hr {
-    background: #d9d9d9;
-    height: 1px;
+    background: ${({ theme }) => theme.colors.grayWeak};
+    height: 0.1rem;
     max-width: 57.5rem;
     border: 0;
   }
@@ -177,40 +208,56 @@ const StDetailForm = styled.form`
   max-width: 57.5rem;
   width: 100%;
   height: 100%;
-  div {
+  hr {
     margin: 1.875rem 0;
   }
 `;
 
 const ElImgWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 32rem;
-  /* max-height: 100%; */
-  /* background: no-repeat center/100% url({details.image}); */
-  background: no-repeat center/100%
-    url("https://upload.wikimedia.org/wikipedia/commons/2/20/Korean_fried_chicken_3_banban.jpg");
-  background-size: cover;
+  margin: 1.875rem 0;
+  img {
+    flex-shrink: 0;
+    min-width: 100%;
+    min-height: 100%;
+  }
 `;
 
 const StCreatorProfile = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   height: 5rem;
   div:first-of-type {
     display: flex;
     flex-direction: row;
     align-items: center;
   }
-  /* 프로필 이미지 */
-  div > div:first-of-type {
-    width: 5rem;
-    height: 5rem;
+  /* 프로필 이미지 래퍼 */
+  .profileWrap {
+    width: 3.725rem;
+    height: 3.725rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-right: 1.25rem;
     border-radius: 5rem;
-    /* background: no-repeat center/100% url({details.profileImage}); */
-    background: no-repeat center/100%
-      url("https://i.pinimg.com/originals/37/80/ef/3780efe711f929f635de995d3a97c34b.jpg");
-    background-size: cover;
+    overflow: hidden;
+  }
+
+  /* 프로필 이미지 */
+  .profileWrap img {
+    flex-shrink: 0;
+    width: 100%;
+    min-height: 100%;
+  }
+
+  .postingOption {
+    position: relative;
   }
 `;
 
@@ -245,11 +292,15 @@ const StBuyLocation = styled.div`
   border-radius: 0.5rem;
 `;
 
+const ElApplicationWrap = styled.div`
+  position: relative;
+`;
+
 const ElApplicationBtn = styled(ButtonBasic)`
   height: 5.25rem;
 `;
 
-const StComments = styled.div`
+const StComment = styled.div`
   div:first-of-type {
     display: flex;
     flex-direction: column;
@@ -273,14 +324,25 @@ const StComments = styled.div`
       justify-content: flex-end;
     }
   }
-  /* 댓글 카드 */
+`;
+
+const StCommentList = styled.div`
   div {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+  }
+  span > span {
+    display: inline-block;
+    margin-bottom: ${({ theme }) => theme.lineHeight.perSpan};
+  }
 
-    button {
-      cursor: pointer;
-    }
+  span > span:nth-of-type(2) {
+    color: ${({ theme }) => theme.colors.grayMid};
+  }
+
+  .commentOption {
+    position: relative;
   }
 `;
