@@ -26,7 +26,7 @@ export const __getPostingList = createAsyncThunk(
 export const __getSearch = createAsyncThunk(
   "search/get",
   async (payload, thunkAPI) => {
-    console.log("payload", payload);
+    console.log("페이로드 값 :", payload);
     try {
       const { data } = await baseURL.get(
         `posting/seach?serch=${payload.serch}&category=${payload.category}&sort=${payload.sort}`
