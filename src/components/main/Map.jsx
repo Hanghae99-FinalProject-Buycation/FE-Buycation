@@ -7,8 +7,6 @@ const Map = () => {
   const onGetCoordsData = useSelector((data) => data.getPostingList.getCoords);
   const coordsX = Number(onGetCoordsData.coordsX);
   const coordsY = Number(onGetCoordsData.coordsY);
-  // console.log("x좌표 :", coordsX);
-  // console.log("y좌표 :", coordsY);
 
   //함수형 컴포넌트에서는 kakao script를 인지하지 못함
   //따라서 아래와 같이 스트립트는 window 전역 객체에 들어가 있기 때문에 window에서 객체를 뽑아서 사용
