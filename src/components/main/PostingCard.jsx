@@ -15,7 +15,6 @@ const PostingCard = ({
   onShowMarker,
 }) => {
   const editAddress = (address) => {
-    console.log(address);
     return address.split(" ", 3);
   };
 
@@ -32,7 +31,7 @@ const PostingCard = ({
             <p>
               <FaUser size="11px" /> {currentMembers}/{totalMembers}
             </p>
-            <p>~{dueData} 모집</p>
+            <p>{dueData} 까지 모집</p>
             <p>
               {perBudget} <span>(1인당 예산 금액)</span>
             </p>
@@ -54,7 +53,6 @@ const CardWrap = styled.div`
   justify-content: center;
   border-top: 1px solid ${({ theme }) => theme.colors.grayList};
 `;
-
 const CardBox = styled.div`
   width: 100%;
   height: 100%;
@@ -63,7 +61,6 @@ const CardBox = styled.div`
   justify-content: center;
   gap: 1rem;
 `;
-
 const ContentsBox = styled.div`
   width: 100%;
   display: flex;
