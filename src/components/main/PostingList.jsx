@@ -7,46 +7,43 @@ import PostingCard from "./PostingCard";
 import { useDispatch, useSelector } from "react-redux";
 import {
   __getPostingList,
-  __getSearch,
   __getCoords,
-} from "../../redux/modules/postingListSlice";
+} from "../../redux/modules/main/postingListSlice";
 //더미 데이터 사용
-import dummy from "../../db/mainDB.json";
+// import dummy from "../../db/mainDB.json";
 
 const PostingList = () => {
   const nagivate = useNavigate();
   const dispatch = useDispatch();
   const postingList = useSelector((data) => data.getPostingList.getPostingList);
-  //console.log(postingList);
-  const [search, setSearch] = useState({
+  //console.log("postingList", postingList);
+  const [searchValue, setSearchValue] = useState({
     search: "",
     category: "",
     sort: "",
   });
 
   useEffect(() => {
-    dispatch(__getPostingList());
-    dispatch(__getSearch());
-  }, [dispatch]);
+    dispatch(__getPostingList(searchValue));
+  }, [dispatch, searchValue]);
 
   const onKeyupSearchHandler = (event) => {
     if (event.key === "Enter") {
       const keyword = event.target.value;
-      setSearch({ ...search, search: keyword });
-      dispatch(__getSearch({ ...search, search: keyword }));
+      setSearchValue({ ...searchValue, search: keyword });
+      dispatch(__getPostingList({ ...searchValue, search: keyword }));
     }
   };
   const onChangeCategoryHandler = (event) => {
     const categoryName = event.target.value;
-    setSearch({ ...search, category: categoryName });
-    dispatch(__getSearch({ ...search, category: categoryName }));
+    setSearchValue({ ...searchValue, category: categoryName });
+    dispatch(__getPostingList({ ...searchValue, category: categoryName }));
   };
   const onChangeSortHandler = (event) => {
     const sortName = event.target.value;
-    setSearch({ ...search, sort: sortName });
-    dispatch(__getSearch({ ...search, sort: sortName }));
+    setSearchValue({ ...searchValue, sort: sortName });
+    dispatch(__getPostingList({ ...searchValue, sort: sortName }));
   };
-  console.log("상태값 :", search);
 
   //해당 게시글 클릭 시 좌표 값
   const onClickCardHandler = (coordsX, coordsY) => {
@@ -86,7 +83,7 @@ const PostingList = () => {
         </SelectBox>
       </SearchBox>
 
-      {dummy.data.map((item) => (
+      {postingList.map((item) => (
         <PostingCard
           key={item.postingId}
           postingId={item.postingId}
@@ -98,7 +95,7 @@ const PostingList = () => {
           dueData={item.dueDate}
           perBudget={item.perBudget}
           image={item.image}
-          onShowMarker={() => onClickCardHandler(item.x, item.y)}
+          onShowMarker={() => onClickCardHandler(item.coordsX, item.coordsY)}
         />
       ))}
     </Section>

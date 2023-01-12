@@ -5,7 +5,7 @@ import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
 import { FaLink } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { __postPosting } from "../../redux/modules/postingSlice";
+import { __postPosting } from "../../redux/modules/posting/postingSlice";
 import { sendRegisterModalStatus } from "../../redux/modules/postcode/postcodeModalSlice";
 import Postcode from "../postcode/Postcode";
 import usePostcode from "../../hooks/usePostcode";

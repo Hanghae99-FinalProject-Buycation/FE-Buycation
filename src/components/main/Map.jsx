@@ -1,33 +1,54 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { __getPostingList } from "../../redux/modules/main/postingListSlice";
 //더미 데이터 사용
 import dummy from "../../db/mainDB.json";
 
 const Map = () => {
+  const dispatch = useDispatch();
+  const postingList = useSelector((data) => data.getPostingList.getPostingList);
+  const [list, setList] = useState(postingList);
+  //해당 게시글 클릭 시 좌표 값
   const onGetCoordsData = useSelector((data) => data.getPostingList.getCoords);
   const coordsX = Number(onGetCoordsData.coordsX);
   const coordsY = Number(onGetCoordsData.coordsY);
 
-  //함수형 컴포넌트에서는 kakao script를 인지하지 못함
-  //따라서 아래와 같이 스트립트는 window 전역 객체에 들어가 있기 때문에 window에서 객체를 뽑아서 사용
-  const { kakao } = window;
+  useEffect(() => {
+    dispatch(
+      __getPostingList({
+        search: "",
+        category: "",
+        sort: "",
+      })
+    );
+    kakaoMap();
+  }, [dispatch]);
 
   useEffect(() => {
+    setList(postingList);
     kakaoMap();
   }, [coordsX, coordsY]);
+
+  //함수형 컴포넌트에서는 kakao script를 인지하지 못함 window 전역 객체에 들어가 있기에 객체를 뽑아서 사용
+  const { kakao } = window;
 
   const kakaoMap = () => {
     const container = document.getElementById("map"); //지도를 표시할 div
     const options = {
-      center: new kakao.maps.LatLng(dummy.data[3].y, dummy.data[3].x), //지도 중심좌표 (세팅:더큰내일센터)
+      center: new kakao.maps.LatLng(
+        dummy.data[3].coordsY,
+        dummy.data[3].coordsX
+      ), //지도 중심좌표
       lever: 3, //지도 확대 레벨
     };
     //지도 생성
     const map = new kakao.maps.Map(container, options);
 
-    dummy.data.forEach((el) => {
-      const position = { latlng: new kakao.maps.LatLng(el.y, el.x) };
-      //console.log("각 마커의 position", position);
+    postingList.forEach((el) => {
+      const position = {
+        latlng: new kakao.maps.LatLng(el.coordsY, el.coordsX),
+      };
+      console.log("각 마커의 position", position);
 
       //결과 값으로 받은 위치를 마커로 표시
       const marker = new kakao.maps.Marker({
@@ -45,10 +66,7 @@ const Map = () => {
     });
   };
 
-  return (
-    //id를 통해서 div태그를 읽음
-    <div id="map" style={{ gridArea: "map" }}></div>
-  );
+  return <div id="map" style={{ gridArea: "map" }}></div>;
 };
 
 export default Map;

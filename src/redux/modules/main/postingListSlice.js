@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { baseURL } from "../../core/axios";
+import { baseURL } from "../../../core/axios";
 
 const initialState = {
   getPostingList: [],
@@ -8,30 +8,16 @@ const initialState = {
   error: null,
 };
 
-//전체 리스트
+//전체 리스트 & 검색기능
 export const __getPostingList = createAsyncThunk(
-  "postingList/get",
-  async (payload, thunkAPI) => {
-    try {
-      const { data } = await baseURL.get(`posting`);
-      console.log("data", data.data);
-      return thunkAPI.fulfillWithValue(data.data);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
-// //검색기능
-export const __getSearch = createAsyncThunk(
   "search/get",
   async (payload, thunkAPI) => {
-    console.log("페이로드 값 :", payload);
+    //console.log("페이로드 값 :", payload);
     try {
       const { data } = await baseURL.get(
-        `posting/seach?serch=${payload.serch}&category=${payload.category}&sort=${payload.sort}`
+        `posting?search=${payload.search}&category=${payload.category}&sort=${payload.sort}`
       );
-      console.log("data", data.data);
+      //console.log("data", data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
