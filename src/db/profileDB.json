@@ -1,0 +1,20 @@
+{
+  "data": [
+    {
+      "nickname": "하얀천사",
+      "profileImage": "https://cdn.imweb.me/upload/S2020020306340f9e8280d/cfd0a45993a4a.jpg",
+      "userScore": 4,
+      "reviewCount": 2,
+      "reviewList": [
+        {
+          "userScore": 8,
+          "createAt": "2022.0.0 00:00"
+        },
+        {
+          "userScore": 5,
+          "createAt": "2022.0.0 00:00"
+        }
+      ]
+    }
+  ]
+}

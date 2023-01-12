@@ -70,36 +70,36 @@ const ContentsBox = styled.div`
   align-items: center;
   gap: 1rem;
 
-  & > img {
+  img {
     width: 6.5rem;
     height: 6.5rem;
     border-radius: 8px;
   }
 
-  & > article {
+  article {
     width: auto;
     height: auto;
     display: flex;
     flex-direction: column;
     gap: 4px;
 
-    & p:nth-child(1) {
+    p:nth-of-type(1) {
       font-size: ${({ theme }) => theme.fontSize.sm};
     }
-    & p:nth-child(2) {
+    p:nth-of-type(2) {
       font-weight: 600;
     }
-    & p:nth-child(3) {
+    p:nth-of-type(3) {
       font-size: ${({ theme }) => theme.fontSize.sm};
     }
-    & p:nth-child(4) {
+    p:nth-of-type(4) {
       font-size: ${({ theme }) => theme.fontSize.sm};
     }
-    & p:nth-child(5) {
+    p:nth-of-type(5) {
       font-weight: 600;
     }
 
-    & span {
+    span {
       color: ${({ theme }) => theme.colors.grayMid};
       font-size: ${({ theme }) => theme.fontSize.xs};
       font-weight: 400;

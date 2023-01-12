@@ -117,7 +117,7 @@ const Posting = () => {
         <p>공구 글쓰기</p>
         <PostingForm>
           <LeftDivForm>
-            <SelectInput name="category" _onChange={onChangeValueHandler}>
+            <SelectInput name="category" onChange={onChangeValueHandler}>
               <option value="">카테고리를 선택해 주세요.</option>
               {selectCategory.map((option, index) => (
                 <option key={index}>{option}</option>
@@ -210,14 +210,7 @@ const Posting = () => {
             </SelectInputForm>
             <ButtonForm>
               <ButtonBasic _onClick={onClickSubmitHandler}>등록</ButtonBasic>
-              <ButtonBasic
-                background="transparent"
-                color="#939393"
-                border="1px solid #939393"
-                _onClick={onClickCloseHandler}
-              >
-                닫기
-              </ButtonBasic>
+              <ButtonBasic _onClick={onClickCloseHandler}>닫기</ButtonBasic>
             </ButtonForm>
           </RightDivForm>
         </PostingForm>
@@ -238,7 +231,7 @@ const Wrap = styled.div`
 const Container = styled.div`
   width: 1392px;
   height: 100%;
-  & > p {
+  p {
     font-size: ${({ theme }) => theme.fontSize.xl};
     font-weight: 600;
     padding-bottom: 2rem;
@@ -302,7 +295,7 @@ const FileInput = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  & > input {
+  input {
     width: 100%;
     background: none;
     color: ${({ theme }) => theme.colors.grayMid};
@@ -328,7 +321,7 @@ const SelectInputForm = styled.div`
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  & > label {
+  label {
     margin: 24px 0 8px 0;
   }
   & > span {
@@ -348,4 +341,9 @@ const ButtonForm = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  button:nth-of-type(2) {
+    background: transparent;
+    color: ${({ theme }) => theme.colors.grayStrong};
+    border: 1px solid ${({ theme }) => theme.colors.grayStrong};
+  }
 `;

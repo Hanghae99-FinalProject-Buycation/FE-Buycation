@@ -92,7 +92,7 @@ const Header = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  & > p {
+  p {
     font-size: ${({ theme }) => theme.fontSize.xl};
     font-weight: 600;
     margin: auto;

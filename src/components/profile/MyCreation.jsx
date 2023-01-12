@@ -24,21 +24,11 @@ const MyCreation = () => {
               <FaMapMarkerAlt size="11px" /> 위치
             </p>
             <p> 맛있는 치킨 나눠먹어요</p>
-            <p>2023.1.1 13:00분 까지 모집</p>
+            <p>2023-1-1 13:00 까지 모집</p>
             <p>
               <FaUser size="11px" /> 3/5
             </p>
-            <ButtonBasic
-              width="5rem"
-              height="2rem"
-              background="inherit"
-              border="1px solid #FF5A5F"
-              color={({ theme }) => theme.colors.main}
-              fontSize={({ theme }) => theme.fontSize.xs}
-              _onClick={onClickReviewHandler}
-            >
-              후기 작성
-            </ButtonBasic>
+            <ButtonBasic _onClick={onClickReviewHandler}>후기 작성</ButtonBasic>
           </Contents>
         </Box>
       </ContentsBox>
@@ -61,7 +51,6 @@ const ContentsBox = styled.div`
     padding: 0 1rem;
   }
 `;
-
 const Box = styled.div`
   height: 100%;
   display: flex;
@@ -71,7 +60,6 @@ const Box = styled.div`
     gap: 1rem;
   }
 `;
-
 const Image = styled.img`
   width: 12rem;
   height: 12rem;
@@ -81,23 +69,31 @@ const Image = styled.img`
     height: 8rem;
   }
 `;
-
 const Contents = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
 
-  & > p:nth-child(1) {
+  p:nth-of-type(1) {
     font-size: ${({ theme }) => theme.fontSize.sm};
   }
-  & > p:nth-child(2) {
+  p:nth-of-type(2) {
     font-weight: 600;
   }
-  & > p:nth-child(3) {
+  p:nth-of-type(3) {
     font-size: ${({ theme }) => theme.fontSize.sm};
   }
-  & > p:nth-child(4) {
+  p:nth-of-type(4) {
     font-size: ${({ theme }) => theme.fontSize.sm};
+  }
+
+  button {
+    width: 5rem;
+    height: 2rem;
+    background: inherit;
+    border: 1px solid #ff5a5f;
+    color: ${({ theme }) => theme.colors.main};
+    font-size: ${({ theme }) => theme.fontSize.xs};
   }
 
   @media screen and (max-width: 768px) {
