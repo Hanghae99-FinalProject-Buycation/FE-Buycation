@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import ButtonBasic from "../elements/ButtonBasic";
 import SignupConditions from "../register/SignupConditions";
 import Postcode from "../postcode/Postcode";
-import { formContents } from "./formContents";
+import { signupContents } from "./signupContents";
 import { __postSignup } from "../../redux/modules/login/signupSlice";
 import { sendRegisterModalStatus } from "../../redux/modules/postcode/postcodeModalSlice";
 import usePostcode from "../../hooks/usePostcode";
@@ -53,7 +53,7 @@ const Signup = () => {
       </StTitleWrap>
       <StSignupWrap>
         <Postcode hidden={!postcodeModalStatus} />
-        {formContents.map((item) => (
+        {signupContents.map((item) => (
           <SignupPiece
             key={item.id}
             item={item}

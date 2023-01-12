@@ -1,4 +1,4 @@
-export const formContents = [
+export const signupContents = [
   {
     id: 1,
     title: "· 이메일*",
@@ -24,7 +24,7 @@ export const formContents = [
     title: "· 인증번호 확인*",
     type: "number",
     name: "auth",
-    required: "required",
+    required: "",
     placeholder: "제한시간 10분",
     btnText: "확인",
     gridTemplateAreas: `"elSpan elInput elBtn ."`,
@@ -53,8 +53,8 @@ export const formContents = [
     id: 6,
     title: "· 비밀번호 확인*",
     type: "password",
-    name: "password",
-    required: "required",
+    name: "",
+    required: "",
     placeholder: "비밀번호 확인",
     btnText: "",
     gridTemplateAreas: `"elSpan elInput . ."`,
