@@ -24,7 +24,6 @@ const SignIn = () => {
   &redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   const onClickKakaoHandler = (event) => {
-    console.log("?");
     window.location.href = KAKAO_AUTH_URL;
   };
 
@@ -172,11 +171,11 @@ const OrTxt = styled.span`
 `;
 const LinkDiv = styled.div`
   text-align: center;
-  & > a {
+  a {
     font-size: ${({ theme }) => theme.fontSize.sm};
     color: ${({ theme }) => theme.colors.black};
   }
-  & span {
+  span {
     font-weight: 600;
   }
 `;

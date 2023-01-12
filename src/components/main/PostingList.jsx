@@ -133,7 +133,7 @@ const SearchKeyword = styled.div`
   align-items: center;
   gap: 2px;
   padding: 1rem;
-  & > input {
+  input {
     width: 100%;
     background: none;
   }

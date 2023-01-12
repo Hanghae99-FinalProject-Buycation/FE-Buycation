@@ -18,16 +18,7 @@ const EditProfileModal = (props) => {
         <ContentsBox>
           <Item>
             <label>닉네임 변경</label>
-            <ButtonBasic
-              width="5rem"
-              height="2rem"
-              background="inherit"
-              border="1px solid #FF5A5F"
-              color={({ theme }) => theme.colors.main}
-              fontSize={({ theme }) => theme.fontSize.xs}
-            >
-              중복 체크
-            </ButtonBasic>
+            <ButtonBasic>중복 체크</ButtonBasic>
           </Item>
           <InputBasic name="nickname" height="2rem" />
 
@@ -39,16 +30,7 @@ const EditProfileModal = (props) => {
 
           <Item>
             <label>주소 변경</label>
-            <ButtonBasic
-              width="5rem"
-              height="2rem"
-              background="inherit"
-              border="1px solid #FF5A5F"
-              color={({ theme }) => theme.colors.main}
-              fontSize={({ theme }) => theme.fontSize.xs}
-            >
-              주소 찾기
-            </ButtonBasic>
+            <ButtonBasic>주소 찾기</ButtonBasic>
           </Item>
           <InputBasic name="address" height="2rem" />
 
@@ -72,7 +54,6 @@ const Backdrop = styled.div`
   z-index: 1;
   background: rgba(0, 0, 0, 0.75);
 `;
-
 const ModalCard = styled.div`
   position: fixed;
   margin: auto;
@@ -87,37 +68,40 @@ const ModalCard = styled.div`
     width: 100%;
   }
 `;
-
 const Header = styled.header`
   padding: 1rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grayStrong};
   display: flex;
   justify-content: space-between;
   align-items: center;
-  & > p {
+  p {
     font-size: ${({ theme }) => theme.fontSize.xl};
     margin: auto;
   }
 `;
-
 const CloseBtn = styled.button`
   background: none;
   cursor: pointer;
 `;
-
 const ContentsBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
   padding: 1rem;
 `;
-
 const Item = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  button {
+    width: 5rem;
+    height: 2rem;
+    background: inherit;
+    border: 1px solid #ff5a5f;
+    color: ${({ theme }) => theme.colors.main};
+    font-size: ${({ theme }) => theme.fontSize.xs};
+  }
 `;
-
 const FileInput = styled.div`
   height: 2rem;
   border: 1px solid ${({ theme }) => theme.colors.grayWeak};
@@ -126,7 +110,7 @@ const FileInput = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  & > input {
+  input {
     width: 100%;
     background: none;
     color: ${({ theme }) => theme.colors.grayMid};

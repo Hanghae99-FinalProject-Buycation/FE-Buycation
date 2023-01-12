@@ -26,14 +26,14 @@ const ContentsBox = styled.div`
   justify-content: center;
   gap: 1rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grayWeak};
-  & > img {
+  img {
     width: 194px;
     height: 39px;
   }
   @media screen and (max-width: 768px) {
     height: 6rem;
     padding: 1rem;
-    & > img {
+    img {
       width: 90px;
       height: 20px;
     }
@@ -44,7 +44,7 @@ const ProfileInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  & > p:nth-child(2) {
+  p:nth-of-type(2) {
     font-size: ${({ theme }) => theme.fontSize.xs};
     color: ${({ theme }) => theme.colors.grayMid};
   }
