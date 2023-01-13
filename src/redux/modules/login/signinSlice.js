@@ -15,6 +15,7 @@ export const __postSignin = createAsyncThunk(
       const data = await baseURL.post(`members/login`, payload);
       console.log("data", data);
       localStorage.setItem("id", data.headers.authorization);
+      localStorage.setItem("memberId", data.data.data.memberId);
       alert(data.data.msg);
       return thunkAPI.fulfillWithValue(data.data.msg);
     } catch (error) {

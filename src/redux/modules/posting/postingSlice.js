@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { baseURLwToken } from "../../core/axios";
+import { baseURLwToken } from "../../../core/axios";
 
 const initialState = {
   postPosting: [],
