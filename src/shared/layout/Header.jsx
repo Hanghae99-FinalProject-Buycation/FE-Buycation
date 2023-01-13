@@ -1,13 +1,14 @@
 import styled from "@emotion/styled";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import posting from "../../assets/posting.svg";
-import chatting from "../../assets/chatting.svg";
-import alarm from "../../assets/alarm.svg";
-import myprofile from "../../assets/myprofile.svg";
+import postingIcon from "../../assets/postingIcon.svg";
+import chattingIcon from "../../assets/chattingIcon.svg";
+import alarmIcon from "../../assets/alarmIcon.svg";
+import profileIcon from "../../assets/profileIcon.svg";
 
 const Header = () => {
   const navigate = useNavigate();
+
   const onMovePostingHandler = () => {
     navigate("/posting");
   };
@@ -19,10 +20,10 @@ const Header = () => {
     <HeaderDiv>
       <Link to={"/"}>바이케이션</Link>
       <Icon>
-        <img src={posting} onClick={onMovePostingHandler} />
-        <img src={chatting} />
-        <img src={alarm} />
-        <img src={myprofile} onClick={onMoveProfileHandler} />
+        <img alt="posting" src={postingIcon} onClick={onMovePostingHandler} />
+        <img alt="chatting" src={chattingIcon} />
+        <img alt="alarm" src={alarmIcon} />
+        <img alt="profile" src={profileIcon} onClick={onMoveProfileHandler} />
       </Icon>
     </HeaderDiv>
   );

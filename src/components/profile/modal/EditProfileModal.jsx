@@ -1,15 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { FaTimes, FaLink } from "react-icons/fa";
 import InputBasic from "../../elements/InputBasic";
 import ButtonBasic from "../../elements/ButtonBasic";
+import { useDispatch, useSelector } from "react-redux";
+import { __patchProfile } from "../../../redux/modules/profile/profileSlice";
+import { sendRegisterModalStatus } from "../../../redux/modules/postcode/postcodeModalSlice";
+import Postcode from "../../postcode/Postcode";
+import usePostcode from "../../../hooks/usePostcode";
+import { uploadImg } from "../../../utils/uploadImg";
 
 const EditProfileModal = (props) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [editValue, setEditValue] = useState({
     nickname: "",
     address: "",
   });
-  const [imageFile, setImageFile] = useState(null);
+  const [imageFile, setImageFile] = useState("");
+  const postcodeModalStatus = useSelector(
+    (state) => state.postcodeModal.openRegisterModal
+  );
+  const { address } = usePostcode();
+
+  useEffect(() => {
+    setEditValue({
+      ...editValue,
+      address: address,
+    });
+  }, [address]);
+
+  const onClickPostcodeHandler = () => {
+    dispatch(sendRegisterModalStatus(true));
+  };
+
+  const onChangeFileInputHandler = (e) => {
+    setImageFile(e.target.files[0]);
+    uploadImg(e.target.files[0])
+      .then((data) => {})
+      .catch((err) => {
+        console.log("에러");
+      });
+  };
 
   const onChangeValueHandler = (event) => {
     const { name, value } = event.target;
@@ -18,10 +51,21 @@ const EditProfileModal = (props) => {
       [name]: value,
     });
   };
-  console.log("입력값확인:", editValue);
+
+  const onClickEditHandler = () => {
+    const newPatchData = {
+      nickname: editValue.nickname,
+      profileImage: imageFile,
+      address: editValue.address,
+    };
+    dispatch(__patchProfile(newPatchData));
+    navigate("/profile");
+    console.log(newPatchData);
+  };
 
   return (
     <Backdrop>
+      <Postcode hidden={!postcodeModalStatus} />
       <ModalCard>
         <Header>
           <p>프로필 수정</p>
@@ -40,20 +84,27 @@ const EditProfileModal = (props) => {
             height="2rem"
             _onChange={onChangeValueHandler}
           />
-
           <label>프로필 변경</label>
           <FileInput>
-            <input type="file" name="image" />
+            <input
+              type="file"
+              name="image"
+              onChange={onChangeFileInputHandler}
+            />
             <FaLink />
           </FileInput>
-
           <Item>
             <label>주소 변경</label>
-            <ButtonBasic>주소 찾기</ButtonBasic>
+            <ButtonBasic _onClick={onClickPostcodeHandler}>
+              주소 찾기
+            </ButtonBasic>
           </Item>
-          <InputBasic name="address" height="2rem" />
-
-          <ButtonBasic margin="10px 0" height="2.5rem">
+          <InputBasic name="address" height="2rem" value={editValue.address} />
+          <ButtonBasic
+            margin="10px 0"
+            height="2.5rem"
+            _onClick={() => onClickEditHandler(props.onClose)}
+          >
             수정
           </ButtonBasic>
         </ContentsBox>
