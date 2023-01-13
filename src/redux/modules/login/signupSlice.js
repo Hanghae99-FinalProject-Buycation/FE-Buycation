@@ -3,16 +3,43 @@ import { baseURL } from "../../../core/axios";
 
 const initialState = {
   postSignup: {},
+  getEmailValidation: "",
   isLoading: false,
   error: null,
 };
+
+export const __getEmailValidation = createAsyncThunk(
+  "signup/email",
+  async (payload, thunkAPI) => {
+    try {
+      const { data } = await baseURL.get(
+        `members/signup/email?email=${payload}`
+      );
+      return thunkAPI.fulfillWithValue(data);
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+export const __getNicknameDouble = createAsyncThunk(
+  "signup/nickname",
+  async (payload, thunkAPI) => {
+    try {
+      const { data } = await baseURL.get(`members/signup?nickname=${payload}`);
+      alert(data.msg);
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
 
 export const __postSignup = createAsyncThunk(
   "signup/post",
   async (payload, thunkAPI) => {
     try {
       const { data } = await baseURL.post(`members/signup`, payload);
-      console.log("data :", data);
       return thunkAPI.fulfillWithValue(data);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -23,33 +50,27 @@ export const __postSignup = createAsyncThunk(
 export const signupSlice = createSlice({
   name: "postSignup",
   initialState,
-  reducers: {
-    addSignup: (state, action) => {
-      baseURL.post(`members/signup`, action.signupForm);
-      state.postSignup = state.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(__postSignup.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(__postSignup.fulfilled, (state, action) => {
-        console.log(action.payload);
-        console.log("action", action);
         state.isLoading = false;
         const datas = action.payload;
-        console.log(datas);
         state.postSignup = datas;
       })
       .addCase(__postSignup.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
-        // console.log(action);
-        // console.log(state.error);
+      })
+      .addCase(__getEmailValidation.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.getEmailValidation = action.payload;
       });
   },
 });
 
-export const { postSignup } = signupSlice.actions;
+export const { postSignup, getEmailValidation } = signupSlice.actions;
 export default signupSlice.reducer;
