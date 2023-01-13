@@ -9,22 +9,28 @@ import { __postSignup } from "../../redux/modules/login/signupSlice";
 import { sendRegisterModalStatus } from "../../redux/modules/postcode/postcodeModalSlice";
 import usePostcode from "../../hooks/usePostcode";
 import SignupPiece from "./SignupPiece";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [signupForm, setSignupForm] = useState({
     email: "",
     password: "",
     nickname: "",
     address: "",
-    // passwordCheck: "",
-    // addressNum: "",
-    // addressDetail: "",
+    addressDetail: "", //삭제 예정
   });
+  const [compare, setCompare] = useState({
+    passwordCheck: "",
+    emailValidation: "",
+  });
+
+  const emailCode = useSelector((state) => state.postSignup.getEmailValidation);
   const postcodeModalStatus = useSelector(
     (state) => state.postcodeModal.openRegisterModal
   );
-  const findPostcode = usePostcode();
+  const { address } = usePostcode();
 
   const onClickPostcodeHandler = () => {
     dispatch(sendRegisterModalStatus(true));
@@ -33,12 +39,23 @@ const Signup = () => {
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
     setSignupForm({ ...signupForm, [name]: value });
-    console.log(signupForm);
+  };
+  const onChangeCompareHandler = (e) => {
+    const { name, value } = e.target;
+    setCompare({ ...compare, [name]: value });
   };
   const signupHandler = (e) => {
-    dispatch(__postSignup(signupForm));
+    e.preventDefault();
+    if (emailCode !== compare.emailValidation) {
+      alert("인증번호를 확인해주세요");
+    } else {
+      dispatch(__postSignup(signupForm));
+      // alert("회원가입 성공");
+      // navigate("/login");
+    }
   };
 
+  // d.evryan.kwon@gmail.com
   useEffect(() => {}, [dispatch]);
   return (
     <StSignupForm
@@ -58,8 +75,12 @@ const Signup = () => {
             key={item.id}
             item={item}
             onChangeHandler={onChangeHandler}
+            onChangeCompareHandler={onChangeCompareHandler}
             onClickPostcodeHandler={onClickPostcodeHandler}
-            value={findPostcode.address}
+            signupForm={signupForm}
+            compare={compare}
+            emailCode={emailCode}
+            value={address}
           />
         ))}
       </StSignupWrap>
