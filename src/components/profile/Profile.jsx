@@ -23,7 +23,7 @@ const Profile = () => {
       <Container>
         <MyProfile />
         <TagBtnDiv>
-          <Button onClick={onClickStarBtnHandler}>나의 평점 내역</Button>
+          <Button onClick={onClickStarBtnHandler}>나의 평점 </Button>
           <Button onClick={onClickGuestBtnHandler}>참여한 공구</Button>
           <Button onClick={onClickOwnerBtnHandler}>오픈한 공구</Button>
         </TagBtnDiv>
