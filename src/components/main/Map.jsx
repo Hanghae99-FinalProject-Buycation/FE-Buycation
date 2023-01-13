@@ -1,33 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { __getPostingList } from "../../redux/modules/main/postingListSlice";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 //더미 데이터 사용
-import dummy from "../../db/mainDB.json";
+//import dummy from "../../db/mainDB.json";
 
 const Map = () => {
-  const dispatch = useDispatch();
   const postingList = useSelector((data) => data.getPostingList.getPostingList);
-  const [list, setList] = useState(postingList);
+  //console.log("게시글 리스트", postingList);
   //해당 게시글 클릭 시 좌표 값
   const onGetCoordsData = useSelector((data) => data.getPostingList.getCoords);
   const coordsX = Number(onGetCoordsData.coordsX);
   const coordsY = Number(onGetCoordsData.coordsY);
 
   useEffect(() => {
-    dispatch(
-      __getPostingList({
-        search: "",
-        category: "",
-        sort: "",
-      })
-    );
     kakaoMap();
-  }, [dispatch]);
-
-  useEffect(() => {
-    setList(postingList);
-    kakaoMap();
-  }, [coordsX, coordsY]);
+  }, [coordsX, coordsY, postingList]);
 
   //함수형 컴포넌트에서는 kakao script를 인지하지 못함 window 전역 객체에 들어가 있기에 객체를 뽑아서 사용
   const { kakao } = window;
@@ -36,8 +22,8 @@ const Map = () => {
     const container = document.getElementById("map"); //지도를 표시할 div
     const options = {
       center: new kakao.maps.LatLng(
-        dummy.data[3].coordsY,
-        dummy.data[3].coordsX
+        postingList[0]?.coordsY,
+        postingList[0]?.coordsX
       ), //지도 중심좌표
       lever: 3, //지도 확대 레벨
     };
@@ -48,7 +34,7 @@ const Map = () => {
       const position = {
         latlng: new kakao.maps.LatLng(el.coordsY, el.coordsX),
       };
-      console.log("각 마커의 position", position);
+      //console.log("각 마커의 position", position);
 
       //결과 값으로 받은 위치를 마커로 표시
       const marker = new kakao.maps.Marker({

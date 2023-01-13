@@ -9,6 +9,7 @@ import dummy from "../../db/profileDB.json";
 const MyProfile = () => {
   console.log(dummy);
   const [editProfileModal, setEditProfileModal] = useState(false);
+
   const onClickEditHandler = () => {
     setEditProfileModal(true);
   };
