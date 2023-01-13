@@ -1,14 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import ButtonBasic from "../elements/ButtonBasic";
 import EditProfileModal from "./modal/EditProfileModal";
 import footer from "../../assets/footer.svg";
+import profile_default from "../../assets/profile_default.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { __getProfile } from "../../redux/modules/profile/profileSlice";
 //더미 데이터
-import dummy from "../../db/profileDB.json";
+//import dummy from "../../db/profileDB.json";
 
 const MyProfile = () => {
-  console.log(dummy.data);
+  const dispatch = useDispatch();
   const [editProfileModal, setEditProfileModal] = useState(false);
+  const profileData = useSelector((data) => data.profile.getProfile);
+  //console.log("profileData", profileData);
+
+  useEffect(() => {
+    dispatch(__getProfile());
+  }, [dispatch]);
 
   const onClickEditHandler = () => {
     setEditProfileModal(true);
@@ -24,12 +33,19 @@ const MyProfile = () => {
       ) : null}
       <Profile>
         <Box>
-          {/* https://cdn.imweb.me/upload/S2020020306340f9e8280d/cfd0a45993a4a.jpg */}
-          <Image src={dummy.data[0].profileImage} />
+          <ProfileImage
+            alt="profileImage"
+            src={
+              profileData.profileImage === null
+                ? profile_default
+                : profileData.profileImage
+            }
+          />
           <div>
-            <span>{dummy.data[0].nickname}</span>
+            <span>{profileData.nickname}</span>
             <p>
-              <img src={footer} /> 발자국 평균 점수 {dummy.data[0].userScore}점
+              <img alt="review" src={footer} /> 발자국 평균 점수{" "}
+              {profileData.userScore}점
             </p>
           </div>
         </Box>
@@ -70,7 +86,7 @@ const Box = styled.div`
     margin: 8px 5px 0 0;
   }
 `;
-const Image = styled.img`
+const ProfileImage = styled.img`
   width: 3.2rem;
   height: 3.2rem;
   border: 1px solid ${({ theme }) => theme.colors.grayWeak};

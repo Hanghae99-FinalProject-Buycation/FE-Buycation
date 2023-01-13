@@ -9,8 +9,6 @@ import {
   __getPostingList,
   __getCoords,
 } from "../../redux/modules/main/postingListSlice";
-//더미 데이터 사용
-// import dummy from "../../db/mainDB.json";
 
 const PostingList = () => {
   // const nagivate = useNavigate();

@@ -10,7 +10,7 @@ const MyStar = () => {
           <p>익명</p>
           <p>2023-10-01</p>
         </ProfileInfo>
-        <img src={footers} />
+        <img alt="footers" src={footers} />
       </ContentsBox>
     </>
   );
@@ -39,7 +39,6 @@ const ContentsBox = styled.div`
     }
   }
 `;
-
 const ProfileInfo = styled.div`
   display: flex;
   align-items: center;
