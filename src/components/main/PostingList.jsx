@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { FaSearch } from "react-icons/fa";
 import { categoryList, sortList } from "../../utils/option";
@@ -13,7 +13,7 @@ import {
 // import dummy from "../../db/mainDB.json";
 
 const PostingList = () => {
-  const nagivate = useNavigate();
+  // const nagivate = useNavigate();
   const dispatch = useDispatch();
   const postingList = useSelector((data) => data.getPostingList.getPostingList);
   //console.log("postingList", postingList);
