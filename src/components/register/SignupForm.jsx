@@ -50,8 +50,8 @@ const Signup = () => {
       alert("인증번호를 확인해주세요");
     } else {
       dispatch(__postSignup(signupForm));
-      alert("회원가입 성공");
-      navigate("/login");
+      // alert("회원가입 성공");
+      // navigate("/login");
     }
   };
 
