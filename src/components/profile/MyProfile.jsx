@@ -7,7 +7,7 @@ import footer from "../../assets/footer.svg";
 import dummy from "../../db/profileDB.json";
 
 const MyProfile = () => {
-  console.log(dummy);
+  console.log(dummy.data);
   const [editProfileModal, setEditProfileModal] = useState(false);
 
   const onClickEditHandler = () => {
@@ -24,11 +24,12 @@ const MyProfile = () => {
       ) : null}
       <Profile>
         <Box>
-          <Image src="https://cdn.imweb.me/upload/S2020020306340f9e8280d/cfd0a45993a4a.jpg" />
+          {/* https://cdn.imweb.me/upload/S2020020306340f9e8280d/cfd0a45993a4a.jpg */}
+          <Image src={dummy.data[0].profileImage} />
           <div>
-            <span>하얀천사</span>
+            <span>{dummy.data[0].nickname}</span>
             <p>
-              <img src={footer} /> 발자국 점수 4점
+              <img src={footer} /> 발자국 평균 점수 {dummy.data[0].userScore}점
             </p>
           </div>
         </Box>
@@ -66,7 +67,7 @@ const Box = styled.div`
     color: ${({ theme }) => theme.colors.grayMid};
   }
   div > p > img {
-    margin-right: 5px;
+    margin: 8px 5px 0 0;
   }
 `;
 const Image = styled.img`

@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { FaTimes, FaLink } from "react-icons/fa";
 import InputBasic from "../../elements/InputBasic";
 import ButtonBasic from "../../elements/ButtonBasic";
 
 const EditProfileModal = (props) => {
+  const [editValue, setEditValue] = useState({
+    nickname: "",
+    address: "",
+  });
+  const [imageFile, setImageFile] = useState(null);
+
+  const onChangeValueHandler = (event) => {
+    const { name, value } = event.target;
+    setEditValue({
+      ...editValue,
+      [name]: value,
+    });
+  };
+  console.log("입력값확인:", editValue);
+
   return (
     <Backdrop>
       <ModalCard>
@@ -20,7 +35,11 @@ const EditProfileModal = (props) => {
             <label>닉네임 변경</label>
             <ButtonBasic>중복 체크</ButtonBasic>
           </Item>
-          <InputBasic name="nickname" height="2rem" />
+          <InputBasic
+            name="nickname"
+            height="2rem"
+            _onChange={onChangeValueHandler}
+          />
 
           <label>프로필 변경</label>
           <FileInput>
