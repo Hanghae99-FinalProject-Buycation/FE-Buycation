@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { __postSignin } from "../../redux/modules/login/signinSlice";
 import { CLIENT_ID, REDIRECT_URI } from "../../core/env";
 
 const SignIn = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  const { statusCode } = useSelector((state) => state.postSignin);
   const [loginValue, setLoginValue] = useState({
     email: "",
     password: "",
@@ -19,6 +19,12 @@ const SignIn = () => {
     isEmail: false,
     isPassword: false,
   });
+
+  useEffect(() => {
+    if (statusCode === 200) {
+      navigate("/");
+    }
+  }, [statusCode, navigate]);
 
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}
   &redirect_uri=${REDIRECT_URI}&response_type=code`;
@@ -54,7 +60,6 @@ const SignIn = () => {
       setInValid({ ...inValid, isPassword: true });
     } else {
       dispatch(__postSignin(newLoginValue));
-      //navigate("/")
     }
   };
 

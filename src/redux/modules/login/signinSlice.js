@@ -5,19 +5,21 @@ const initialState = {
   postSignin: [],
   isLoading: false,
   error: null,
+  statusCode: "",
 };
 
 export const __postSignin = createAsyncThunk(
   "signin/post",
   async (payload, thunkAPI) => {
-    console.log("페이로드 :", payload);
     try {
       const data = await baseURL.post(`members/login`, payload);
       console.log("data", data);
-      localStorage.setItem("id", data.headers.authorization);
-      localStorage.setItem("memberId", data.data.data.memberId);
+      if (data.headers.authorization !== undefined) {
+        localStorage.setItem("id", data.headers.authorization);
+        localStorage.setItem("memberId", data.data.data.memberId);
+      }
       alert(data.data.msg);
-      return thunkAPI.fulfillWithValue(data.data.msg);
+      return thunkAPI.fulfillWithValue(data.data.statusCode);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -35,6 +37,7 @@ export const signinSlice = createSlice({
       })
       .addCase(__postSignin.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.statusCode = action.payload;
       })
       .addCase(__postSignin.rejected, (state, action) => {
         state.isLoading = false;
@@ -43,5 +46,4 @@ export const signinSlice = createSlice({
   },
 });
 
-export const {} = signinSlice.actions;
 export default signinSlice.reducer;
