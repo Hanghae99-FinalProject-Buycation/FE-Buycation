@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { FaMapMarkerAlt, FaUser } from "react-icons/fa";
 import ButtonBasic from "../elements/ButtonBasic";
 import ReviewModal from "./modal/ReviewModal";
+import { useDispatch, useSelector } from "react-redux";
+import { __getCreatedList } from "../../redux/modules/profile/myListSlice";
 
 const MyCreation = () => {
+  const dispatch = useDispatch();
+  const createdList = useSelector((data) => data.myList.getMyList);
   const [reviewModal, setReviewModal] = useState(false);
+
   const onClickReviewHandler = () => {
     setReviewModal(true);
   };
@@ -13,25 +18,33 @@ const MyCreation = () => {
     setReviewModal(false);
   };
 
+  useEffect(() => {
+    dispatch(__getCreatedList());
+  }, [dispatch]);
+
   return (
     <>
       {reviewModal ? <ReviewModal onClose={onClickCloseHandler} /> : null}
-      <ContentsBox>
-        <Box>
-          <Image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz1cuwGu33uyLO0kXmE5WT3upryL1ng6rdRLHpDmqmEj2TUyKgZLvjc-CkdErVNwmF05g&usqp=CAU"></Image>
-          <Contents>
-            <p>
-              <FaMapMarkerAlt size="11px" /> 위치
-            </p>
-            <p> 맛있는 치킨 나눠먹어요</p>
-            <p>2023-1-1 13:00 까지 모집</p>
-            <p>
-              <FaUser size="11px" /> 3/5
-            </p>
-            <ButtonBasic _onClick={onClickReviewHandler}>후기 작성</ButtonBasic>
-          </Contents>
-        </Box>
-      </ContentsBox>
+      {createdList.map((item) => (
+        <ContentsBox key={item.postingId}>
+          <Box>
+            <Image src={item.image}></Image>
+            <Contents>
+              <p>
+                <FaMapMarkerAlt size="11px" /> {item.address}
+              </p>
+              <p>{item.title}</p>
+              <p>{item.dueDate} 까지 모집</p>
+              <p>
+                <FaUser size="11px" /> {item.currentMembers}/{item.totalMembers}
+              </p>
+              <ButtonBasic _onClick={onClickReviewHandler}>
+                후기 작성
+              </ButtonBasic>
+            </Contents>
+          </Box>
+        </ContentsBox>
+      ))}
     </>
   );
 };
@@ -61,12 +74,12 @@ const Box = styled.div`
   }
 `;
 const Image = styled.img`
-  width: 12rem;
-  height: 12rem;
+  width: 11rem;
+  height: 11rem;
   border-radius: 5px;
   @media screen and (max-width: 768px) {
-    width: 8rem;
-    height: 8rem;
+    width: 7.5rem;
+    height: 7.5rem;
   }
 `;
 const Contents = styled.div`

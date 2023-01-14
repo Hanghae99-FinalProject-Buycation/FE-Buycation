@@ -13,7 +13,6 @@ const MyProfile = () => {
   const dispatch = useDispatch();
   const [editProfileModal, setEditProfileModal] = useState(false);
   const profileData = useSelector((data) => data.profile.getProfile);
-  //console.log("profileData", profileData);
 
   useEffect(() => {
     dispatch(__getProfile());
@@ -36,7 +35,7 @@ const MyProfile = () => {
           <ProfileImage
             alt="profileImage"
             src={
-              profileData.profileImage === null
+              profileData.profileImage === ""
                 ? profile_default
                 : profileData.profileImage
             }
@@ -89,6 +88,5 @@ const Box = styled.div`
 const ProfileImage = styled.img`
   width: 3.2rem;
   height: 3.2rem;
-  border: 1px solid ${({ theme }) => theme.colors.grayWeak};
   border-radius: 50%;
 `;

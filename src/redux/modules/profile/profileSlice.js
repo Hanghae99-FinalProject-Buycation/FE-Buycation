@@ -6,6 +6,7 @@ const initialState = {
   getProfile: [],
   isLoading: false,
   error: null,
+  isSuccess: false,
 };
 
 const memberIdData = localStorage.getItem("memberId");
@@ -32,9 +33,26 @@ export const __patchProfile = createAsyncThunk(
         `members/${memberIdData}`,
         payload
       );
-      console.log(data.data);
+      //alert(data.msg);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const __duplicateCheck = createAsyncThunk(
+  "duplicateCheck/patch",
+  async (payload, thunkAPI) => {
+    console.log(payload);
+    console.log("중복체크", payload);
+    try {
+      const { data } = await baseURL.get(`members/signup?nickname=${payload}`);
+      console.log(data.msg);
+      alert(data.msg);
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      alert(error.response.data.msg);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -57,6 +75,10 @@ export const profileSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       });
+    builder.addCase(__patchProfile.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+    });
   },
 });
 

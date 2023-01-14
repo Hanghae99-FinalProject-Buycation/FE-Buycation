@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import postingIcon from "../../assets/postingIcon.svg";
-import chattingIcon from "../../assets/chattingIcon.svg";
-import alarmIcon from "../../assets/alarmIcon.svg";
-import profileIcon from "../../assets/profileIcon.svg";
+import postingIcon from "../../assets/headerIcon/postingIcon.svg";
+import chattingIcon from "../../assets/headerIcon/chattingIcon.svg";
+import alarmIcon from "../../assets/headerIcon/alarmIcon.svg";
+import profileIcon from "../../assets/headerIcon/profileIcon.svg";
 
 const Header = () => {
   const navigate = useNavigate();
