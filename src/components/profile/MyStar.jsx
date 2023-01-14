@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
-import footers from "../../assets/footers.svg";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faShoePrints } from "@fortawesome/free-solid-svg-icons";
 
 const MyStar = () => {
+  const [starClicked, setStarClicked] = useState(null);
+
   return (
     <>
       <ContentsBox>
@@ -10,7 +13,15 @@ const MyStar = () => {
           <p>익명</p>
           <p>2023-10-01</p>
         </ProfileInfo>
-        <img alt="footers" src={footers} />
+        <FootReview>
+          {[2, 4, 6, 8, 10].map((el) => (
+            <i
+              className={`fas fa-star ${starClicked >= el && "yellowStar"}`}
+              key={el}
+              id={el}
+            />
+          ))}
+        </FootReview>
       </ContentsBox>
     </>
   );
@@ -26,17 +37,10 @@ const ContentsBox = styled.div`
   justify-content: center;
   gap: 1rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grayWeak};
-  img {
-    width: 194px;
-    height: 39px;
-  }
+
   @media screen and (max-width: 768px) {
     height: 6rem;
     padding: 1rem;
-    img {
-      width: 90px;
-      height: 20px;
-    }
   }
 `;
 const ProfileInfo = styled.div`
@@ -46,5 +50,17 @@ const ProfileInfo = styled.div`
   p:nth-of-type(2) {
     font-size: ${({ theme }) => theme.fontSize.xs};
     color: ${({ theme }) => theme.colors.grayMid};
+  }
+`;
+const FootReview = styled.div`
+  display: flex;
+  gap: 12px;
+  i {
+    opacity: 0.1;
+    font-size: 22px;
+  }
+  .yellowStar {
+    color: orange;
+    opacity: 1;
   }
 `;

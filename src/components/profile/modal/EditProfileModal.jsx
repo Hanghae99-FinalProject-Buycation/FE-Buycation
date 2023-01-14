@@ -1,49 +1,64 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { FaTimes, FaLink } from "react-icons/fa";
 import InputBasic from "../../elements/InputBasic";
 import ButtonBasic from "../../elements/ButtonBasic";
 import { useDispatch, useSelector } from "react-redux";
-import { __patchProfile } from "../../../redux/modules/profile/profileSlice";
+import {
+  __patchProfile,
+  __duplicateCheck,
+} from "../../../redux/modules/profile/profileSlice";
 import { sendRegisterModalStatus } from "../../../redux/modules/postcode/postcodeModalSlice";
 import Postcode from "../../postcode/Postcode";
 import usePostcode from "../../../hooks/usePostcode";
 import { uploadImg } from "../../../utils/uploadImg";
 
 const EditProfileModal = (props) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [editValue, setEditValue] = useState({
-    nickname: "",
-    address: "",
-  });
-  const [imageFile, setImageFile] = useState("");
+  const { isSuccess } = useSelector((state) => state.profile);
+  const profileData = useSelector((data) => data.profile.getProfile);
+  const [duplicateCheck, setDuplicateCheck] = useState(false);
   const postcodeModalStatus = useSelector(
     (state) => state.postcodeModal.openRegisterModal
   );
   const { address } = usePostcode();
+  const [editValue, setEditValue] = useState({
+    nickname: profileData.nickname,
+    profileImage: profileData.profileImage,
+    address: profileData.address,
+  });
 
   useEffect(() => {
-    setEditValue({
-      ...editValue,
-      address: address,
-    });
+    if (address !== "") {
+      setEditValue({
+        ...editValue,
+        address: address,
+      });
+    }
   }, [address]);
+
+  //중복체크
+  const onClickDuplicateCheckHandler = () => {
+    dispatch(__duplicateCheck(editValue.nickname));
+    setDuplicateCheck(true);
+  };
 
   const onClickPostcodeHandler = () => {
     dispatch(sendRegisterModalStatus(true));
   };
 
   const onChangeFileInputHandler = (e) => {
-    setImageFile(e.target.files[0]);
-    uploadImg(e.target.files[0])
-      .then((data) => {})
+    const file = e.target.files[0];
+    uploadImg(file)
+      .then((data) => {
+        setEditValue({ ...editValue, profileImage: data?.Location });
+      })
       .catch((err) => {
-        console.log("에러");
+        console.log("이미지 업로드 실패");
       });
   };
 
+  //상태 값
   const onChangeValueHandler = (event) => {
     const { name, value } = event.target;
     setEditValue({
@@ -55,13 +70,24 @@ const EditProfileModal = (props) => {
   const onClickEditHandler = () => {
     const newPatchData = {
       nickname: editValue.nickname,
-      profileImage: imageFile,
+      profileImage: editValue.profileImage,
       address: editValue.address,
     };
-    dispatch(__patchProfile(newPatchData));
-    navigate("/profile");
-    console.log(newPatchData);
+    if (
+      profileData.nickname !== editValue.nickname &&
+      duplicateCheck === false
+    ) {
+      alert("닉네임 중복 체크가 필요합니다.");
+    } else {
+      dispatch(__patchProfile(newPatchData));
+    }
   };
+
+  //프로필 수정 통신이 성공 했을 때 해당 alert 띄우기
+  if (isSuccess) {
+    console.log(isSuccess);
+    alert("프로필 수정이 완료되었습니다 :)");
+  }
 
   return (
     <Backdrop>
@@ -73,18 +99,25 @@ const EditProfileModal = (props) => {
             <FaTimes size="1.3rem" />
           </CloseBtn>
         </Header>
-
         <ContentsBox>
           <Item>
             <label>닉네임 변경</label>
-            <ButtonBasic>중복 체크</ButtonBasic>
+            <ButtonBasic _onClick={onClickDuplicateCheckHandler}>
+              중복 체크
+            </ButtonBasic>
           </Item>
           <InputBasic
             name="nickname"
             height="2rem"
+            value={editValue.nickname}
             _onChange={onChangeValueHandler}
           />
-          <label>프로필 변경</label>
+          <Item>
+            <label>프로필 변경</label>
+            {/* <ButtonBasic _onClick={onClickPostcodeHandler}>
+              기본 설정
+            </ButtonBasic> */}
+          </Item>
           <FileInput>
             <input
               type="file"
@@ -93,18 +126,16 @@ const EditProfileModal = (props) => {
             />
             <FaLink />
           </FileInput>
+
           <Item>
-            <label>주소 변경</label>
+            <label>주소명 변경</label>
             <ButtonBasic _onClick={onClickPostcodeHandler}>
               주소 찾기
             </ButtonBasic>
           </Item>
           <InputBasic name="address" height="2rem" value={editValue.address} />
-          <ButtonBasic
-            margin="10px 0"
-            height="2.5rem"
-            _onClick={() => onClickEditHandler(props.onClose)}
-          >
+
+          <ButtonBasic height="2.5rem" _onClick={onClickEditHandler}>
             수정
           </ButtonBasic>
         </ContentsBox>
@@ -156,12 +187,12 @@ const CloseBtn = styled.button`
 const ContentsBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 1rem;
   padding: 1rem;
 `;
 const Item = styled.div`
   display: flex;
-  justify-content: space-between;
+  gap: 1rem;
   align-items: center;
   button {
     width: 5rem;
@@ -173,6 +204,7 @@ const Item = styled.div`
   }
 `;
 const FileInput = styled.div`
+  width: 100%;
   height: 2rem;
   border: 1px solid ${({ theme }) => theme.colors.grayWeak};
   border-radius: 0.5rem;
