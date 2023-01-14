@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { FaMapMarkerAlt, FaUser } from "react-icons/fa";
 import ButtonBasic from "../elements/ButtonBasic";
+import { addressForm } from "../../utils/editedData";
 
 const PostingCard = ({
   postingId,
@@ -14,18 +16,21 @@ const PostingCard = ({
   image,
   onShowMarker,
 }) => {
-  const editAddress = (address) => {
-    return address.split(" ", 3);
+  const navigate = useNavigate();
+  const editedAddress = addressForm(address);
+
+  const onClickMoveDetailHandler = () => {
+    navigate(`/details/${postingId}`);
   };
 
   return (
     <CardWrap>
       <CardBox>
         <ContentsBox onClick={onShowMarker}>
-          <img src={image}></img>
+          <img alt="img" src={image}></img>
           <article>
             <p>
-              <FaMapMarkerAlt size="11px" /> {editAddress(address)}
+              <FaMapMarkerAlt size="11px" /> {editedAddress}
             </p>
             <p>{title}</p>
             <p>
@@ -37,7 +42,9 @@ const PostingCard = ({
             </p>
           </article>
         </ContentsBox>
-        <ButtonBasic height="1.8rem">상세보기</ButtonBasic>
+        <ButtonBasic height="1.8rem" _onClick={onClickMoveDetailHandler}>
+          상세보기
+        </ButtonBasic>
       </CardBox>
     </CardWrap>
   );
