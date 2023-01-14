@@ -5,10 +5,11 @@ import ButtonBasic from "../elements/ButtonBasic";
 import ReviewModal from "./modal/ReviewModal";
 import { useDispatch, useSelector } from "react-redux";
 import { __getCreatedList } from "../../redux/modules/profile/myListSlice";
+import { addressForm } from "../../utils/editedData";
 
 const MyCreation = () => {
   const dispatch = useDispatch();
-  const createdList = useSelector((data) => data.myList.getMyList);
+  const createdList = useSelector((data) => data.myList.createdList);
   const [reviewModal, setReviewModal] = useState(false);
 
   const onClickReviewHandler = () => {
@@ -31,7 +32,7 @@ const MyCreation = () => {
             <Image src={item.image}></Image>
             <Contents>
               <p>
-                <FaMapMarkerAlt size="11px" /> {item.address}
+                <FaMapMarkerAlt size="11px" /> {addressForm(item.address)}
               </p>
               <p>{item.title}</p>
               <p>{item.dueDate} 까지 모집</p>

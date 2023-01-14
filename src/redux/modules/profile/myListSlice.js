@@ -2,7 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { baseURLwToken } from "../../../core/axios";
 
 const initialState = {
-  getMyList: [],
+  createdList: [],
+  participatedList: [],
   isLoading: false,
   error: null,
 };
@@ -50,9 +51,21 @@ export const myListSlice = createSlice({
       })
       .addCase(__getCreatedList.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.getMyList = action.payload;
+        state.createdList = action.payload;
       })
       .addCase(__getCreatedList.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
+    builder
+      .addCase(__getParticipatedList.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__getParticipatedList.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.participatedList = action.payload;
+      })
+      .addCase(__getParticipatedList.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
