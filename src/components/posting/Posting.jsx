@@ -125,7 +125,7 @@ const Posting = () => {
               ))}
             </SelectInput>
             <InputBasic
-              height="2.8rem"
+              height="2.25rem"
               name="title"
               placeholder="제목을 입력해 주세요."
               _onChange={onChangeValueHandler}
@@ -236,7 +236,7 @@ const Container = styled.div`
     font-size: ${({ theme }) => theme.fontSize.xl};
     font-weight: 600;
     padding-bottom: 2rem;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.grayStrong};
+    border-bottom: 3px solid ${({ theme }) => theme.colors.main};
   }
 `;
 const PostingForm = styled.div`
@@ -261,8 +261,8 @@ const LeftDivForm = styled.div`
 `;
 const SelectInput = styled.select`
   width: 50%;
-  height: 2.8rem;
-  padding: 0.7rem 0.5rem;
+  height: 2.25rem;
+  padding: 0.5rem 0.5rem;
   border: 1px solid ${({ theme }) => theme.colors.grayWeak};
   border-radius: 0.5rem;
   @media screen and (max-width: 768px) {
