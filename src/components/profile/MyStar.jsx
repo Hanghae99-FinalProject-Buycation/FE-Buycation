@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
+import reviewImg from "../../assets/reviewIcon/emptyLeftFoot.svg";
 
 const MyStar = () => {
   return (
@@ -11,8 +12,10 @@ const MyStar = () => {
         </ProfileInfo>
         <FootReview>
           {[2, 4, 6, 8, 10].map((el) => (
-            <i
-              className={`fas fa-shoe-prints ${6 >= el && "colorStar"}`}
+            <img
+              className={`${6 >= el && "colorStar"}`}
+              alt={el}
+              src={reviewImg}
               key={el}
               id={el}
             />
@@ -51,12 +54,12 @@ const ProfileInfo = styled.div`
 const FootReview = styled.div`
   display: flex;
   gap: 12px;
-  i {
+  img {
     opacity: 0.1;
-    font-size: 22px;
+    font-size: 30px;
   }
   .colorStar {
-    color: ${({ theme }) => theme.colors.main};
+    filter: ${({ theme }) => theme.colors.imgFilter};
     opacity: 1;
   }
 `;

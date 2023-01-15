@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
+import reviewImg from "../../../assets/reviewIcon/emptyLeftFoot.svg";
 import { FaTimes } from "react-icons/fa";
 import ButtonBasic from "../../elements/ButtonBasic";
 import { useDispatch, useSelector } from "react-redux";
@@ -55,10 +56,10 @@ const ReviewModal = ({ onClose, postingIdData }) => {
             <p>닉네임</p>
             <StarBox>
               {[2, 4, 6, 8, 10].map((el) => (
-                <i
-                  className={`fas fa-shoe-prints ${
-                    starClicked >= el && "colorStar"
-                  }`}
+                <img
+                  className={`${starClicked >= el && "colorStar"}`}
+                  alt={el}
+                  src={reviewImg}
                   key={el}
                   id={el}
                   onClick={onClickStarHandler}
@@ -75,10 +76,10 @@ const ReviewModal = ({ onClose, postingIdData }) => {
             <p>닉네임</p>
             <StarBox>
               {[2, 4, 6, 8, 10].map((el) => (
-                <i
-                  className={`fas fa-shoe-prints ${
-                    starClicked >= el && "colorStar"
-                  }`}
+                <img
+                  className={`${starClicked >= el && "colorStar"}`}
+                  alt={el}
+                  src={reviewImg}
                   key={el}
                   id={el}
                   onClick={onClickStarHandler}
@@ -157,14 +158,15 @@ const PersonInfo = styled.div`
 `;
 const StarBox = styled.div`
   display: flex;
-  i {
+
+  img {
     margin: 15px 5px 0 5px;
     opacity: 0.1;
     font-size: 30px;
     cursor: pointer;
   }
   .colorStar {
-    color: ${({ theme }) => theme.colors.main};
+    filter: ${({ theme }) => theme.colors.imgFilter};
     opacity: 1;
   }
 `;
