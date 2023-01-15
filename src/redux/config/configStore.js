@@ -8,6 +8,7 @@ import postPosting from "../modules/posting/postingSlice";
 import getDetail from "../modules/details/detailSlice";
 import profile from "../modules/profile/profileSlice";
 import myList from "../modules/profile/myListSlice";
+import reviews from "../modules/profile/reviewsSlice";
 
 const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
     getDetail,
     profile,
     myList,
+    reviews,
   },
 });
 

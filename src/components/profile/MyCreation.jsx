@@ -11,9 +11,11 @@ const MyCreation = () => {
   const dispatch = useDispatch();
   const createdList = useSelector((data) => data.myList.createdList);
   const [reviewModal, setReviewModal] = useState(false);
+  const [postingID, setPostingID] = useState("");
 
-  const onClickReviewHandler = () => {
+  const onClickReviewHandler = (postingId) => {
     setReviewModal(true);
+    setPostingID(postingId);
   };
   const onClickCloseHandler = () => {
     setReviewModal(false);
@@ -25,7 +27,9 @@ const MyCreation = () => {
 
   return (
     <>
-      {reviewModal ? <ReviewModal onClose={onClickCloseHandler} /> : null}
+      {reviewModal ? (
+        <ReviewModal onClose={onClickCloseHandler} postingIdData={postingID} />
+      ) : null}
       {createdList.map((item) => (
         <ContentsBox key={item.postingId}>
           <Box>
@@ -39,9 +43,9 @@ const MyCreation = () => {
               <p>
                 <FaUser size="11px" /> {item.currentMembers}/{item.totalMembers}
               </p>
-              <ButtonBasic _onClick={onClickReviewHandler}>
+              <ReviewBtn onClick={() => onClickReviewHandler(item.postingId)}>
                 후기 작성
-              </ButtonBasic>
+              </ReviewBtn>
             </Contents>
           </Box>
         </ContentsBox>
@@ -59,7 +63,7 @@ const ContentsBox = styled.div`
   width: 100%;
   height: 15rem;
   padding: 1rem 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grayList};
   @media screen and (max-width: 768px) {
     height: 10rem;
     padding: 0 1rem;
@@ -101,16 +105,17 @@ const Contents = styled.div`
     font-size: ${({ theme }) => theme.fontSize.sm};
   }
 
-  button {
-    width: 5rem;
-    height: 2rem;
-    background: inherit;
-    border: 1px solid #ff5a5f;
-    color: ${({ theme }) => theme.colors.main};
-    font-size: ${({ theme }) => theme.fontSize.xs};
-  }
-
   @media screen and (max-width: 768px) {
     gap: 0.5rem;
   }
+`;
+
+const ReviewBtn = styled.button`
+  width: 5rem;
+  height: 31px;
+  background: inherit;
+  border: 1px solid ${({ theme }) => theme.colors.main};
+  border-radius: 8px;
+  color: ${({ theme }) => theme.colors.main};
+  font-size: ${({ theme }) => theme.fontSize.xs};
 `;
