@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import ButtonBasic from "../elements/ButtonBasic";
 import EditProfileModal from "./modal/EditProfileModal";
-import footer from "../../assets/footer.svg";
-import profile_default from "../../assets/profile_default.svg";
+import footer from "../../assets/profileImg/footer.svg";
+import profile_default from "../../assets/profileImg/profile_default.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { __getProfile } from "../../redux/modules/profile/profileSlice";
 //더미 데이터
