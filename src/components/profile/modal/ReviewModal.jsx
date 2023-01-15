@@ -1,14 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import ButtonBasic from "../../elements/ButtonBasic";
 import { FaTimes } from "react-icons/fa";
+import ButtonBasic from "../../elements/ButtonBasic";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  __getReviewList,
+  __postReviewScore,
+} from "../../../redux/modules/profile/reviewsSlice";
 
-const ReviewModal = (props) => {
+const ReviewModal = ({ onClose, postingIdData }) => {
   /**
    * 해당 별 평점 텍스트 나타내기
    * 해당 별 클릭시 색깔 유지
    * 클릭한 해당 별 인데스 저장 후 백엔드로 데이터 보냄
    */
+  const dispatch = useDispatch();
+  const reviewList = useSelector((data) => data.reviews.reviews);
+  //console.log(reviewList);
+
+  useEffect(() => {
+    dispatch(__getReviewList(postingIdData));
+  }, [dispatch, postingIdData]);
 
   const [starClicked, setStarClicked] = useState(null);
 
@@ -16,12 +28,16 @@ const ReviewModal = (props) => {
   const onClickStarHandler = (e) => {
     setStarClicked(e.target.id);
   };
-  console.log(starClicked);
 
   //등록 버튼 클릭 시 통신
   const onClickPostReviewHandler = () => {
-    console.log("테스트");
-    //dispatch
+    const newPostData = {
+      postingId: postingIdData,
+      //memberId: memberId,
+      userScore: parseInt(starClicked),
+    };
+    //dispatch(__postReviewScore(newPostData));
+    console.log(newPostData);
   };
 
   return (
@@ -29,18 +45,20 @@ const ReviewModal = (props) => {
       <ModalCard>
         <Header>
           <p>후기 작성</p>
-          <CloseBtn onClick={props.onClose}>
+          <CloseBtn onClick={onClose}>
             <FaTimes size="1.3rem" />
           </CloseBtn>
         </Header>
+
         <PersonCard>
           <PersonInfo>
             <p>닉네임</p>
             <StarBox>
-              {/* 별 아이콘 다섯개 만들기 */}
               {[2, 4, 6, 8, 10].map((el) => (
                 <i
-                  className={`fas fa-star ${starClicked >= el && "yellowStar"}`}
+                  className={`fas fa-shoe-prints ${
+                    starClicked >= el && "colorStar"
+                  }`}
                   key={el}
                   id={el}
                   onClick={onClickStarHandler}
@@ -48,13 +66,28 @@ const ReviewModal = (props) => {
               ))}
             </StarBox>
           </PersonInfo>
-          <ButtonBasic
-            width="3.5rem"
-            height="2rem"
-            _onClick={onClickPostReviewHandler}
-          >
-            등록
-          </ButtonBasic>
+
+          <ButtonBasic _onClick={onClickPostReviewHandler}>등록</ButtonBasic>
+        </PersonCard>
+
+        <PersonCard>
+          <PersonInfo>
+            <p>닉네임</p>
+            <StarBox>
+              {[2, 4, 6, 8, 10].map((el) => (
+                <i
+                  className={`fas fa-shoe-prints ${
+                    starClicked >= el && "colorStar"
+                  }`}
+                  key={el}
+                  id={el}
+                  onClick={onClickStarHandler}
+                />
+              ))}
+            </StarBox>
+          </PersonInfo>
+
+          <ButtonBasic _onClick={onClickPostReviewHandler}>등록</ButtonBasic>
         </PersonCard>
       </ModalCard>
     </Backdrop>
@@ -77,7 +110,7 @@ const ModalCard = styled.div`
   margin: auto;
   left: 0;
   right: 0;
-  top: 30%;
+  top: 20%;
   width: 37rem;
   z-index: 10;
   background: white;
@@ -88,7 +121,7 @@ const ModalCard = styled.div`
 `;
 const Header = styled.header`
   padding: 1rem;
-  border-bottom: 1px solid #888;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grayStrong};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -103,28 +136,35 @@ const CloseBtn = styled.button`
   cursor: pointer;
 `;
 const PersonCard = styled.div`
-  padding: 0 1.2rem;
+  padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grayList};
+
+  button {
+    width: 3.5rem;
+    height: 2rem;
+    background: inherit;
+    border: 1px solid ${({ theme }) => theme.colors.main};
+    color: ${({ theme }) => theme.colors.main};
+  }
 `;
 const PersonInfo = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: space-between;
-  gap: 1rem;
 `;
 const StarBox = styled.div`
   display: flex;
-  /* gap: 0.2rem; */
   i {
-    margin: 20px 10px 20px 0;
+    margin: 15px 5px 0 5px;
     opacity: 0.1;
     font-size: 30px;
     cursor: pointer;
   }
-  .yellowStar {
-    color: orange;
+  .colorStar {
+    color: ${({ theme }) => theme.colors.main};
     opacity: 1;
   }
 `;

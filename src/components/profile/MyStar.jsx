@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faShoePrints } from "@fortawesome/free-solid-svg-icons";
 
 const MyStar = () => {
-  const [starClicked, setStarClicked] = useState(null);
-
   return (
     <>
       <ContentsBox>
@@ -16,7 +12,7 @@ const MyStar = () => {
         <FootReview>
           {[2, 4, 6, 8, 10].map((el) => (
             <i
-              className={`fas fa-star ${starClicked >= el && "yellowStar"}`}
+              className={`fas fa-shoe-prints ${6 >= el && "colorStar"}`}
               key={el}
               id={el}
             />
@@ -36,7 +32,7 @@ const ContentsBox = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.grayWeak};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grayList};
 
   @media screen and (max-width: 768px) {
     height: 6rem;
@@ -59,8 +55,8 @@ const FootReview = styled.div`
     opacity: 0.1;
     font-size: 22px;
   }
-  .yellowStar {
-    color: orange;
+  .colorStar {
+    color: ${({ theme }) => theme.colors.main};
     opacity: 1;
   }
 `;

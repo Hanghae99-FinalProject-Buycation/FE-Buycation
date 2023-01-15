@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { FaSearch } from "react-icons/fa";
-import { categoryList, sortList } from "../../utils/option";
 import PostingCard from "./PostingCard";
+import EmptyCard from "./EmptyCard";
 import { useDispatch, useSelector } from "react-redux";
 import {
   __getPostingList,
   __getCoords,
 } from "../../redux/modules/main/postingListSlice";
+import { categoryList, sortList } from "../../utils/option";
 
 const PostingList = () => {
-  // const nagivate = useNavigate();
   const dispatch = useDispatch();
   const postingList = useSelector((data) => data.getPostingList.getPostingList);
-  //console.log("postingList", postingList);
+  console.log("postingList", postingList);
+
   const [searchValue, setSearchValue] = useState({
     search: "",
     category: "",
@@ -80,22 +80,25 @@ const PostingList = () => {
           </Select>
         </SelectBox>
       </SearchBox>
-
-      {postingList.map((item) => (
-        <PostingCard
-          key={item.postingId}
-          postingId={item.postingId}
-          category={item.category}
-          address={item.address}
-          title={item.title}
-          totalMembers={item.totalMembers}
-          currentMembers={item.currentMembers}
-          dueData={item.dueDate}
-          perBudget={item.perBudget}
-          image={item.image}
-          onShowMarker={() => onClickCardHandler(item.coordsX, item.coordsY)}
-        />
-      ))}
+      {postingList.length === 0 ? (
+        <EmptyCard />
+      ) : (
+        postingList.map((item) => (
+          <PostingCard
+            key={item.postingId}
+            postingId={item.postingId}
+            category={item.category}
+            address={item.address}
+            title={item.title}
+            totalMembers={item.totalMembers}
+            currentMembers={item.currentMembers}
+            dueData={item.dueDate}
+            perBudget={item.perBudget}
+            image={item.image}
+            onShowMarker={() => onClickCardHandler(item.coordsX, item.coordsY)}
+          />
+        ))
+      )}
     </Section>
   );
 };
