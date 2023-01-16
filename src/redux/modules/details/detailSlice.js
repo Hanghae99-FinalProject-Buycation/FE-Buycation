@@ -11,7 +11,6 @@ export const __getDetail = createAsyncThunk(
   "details/get",
   async (payload, thunkAPI) => {
     try {
-      // console.log(payload); //1
       const { data } = await baseURL.get(`posting/${payload}`);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (err) {

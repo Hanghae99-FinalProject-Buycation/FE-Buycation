@@ -3,24 +3,26 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
 import { FaUserCircle } from "react-icons/fa";
 import { __getDetail } from "../../redux/modules/details/detailSlice";
-import detail from "../../db/detailDB.json";
 
 import ButtonBasic from "../elements/ButtonBasic";
 import InputBasic from "../elements/InputBasic";
-import DetailParagraph from "./DetailParagraph";
 
 import useBuyLocation from "../../hooks/useBuyLocation";
 import useWindowResize from "../../hooks/useWindowResize";
 import DetailSpan from "./DetailSpan";
+import DetailParagraph from "./DetailParagraph";
 import DetailMoreButton from "./DetailMoreButton";
 import DetailPostingOptionModal from "./DetailPostingOptionModal";
 import DetailCommentModal from "./DetailCommentModal";
 import DetailApplicationList from "./DetailApplicationList";
+import { useParams } from "react-router-dom";
+import { addressForm } from "../../utils/editedData";
 
 const Detail = () => {
   const dispatch = useDispatch();
-  // const details = useSelector((state) => state.getDetail.getDetail);
-  const details = detail.data;
+  const param = parseInt(useParams().postingId);
+  const details = useSelector((state) => state.getDetail.getDetail);
+  // const editedAddress = addressForm(details.address);
   const [postingModal, setPostingModal] = useState(false);
   const [commentModal, setCommentModal] = useState(false);
   const [applicationModal, setApplicationModal] = useState(false);
@@ -37,16 +39,14 @@ const Detail = () => {
   // const { getDetail, isLoading, error } = useSelector(
   // (state) => state.getDetail.getDetail
   // );
-  const size = useWindowResize();
+  const { innerWidth } = useWindowResize();
   useEffect(() => {
-    // param 값?
-    // dispatch(__getDetail(1));
+    dispatch(__getDetail(param));
   }, [dispatch]);
 
   // if (isLoading) return <div>로딩ㅜㅜ</div>;
 
   // if (error) return <div>{error.msg}</div>;
-
   return (
     <StDetailWrap>
       <StDetailForm>
@@ -60,11 +60,19 @@ const Detail = () => {
               <img src={details.profileImage} alt="" />
             </div>
             {/* 유저 정보 */}
-            <DetailSpan
-              titleText={details.nickname}
-              bodyText={details.address}
-              // color="#a6a6a6"
-            />
+            {details.addressDetail ? (
+              <DetailSpan
+                titleText={details.nickname}
+                bodyText={details.address + details.addressDetail}
+              />
+            ) : (
+              <DetailSpan
+                titleText={details.nickname}
+                // bodyText={editedAddress}
+                bodyText={details.address}
+              />
+            )}
+
             {/* {details.address.split(" ", 2)} */}
           </div>
           <div className="postingOption">
@@ -76,7 +84,7 @@ const Detail = () => {
         <StContent>
           <h3>{details.title}</h3>
           <span>
-            {details.category === "food" ? "음식" : "물건"} {details.createdAt}
+            {details.category} {details.createdAt}
           </span>
           <p>{details.content}</p>
         </StContent>
@@ -104,18 +112,21 @@ const Detail = () => {
         <StBuyLocation id="map">🔻{details.address}</StBuyLocation>
         <hr />
         {/* 나중에 닉네임 같은 걸로 분기 수정 */}
-        {localStorage.getItem("id") ? (
-          <ElApplicationBtn
-            height="3.125rem"
-            margin="1.875rem 0"
-            background="#FF5A5F"
-            color="white"
-          >
-            신청 리스트 보기
-          </ElApplicationBtn>
-        ) : (
+        {parseInt(localStorage.getItem("memberId")) === details.memberId ? (
           <ElApplicationWrap>
             {applicationModal && <DetailApplicationList />}
+            <ElApplicationBtn
+              height="3.125rem"
+              margin="1.875rem 0"
+              background="#FF5A5F"
+              color="white"
+              _onClick={onClickApplicationModalHandler}
+            >
+              신청 리스트 보기
+            </ElApplicationBtn>
+          </ElApplicationWrap>
+        ) : (
+          <ElApplicationWrap>
             <ElApplicationBtn
               // type="submit"
               type="button"
@@ -123,18 +134,20 @@ const Detail = () => {
               margin="1.875rem 0"
               background="#FF5A5F"
               color="white"
-              _onClick={onClickApplicationModalHandler}
             >
               참가 신청 하기
             </ElApplicationBtn>
           </ElApplicationWrap>
         )}
         <StComment>
-          {/* <span>댓글 {details.comments}</span> */}
-          <span>댓글 {details.comments.length}</span>
-          {localStorage.getItem("id") ? (
+          {details.comment ? (
+            <span>댓글 {details.comments.length}</span>
+          ) : (
+            <span>댓글 0</span>
+          )}
+          {localStorage.getItem("memberId") ? (
             <div>
-              {size.innerWidth > 375 ? (
+              {innerWidth > 375 ? (
                 <>
                   <span>내 닉네임</span>
                   <textarea placeholder="댓글을 남겨보세요" />
@@ -154,29 +167,31 @@ const Detail = () => {
             </div>
           ) : null}
         </StComment>
-        {details.comments.map((comment, idx) => (
-          <StCommentList key={comment.nickname[0] + idx}>
-            <div>
-              <span>
+        {details.comments ? (
+          details.comments.map((comment, idx) => (
+            <StCommentList key={comment.nickname[0] + idx}>
+              <div>
                 <span>
-                  {comment.nickname}
-                  &nbsp;&nbsp;&nbsp;
+                  <span>
+                    {comment.nickname}
+                    &nbsp;&nbsp;&nbsp;
+                  </span>
+                  <span>{comment.createdAt.split(" ", 1)}</span>
+                  <p>{comment.content}</p>
                 </span>
-                <span>{comment.createdAt.split(" ", 1)}</span>
-                <p>{comment.content}</p>
-              </span>
-              {comment.nickname === details.nickname ? (
-                <div className="commentOption">
-                  {commentModal && <DetailCommentModal />}
-                  <DetailMoreButton onClick={onClickCommentModalHandler} />
-                </div>
-              ) : (
-                ""
-              )}
-            </div>
-            <hr key={"hr" + idx} />
-          </StCommentList>
-        ))}
+                {comment.nickname === details.nickname ? (
+                  <div className="commentOption">
+                    {commentModal && <DetailCommentModal />}
+                    <DetailMoreButton onClick={onClickCommentModalHandler} />
+                  </div>
+                ) : null}
+              </div>
+              <hr key={"hr" + idx} />
+            </StCommentList>
+          ))
+        ) : (
+          <div></div>
+        )}
       </StDetailForm>
     </StDetailWrap>
   );
@@ -221,7 +236,7 @@ const ElImgWrap = styled.div`
   margin: 1.875rem 0;
   img {
     flex-shrink: 0;
-    min-width: 100%;
+    /* min-width: 100%; */
     min-height: 100%;
   }
 `;
