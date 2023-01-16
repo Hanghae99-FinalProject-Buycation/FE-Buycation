@@ -19,15 +19,13 @@ const Header = () => {
   };
   const onMoveProfileHandler = () => {
     navigate("/profile");
-    dispatch(sendModalStatus(!modalStatus));
   };
   const onMoveLoginHandler = () => {
     navigate("/login");
-    dispatch(sendModalStatus(!modalStatus));
   };
 
   const onClickMypageModalHandler = () => {
-    dispatch(sendModalStatus(!modalStatus));
+    dispatch(sendModalStatus(false));
   };
 
   return (
