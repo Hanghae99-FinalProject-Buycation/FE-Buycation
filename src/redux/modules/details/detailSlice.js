@@ -35,37 +35,6 @@ export const __doneDetail = createAsyncThunk(
   }
 );
 
-export const __getApplication = createAsyncThunk(
-  "application/get",
-  async (payload, thunkAPI) => {
-    try {
-      const { data } = await baseURLwToken.get(
-        `participant/posting/${payload}`
-      );
-      console.log(data.data);
-      return thunkAPI.fulfillWithValue(data.data);
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err);
-    }
-  }
-);
-
-export const __postApplication = createAsyncThunk(
-  "application/post",
-  async ({ postingId, memberId }, thunkAPI) => {
-    try {
-      const { data } = await baseURLwToken.post(
-        `participant/posting/${postingId}`,
-        memberId
-      );
-      alert(data.msg);
-      // return thunkAPI.fulfillWithValue(data);
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err);
-    }
-  }
-);
-
 export const detailSlice = createSlice({
   name: "getDetail",
   initialState,
@@ -91,14 +60,6 @@ export const detailSlice = createSlice({
       .addCase(__doneDetail.fulfilled, (state, action) => {
         state.isLoading = false;
         state.doneDetail = action.payload;
-      })
-      .addCase(__getApplication.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.getApplication = action.payload;
-      })
-      .addCase(__postApplication.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.postApplication = action.payload;
       });
   },
 });

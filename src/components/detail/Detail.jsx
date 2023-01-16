@@ -2,10 +2,8 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
 import { FaUserCircle } from "react-icons/fa";
-import {
-  __getDetail,
-  __postApplication,
-} from "../../redux/modules/details/detailSlice";
+import { __getDetail } from "../../redux/modules/details/detailSlice";
+import { __postApplication } from "../../redux/modules/application/applicationSlice";
 
 import ButtonBasic from "../elements/ButtonBasic";
 import InputBasic from "../elements/InputBasic";
