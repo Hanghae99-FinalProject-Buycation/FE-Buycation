@@ -5,38 +5,46 @@ import { RxCross1 } from "react-icons/rx";
 import { FaShoePrints } from "react-icons/fa";
 import ButtonBasic from "../elements/ButtonBasic";
 import applicationList from "../../db/detailApplicationDB.json";
+import { useDispatch, useSelector } from "react-redux";
+import { __getApplication } from "../../redux/modules/details/detailSlice";
 
-const DetailApplicationList = () => {
+const DetailApplicationList = ({ postingId }) => {
+  const dispatch = useDispatch();
   const [hide, setHide] = useState(false);
   const onClickCloseHandler = () => {
     setHide(!hide);
   };
   // 더블클릭 해야 다시 버튼 등장함...
   const ref = useOutsideClick(onClickCloseHandler);
-  const data = applicationList.data;
-  useEffect(() => {}, []);
+  // const data = applicationList.data;
+  const data = useSelector((state) => state.getDetail.getApplication);
+  useEffect(() => {
+    // dispatch(__getApplication(postingId));
+    dispatch(__getApplication(postingId));
+  }, [dispatch]);
   return (
     !hide && (
       <StApplicationList ref={ref}>
         <div>
           <span>신청자 리스트</span>
           <span>
-            <RxCross1 />
+            <RxCross1 onClick={onClickCloseHandler} />
           </span>
         </div>
-        {data.map((item) => (
-          <div key={"frag" + item.applicationId} className="wrap">
-            <img src={item.profileImage} alt="" />
-            <span>{item.nickname}</span>
-            <span className="btnWrap">
-              <FaShoePrints />
-              {item.userScore}
-              발자국
-            </span>
-            <ButtonBasic>거절</ButtonBasic>
-            <ButtonBasic>수락</ButtonBasic>
-          </div>
-        ))}
+        {data &&
+          data?.map((item) => (
+            <div key={"frag" + item.applicationId} className="wrap">
+              <img src={item.profileImage} alt="" />
+              <span>{item.nickname}</span>
+              <span className="btnWrap">
+                <FaShoePrints />
+                {item.userScore}
+                발자국
+              </span>
+              <ButtonBasic>거절</ButtonBasic>
+              <ButtonBasic>수락</ButtonBasic>
+            </div>
+          ))}
       </StApplicationList>
     )
   );

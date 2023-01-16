@@ -1,23 +1,24 @@
 import styled from "@emotion/styled";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import useOutsideClick from "../../hooks/useOutsideClick";
+import { __doneDetail } from "../../redux/modules/details/detailSlice";
 
-const DetailPostingOptionModal = () => {
+const DetailPostingOptionModal = ({ postingId }) => {
+  const dispatch = useDispatch();
   const [hide, setHide] = useState(false);
   const onClickCloseHandler = () => {
     setHide(!hide);
+  };
+  const onClickSendDoneHandler = () => {
+    dispatch(__doneDetail(postingId));
   };
   // 더블클릭 해야 다시 버튼 등장함...
   const ref = useOutsideClick(onClickCloseHandler);
   return (
     !hide && (
       <StPostingOption ref={ref}>
-        <button
-          type="button"
-          onClick={() => {
-            console.log("완료");
-          }}
-        >
+        <button type="button" onClick={onClickSendDoneHandler}>
           완료
         </button>
         <hr />
