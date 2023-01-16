@@ -22,8 +22,8 @@ const Map = () => {
     const container = document.getElementById("map"); //지도를 표시할 div
     const options = {
       center: new kakao.maps.LatLng(
-        postingList[0]?.coordsY,
-        postingList[0]?.coordsX
+        postingList[0]?.coordsY || 33.450701,
+        postingList[0]?.coordsX || 126.570667
       ), //지도 중심좌표
       lever: 3, //지도 확대 레벨
     };
