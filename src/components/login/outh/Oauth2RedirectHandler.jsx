@@ -3,8 +3,7 @@ import { baseURL } from "../../../core/axios";
 
 const Oauth2RedirectHandler = () => {
   const navigate = useNavigate();
-  let code = new URL(window.location.href).searchParams.get("code"); //searchParams 파라미터 값 확인
-  //console.log("인가 코드 :", code);
+  let code = new URL(window.location.href).searchParams.get("code");
 
   const kakao = async () => {
     await baseURL
@@ -21,7 +20,7 @@ const Oauth2RedirectHandler = () => {
   };
   kakao();
 
-  return <div>Oauth2RedirectHandler</div>;
+  // return <div>스피너 만들자!</div>;
 };
 
 export default Oauth2RedirectHandler;
