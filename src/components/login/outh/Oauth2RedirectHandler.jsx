@@ -8,10 +8,12 @@ const Oauth2RedirectHandler = () => {
 
   const kakao = async () => {
     await baseURL
-      .post(`members/login/kakao?code=${code}`)
+      .get(`members/login/kakao?code=${code}`)
       .then((res) => {
-        //localStorage.setItem("id", res.headers.authorization);
-        //navigate("/");
+        console.log(res);
+        localStorage.setItem("id", res.headers.authorization);
+        localStorage.setItem("memberId", res.data.data.memberId);
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
@@ -19,7 +21,7 @@ const Oauth2RedirectHandler = () => {
   };
   kakao();
 
-  //return <div>Oauth2RedirectHandler</div>;
+  return <div>Oauth2RedirectHandler</div>;
 };
 
 export default Oauth2RedirectHandler;
