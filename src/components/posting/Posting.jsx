@@ -177,7 +177,7 @@ const Posting = () => {
             <SelectInputForm>
               <label>모집 인원</label>
               <InputBasic
-                min="0"
+                min="2"
                 name="totalMembers"
                 type="number"
                 _onChange={onChangeValueHandler}
