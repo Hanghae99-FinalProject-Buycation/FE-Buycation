@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./layout/Layout";
+import OauthPage from "../pages/OauthPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/Register";
 import MainPage from "../pages/MainPage";
@@ -13,6 +14,7 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
+          <Route path="/api/kakaomember" element={<OauthPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<RegisterPage />} />
           <Route path="/" element={<MainPage />} />
