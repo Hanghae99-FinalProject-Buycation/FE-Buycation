@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
 import useOutsideClick from "../../hooks/useOutsideClick";
@@ -20,10 +20,14 @@ const SmallModal = (props) => {
   } = props;
   const dispatch = useDispatch();
   const modalStatus = useSelector((state) => state.generalModal.toggleModal);
+  const tokenValue = localStorage.getItem("memberId");
+
   const onClickCloseHandler = () => {
     dispatch(sendModalStatus(!modalStatus));
   };
+
   const ref = useOutsideClick(onClickCloseHandler);
+
   return (
     !modalStatus && (
       <StPostingOption
@@ -34,17 +38,20 @@ const SmallModal = (props) => {
         bottom={bottom}
         hidden={hidden}
       >
-        <button type="button" onClick={firstClick}>
-          {first}
-        </button>
-        <hr />
-        <button type="button" onClick={secondClick}>
-          {second}
-        </button>
-        <hr />
-        <button type="button" onClick={thirdClick}>
-          {third}
-        </button>
+        {tokenValue ? (
+          <div>
+            <button type="button" onClick={firstClick}>
+              {first}
+            </button>
+            <button type="button" onClick={thirdClick}>
+              {third}
+            </button>
+          </div>
+        ) : (
+          <button type="button" onClick={secondClick}>
+            {second}
+          </button>
+        )}
       </StPostingOption>
     )
   );
@@ -73,12 +80,6 @@ const StPostingOption = styled.div`
     height: 100%;
     padding: 8px;
     background: none;
-  }
-  hr {
-    width: 100%;
-    background: ${({ theme }) => theme.colors.grayWeak};
-    height: 0.1rem;
-    border: 0;
-    margin: 0;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.grayWeak};
   }
 `;

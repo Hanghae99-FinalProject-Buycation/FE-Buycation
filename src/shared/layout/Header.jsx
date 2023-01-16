@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import SmallModal from "../../components/modal/SmallModal";
+import SmallModal from "../../components/headerModal/userModal";
 import postingIcon from "../../assets/headerIcon/postingIcon.svg";
 import chattingIcon from "../../assets/headerIcon/chattingIcon.svg";
 import alarmIcon from "../../assets/headerIcon/alarmIcon.svg";
@@ -20,10 +20,19 @@ const Header = () => {
 
   const onMoveProfileHandler = () => {
     navigate("/profile");
+    dispatch(sendModalStatus(true));
   };
 
   const onMoveLoginHandler = () => {
     navigate("/login");
+    dispatch(sendModalStatus(true));
+  };
+
+  const onMoveLogoutHandler = () => {
+    localStorage.removeItem("id");
+    localStorage.removeItem("memberId");
+    navigate("/");
+    dispatch(sendModalStatus(true));
   };
 
   const onClickMypageModalHandler = () => {
@@ -51,7 +60,7 @@ const Header = () => {
         second="로그인"
         secondClick={onMoveLoginHandler}
         third="로그아웃"
-        // thirdClick={로그아웃}
+        thirdClick={onMoveLogoutHandler}
         hidden={!modalStatus}
       />
     </HeaderDiv>
