@@ -2,7 +2,6 @@ import React from "react";
 import styled from "@emotion/styled";
 import reviewImg from "../../assets/reviewIcon/emptyLeftFoot.svg";
 import reviewFootIcon from "../../assets/reviewIcon/reviewFootIcon.svg";
-import reviewFootIcon2 from "../../assets/reviewIcon/reviewFootIcon2.svg";
 import { useSelector } from "react-redux";
 
 const MyStar = () => {
@@ -63,11 +62,9 @@ const FootReview = styled.div`
   display: flex;
   gap: 12px;
   img {
-    opacity: 0.1;
     font-size: 30px;
   }
   .colorStar {
     filter: ${({ theme }) => theme.colors.imgFilter};
-    opacity: 1;
   }
 `;
