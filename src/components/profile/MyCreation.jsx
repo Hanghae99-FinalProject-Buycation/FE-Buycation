@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { FaMapMarkerAlt, FaUser } from "react-icons/fa";
 import ReviewModal from "./modal/ReviewModal";
@@ -7,6 +8,7 @@ import { __getCreatedList } from "../../redux/modules/profile/myListSlice";
 import { addressForm } from "../../utils/editedData";
 
 const MyCreation = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const createdList = useSelector((data) => data.myList.createdList);
   const [reviewModal, setReviewModal] = useState(false);
@@ -16,8 +18,13 @@ const MyCreation = () => {
     setReviewModal(true);
     setPostingID(postingId);
   };
+
   const onClickCloseHandler = () => {
     setReviewModal(false);
+  };
+
+  const onClickMoveDetails = (postingId) => {
+    navigate(`/details/${postingId}`);
   };
 
   useEffect(() => {
@@ -32,7 +39,10 @@ const MyCreation = () => {
       {createdList.map((item) => (
         <ContentsBox key={item.postingId}>
           <Box>
-            <Image src={item.image}></Image>
+            <Image
+              src={item.image}
+              onClick={() => onClickMoveDetails(item.postingId)}
+            ></Image>
             <Contents>
               <p>
                 <FaMapMarkerAlt size="11px" /> {addressForm(item.address)}
@@ -83,6 +93,7 @@ const Image = styled.img`
   width: 11rem;
   height: 11rem;
   border-radius: 5px;
+  cursor: pointer;
   @media screen and (max-width: 768px) {
     width: 7.5rem;
     height: 7.5rem;

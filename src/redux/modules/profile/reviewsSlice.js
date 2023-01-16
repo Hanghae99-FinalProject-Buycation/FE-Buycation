@@ -32,8 +32,8 @@ export const __postReviewScore = createAsyncThunk(
         `profile/posting/${payload.postingId}/review/${payload.memberId}`,
         post
       );
-      console.log(data.data);
-      alert(data.data);
+      console.log(data.msg);
+      alert(data.msg);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -61,5 +61,4 @@ export const reviewsSlice = createSlice({
   },
 });
 
-// export const {} = reviewsSlice.actions;
 export default reviewsSlice.reducer;
