@@ -35,6 +35,11 @@ const styles = css`
     resize: none;
   }
 
+  a,
+  button {
+    cursor: pointer;
+  }
+
   select {
     color: #a6a6a6;
   }
