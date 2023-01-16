@@ -9,6 +9,7 @@ import getDetail from "../modules/details/detailSlice";
 import profile from "../modules/profile/profileSlice";
 import myList from "../modules/profile/myListSlice";
 import reviews from "../modules/profile/reviewsSlice";
+import applicate from "../modules/application/applicationSlice";
 
 const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ const store = configureStore({
     profile,
     myList,
     reviews,
+    applicate,
   },
 });
 

@@ -4,9 +4,12 @@ import useOutsideClick from "../../hooks/useOutsideClick";
 import { RxCross1 } from "react-icons/rx";
 import { FaShoePrints } from "react-icons/fa";
 import ButtonBasic from "../elements/ButtonBasic";
-import applicationList from "../../db/detailApplicationDB.json";
 import { useDispatch, useSelector } from "react-redux";
-import { __getApplication } from "../../redux/modules/details/detailSlice";
+import {
+  __allowApplication,
+  __denyApplication,
+  __getApplication,
+} from "../../redux/modules/application/applicationSlice";
 
 const DetailApplicationList = ({ postingId }) => {
   const dispatch = useDispatch();
@@ -17,9 +20,13 @@ const DetailApplicationList = ({ postingId }) => {
   // 더블클릭 해야 다시 버튼 등장함...
   const ref = useOutsideClick(onClickCloseHandler);
   // const data = applicationList.data;
-  const data = useSelector((state) => state.getDetail.getApplication);
+  const data = useSelector((state) => state.applicate.getApplication);
+  const onClickAllowApplicationHandler = () => {};
+  const onClickDenyApplicationHandler = () => {
+    dispatch();
+  };
+
   useEffect(() => {
-    // dispatch(__getApplication(postingId));
     dispatch(__getApplication(postingId));
   }, [dispatch]);
   return (
@@ -41,8 +48,30 @@ const DetailApplicationList = ({ postingId }) => {
                 {item.userScore}
                 발자국
               </span>
-              <ButtonBasic>거절</ButtonBasic>
-              <ButtonBasic>수락</ButtonBasic>
+              <ButtonBasic
+                _onClick={() => {
+                  dispatch(
+                    __denyApplication({
+                      applicationId: item.applicationId,
+                      postingId: postingId,
+                    })
+                  );
+                }}
+              >
+                거절
+              </ButtonBasic>
+              <ButtonBasic
+                _onClick={() => {
+                  dispatch(
+                    __allowApplication({
+                      applicationId: item.applicationId,
+                      postingId: postingId,
+                    })
+                  );
+                }}
+              >
+                수락
+              </ButtonBasic>
             </div>
           ))}
       </StApplicationList>
