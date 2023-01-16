@@ -4,8 +4,9 @@ import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/Register";
 import MainPage from "../pages/MainPage";
 import PostingPage from "../pages/PostingPage";
-import DatailsPage from "../pages/DatailsPage";
+import DetailsPage from "../pages/DetailsPage";
 import ProfilePage from "../pages/ProfilePage";
+import ModifyPage from "../pages/ModifyPage";
 
 const Router = () => {
   return (
@@ -16,7 +17,8 @@ const Router = () => {
           <Route path="/signup" element={<RegisterPage />} />
           <Route path="/" element={<MainPage />} />
           <Route path="/posting" element={<PostingPage />} />
-          <Route path="/details/:postingId" element={<DatailsPage />} />
+          <Route path="/details/:postingId" element={<DetailsPage />} />
+          <Route path="/modify/:postingId" element={<ModifyPage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Route>
       </Routes>
