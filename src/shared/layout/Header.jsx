@@ -36,7 +36,7 @@ const Header = () => {
   };
 
   const onClickMypageModalHandler = () => {
-    dispatch(sendModalStatus(false));
+    dispatch(sendModalStatus(!modalStatus));
   };
 
   return (
@@ -52,17 +52,19 @@ const Header = () => {
           onClick={onClickMypageModalHandler}
         />
       </Icon>
-      <SmallModal
-        top="4rem"
-        right="0"
-        first="마이페이지"
-        firstClick={onMoveProfileHandler}
-        second="로그인"
-        secondClick={onMoveLoginHandler}
-        third="로그아웃"
-        thirdClick={onMoveLogoutHandler}
-        hidden={!modalStatus}
-      />
+      {!modalStatus && (
+        <SmallModal
+          top="4rem"
+          right="0"
+          first="마이페이지"
+          firstClick={onMoveProfileHandler}
+          second="로그인"
+          secondClick={onMoveLoginHandler}
+          third="로그아웃"
+          thirdClick={onMoveLogoutHandler}
+          // hidden={!modalStatus}
+        />
+      )}
     </HeaderDiv>
   );
 };

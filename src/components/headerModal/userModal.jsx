@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
 import useOutsideClick from "../../hooks/useOutsideClick";
@@ -16,7 +16,6 @@ const SmallModal = (props) => {
     left,
     right,
     bottom,
-    hidden,
   } = props;
   const dispatch = useDispatch();
   const modalStatus = useSelector((state) => state.generalModal.toggleModal);
@@ -25,36 +24,33 @@ const SmallModal = (props) => {
   const onClickCloseHandler = () => {
     dispatch(sendModalStatus(!modalStatus));
   };
-
   const ref = useOutsideClick(onClickCloseHandler);
 
   return (
-    !modalStatus && (
-      <StPostingOption
-        ref={ref}
-        top={top}
-        left={left}
-        right={right}
-        bottom={bottom}
-        hidden={hidden}
-      >
-        {tokenValue ? (
-          <div>
-            <button type="button" onClick={firstClick}>
-              {first}
-            </button>
-            <button type="button" onClick={thirdClick}>
-              {third}
-            </button>
-          </div>
-        ) : (
-          <button type="button" onClick={secondClick}>
-            {second}
+    <StPostingOption
+      ref={ref}
+      top={top}
+      left={left}
+      right={right}
+      bottom={bottom}
+    >
+      {tokenValue ? (
+        <div>
+          <button type="button" onClick={firstClick}>
+            {first}
           </button>
-        )}
-      </StPostingOption>
-    )
+          <button type="button" onClick={thirdClick}>
+            {third}
+          </button>
+        </div>
+      ) : (
+        <button type="button" onClick={secondClick}>
+          {second}
+        </button>
+      )}
+    </StPostingOption>
   );
+  // );
 };
 
 export default SmallModal;

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  toggleModal: true,
+  toggleModal: true, // 모달이 보이는 상태
 };
 
 export const generalModalSlice = createSlice({
