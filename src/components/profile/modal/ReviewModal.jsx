@@ -23,21 +23,25 @@ const ReviewModal = ({ onClose, postingIdData }) => {
     dispatch(__getReviewList(postingIdData));
   }, [dispatch, postingIdData]);
 
-  const [starClicked, setStarClicked] = useState(null);
+  const [starClicked, setStarClicked] = useState([]);
 
   //state로 별점과 Css 변경
-  const onClickStarHandler = (e) => {
-    setStarClicked(e.target.id);
+  const onClickStarHandler = (event, idx) => {
+    const newArr = [...starClicked];
+    newArr[idx] = event.target.id;
+    setStarClicked(newArr);
+    //console.log(idx);
   };
+  //console.log(starClicked);
 
   //등록 버튼 클릭 시 통신
-  const onClickPostReviewHandler = () => {
+  const onClickPostReviewHandler = (memberId) => {
     const newPostData = {
       postingId: postingIdData,
-      //memberId: memberId,
+      memberId: memberId,
       userScore: parseInt(starClicked),
     };
-    //dispatch(__postReviewScore(newPostData));
+    dispatch(__postReviewScore(newPostData));
     console.log(newPostData);
   };
 
@@ -50,46 +54,30 @@ const ReviewModal = ({ onClose, postingIdData }) => {
             <FaTimes size="1.3rem" />
           </CloseBtn>
         </Header>
-
-        <PersonCard>
-          <PersonInfo>
-            <p>닉네임</p>
-            <StarBox>
-              {[2, 4, 6, 8, 10].map((el) => (
-                <img
-                  className={`${starClicked >= el && "colorStar"}`}
-                  alt={el}
-                  src={reviewImg}
-                  key={el}
-                  id={el}
-                  onClick={onClickStarHandler}
-                />
-              ))}
-            </StarBox>
-          </PersonInfo>
-
-          <ButtonBasic _onClick={onClickPostReviewHandler}>등록</ButtonBasic>
-        </PersonCard>
-
-        <PersonCard>
-          <PersonInfo>
-            <p>닉네임</p>
-            <StarBox>
-              {[2, 4, 6, 8, 10].map((el) => (
-                <img
-                  className={`${starClicked >= el && "colorStar"}`}
-                  alt={el}
-                  src={reviewImg}
-                  key={el}
-                  id={el}
-                  onClick={onClickStarHandler}
-                />
-              ))}
-            </StarBox>
-          </PersonInfo>
-
-          <ButtonBasic _onClick={onClickPostReviewHandler}>등록</ButtonBasic>
-        </PersonCard>
+        {reviewList.map((item, idx) => (
+          <PersonCard key={item.memberId}>
+            <PersonInfo>
+              <p>{item.nickname}</p>
+              <StarBox>
+                {[2, 4, 6, 8, 10].map((el) => (
+                  <img
+                    className={`${starClicked[idx] >= el && "colorStar"}`}
+                    alt={el}
+                    src={reviewImg}
+                    key={el}
+                    id={el}
+                    onClick={(event) => onClickStarHandler(event, idx)}
+                  />
+                ))}
+              </StarBox>
+            </PersonInfo>
+            <ButtonBasic
+              _onClick={() => onClickPostReviewHandler(item.memberId)}
+            >
+              등록
+            </ButtonBasic>
+          </PersonCard>
+        ))}
       </ModalCard>
     </Backdrop>
   );
