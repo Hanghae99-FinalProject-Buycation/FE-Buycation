@@ -10,14 +10,9 @@ import {
 } from "../../../redux/modules/profile/reviewsSlice";
 
 const ReviewModal = ({ onClose, postingIdData }) => {
-  /**
-   * 해당 별 평점 텍스트 나타내기
-   * 해당 별 클릭시 색깔 유지
-   * 클릭한 해당 별 인데스 저장 후 백엔드로 데이터 보냄
-   */
   const dispatch = useDispatch();
   const reviewList = useSelector((data) => data.reviews.reviews);
-  //console.log(reviewList);
+  console.log(reviewList);
 
   useEffect(() => {
     dispatch(__getReviewList(postingIdData));
@@ -25,7 +20,6 @@ const ReviewModal = ({ onClose, postingIdData }) => {
 
   const [starClicked, setStarClicked] = useState([]);
 
-  //state로 별점과 Css 변경
   const onClickStarHandler = (event, idx) => {
     const newArr = [...starClicked];
     newArr[idx] = event.target.id;
@@ -34,7 +28,6 @@ const ReviewModal = ({ onClose, postingIdData }) => {
   };
   //console.log(starClicked);
 
-  //등록 버튼 클릭 시 통신
   const onClickPostReviewHandler = (memberId) => {
     const newPostData = {
       postingId: postingIdData,
