@@ -62,11 +62,20 @@ const Detail = () => {
               <img src={details.profileImage} alt="" />
             </div>
             {/* 유저 정보 */}
-            <DetailSpan
-              titleText={details.nickname}
-              bodyText={details.address + details.addressDetail}
-              // color="#a6a6a6"
-            />
+            {details.addressDetail ? (
+              <DetailSpan
+                titleText={details.nickname}
+                bodyText={details.address + details.addressDetail}
+                // color="#a6a6a6"
+              />
+            ) : (
+              <DetailSpan
+                titleText={details.nickname}
+                bodyText={details.address}
+                // color="#a6a6a6"
+              />
+            )}
+
             {/* {details.address.split(" ", 2)} */}
           </div>
           <div className="postingOption">
