@@ -35,7 +35,8 @@ const MyProfile = () => {
           <ProfileImage
             alt="profileImage"
             src={
-              profileData.profileImage === ""
+              profileData.profileImage === "" ||
+              profileData.profileImage === undefined
                 ? profile_default
                 : profileData.profileImage
             }

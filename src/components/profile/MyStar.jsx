@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "@emotion/styled";
 import reviewImg from "../../assets/reviewIcon/emptyLeftFoot.svg";
+import reviewFootIcon from "../../assets/reviewIcon/reviewFootIcon.svg";
+import reviewFootIcon2 from "../../assets/reviewIcon/reviewFootIcon2.svg";
 import { useSelector } from "react-redux";
 
 const MyStar = () => {
@@ -20,7 +22,7 @@ const MyStar = () => {
               <img
                 className={`${item.reviewScore >= el && "colorStar"}`}
                 alt={el}
-                src={reviewImg}
+                src={reviewFootIcon}
                 key={el}
                 id={el}
               />

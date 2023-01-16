@@ -67,8 +67,8 @@ const Posting = () => {
       [name]: value,
     });
   };
-  console.log("입력값확인:", postData);
-  console.log("imageFile", imageFile);
+  //console.log("입력값확인:", postData);
+  //console.log("imageFile", imageFile);
 
   const onClickSubmitHandler = () => {
     if (
