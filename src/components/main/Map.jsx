@@ -47,7 +47,7 @@ const Map = () => {
       );
 
       //결과 값으로 받은 위치를 마커로 표시
-      const marker = new kakao.maps.Marker({
+      new kakao.maps.Marker({
         map: map, //마커를 표시할 지도
         position: position.latlng, //마커를 표시할 위치
         title: el.title, //마커에 hover시 나타날 title
