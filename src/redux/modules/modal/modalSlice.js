@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  toggleModal: false,
+  toggleModal: true,
 };
 
 export const generalModalSlice = createSlice({

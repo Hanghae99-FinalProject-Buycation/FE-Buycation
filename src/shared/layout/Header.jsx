@@ -17,9 +17,11 @@ const Header = () => {
   const onMovePostingHandler = () => {
     navigate("/posting");
   };
+
   const onMoveProfileHandler = () => {
     navigate("/profile");
   };
+
   const onMoveLoginHandler = () => {
     navigate("/login");
   };
