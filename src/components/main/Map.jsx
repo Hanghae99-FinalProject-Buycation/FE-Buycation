@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-//더미 데이터 사용
-//import dummy from "../../db/mainDB.json";
+import markerMain from "../../assets/mapMarker/markerMain.svg";
 
 const Map = () => {
   const postingList = useSelector((data) => data.getPostingList.getPostingList);
@@ -36,11 +35,23 @@ const Map = () => {
       };
       //console.log("각 마커의 position", position);
 
+      //미카 이미지 생성
+      const imageSrc = `${markerMain}`,
+        imageSize = new kakao.maps.Size(29, 42),
+        imageOption = { offset: new kakao.maps.Point(14, 39) }; //마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+      const markerImage = new kakao.maps.MarkerImage(
+        imageSrc,
+        imageSize,
+        imageOption
+      );
+
       //결과 값으로 받은 위치를 마커로 표시
       const marker = new kakao.maps.Marker({
         map: map, //마커를 표시할 지도
         position: position.latlng, //마커를 표시할 위치
         title: el.title, //마커에 hover시 나타날 title
+        image: markerImage,
       });
 
       //지도의 중심을 결과값으로 받은 위치로 이동 : 중심좌표에서 클릭 한 좌표의 위치로 이동
