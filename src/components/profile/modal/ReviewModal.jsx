@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import reviewImg from "../../../assets/reviewIcon/emptyLeftFoot.svg";
+import reviewFootIcon from "../../../assets/reviewIcon/reviewFootIcon.svg";
 import { FaTimes } from "react-icons/fa";
 import ButtonBasic from "../../elements/ButtonBasic";
 import { useDispatch, useSelector } from "react-redux";
@@ -56,7 +57,7 @@ const ReviewModal = ({ onClose, postingIdData }) => {
                   <img
                     className={`${starClicked[idx] >= el && "colorStar"}`}
                     alt={el}
-                    src={reviewImg}
+                    src={reviewFootIcon}
                     key={el}
                     id={el}
                     onClick={(event) => onClickStarHandler(event, idx)}
@@ -141,13 +142,11 @@ const StarBox = styled.div`
   display: flex;
 
   img {
-    margin: 15px 5px 0 5px;
-    opacity: 0.1;
+    margin: 15px 20px 0 0;
     font-size: 30px;
     cursor: pointer;
   }
   .colorStar {
     filter: ${({ theme }) => theme.colors.imgFilter};
-    opacity: 1;
   }
 `;

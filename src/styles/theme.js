@@ -10,7 +10,7 @@ const theme = {
     grayMid: "#A6A6A6",
     grayStrong: "#939393", // 회색 강조
     imgFilter:
-      "invert(68%) sepia(63%) saturate(7037%) hue-rotate(326deg) brightness(103%) contrast(100%)",
+      "invert(41%) sepia(45%) saturate(1242%) hue-rotate(317deg) brightness(112%) contrast(101%);",
   },
 
   fontSize: {
