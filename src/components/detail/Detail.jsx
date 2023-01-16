@@ -2,7 +2,10 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
 import { FaUserCircle } from "react-icons/fa";
-import { __getDetail } from "../../redux/modules/details/detailSlice";
+import {
+  __getDetail,
+  __postApplication,
+} from "../../redux/modules/details/detailSlice";
 
 import ButtonBasic from "../elements/ButtonBasic";
 import InputBasic from "../elements/InputBasic";
@@ -22,6 +25,7 @@ const Detail = () => {
   const dispatch = useDispatch();
   const param = parseInt(useParams().postingId);
   const details = useSelector((state) => state.getDetail.getDetail);
+  const getMemberId = parseInt(localStorage.getItem("memberId"));
   // const editedAddress = addressForm(details.address);
   const [postingModal, setPostingModal] = useState(false);
   const [commentModal, setCommentModal] = useState(false);
@@ -34,6 +38,9 @@ const Detail = () => {
   };
   const onClickApplicationModalHandler = () => {
     setApplicationModal(!applicationModal);
+  };
+  const onClickApplicateHandler = () => {
+    dispatch(__postApplication({ postingId: param, memberId: getMemberId }));
   };
   useBuyLocation(details.address);
   // const { getDetail, isLoading, error } = useSelector(
@@ -76,7 +83,7 @@ const Detail = () => {
             {/* {details.address.split(" ", 2)} */}
           </div>
           <div className="postingOption">
-            {postingModal && <DetailPostingOptionModal />}
+            {postingModal && <DetailPostingOptionModal postingId={param} />}
             <DetailMoreButton onClick={onClickPostingModalHandler} />
           </div>
         </StCreatorProfile>
@@ -112,9 +119,9 @@ const Detail = () => {
         <StBuyLocation id="map">🔻{details.address}</StBuyLocation>
         <hr />
         {/* 나중에 닉네임 같은 걸로 분기 수정 */}
-        {parseInt(localStorage.getItem("memberId")) === details.memberId ? (
+        {getMemberId === details.memberId ? (
           <ElApplicationWrap>
-            {applicationModal && <DetailApplicationList />}
+            {applicationModal && <DetailApplicationList postingId={param} />}
             <ElApplicationBtn
               height="3.125rem"
               margin="1.875rem 0"
@@ -134,6 +141,7 @@ const Detail = () => {
               margin="1.875rem 0"
               background="#FF5A5F"
               color="white"
+              _onClick={onClickApplicateHandler}
             >
               참가 신청 하기
             </ElApplicationBtn>
