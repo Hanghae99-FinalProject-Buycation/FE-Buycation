@@ -42,9 +42,11 @@ const MyCreation = () => {
               <p>
                 <FaUser size="11px" /> {item.currentMembers}/{item.totalMembers}
               </p>
-              <ReviewBtn onClick={() => onClickReviewHandler(item.postingId)}>
-                후기 작성
-              </ReviewBtn>
+              {item.doneStatus ? (
+                <ReviewBtn onClick={() => onClickReviewHandler(item.postingId)}>
+                  후기 작성
+                </ReviewBtn>
+              ) : null}
             </Contents>
           </Box>
         </ContentsBox>
