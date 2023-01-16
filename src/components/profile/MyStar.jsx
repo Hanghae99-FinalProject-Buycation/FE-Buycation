@@ -1,27 +1,33 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 import reviewImg from "../../assets/reviewIcon/emptyLeftFoot.svg";
+import { useSelector } from "react-redux";
 
 const MyStar = () => {
+  const profileData = useSelector((data) => data.profile.getProfile);
+  const myReviewList = profileData.reviewList;
+
   return (
     <>
-      <ContentsBox>
-        <ProfileInfo>
-          <p>익명</p>
-          <p>2023-10-01</p>
-        </ProfileInfo>
-        <FootReview>
-          {[2, 4, 6, 8, 10].map((el) => (
-            <img
-              className={`${6 >= el && "colorStar"}`}
-              alt={el}
-              src={reviewImg}
-              key={el}
-              id={el}
-            />
-          ))}
-        </FootReview>
-      </ContentsBox>
+      {myReviewList?.map((item, index) => (
+        <ContentsBox key={index}>
+          <ProfileInfo>
+            <p>익명{index + 1}</p>
+            <p>{item.createAt}</p>
+          </ProfileInfo>
+          <FootReview>
+            {[2, 4, 6, 8, 10].map((el) => (
+              <img
+                className={`${item.reviewScore >= el && "colorStar"}`}
+                alt={el}
+                src={reviewImg}
+                key={el}
+                id={el}
+              />
+            ))}
+          </FootReview>
+        </ContentsBox>
+      ))}
     </>
   );
 };

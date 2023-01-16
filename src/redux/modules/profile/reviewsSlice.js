@@ -10,13 +10,10 @@ const initialState = {
 export const __getReviewList = createAsyncThunk(
   "reviewList/get",
   async (payload, thunkAPI) => {
-    console.log("포스팅ID", payload);
+    //console.log("포스팅ID", payload);
     try {
-      const { data } = await baseURLwToken.get(
-        //페이로드로 값 : postingId
-        `profile/posting/${payload}`
-      );
-      console.log(data.data);
+      const { data } = await baseURLwToken.get(`profile/posting/${payload}`);
+      //console.log(data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -35,7 +32,8 @@ export const __postReviewScore = createAsyncThunk(
         `profile/posting/${payload.postingId}/review/${payload.memberId}`,
         post
       );
-      //console.log(data.data);
+      console.log(data.data);
+      alert(data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
