@@ -16,11 +16,14 @@ import DetailMoreButton from "./DetailMoreButton";
 import DetailPostingOptionModal from "./DetailPostingOptionModal";
 import DetailCommentModal from "./DetailCommentModal";
 import DetailApplicationList from "./DetailApplicationList";
+import { useParams } from "react-router-dom";
 
 const Detail = () => {
   const dispatch = useDispatch();
-  // const details = useSelector((state) => state.getDetail.getDetail);
-  const details = detail.data;
+  const param = parseInt(useParams().postingId);
+  const details = useSelector((state) => state.getDetail.getDetail);
+  console.log(details);
+  // const details = detail.data;
   const [postingModal, setPostingModal] = useState(false);
   const [commentModal, setCommentModal] = useState(false);
   const [applicationModal, setApplicationModal] = useState(false);
@@ -39,8 +42,7 @@ const Detail = () => {
   // );
   const size = useWindowResize();
   useEffect(() => {
-    // param 값?
-    // dispatch(__getDetail(1));
+    dispatch(__getDetail(param));
   }, [dispatch]);
 
   // if (isLoading) return <div>로딩ㅜㅜ</div>;
@@ -62,7 +64,7 @@ const Detail = () => {
             {/* 유저 정보 */}
             <DetailSpan
               titleText={details.nickname}
-              bodyText={details.address}
+              bodyText={details.address + details.addressDetail}
               // color="#a6a6a6"
             />
             {/* {details.address.split(" ", 2)} */}
@@ -130,8 +132,11 @@ const Detail = () => {
           </ElApplicationWrap>
         )}
         <StComment>
-          {/* <span>댓글 {details.comments}</span> */}
-          <span>댓글 {details.comments.length}</span>
+          {details.comment ? (
+            <span>댓글 {details.comments.length}</span>
+          ) : (
+            <span>댓글 0</span>
+          )}
           {localStorage.getItem("id") ? (
             <div>
               {size.innerWidth > 375 ? (
@@ -154,29 +159,31 @@ const Detail = () => {
             </div>
           ) : null}
         </StComment>
-        {details.comments.map((comment, idx) => (
-          <StCommentList key={comment.nickname[0] + idx}>
-            <div>
-              <span>
+        {details.comments ? (
+          details.comments.map((comment, idx) => (
+            <StCommentList key={comment.nickname[0] + idx}>
+              <div>
                 <span>
-                  {comment.nickname}
-                  &nbsp;&nbsp;&nbsp;
+                  <span>
+                    {comment.nickname}
+                    &nbsp;&nbsp;&nbsp;
+                  </span>
+                  <span>{comment.createdAt.split(" ", 1)}</span>
+                  <p>{comment.content}</p>
                 </span>
-                <span>{comment.createdAt.split(" ", 1)}</span>
-                <p>{comment.content}</p>
-              </span>
-              {comment.nickname === details.nickname ? (
-                <div className="commentOption">
-                  {commentModal && <DetailCommentModal />}
-                  <DetailMoreButton onClick={onClickCommentModalHandler} />
-                </div>
-              ) : (
-                ""
-              )}
-            </div>
-            <hr key={"hr" + idx} />
-          </StCommentList>
-        ))}
+                {comment.nickname === details.nickname ? (
+                  <div className="commentOption">
+                    {commentModal && <DetailCommentModal />}
+                    <DetailMoreButton onClick={onClickCommentModalHandler} />
+                  </div>
+                ) : null}
+              </div>
+              <hr key={"hr" + idx} />
+            </StCommentList>
+          ))
+        ) : (
+          <div></div>
+        )}
       </StDetailForm>
     </StDetailWrap>
   );
@@ -221,7 +228,7 @@ const ElImgWrap = styled.div`
   margin: 1.875rem 0;
   img {
     flex-shrink: 0;
-    min-width: 100%;
+    /* min-width: 100%; */
     min-height: 100%;
   }
 `;
