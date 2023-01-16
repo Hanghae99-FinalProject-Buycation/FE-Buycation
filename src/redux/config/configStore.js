@@ -10,6 +10,7 @@ import profile from "../modules/profile/profileSlice";
 import myList from "../modules/profile/myListSlice";
 import reviews from "../modules/profile/reviewsSlice";
 import applicate from "../modules/application/applicationSlice";
+import generalModal from "../modules/modal/modalSlice";
 
 const store = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ const store = configureStore({
     myList,
     reviews,
     applicate,
+    generalModal,
   },
 });
 

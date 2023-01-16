@@ -1,19 +1,33 @@
-import styled from "@emotion/styled";
 import React from "react";
+import styled from "@emotion/styled";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import SmallModal from "../../components/modal/SmallModal";
 import postingIcon from "../../assets/headerIcon/postingIcon.svg";
 import chattingIcon from "../../assets/headerIcon/chattingIcon.svg";
 import alarmIcon from "../../assets/headerIcon/alarmIcon.svg";
 import profileIcon from "../../assets/headerIcon/profileIcon.svg";
+import { sendModalStatus } from "../../redux/modules/modal/modalSlice";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const modalStatus = useSelector((state) => state.generalModal.toggleModal);
 
   const onMovePostingHandler = () => {
     navigate("/posting");
   };
   const onMoveProfileHandler = () => {
     navigate("/profile");
+    dispatch(sendModalStatus(!modalStatus));
+  };
+  const onMoveLoginHandler = () => {
+    navigate("/login");
+    dispatch(sendModalStatus(!modalStatus));
+  };
+
+  const onClickMypageModalHandler = () => {
+    dispatch(sendModalStatus(!modalStatus));
   };
 
   return (
@@ -23,8 +37,23 @@ const Header = () => {
         <img alt="posting" src={postingIcon} onClick={onMovePostingHandler} />
         <img alt="chatting" src={chattingIcon} />
         <img alt="alarm" src={alarmIcon} />
-        <img alt="profile" src={profileIcon} onClick={onMoveProfileHandler} />
+        <img
+          alt="profile"
+          src={profileIcon}
+          onClick={onClickMypageModalHandler}
+        />
       </Icon>
+      <SmallModal
+        top="4rem"
+        right="0"
+        first="마이페이지"
+        firstClick={onMoveProfileHandler}
+        second="로그인"
+        secondClick={onMoveLoginHandler}
+        third="로그아웃"
+        // thirdClick={로그아웃}
+        hidden={!modalStatus}
+      />
     </HeaderDiv>
   );
 };
