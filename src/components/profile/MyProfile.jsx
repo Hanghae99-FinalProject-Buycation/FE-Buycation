@@ -6,21 +6,22 @@ import footer from "../../assets/profileImg/footer.svg";
 import profile_default from "../../assets/profileImg/profile_default.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { __getProfile } from "../../redux/modules/profile/profileSlice";
-//더미 데이터
-//import dummy from "../../db/profileDB.json";
 
 const MyProfile = () => {
+  const memberIdData = localStorage.getItem("memberId");
   const dispatch = useDispatch();
   const [editProfileModal, setEditProfileModal] = useState(false);
   const profileData = useSelector((data) => data.profile.getProfile);
+  const { isSuccess } = useSelector((state) => state.profile);
 
   useEffect(() => {
-    dispatch(__getProfile());
-  }, [dispatch]);
+    dispatch(__getProfile(memberIdData));
+  }, [dispatch, memberIdData, isSuccess]);
 
   const onClickEditHandler = () => {
     setEditProfileModal(true);
   };
+
   const onClickCloseHandler = () => {
     setEditProfileModal(false);
   };

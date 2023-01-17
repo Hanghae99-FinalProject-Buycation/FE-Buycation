@@ -10,6 +10,7 @@ import { __getParticipatedList } from "../../redux/modules/profile/myListSlice";
 const MyParicipation = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const memberIdData = localStorage.getItem("memberId");
   const participatedList = useSelector((data) => data.myList.participatedList);
   const [reviewModal, setReviewModal] = useState(false);
   const [postingID, setPostingID] = useState("");
@@ -28,8 +29,8 @@ const MyParicipation = () => {
   };
 
   useEffect(() => {
-    dispatch(__getParticipatedList());
-  }, [dispatch]);
+    dispatch(__getParticipatedList(memberIdData));
+  }, [dispatch, memberIdData]);
 
   return (
     <>
