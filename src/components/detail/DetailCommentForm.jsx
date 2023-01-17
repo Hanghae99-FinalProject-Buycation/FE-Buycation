@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import useWindowResize from "../../hooks/useWindowResize";
 import { __postComment } from "../../redux/modules/details/commentSlice";
 import { __getDetail } from "../../redux/modules/details/detailSlice";
-import { __getProfile } from "../../redux/modules/profile/profileSlice";
+import { __getMyProfile } from "../../redux/modules/profile/profileSlice";
 import ButtonBasic from "../elements/ButtonBasic";
 
 const DetailCommentForm = () => {
@@ -22,7 +22,7 @@ const DetailCommentForm = () => {
     dispatch(__getDetail(postingId));
   };
   useEffect(() => {
-    dispatch(__getProfile(memberIdData));
+    dispatch(__getMyProfile(memberIdData));
   }, [dispatch]);
 
   return (

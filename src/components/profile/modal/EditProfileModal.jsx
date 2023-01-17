@@ -14,7 +14,6 @@ import usePostcode from "../../../hooks/usePostcode";
 import { uploadImg } from "../../../utils/uploadImg";
 
 const EditProfileModal = (props) => {
-  const memberIdData = localStorage.getItem("memberId");
   const dispatch = useDispatch();
   const { isSuccess } = useSelector((state) => state.profile);
   const profileData = useSelector((data) => data.profile.getProfile);
@@ -36,12 +35,11 @@ const EditProfileModal = (props) => {
         address: address,
       });
     }
-  }, [address, memberIdData]);
+  }, [address]);
 
   useEffect(() => {
     //프로필 수정 통신이 성공 했을 때 해당 alert 띄우기
     if (isSuccess) {
-      console.log(isSuccess);
       alert("프로필 수정이 완료되었습니다 :)");
     }
   }, [isSuccess]);
@@ -67,7 +65,6 @@ const EditProfileModal = (props) => {
       });
   };
 
-  //상태 값
   const onChangeValueHandler = (event) => {
     const { name, value } = event.target;
     setEditValue({
@@ -78,7 +75,7 @@ const EditProfileModal = (props) => {
 
   const onClickEditHandler = () => {
     const newPatchData = {
-      memberId: memberIdData,
+      memberId: profileData.memberId,
       nickname: editValue.nickname,
       profileImage: editValue.profileImage,
       address: editValue.address,
