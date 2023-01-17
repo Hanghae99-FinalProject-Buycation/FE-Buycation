@@ -28,7 +28,6 @@ const SignIn = () => {
 
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}
 &redirect_uri=${REDIRECT_URI}&response_type=code`;
-  console.log(KAKAO_AUTH_URL);
 
   const onClickKakaoHandler = (event) => {
     window.location.href = KAKAO_AUTH_URL;
