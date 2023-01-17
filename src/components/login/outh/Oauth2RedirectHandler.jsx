@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { baseURL } from "../../../core/axios";
 import { Spinners } from "../../../shared/layout/Spinners";
-// import { setCookies } from "../../../core/cookie";
+import { setCookies } from "../../../core/cookie";
 
 const Oauth2RedirectHandler = () => {
   const navigate = useNavigate();
@@ -11,13 +11,10 @@ const Oauth2RedirectHandler = () => {
     await baseURL
       .get(`members/login/kakao?code=${code}`)
       .then((res) => {
-        console.log(res);
-        localStorage.setItem("id", res.headers.authorization);
-        localStorage.setItem("memberId", res.data.data.memberId);
-        // setCookies("id", data.headers.authorization, {
-        //   path: "/",
-        //   maxAge: 1750,
-        // });
+        setCookies("id", res.headers.authorization, {
+          path: "/",
+          maxAge: 1750,
+        });
         navigate("/");
       })
       .catch((error) => {
