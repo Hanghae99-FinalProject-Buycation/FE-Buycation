@@ -5,18 +5,17 @@ import EditProfileModal from "./modal/EditProfileModal";
 import footer from "../../assets/profileImg/footer.svg";
 import profile_default from "../../assets/profileImg/profile_default.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { __getProfile } from "../../redux/modules/profile/profileSlice";
+import { __getMyProfile } from "../../redux/modules/profile/profileSlice";
 
 const MyProfile = () => {
-  const memberIdData = localStorage.getItem("memberId");
   const dispatch = useDispatch();
   const [editProfileModal, setEditProfileModal] = useState(false);
   const profileData = useSelector((data) => data.profile.getProfile);
   const { isSuccess } = useSelector((state) => state.profile);
 
   useEffect(() => {
-    dispatch(__getProfile(memberIdData));
-  }, [dispatch, memberIdData, isSuccess]);
+    dispatch(__getMyProfile());
+  }, [dispatch, isSuccess]);
 
   const onClickEditHandler = () => {
     setEditProfileModal(true);

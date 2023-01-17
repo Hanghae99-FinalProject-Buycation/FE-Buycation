@@ -9,11 +9,11 @@ const initialState = {
   isSuccess: false,
 };
 
-export const __getProfile = createAsyncThunk(
-  "profile/get",
+export const __getMyProfile = createAsyncThunk(
+  "myProfile/get",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await baseURL.get(`members/${payload}`);
+      const { data } = await baseURLwToken.get(`members/myprofile`);
       console.log(data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -60,14 +60,14 @@ export const profileSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(__getProfile.pending, (state) => {
+      .addCase(__getMyProfile.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(__getProfile.fulfilled, (state, action) => {
+      .addCase(__getMyProfile.fulfilled, (state, action) => {
         state.isLoading = false;
         state.getProfile = action.payload;
       })
-      .addCase(__getProfile.rejected, (state, action) => {
+      .addCase(__getMyProfile.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

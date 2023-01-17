@@ -10,7 +10,7 @@ import { addressForm } from "../../utils/editedData";
 const MyCreation = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const memberIdData = localStorage.getItem("memberId");
+  const { memberId } = useSelector((data) => data.profile.getProfile);
   const createdList = useSelector((data) => data.myList.createdList);
   const [reviewModal, setReviewModal] = useState(false);
   const [postingID, setPostingID] = useState("");
@@ -29,8 +29,8 @@ const MyCreation = () => {
   };
 
   useEffect(() => {
-    dispatch(__getCreatedList(memberIdData));
-  }, [dispatch, memberIdData]);
+    dispatch(__getCreatedList(memberId));
+  }, [dispatch, memberId]);
 
   return (
     <>
