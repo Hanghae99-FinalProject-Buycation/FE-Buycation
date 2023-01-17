@@ -2,7 +2,10 @@ import styled from "@emotion/styled";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import useOutsideClick from "../../hooks/useOutsideClick";
-import { __doneDetail } from "../../redux/modules/details/detailSlice";
+import {
+  __deleteDetail,
+  __doneDetail,
+} from "../../redux/modules/details/detailSlice";
 
 const DetailPostingOptionModal = ({ postingId }) => {
   const dispatch = useDispatch();
@@ -12,6 +15,9 @@ const DetailPostingOptionModal = ({ postingId }) => {
   };
   const onClickSendDoneHandler = () => {
     dispatch(__doneDetail(postingId));
+  };
+  const onClickDeleteHandler = () => {
+    dispatch(__deleteDetail(postingId));
   };
   // 더블클릭 해야 다시 버튼 등장함...
   const ref = useOutsideClick(onClickCloseHandler);
@@ -31,12 +37,7 @@ const DetailPostingOptionModal = ({ postingId }) => {
           수정
         </button>
         <hr />
-        <button
-          type="button"
-          onClick={() => {
-            console.log("삭제");
-          }}
-        >
+        <button type="button" onClick={onClickDeleteHandler}>
           삭제
         </button>
       </StPostingOption>

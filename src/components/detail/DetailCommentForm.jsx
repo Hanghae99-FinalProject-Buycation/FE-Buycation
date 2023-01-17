@@ -1,25 +1,68 @@
-import React from 'react';
-import useWindowResize from '../../hooks/useWindowResize'
+import styled from "@emotion/styled";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import useWindowResize from "../../hooks/useWindowResize";
+import { __postComment } from "../../redux/modules/details/commentSlice";
+import { __getDetail } from "../../redux/modules/details/detailSlice";
+import { __getProfile } from "../../redux/modules/profile/profileSlice";
+import ButtonBasic from "../elements/ButtonBasic";
 
 const DetailCommentForm = () => {
-  const { innerWidth } = useWindowResize();
+  const dispatch = useDispatch();
+  const postingId = Number(useParams().postingId);
+  const memberIdData = parseInt(localStorage.getItem("memberId"));
+  const { nickname } = useSelector((state) => state.profile.getProfile);
+  const [comment, setComment] = useState({ content: "" });
+  const onChangeCommentHandler = (e) => {
+    setComment({ content: e.target.value });
+  };
+  const onClickCommentPostHandler = () => {
+    dispatch(__postComment({ postingId, comment }));
+    dispatch(__getDetail(postingId));
+  };
+  useEffect(() => {
+    dispatch(__getProfile(memberIdData));
+  }, [dispatch]);
 
-  if(localStorage.getItem('memberId')) return 
-  <div>
-  {innerWidth > 375 ? (<>
-<span>내 닉네임</span>
-<textarea placeholder="댓글을 남겨보세요" />
-</>): 
-(<>
-<InputBasic placeholder="댓글을 남겨보세요" />)
-          <ButtonBasic
-            width="4.375rem"
-            height="fit-content"
-            color="white"
-          >
-            등록
-          </ButtonBasic></>}
-  </div>
-  
+  return (
+    <StComment>
+      <span>{nickname}</span>
+      <textarea
+        placeholder="댓글을 남겨보세요"
+        onChange={onChangeCommentHandler}
+      />
+      <div>
+        <ButtonBasic
+          width="4.375rem"
+          height="fit-content"
+          color="white"
+          _onClick={onClickCommentPostHandler}
+        >
+          등록
+        </ButtonBasic>
+      </div>
+    </StComment>
+  );
+};
 
 export default DetailCommentForm;
+
+const StComment = styled.div`
+  textarea {
+    height: 8rem;
+    padding: 1rem 0;
+    border: none;
+    background: ${({ theme }) => theme.colors.grayList};
+    resize: none;
+    outline: none;
+  }
+  /* 작성 버튼 오른정렬용 래퍼 */
+  div:last-of-type {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+`;

@@ -16,18 +16,21 @@ import DetailMoreButton from "./DetailMoreButton";
 import DetailPostingOptionModal from "./DetailPostingOptionModal";
 import DetailCommentModal from "./DetailCommentModal";
 import DetailApplicationList from "./DetailApplicationList";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { addressForm } from "../../utils/editedData";
+import DetailCommentForm from "./DetailCommentForm";
 
 const Detail = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const param = parseInt(useParams().postingId);
   const details = useSelector((state) => state.getDetail.getDetail);
-  const getMemberId = parseInt(localStorage.getItem("memberId"));
+  const getMemberId = Number(localStorage.getItem("memberId"));
   // const editedAddress = addressForm(details.address);
   const [postingModal, setPostingModal] = useState(false);
   const [commentModal, setCommentModal] = useState(false);
   const [applicationModal, setApplicationModal] = useState(false);
+  const commentsLength = details.commentList?.length || 0;
   const onClickPostingModalHandler = () => {
     setPostingModal(!postingModal);
   };
@@ -38,13 +41,17 @@ const Detail = () => {
     setApplicationModal(!applicationModal);
   };
   const onClickApplicateHandler = () => {
-    dispatch(__postApplication({ postingId: param, memberId: getMemberId }));
+    if (!getMemberId) {
+      alert("로그인 해주세요");
+      navigate("/login");
+    } else {
+      dispatch(__postApplication({ postingId: param, memberId: getMemberId }));
+    }
   };
   useBuyLocation(details.address);
   // const { getDetail, isLoading, error } = useSelector(
   // (state) => state.getDetail.getDetail
   // );
-  const { innerWidth } = useWindowResize();
   useEffect(() => {
     dispatch(__getDetail(param));
   }, [dispatch]);
@@ -82,7 +89,9 @@ const Detail = () => {
           </div>
           <div className="postingOption">
             {postingModal && <DetailPostingOptionModal postingId={param} />}
-            <DetailMoreButton onClick={onClickPostingModalHandler} />
+            {getMemberId === details.memberId && (
+              <DetailMoreButton onClick={onClickPostingModalHandler} />
+            )}
           </div>
         </StCreatorProfile>
         <hr />
@@ -116,65 +125,33 @@ const Detail = () => {
         <hr />
         <StBuyLocation id="map">🔻{details.address}</StBuyLocation>
         <hr />
-        {/* 나중에 닉네임 같은 걸로 분기 수정 */}
-        {getMemberId === details.memberId ? (
-          <ElApplicationWrap>
-            {applicationModal && <DetailApplicationList postingId={param} />}
-            <ElApplicationBtn
-              height="3.125rem"
-              margin="1.875rem 0"
-              background="#FF5A5F"
-              color="white"
-              _onClick={onClickApplicationModalHandler}
-            >
-              신청 리스트 보기
-            </ElApplicationBtn>
-          </ElApplicationWrap>
-        ) : (
-          <ElApplicationWrap>
-            <ElApplicationBtn
-              // type="submit"
-              type="button"
-              height="3.125rem"
-              margin="1.875rem 0"
-              background="#FF5A5F"
-              color="white"
-              _onClick={onClickApplicateHandler}
-            >
+        {/*         {details.doneStatus && 
+        '완료된 게시글입니다'
+        } */}
+        <ElApplicationWrap>
+          {getMemberId === details.memberId ? (
+            <>
+              {applicationModal && <DetailApplicationList postingId={param} />}
+              <ElApplicationBtn _onClick={onClickApplicationModalHandler}>
+                신청 리스트 보기
+              </ElApplicationBtn>
+            </>
+          ) : (
+            <ElApplicationBtn _onClick={onClickApplicateHandler}>
               참가 신청 하기
             </ElApplicationBtn>
-          </ElApplicationWrap>
-        )}
-        <StComment>
-          {details.comment ? (
-            <span>댓글 {details.comments.length}</span>
-          ) : (
-            <span>댓글 0</span>
           )}
-          {localStorage.getItem("memberId") ? (
-            <div>
-              {innerWidth > 375 ? (
-                <>
-                  <span>내 닉네임</span>
-                  <textarea placeholder="댓글을 남겨보세요" />
-                </>
-              ) : (
-                <InputBasic placeholder="댓글을 남겨보세요" />
-              )}
-              <div>
-                <ButtonBasic
-                  width="4.375rem"
-                  height="fit-content"
-                  color="white"
-                >
-                  등록
-                </ButtonBasic>
-              </div>
-            </div>
-          ) : null}
-        </StComment>
-        {details.comments ? (
-          details.comments.map((comment, idx) => (
+        </ElApplicationWrap>
+        <StCommentWrap>
+          {commentsLength !== 0 ? (
+            <span> 댓글 {commentsLength}</span>
+          ) : (
+            <span> 댓글 0</span>
+          )}
+          {getMemberId !== 0 && <DetailCommentForm />}
+        </StCommentWrap>
+        {commentsLength !== 0 &&
+          details.commentList?.map((comment, idx) => (
             <StCommentList key={comment.nickname[0] + idx}>
               <div>
                 <span>
@@ -185,7 +162,7 @@ const Detail = () => {
                   <span>{comment.createdAt.split(" ", 1)}</span>
                   <p>{comment.content}</p>
                 </span>
-                {comment.nickname === details.nickname ? (
+                {comment.memberId === getMemberId ? (
                   <div className="commentOption">
                     {commentModal && <DetailCommentModal />}
                     <DetailMoreButton onClick={onClickCommentModalHandler} />
@@ -194,10 +171,7 @@ const Detail = () => {
               </div>
               <hr key={"hr" + idx} />
             </StCommentList>
-          ))
-        ) : (
-          <div></div>
-        )}
+          ))}
       </StDetailForm>
     </StDetailWrap>
   );
@@ -220,7 +194,6 @@ const StDetailWrap = styled.div`
     div:first-of-type {
       margin-top: 0;
     }
-    background: gray;
     padding: 0 1rem;
   }
 `;
@@ -235,15 +208,12 @@ const StDetailForm = styled.form`
 `;
 
 const ElImgWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 32rem;
+  ${({ theme }) => theme.common.flexCenter}
   margin: 1.875rem 0;
   img {
-    flex-shrink: 0;
-    /* min-width: 100%; */
-    min-height: 100%;
+    width: 100%;
+    height: 32rem;
+    object-fit: cover;
   }
 `;
 
@@ -262,12 +232,11 @@ const StCreatorProfile = styled.div`
   .profileWrap {
     width: 3.725rem;
     height: 3.725rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    ${({ theme }) => theme.common.flexCenter}
     margin-right: 1.25rem;
     border-radius: 5rem;
     overflow: hidden;
+    border: 0.1rem solid ${({ theme }) => theme.colors.grayWeak};
   }
 
   /* 프로필 이미지 */
@@ -315,35 +284,25 @@ const StBuyLocation = styled.div`
 
 const ElApplicationWrap = styled.div`
   position: relative;
+  button {
+    height: 3.125rem;
+    margin: 1.875rem 0;
+    background: #ff5a5f;
+    color: white;
+  }
 `;
 
 const ElApplicationBtn = styled(ButtonBasic)`
   height: 5.25rem;
 `;
 
-const StComment = styled.div`
+const StCommentWrap = styled.div`
+  margin-bottom: 2rem;
   div:first-of-type {
     display: flex;
     flex-direction: column;
-    background: #ededed;
+    background: ${({ theme }) => theme.colors.grayList};
     padding: 1rem;
-
-    textarea {
-      height: 8rem;
-      padding: 1rem 0;
-      border: none;
-      background: #ededed;
-      resize: none;
-      outline: none;
-    }
-    /* 작성 버튼 오른정렬용 래퍼 */
-    div {
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
-    }
   }
 `;
 

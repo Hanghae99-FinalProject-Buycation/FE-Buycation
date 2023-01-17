@@ -4,8 +4,7 @@ import { baseURL, baseURLwToken } from "../../../core/axios";
 const initialState = {
   getDetail: {},
   doneDetail: {},
-  postApplication: {},
-  getApplication: [],
+  deleteDetail: {},
   isLoading: false,
   error: null,
 };
@@ -35,15 +34,23 @@ export const __doneDetail = createAsyncThunk(
   }
 );
 
+export const __deleteDetail = createAsyncThunk(
+  "details/delete",
+  async (payload, thunkAPI) => {
+    try {
+      const { data } = await baseURLwToken.delete(`posting/${payload}`);
+      alert(data.msg);
+      return thunkAPI.fulfillWithValue(data);
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
 export const detailSlice = createSlice({
   name: "getDetail",
   initialState,
-  reducers: {
-    /*     findDetail: (state, action) => {
-      baseURL.post(`posting/${action}`);
-      state.getDetail = action.payload;
-    }, */
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(__getDetail.pending, (state) => {
@@ -60,6 +67,10 @@ export const detailSlice = createSlice({
       .addCase(__doneDetail.fulfilled, (state, action) => {
         state.isLoading = false;
         state.doneDetail = action.payload;
+      })
+      .addCase(__deleteDetail.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.deleteDetail = action.payload;
       });
   },
 });
