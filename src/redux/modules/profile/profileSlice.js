@@ -9,13 +9,11 @@ const initialState = {
   isSuccess: false,
 };
 
-const memberIdData = localStorage.getItem("memberId");
-
 export const __getProfile = createAsyncThunk(
   "profile/get",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await baseURL.get(`members/${memberIdData}`);
+      const { data } = await baseURL.get(`members/${payload}`);
       console.log(data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -30,10 +28,9 @@ export const __patchProfile = createAsyncThunk(
     console.log("수정 데이터", payload);
     try {
       const { data } = await baseURLwToken.patch(
-        `members/${memberIdData}`,
+        `members/${payload.memberId}`,
         payload
       );
-      //alert(data.msg);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -44,7 +41,6 @@ export const __patchProfile = createAsyncThunk(
 export const __duplicateCheck = createAsyncThunk(
   "duplicateCheck/patch",
   async (payload, thunkAPI) => {
-    console.log(payload);
     console.log("중복체크", payload);
     try {
       const { data } = await baseURL.get(`members/signup?nickname=${payload}`);
@@ -82,5 +78,4 @@ export const profileSlice = createSlice({
   },
 });
 
-// export const {} = profileSlice.actions;
 export default profileSlice.reducer;
