@@ -13,7 +13,6 @@ import { categoryList, sortList } from "../../utils/option";
 const PostingList = () => {
   const dispatch = useDispatch();
   const postingList = useSelector((data) => data.getPostingList.getPostingList);
-  console.log("postingList", postingList);
 
   const [searchValue, setSearchValue] = useState({
     search: "",
