@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { baseURL } from "../../../core/axios";
+import { setCookies } from "../../../core/cookie";
 
 const initialState = {
   postSignin: [],
@@ -17,6 +18,10 @@ export const __postSignin = createAsyncThunk(
       if (data.headers.authorization !== undefined) {
         localStorage.setItem("id", data.headers.authorization);
         localStorage.setItem("memberId", data.data.data.memberId);
+        setCookies("id", data.headers.authorization, {
+          path: "/",
+          maxAge: 1750,
+        });
       }
       alert(data.data.msg);
       return thunkAPI.fulfillWithValue(data.data.statusCode);
