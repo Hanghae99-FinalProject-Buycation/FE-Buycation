@@ -8,6 +8,7 @@ import chattingIcon from "../../assets/headerIcon/chattingIcon.svg";
 import alarmIcon from "../../assets/headerIcon/alarmIcon.svg";
 import profileIcon from "../../assets/headerIcon/profileIcon.svg";
 import { sendModalStatus } from "../../redux/modules/modal/modalSlice";
+import { removeCookies } from "../../core/cookie";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -29,8 +30,7 @@ const Header = () => {
   };
 
   const onMoveLogoutHandler = () => {
-    localStorage.removeItem("id");
-    localStorage.removeItem("memberId");
+    removeCookies("id");
     navigate("/");
     dispatch(sendModalStatus(true));
   };
