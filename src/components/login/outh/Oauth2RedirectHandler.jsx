@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { baseURL } from "../../../core/axios";
+import { Spinners } from "../../../shared/layout/Spinners";
+// import { setCookies } from "../../../core/cookie";
 
 const Oauth2RedirectHandler = () => {
   const navigate = useNavigate();
@@ -12,6 +14,10 @@ const Oauth2RedirectHandler = () => {
         console.log(res);
         localStorage.setItem("id", res.headers.authorization);
         localStorage.setItem("memberId", res.data.data.memberId);
+        // setCookies("id", data.headers.authorization, {
+        //   path: "/",
+        //   maxAge: 1750,
+        // });
         navigate("/");
       })
       .catch((error) => {
@@ -20,7 +26,7 @@ const Oauth2RedirectHandler = () => {
   };
   kakao();
 
-  // return <div>스피너 만들자!</div>;
+  return <Spinners />;
 };
 
 export default Oauth2RedirectHandler;
