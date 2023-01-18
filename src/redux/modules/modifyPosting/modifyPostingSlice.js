@@ -13,8 +13,7 @@ export const __putPosting = createAsyncThunk(
         `posting/${postingId}`,
         modifiedContent
       );
-      console.log(postingId, modifiedContent);
-      console.log(data);
+      alert(data.msg);
       // return thunkAPI.fulfillWithValue(data);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
