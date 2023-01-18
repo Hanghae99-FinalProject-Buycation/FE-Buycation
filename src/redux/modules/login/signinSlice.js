@@ -6,7 +6,7 @@ const initialState = {
   postSignin: [],
   isLoading: false,
   error: null,
-  statusCode: "",
+  isSussess: false,
 };
 
 export const __postSignin = createAsyncThunk(
@@ -32,7 +32,13 @@ export const __postSignin = createAsyncThunk(
 export const signinSlice = createSlice({
   name: "postSignin",
   initialState,
-  reducers: {},
+  reducers: {
+    //상태 초기화
+    __isSussess: (state, action) => {
+      console.log(action.payload);
+      state.isSussess = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(__postSignin.pending, (state) => {
@@ -40,7 +46,10 @@ export const signinSlice = createSlice({
       })
       .addCase(__postSignin.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.statusCode = action.payload;
+        console.log(action.payload);
+        if (action.payload === 200) {
+          state.isSussess = true;
+        }
       })
       .addCase(__postSignin.rejected, (state, action) => {
         state.isLoading = false;
@@ -49,4 +58,5 @@ export const signinSlice = createSlice({
   },
 });
 
+export const { __isSussess } = signinSlice.actions;
 export default signinSlice.reducer;

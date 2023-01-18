@@ -4,13 +4,16 @@ import styled from "@emotion/styled";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
 import { useDispatch, useSelector } from "react-redux";
-import { __postSignin } from "../../redux/modules/login/signinSlice";
+import {
+  __postSignin,
+  __isSussess,
+} from "../../redux/modules/login/signinSlice";
 import { CLIENT_ID, REDIRECT_URI } from "../../core/env";
 
 const SignIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { statusCode } = useSelector((state) => state.postSignin);
+  const { isSussess } = useSelector((data) => data.postSignin);
   const [loginValue, setLoginValue] = useState({
     email: "",
     password: "",
@@ -21,10 +24,12 @@ const SignIn = () => {
   });
 
   useEffect(() => {
-    if (statusCode === 200) {
+    console.log(isSussess);
+    if (isSussess) {
       navigate("/");
+      dispatch(__isSussess(false));
     }
-  }, [statusCode, navigate]);
+  }, [isSussess, dispatch, navigate]);
 
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}
 &redirect_uri=${REDIRECT_URI}&response_type=code`;
@@ -53,7 +58,6 @@ const SignIn = () => {
       email: loginValue.email,
       password: loginValue.password,
     };
-
     if (loginValue.email === "") {
       setInValid({ ...inValid, isEmail: true });
     } else if (loginValue.password === "") {
