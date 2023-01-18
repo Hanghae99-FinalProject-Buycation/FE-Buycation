@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
-import useOutsideClick from "../../hooks/useOutsideClick";
+import useOutsideClick from "../../../hooks/useOutsideClick";
 import {
   __deleteDetail,
   __doneDetail,
-} from "../../redux/modules/details/detailSlice";
+} from "../../../redux/modules/details/detailSlice";
 
 const DetailPostingOptionModal = ({ postingId }) => {
   const dispatch = useDispatch();
@@ -48,16 +48,16 @@ const DetailPostingOptionModal = ({ postingId }) => {
 export default DetailPostingOptionModal;
 
 const StPostingOption = styled.div`
-  width: 90px;
+  width: 5.625rem;
   display: flex;
   flex-direction: column !important;
   position: absolute;
   right: 0;
-  bottom: -7.5rem;
+  bottom: -6.5rem;
   padding: 0rem;
   border: 1px solid ${({ theme }) => theme.colors.grayList};
   border-radius: 0.5rem;
-  box-shadow: 0px 0px 1px 2px ${({ theme }) => theme.colors.grayList};
+  box-shadow: 0px 0px 6px 1px ${({ theme }) => theme.colors.grayWeak};
   background: #fff;
 
   button {
@@ -68,9 +68,7 @@ const StPostingOption = styled.div`
   }
   hr {
     width: 100%;
-    background: ${({ theme }) => theme.colors.grayWeak};
-    height: 0.1rem;
-    border: 0;
+    border-top: thin solid ${({ theme }) => theme.colors.grayList};
     margin: 0;
   }
 `;

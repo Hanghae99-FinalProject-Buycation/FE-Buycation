@@ -2,12 +2,12 @@ import React from "react";
 import styled from "@emotion/styled";
 
 const DetailSpan = (props) => {
-  const { titleText, bodyText, fontSize, fontWeight, color } = props;
-  const styles = { fontSize, fontWeight, color };
+  const { titleText, bodyText, fontSize, fontWeight, color, margin } = props;
+  const styles = { fontSize, fontWeight, color, margin };
   return (
-    <ElSpan>
+    <ElSpan {...styles}>
       <span>{titleText}</span>
-      <span {...styles}>{bodyText}</span>
+      <span>{bodyText}</span>
     </ElSpan>
   );
 };
@@ -24,7 +24,7 @@ const ElSpan = styled.div`
   flex-direction: column;
   span:first-of-type {
     display: inline-block;
-    margin-bottom: ${({ theme }) => theme.lineHeight.perSpan};
+    margin: ${({ margin }) => (margin ? margin : "0 0 16px")};
   }
   span:last-of-type {
     font-size: ${({ fontSize }) => fontSize};
