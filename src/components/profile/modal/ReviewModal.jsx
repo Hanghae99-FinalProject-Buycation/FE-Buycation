@@ -63,11 +63,28 @@ const ReviewModal = ({ onClose, postingIdData }) => {
                 ))}
               </StarBox>
             </PersonInfo>
-            <ButtonBasic
-              _onClick={() => onClickPostReviewHandler(item.memberId)}
-            >
-              등록
-            </ButtonBasic>
+            {item.status ? (
+              <ButtonBasic
+                width="3.5rem"
+                height="2rem"
+                background="inherit"
+                border="1px solid #939393"
+                color="#939393"
+              >
+                완료
+              </ButtonBasic>
+            ) : (
+              <ButtonBasic
+                width="3.5rem"
+                height="2rem"
+                background="inherit"
+                border="1px solid #FF5A5F"
+                color="#FF5A5F"
+                _onClick={() => onClickPostReviewHandler(item.memberId)}
+              >
+                등록
+              </ButtonBasic>
+            )}
           </PersonCard>
         ))}
       </ModalCard>
@@ -122,14 +139,6 @@ const PersonCard = styled.div`
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grayList};
-
-  button {
-    width: 3.5rem;
-    height: 2rem;
-    background: inherit;
-    border: 1px solid ${({ theme }) => theme.colors.main};
-    color: ${({ theme }) => theme.colors.main};
-  }
 `;
 const PersonInfo = styled.div`
   display: flex;
