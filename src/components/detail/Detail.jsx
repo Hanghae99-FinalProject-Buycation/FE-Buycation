@@ -1,17 +1,15 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useCookies } from "react-cookie";
 import styled from "@emotion/styled";
 import { FaUserCircle } from "react-icons/fa";
 import { __getDetail } from "../../redux/modules/details/detailSlice";
 import { __postApplication } from "../../redux/modules/application/applicationSlice";
 
 import ButtonBasic from "../elements/ButtonBasic";
-import InputBasic from "../elements/InputBasic";
 
 import useBuyLocation from "../../hooks/useBuyLocation";
-import useWindowResize from "../../hooks/useWindowResize";
 import DetailSpan from "./DetailSpan";
-import DetailParagraph from "./DetailParagraph";
 import DetailMoreButton from "./DetailMoreButton";
 import DetailPostingOptionModal from "./DetailPostingOptionModal";
 import DetailCommentModal from "./DetailCommentModal";
@@ -19,33 +17,39 @@ import DetailApplicationList from "./DetailApplicationList";
 import { useNavigate, useParams } from "react-router-dom";
 import { addressForm } from "../../utils/editedData";
 import DetailCommentForm from "./DetailCommentForm";
+import { sendModalStatus } from "../../redux/modules/modal/modalSlice";
 
 const Detail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const param = parseInt(useParams().postingId);
+  const postingId = parseInt(useParams().postingId);
   const details = useSelector((state) => state.getDetail.getDetail);
-  const getMemberId = Number(localStorage.getItem("memberId"));
-  // const editedAddress = addressForm(details.address);
+  const modalStatus = useSelector((state) => state.generalModal.toggleModal);
   const [postingModal, setPostingModal] = useState(false);
   const [commentModal, setCommentModal] = useState(false);
   const [applicationModal, setApplicationModal] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(["id"]);
+  const token = cookies.id;
   const commentsLength = details.commentList?.length || 0;
+
   const onClickPostingModalHandler = () => {
     setPostingModal(!postingModal);
   };
-  const onClickCommentModalHandler = () => {
-    setCommentModal(!commentModal);
+  const onClickCommentModalHandler = (e) => {
+    console.log(e.target.id);
+    if (e.target.id === details.commentList.commentId) {
+      setCommentModal(!commentModal);
+    }
   };
   const onClickApplicationModalHandler = () => {
     setApplicationModal(!applicationModal);
   };
   const onClickApplicateHandler = () => {
-    if (!getMemberId) {
-      alert("로그인 해주세요");
+    if (!token) {
+      alert("로그인 해주세요.");
       navigate("/login");
     } else {
-      dispatch(__postApplication({ postingId: param, memberId: getMemberId }));
+      dispatch(__postApplication({ postingId: postingId, token: token }));
     }
   };
   useBuyLocation(details.address);
@@ -53,7 +57,7 @@ const Detail = () => {
   // (state) => state.getDetail.getDetail
   // );
   useEffect(() => {
-    dispatch(__getDetail(param));
+    dispatch(__getDetail(postingId));
   }, [dispatch]);
 
   // if (isLoading) return <div>로딩ㅜㅜ</div>;
@@ -88,8 +92,8 @@ const Detail = () => {
             {/* {details.address.split(" ", 2)} */}
           </div>
           <div className="postingOption">
-            {postingModal && <DetailPostingOptionModal postingId={param} />}
-            {getMemberId === details.memberId && (
+            {postingModal && <DetailPostingOptionModal postingId={postingId} />}
+            {details.myPosting && (
               <DetailMoreButton onClick={onClickPostingModalHandler} />
             )}
           </div>
@@ -129,9 +133,11 @@ const Detail = () => {
         '완료된 게시글입니다'
         } */}
         <ElApplicationWrap>
-          {getMemberId === details.memberId ? (
+          {details.myPosting ? (
             <>
-              {applicationModal && <DetailApplicationList postingId={param} />}
+              {applicationModal && (
+                <DetailApplicationList postingId={postingId} />
+              )}
               <ElApplicationBtn _onClick={onClickApplicationModalHandler}>
                 신청 리스트 보기
               </ElApplicationBtn>
@@ -148,7 +154,7 @@ const Detail = () => {
           ) : (
             <span> 댓글 0</span>
           )}
-          {getMemberId !== 0 && <DetailCommentForm />}
+          {token && <DetailCommentForm />}
         </StCommentWrap>
         {commentsLength !== 0 &&
           details.commentList?.map((comment, idx) => (
@@ -162,12 +168,17 @@ const Detail = () => {
                   <span>{comment.createdAt.split(" ", 1)}</span>
                   <p>{comment.content}</p>
                 </span>
-                {comment.memberId === getMemberId ? (
+                {details.myPosting && (
                   <div className="commentOption">
-                    {commentModal && <DetailCommentModal />}
-                    <DetailMoreButton onClick={onClickCommentModalHandler} />
+                    {commentModal && (
+                      <DetailCommentModal id={comment.commentId} />
+                    )}
+                    <DetailMoreButton
+                      onClick={onClickCommentModalHandler}
+                      id={comment.commentId}
+                    />
                   </div>
-                ) : null}
+                )}
               </div>
               <hr key={"hr" + idx} />
             </StCommentList>

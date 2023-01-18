@@ -1,6 +1,7 @@
-import styled from "@emotion/styled";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import {
   __deleteDetail,
@@ -9,12 +10,16 @@ import {
 
 const DetailPostingOptionModal = ({ postingId }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [hide, setHide] = useState(false);
   const onClickCloseHandler = () => {
     setHide(!hide);
   };
   const onClickSendDoneHandler = () => {
     dispatch(__doneDetail(postingId));
+  };
+  const onMoveModifyHandler = () => {
+    navigate(`../modify/${postingId}`);
   };
   const onClickDeleteHandler = () => {
     dispatch(__deleteDetail(postingId));
@@ -28,12 +33,7 @@ const DetailPostingOptionModal = ({ postingId }) => {
           완료
         </button>
         <hr />
-        <button
-          type="button"
-          onClick={() => {
-            console.log("수정");
-          }}
-        >
+        <button type="button" onClick={onMoveModifyHandler}>
           수정
         </button>
         <hr />

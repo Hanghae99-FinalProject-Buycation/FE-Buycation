@@ -21,9 +21,21 @@ const DetailApplicationList = ({ postingId }) => {
   const ref = useOutsideClick(onClickCloseHandler);
   // const data = applicationList.data;
   const data = useSelector((state) => state.applicate.getApplication);
-  const onClickAllowApplicationHandler = () => {};
-  const onClickDenyApplicationHandler = () => {
-    dispatch();
+  const onClickAllowApplicationHandler = (item) => {
+    dispatch(
+      __allowApplication({
+        applicationId: item.applicationId,
+        postingId: postingId,
+      })
+    );
+  };
+  const onClickDenyApplicationHandler = (item) => {
+    dispatch(
+      __denyApplication({
+        applicationId: item.applicationId,
+        postingId: postingId,
+      })
+    );
   };
 
   useEffect(() => {
@@ -50,24 +62,14 @@ const DetailApplicationList = ({ postingId }) => {
               </span>
               <ButtonBasic
                 _onClick={() => {
-                  dispatch(
-                    __denyApplication({
-                      applicationId: item.applicationId,
-                      postingId: postingId,
-                    })
-                  );
+                  onClickDenyApplicationHandler(item);
                 }}
               >
                 거절
               </ButtonBasic>
               <ButtonBasic
                 _onClick={() => {
-                  dispatch(
-                    __allowApplication({
-                      applicationId: item.applicationId,
-                      postingId: postingId,
-                    })
-                  );
+                  onClickAllowApplicationHandler(item);
                 }}
               >
                 수락
