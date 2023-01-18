@@ -5,7 +5,10 @@ import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
 import { FaLink } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { __postPosting } from "../../redux/modules/posting/postingSlice";
+import {
+  __postPosting,
+  __isSuccess,
+} from "../../redux/modules/posting/postingSlice";
 import { sendRegisterModalStatus } from "../../redux/modules/postcode/postcodeModalSlice";
 import Postcode from "../postcode/Postcode";
 import usePostcode from "../../hooks/usePostcode";
@@ -17,9 +20,8 @@ const Posting = () => {
   const { kakao } = window;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { statusCode } = useSelector((data) => data.postPosting);
+  const { isSuccess } = useSelector((data) => data.postPosting);
   const [status, setStatus] = useState();
-  console.log(statusCode);
   const [postData, setPostData] = useState({
     category: "",
     title: "",
@@ -52,6 +54,14 @@ const Posting = () => {
       });
     }
   }, [address, status]);
+
+  useEffect(() => {
+    console.log(isSuccess);
+    if (isSuccess) {
+      navigate("/");
+      dispatch(__isSuccess(false));
+    }
+  }, [isSuccess, navigate, dispatch]);
 
   const onClickPostcodeHandler = () => {
     dispatch(sendRegisterModalStatus(true));

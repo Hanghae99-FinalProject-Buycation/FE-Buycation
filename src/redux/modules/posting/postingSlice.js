@@ -5,7 +5,7 @@ const initialState = {
   postPosting: [],
   isLoading: false,
   error: null,
-  statusCode: "",
+  isSuccess: false,
 };
 
 export const __postPosting = createAsyncThunk(
@@ -14,8 +14,8 @@ export const __postPosting = createAsyncThunk(
     console.log("페이로드 :", payload);
     try {
       const { data } = await baseURLwToken.post(`posting`, payload);
-      console.log("data", data);
-      return thunkAPI.fulfillWithValue(data.statusCode);
+      alert(data.msg);
+      return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -25,7 +25,13 @@ export const __postPosting = createAsyncThunk(
 export const postingSlice = createSlice({
   name: "postPosting",
   initialState,
-  reducers: {},
+  reducers: {
+    //상태 초기화
+    __isSuccess: (state, action) => {
+      console.log(action.payload);
+      state.isSuccess = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(__postPosting.pending, (state) => {
@@ -33,7 +39,7 @@ export const postingSlice = createSlice({
       })
       .addCase(__postPosting.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.statusCode = action.payload;
+        state.isSuccess = true;
       })
       .addCase(__postPosting.rejected, (state, action) => {
         state.isLoading = false;
@@ -42,5 +48,5 @@ export const postingSlice = createSlice({
   },
 });
 
-export const {} = postingSlice.actions;
+export const { __isSuccess } = postingSlice.actions;
 export default postingSlice.reducer;
