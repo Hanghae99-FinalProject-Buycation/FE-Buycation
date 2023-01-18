@@ -16,8 +16,6 @@ export const __postSignin = createAsyncThunk(
       const data = await baseURL.post(`members/login`, payload);
       console.log("data", data);
       if (data.headers.authorization !== undefined) {
-        localStorage.setItem("id", data.headers.authorization);
-        localStorage.setItem("memberId", data.data.data.memberId);
         setCookies("id", data.headers.authorization, {
           path: "/",
           maxAge: 1750,
