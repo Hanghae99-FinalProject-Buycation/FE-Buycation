@@ -82,6 +82,10 @@ export const signupSlice = createSlice({
       .addCase(__getEmailValidation.fulfilled, (state, action) => {
         state.isLoading = false;
         state.getEmailValidation = action.payload;
+      })
+      .addCase(__getEmailValidationCheck.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.getEmailValidation = action.payload;
       });
   },
 });
