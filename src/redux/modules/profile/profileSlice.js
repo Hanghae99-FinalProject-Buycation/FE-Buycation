@@ -6,7 +6,6 @@ const initialState = {
   getProfile: [],
   isLoading: false,
   error: null,
-
   isSuccess: false,
 };
 
@@ -58,7 +57,13 @@ export const __duplicateCheck = createAsyncThunk(
 export const profileSlice = createSlice({
   name: "profile",
   initialState,
-  reducers: {},
+  reducers: {
+    //상태 초기화
+    __isSuccess: (state, action) => {
+      console.log(action.payload);
+      state.isSuccess = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(__getMyProfile.pending, (state) => {
@@ -79,4 +84,5 @@ export const profileSlice = createSlice({
   },
 });
 
+export const { __isSuccess } = profileSlice.actions;
 export default profileSlice.reducer;

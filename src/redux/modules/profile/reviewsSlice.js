@@ -13,7 +13,7 @@ export const __getReviewList = createAsyncThunk(
     //console.log("포스팅ID", payload);
     try {
       const { data } = await baseURLwToken.get(`profile/posting/${payload}`);
-      //console.log(data.data);
+      console.log(data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

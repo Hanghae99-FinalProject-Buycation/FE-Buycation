@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import reviewImg from "../../../assets/reviewIcon/emptyLeftFoot.svg";
 import reviewFootIcon from "../../../assets/reviewIcon/reviewFootIcon.svg";
 import { FaTimes } from "react-icons/fa";
 import ButtonBasic from "../../elements/ButtonBasic";
@@ -13,7 +12,6 @@ import {
 const ReviewModal = ({ onClose, postingIdData }) => {
   const dispatch = useDispatch();
   const reviewList = useSelector((data) => data.reviews.reviews);
-  console.log(reviewList);
 
   useEffect(() => {
     dispatch(__getReviewList(postingIdData));
