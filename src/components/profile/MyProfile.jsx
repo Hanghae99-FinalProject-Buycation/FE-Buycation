@@ -11,11 +11,10 @@ const MyProfile = () => {
   const dispatch = useDispatch();
   const [editProfileModal, setEditProfileModal] = useState(false);
   const profileData = useSelector((data) => data.profile.getProfile);
-  const { isSuccess } = useSelector((state) => state.profile);
 
   useEffect(() => {
     dispatch(__getMyProfile());
-  }, [dispatch, isSuccess]);
+  }, [dispatch]);
 
   const onClickEditHandler = () => {
     setEditProfileModal(true);
@@ -44,7 +43,7 @@ const MyProfile = () => {
           <div>
             <span>{profileData.nickname}</span>
             <p>
-              <img alt="review" src={footer} /> 발자국 평균 점수{" "}
+              <img alt="review" src={footer} /> 발자국 평점{" "}
               {profileData.userScore}점
             </p>
           </div>
@@ -79,11 +78,15 @@ const Box = styled.div`
     margin-bottom: 8px;
   }
   div > p {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
     font-size: ${({ theme }) => theme.fontSize.sm};
     color: ${({ theme }) => theme.colors.grayMid};
   }
   div > p > img {
-    margin: 8px 5px 0 0;
+    width: 20px;
+    margin-right: 5px;
   }
 `;
 const ProfileImage = styled.img`

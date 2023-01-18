@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   __patchProfile,
   __duplicateCheck,
+  __isSuccess,
 } from "../../../redux/modules/profile/profileSlice";
 import { sendRegisterModalStatus } from "../../../redux/modules/postcode/postcodeModalSlice";
 import Postcode from "../../postcode/Postcode";
@@ -39,10 +40,12 @@ const EditProfileModal = (props) => {
 
   useEffect(() => {
     //프로필 수정 통신이 성공 했을 때 해당 alert 띄우기
+    console.log(isSuccess);
     if (isSuccess) {
       alert("프로필 수정이 완료되었습니다 :)");
+      dispatch(__isSuccess(false));
     }
-  }, [isSuccess]);
+  }, [isSuccess, dispatch]);
 
   //중복체크
   const onClickDuplicateCheckHandler = () => {
