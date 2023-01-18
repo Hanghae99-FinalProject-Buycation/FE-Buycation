@@ -16,8 +16,8 @@ import { uploadImg } from "../../../utils/uploadImg";
 
 const EditProfileModal = (props) => {
   const dispatch = useDispatch();
-  const { isSuccess } = useSelector((state) => state.profile);
   const profileData = useSelector((data) => data.profile.getProfile);
+  const { isSuccess } = useSelector((state) => state.profile);
   const [duplicateCheck, setDuplicateCheck] = useState(false);
   const postcodeModalStatus = useSelector(
     (state) => state.postcodeModal.openRegisterModal
@@ -36,18 +36,15 @@ const EditProfileModal = (props) => {
         address: address,
       });
     }
-  }, [address]);
+  }, [address, editValue]);
 
   useEffect(() => {
-    //프로필 수정 통신이 성공 했을 때 해당 alert 띄우기
-    console.log(isSuccess);
     if (isSuccess) {
       alert("프로필 수정이 완료되었습니다 :)");
       dispatch(__isSuccess(false));
     }
   }, [isSuccess, dispatch]);
 
-  //중복체크
   const onClickDuplicateCheckHandler = () => {
     dispatch(__duplicateCheck(editValue.nickname));
     setDuplicateCheck(true);

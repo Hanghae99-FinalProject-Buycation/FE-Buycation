@@ -9,12 +9,13 @@ import { __getMyProfile } from "../../redux/modules/profile/profileSlice";
 
 const MyProfile = () => {
   const dispatch = useDispatch();
-  const [editProfileModal, setEditProfileModal] = useState(false);
   const profileData = useSelector((data) => data.profile.getProfile);
+  const { isSuccess } = useSelector((state) => state.profile);
+  const [editProfileModal, setEditProfileModal] = useState(false);
 
   useEffect(() => {
     dispatch(__getMyProfile());
-  }, [dispatch]);
+  }, [dispatch, isSuccess]);
 
   const onClickEditHandler = () => {
     setEditProfileModal(true);
