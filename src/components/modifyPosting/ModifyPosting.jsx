@@ -20,23 +20,22 @@ const ModifyPosting = () => {
   const postingId = Number(useParams().postingId);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [modData, setModData] = useState({});
   const [postData, setPostData] = useState({
     category: "",
     title: "",
     content: "",
-    detailAddress: "",
+    addressDetail: "",
     totalMembers: "",
     dueDate: "",
     dueTime: "",
     budget: "",
   });
   const [imageFile, setImageFile] = useState(null);
-  const createDateForm = `${postData.dueDate} ${postData.dueTime}`;
   const postcodeModalStatus = useSelector(
     (state) => state.postcodeModal.openRegisterModal
   );
   const getDatas = useSelector((state) => state.getDetail.getDetail);
+  const createDateForm = `${postData.dueDate} ${postData.dueTime}`;
   const { address } = usePostcode();
   const geocoder = new kakao.maps.services.Geocoder(); //좌표 객체 생성
   const [coords, setCoords] = useState({
@@ -49,7 +48,6 @@ const ModifyPosting = () => {
       geocoder.addressSearch(address, (result, status) => {
         if (status === kakao.maps.services.Status.OK) {
           const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-          console.log(coords);
           setCoords({ coordsX: coords.La, coordsY: coords.Ma });
         }
       });
@@ -58,8 +56,12 @@ const ModifyPosting = () => {
 
   useEffect(() => {
     dispatch(__getDetail(postingId));
-    if (getDatas !== {}) {
-      setModData(getDatas);
+    if (getDatas) {
+      setPostData({
+        ...getDatas,
+        dueDate: getDatas.dueDate.split(" ")[0],
+        dueTime: getDatas.dueDate.split(" ")[1],
+      });
     }
   }, [dispatch]);
 
@@ -79,8 +81,6 @@ const ModifyPosting = () => {
       [name]: value,
     });
   };
-  // console.log("입력값확인:", postData);
-  // console.log("imageFile", imageFile);
 
   const onClickSubmitHandler = () => {
     if (
@@ -90,7 +90,7 @@ const ModifyPosting = () => {
       address !== "" &&
       postData.totalMembers !== "" &&
       postData.dueDate !== "" &&
-      // postData.dueTime !== "" &&
+      postData.dueTime !== "" &&
       postData.budget !== "" &&
       imageFile !== null
     ) {
@@ -100,6 +100,7 @@ const ModifyPosting = () => {
             title: postData.title,
             category: postData.category,
             address: address,
+            addressDetail: postData.addressDetail,
             content: postData.content,
             dueDate: createDateForm,
             budget: parseInt(postData.budget),
@@ -108,9 +109,8 @@ const ModifyPosting = () => {
             coordsX: coords.coordsX,
             coordsY: coords.coordsY,
           };
-          console.log(postingId, modifiedContent);
-          dispatch(__putPosting(postingId, modifiedContent));
-          //navigate("/")
+          dispatch(__putPosting({ postingId, modifiedContent }));
+          // navigate("/")
         })
         .catch((err) => {
           console.log("업로드 실패");
@@ -142,6 +142,7 @@ const ModifyPosting = () => {
               placeholder="제목을 입력해 주세요."
               _onChange={onChangeValueHandler}
               defaultValue={getDatas?.title}
+              // defaultValue={modData.title}
             />
             <TextArea
               name="content"
@@ -164,10 +165,9 @@ const ModifyPosting = () => {
               거래 희망 주소
               <InputBasic
                 name="address"
-                // placeholder="이웃과 거래하고 싶은 장소를 선택해 주세요."
-                placeholder={getDatas?.address}
+                // value={address ? address : postData.address}
                 value={address}
-                defaultValue={getDatas?.address}
+                // value={address}
                 _onChange={onChangeValueHandler}
               />
               <ButtonBasic
@@ -182,7 +182,7 @@ const ModifyPosting = () => {
             <Label>
               상세주소
               <InputBasic
-                name="detailAddress"
+                name="addressDetail"
                 placeholder="선택 사항"
                 _onChange={onChangeValueHandler}
                 defaultValue={getDatas?.addressDetail}
@@ -204,7 +204,7 @@ const ModifyPosting = () => {
                 name="dueDate"
                 type="date"
                 _onChange={onChangeValueHandler}
-                defaultValue={getDatas?.dueDate.split(" ", 1)}
+                defaultValue={getDatas?.dueDate.split(" ")[0]}
               />
               <label>모집 마감 시간 선택</label>
               <InputBasic
