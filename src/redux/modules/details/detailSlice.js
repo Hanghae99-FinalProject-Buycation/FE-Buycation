@@ -11,9 +11,9 @@ const initialState = {
 
 export const __getDetail = createAsyncThunk(
   "details/get",
-  async (payload, thunkAPI) => {
+  async (postingId, thunkAPI) => {
     try {
-      const { data } = await baseURL.get(`posting/${payload}`);
+      const { data } = await baseURLwToken.get(`posting/${postingId}`);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);

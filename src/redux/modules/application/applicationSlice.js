@@ -27,11 +27,11 @@ export const __getApplication = createAsyncThunk(
 
 export const __postApplication = createAsyncThunk(
   "application/post",
-  async ({ postingId, memberId }, thunkAPI) => {
+  async ({ postingId, token }, thunkAPI) => {
     try {
       const { data } = await baseURLwToken.post(
         `participant/posting/${postingId}`,
-        memberId
+        token
       );
       alert(data.msg);
       // return thunkAPI.fulfillWithValue(data);
@@ -48,7 +48,7 @@ export const __allowApplication = createAsyncThunk(
       const { data } = await baseURLwToken.post(
         `participant/${applicationId}/posting/${postingId}`
       );
-      console.log(data);
+      alert(data.msg);
       // return thunkAPI.fulfillWithValue(data)
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -63,7 +63,7 @@ export const __denyApplication = createAsyncThunk(
       const { data } = await baseURLwToken.delete(
         `participant/${applicationId}/posting/${postingId}`
       );
-      console.log(data);
+      alert(data.msg);
       // return thunkAPI.fulfillWithValue(data)
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
