@@ -7,6 +7,7 @@ import {
   __getEmailValidation,
   __getNicknameDouble,
   getEmailValidation,
+  __getEmailValidationCheck,
 } from "../../redux/modules/login/signupSlice";
 
 const SignupPiece = (props) => {
@@ -21,9 +22,6 @@ const SignupPiece = (props) => {
     emailCode,
   } = props;
   const dispatch = useDispatch();
-  /*   useEffect(() => {
-    dispatch(__getEmailValidation);
-  }, [dispatch]); */
   return (
     <StGridWrap style={{ gridTemplateAreas: item.gridTemplateAreas }}>
       {/* 이메일 */}
@@ -100,9 +98,15 @@ const SignupPiece = (props) => {
           <ButtonBasic
             gridArea="elBtn"
             _onClick={() => {
-              emailCode === compare.emailValidation
+              dispatch(
+                __getEmailValidationCheck({
+                  email: signupForm.email,
+                  code: compare.emailValidation,
+                })
+              );
+              /* emailCode === compare.emailValidation
                 ? alert("인증번호 확인 완료")
-                : alert("인증번호가 일치하지 않습니다.");
+                : alert("인증번호가 일치하지 않습니다."); */
             }}
           >
             {item.btnText}

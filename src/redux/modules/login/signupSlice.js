@@ -15,7 +15,21 @@ export const __getEmailValidation = createAsyncThunk(
       const { data } = await baseURL.get(
         `members/signup/email?email=${payload}`
       );
-      return thunkAPI.fulfillWithValue(data);
+      alert(data.msg);
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+export const __getEmailValidationCheck = createAsyncThunk(
+  "signup/emailcheck",
+  async ({ email, code }, thunkAPI) => {
+    try {
+      const { data } = await baseURL.put(
+        `members/signup/emailcheck?email=${email}&code=${code}`
+      );
+      alert(data.msg);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
