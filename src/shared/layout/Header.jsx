@@ -20,7 +20,7 @@ const Header = () => {
   };
 
   const onMoveProfileHandler = () => {
-    navigate("/profile");
+    navigate("/myprofile");
     dispatch(sendModalStatus(true));
   };
 

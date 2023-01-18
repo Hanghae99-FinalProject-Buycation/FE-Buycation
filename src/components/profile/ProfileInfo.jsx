@@ -1,21 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import ButtonBasic from "../elements/ButtonBasic";
 import EditProfileModal from "./modal/EditProfileModal";
 import footer from "../../assets/profileImg/footer.svg";
 import profile_default from "../../assets/profileImg/profile_default.svg";
-import { useDispatch, useSelector } from "react-redux";
-import { __getMyProfile } from "../../redux/modules/profile/profileSlice";
+import { useSelector } from "react-redux";
 
-const ProfileInfo = () => {
-  const dispatch = useDispatch();
-  const myProfileData = useSelector((data) => data.profile.getMyProfile);
-  const { isSuccess } = useSelector((state) => state.profile);
+const ProfileInfo = ({ onProfileData }) => {
+  const getProfileData = useSelector((data) => data.profile.getProfile);
   const [editProfileModal, setEditProfileModal] = useState(false);
-
-  useEffect(() => {
-    dispatch(__getMyProfile());
-  }, [dispatch, isSuccess]);
 
   const onClickEditHandler = () => {
     setEditProfileModal(true);
@@ -35,23 +28,29 @@ const ProfileInfo = () => {
           <ProfileImage
             alt="profileImage"
             src={
-              myProfileData.profileImage === "" ||
-              myProfileData.profileImage === undefined
+              getProfileData?.profileImage === "" ||
+              getProfileData?.profileImage === undefined
                 ? profile_default
-                : myProfileData.profileImage
+                : getProfileData.profileImage
             }
           />
           <div>
-            <span>{myProfileData.nickname}</span>
+            <span>{getProfileData.nickname}</span>
             <p>
               <img alt="review" src={footer} /> 발자국 평점{" "}
-              {myProfileData.userScore}점
+              {getProfileData.userScore}점
             </p>
           </div>
         </Box>
-        <ButtonBasic width="3.5rem" height="2rem" _onClick={onClickEditHandler}>
-          수정
-        </ButtonBasic>
+        {onProfileData === false ? null : (
+          <ButtonBasic
+            width="3.5rem"
+            height="2rem"
+            _onClick={onClickEditHandler}
+          >
+            수정
+          </ButtonBasic>
+        )}
       </Profile>
     </>
   );

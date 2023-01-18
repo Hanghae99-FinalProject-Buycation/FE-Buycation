@@ -16,7 +16,7 @@ import { uploadImg } from "../../../utils/uploadImg";
 
 const EditProfileModal = (props) => {
   const dispatch = useDispatch();
-  const myProfileData = useSelector((data) => data.profile.getMyProfile);
+  const myProfileData = useSelector((data) => data.profile.getProfile);
   const { isSuccess } = useSelector((state) => state.profile);
   const [duplicateCheck, setDuplicateCheck] = useState(false);
   const postcodeModalStatus = useSelector(
@@ -127,7 +127,6 @@ const EditProfileModal = (props) => {
             />
             <FaLink />
           </FileInput>
-
           <Item>
             <label>주소명 변경</label>
             <ButtonBasic _onClick={onClickPostcodeHandler}>
@@ -135,7 +134,6 @@ const EditProfileModal = (props) => {
             </ButtonBasic>
           </Item>
           <InputBasic name="address" height="2rem" value={editValue.address} />
-
           <ButtonBasic height="2.5rem" _onClick={onClickEditHandler}>
             수정
           </ButtonBasic>

@@ -6,8 +6,9 @@ import RegisterPage from "../pages/Register";
 import MainPage from "../pages/MainPage";
 import PostingPage from "../pages/PostingPage";
 import DetailsPage from "../pages/DetailsPage";
-import ProfilePage from "../pages/ProfilePage";
 import ModifyPage from "../pages/ModifyPage";
+import ProfilePage from "../pages/ProfilePage";
+import MyProfilePage from "../pages/MyProfilePage";
 
 const Router = () => {
   return (
@@ -22,6 +23,7 @@ const Router = () => {
           <Route path="/details/:postingId" element={<DetailsPage />} />
           <Route path="/modify/:postingId" element={<ModifyPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/myprofile" element={<MyProfilePage />} />
         </Route>
       </Routes>
     </BrowserRouter>

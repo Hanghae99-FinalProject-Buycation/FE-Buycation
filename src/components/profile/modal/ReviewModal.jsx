@@ -25,7 +25,6 @@ const ReviewModal = ({ onClose, postingIdData }) => {
     setStarClicked(newArr);
     //console.log(idx);
   };
-  //console.log(starClicked);
 
   const onClickPostReviewHandler = (memberId) => {
     const newPostData = {

@@ -6,15 +6,13 @@ import MyParicipation from "./MyParicipation";
 import MyCreation from "./MyCreation";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  __getProfile,
+  __getMyProfile,
   __isSuccess,
 } from "../../redux/modules/profile/profileSlice";
 
-const Profile = ({ memberId }) => {
+const MyProfile = () => {
   const dispatch = useDispatch();
   const { isSuccess } = useSelector((state) => state.profile);
-  const profileData = useSelector((data) => data.profile.getProfile);
-
   const [tagBtnValue, setTagBtnValue] = useState("default");
 
   const onClickStarBtnHandler = (e) => {
@@ -28,7 +26,7 @@ const Profile = ({ memberId }) => {
   };
 
   useEffect(() => {
-    dispatch(__getProfile(4)); //임의 설정
+    dispatch(__getMyProfile());
     if (isSuccess) {
       dispatch(__isSuccess(false));
     }
@@ -37,18 +35,12 @@ const Profile = ({ memberId }) => {
   return (
     <Wrap>
       <Container>
-        <ProfileInfo onProfileData={profileData.myProfile} />
-        {profileData?.myProfile ? (
-          <TagBtnDiv>
-            <Button onClick={onClickStarBtnHandler}>나의 평점</Button>
-            <Button onClick={onClickGuestBtnHandler}>참여한 공구</Button>
-            <Button onClick={onClickOwnerBtnHandler}>오픈한 공구</Button>
-          </TagBtnDiv>
-        ) : (
-          <TagBtnDiv>
-            <Button onClick={onClickStarBtnHandler}>나의 평점</Button>
-          </TagBtnDiv>
-        )}
+        <ProfileInfo />
+        <TagBtnDiv>
+          <Button onClick={onClickStarBtnHandler}>나의 평점</Button>
+          <Button onClick={onClickGuestBtnHandler}>참여한 공구</Button>
+          <Button onClick={onClickOwnerBtnHandler}>오픈한 공구</Button>
+        </TagBtnDiv>
         <div>
           {tagBtnValue === "guest" ? (
             <MyParicipation />
@@ -63,7 +55,7 @@ const Profile = ({ memberId }) => {
   );
 };
 
-export default Profile;
+export default MyProfile;
 
 const Wrap = styled.div`
   width: 100%;
