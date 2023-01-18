@@ -4,7 +4,6 @@ import { baseURLwToken } from "../../../core/axios";
 
 const initialState = {
   getProfile: [],
-  getMyProfile: [],
   isLoading: false,
   error: null,
   isSuccess: false,
@@ -28,7 +27,7 @@ export const __getMyProfile = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await baseURLwToken.get(`members/myprofile`);
-      //console.log(data.data);
+      console.log(data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -97,7 +96,7 @@ export const profileSlice = createSlice({
       })
       .addCase(__getMyProfile.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.getMyProfile = action.payload;
+        state.getProfile = action.payload;
       })
       .addCase(__getMyProfile.rejected, (state, action) => {
         state.isLoading = false;

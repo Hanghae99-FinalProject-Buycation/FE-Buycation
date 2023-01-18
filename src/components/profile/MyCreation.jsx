@@ -10,7 +10,7 @@ import { addressForm } from "../../utils/editedData";
 const MyCreation = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { memberId } = useSelector((data) => data.profile.getMyProfile);
+  const { memberId } = useSelector((data) => data.profile.getProfile);
   const createdList = useSelector((data) => data.myList.createdList);
   const [reviewModal, setReviewModal] = useState(false);
   const [postingID, setPostingID] = useState("");

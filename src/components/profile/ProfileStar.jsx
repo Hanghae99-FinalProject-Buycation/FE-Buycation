@@ -4,8 +4,8 @@ import reviewFootIcon from "../../assets/reviewIcon/reviewFootIcon.svg";
 import { useSelector } from "react-redux";
 
 const ProfileStar = () => {
-  const myProfileData = useSelector((data) => data.profile.getMyProfile);
-  const myReviewList = myProfileData.reviewList;
+  const getProfileData = useSelector((data) => data.profile.getProfile);
+  const myReviewList = getProfileData.reviewList;
 
   return (
     <>

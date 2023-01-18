@@ -10,7 +10,7 @@ import { __getParticipatedList } from "../../redux/modules/profile/myListSlice";
 const MyParicipation = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { memberId } = useSelector((data) => data.profile.getMyProfile);
+  const { memberId } = useSelector((data) => data.profile.getProfile);
   const participatedList = useSelector((data) => data.myList.participatedList);
   const [reviewModal, setReviewModal] = useState(false);
   const [postingID, setPostingID] = useState("");
