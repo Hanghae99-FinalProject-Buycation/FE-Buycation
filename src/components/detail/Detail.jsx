@@ -1,27 +1,27 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useCookies } from "react-cookie";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
-import { FaUserCircle } from "react-icons/fa";
 import { __getDetail } from "../../redux/modules/details/detailSlice";
 import { __postApplication } from "../../redux/modules/application/applicationSlice";
+import { RiMapPin2Fill } from "react-icons/ri";
+import applicateBtnIcon from "../../assets/detailIcon/applicateBtnIcon.svg";
 
 import ButtonBasic from "../elements/ButtonBasic";
 import { Spinners } from "../../shared/layout/Spinners";
 
 import useBuyLocation from "../../hooks/useBuyLocation";
-import DetailSpan from "./DetailSpan";
-import DetailMoreButton from "./DetailMoreButton";
-import DetailPostingOptionModal from "./DetailPostingOptionModal";
-import DetailCommentModal from "./DetailCommentModal";
+import DetailSpan from "./elements/DetailSpan";
+import DetailMoreButton from "./elements/DetailMoreButton";
+import DetailPostingOptionModal from "./modals/DetailPostingOptionModal";
+import DetailCommentModal from "./modals/DetailCommentModal";
 import DetailApplicationList from "./DetailApplicationList";
-import { useNavigate, useParams } from "react-router-dom";
 import DetailCommentForm from "./DetailCommentForm";
+import DetailApplicationBody from "./DetailApplicationBody";
 import { getCookies } from "../../core/cookie";
-import markerMain from "../../assets/mapMarker/markerMain.svg";
+import { __getComment } from "../../redux/modules/details/commentSlice";
 
 const Detail = () => {
-  const { kakao } = window;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const postingId = parseInt(useParams().postingId);
@@ -60,10 +60,9 @@ const Detail = () => {
 
   useEffect(() => {
     dispatch(__getDetail(postingId));
-  }, [dispatch]);
+  }, [dispatch, details.commentList]);
 
   // if (isLoading) return <Spinners />;
-
   // if (error) return <div>{error.msg}</div>;
 
   return (
@@ -79,17 +78,10 @@ const Detail = () => {
               <img src={details.profileImage} alt="" />
             </div>
             {/* 유저 정보 */}
-            {details.addressDetail ? (
-              <DetailSpan
-                titleText={details.nickname}
-                bodyText={details.address + details.addressDetail}
-              />
-            ) : (
-              <DetailSpan
-                titleText={details.nickname}
-                bodyText={details.address}
-              />
-            )}
+            <DetailSpan
+              titleText={details.nickname}
+              bodyText={details.address?.split(" ", 3).join(" ")}
+            />
           </div>
           <div className="postingOption">
             {postingModal && <DetailPostingOptionModal postingId={postingId} />}
@@ -102,32 +94,23 @@ const Detail = () => {
         <StContent>
           <h3>{details.title}</h3>
           <span>
-            {details.category} {details.createdAt}
+            <u>{details.category}</u> {details.createdAt?.split(" ")[0]}
           </span>
           <p>{details.content}</p>
         </StContent>
         <hr />
-        <StApplication>
-          <DetailSpan
-            titleText={"모집 인원"}
-            bodyText={
-              `${(<FaUserCircle />)}`.repeat(details.currentMembers) +
-              "⭕".repeat(details.totalMembers - details.currentMembers)
-            }
-          />
-          <DetailSpan
-            titleText={"모집 기간"}
-            bodyText={`~${details.dueDate}`}
-          />
-          <DetailSpan titleText={"전체 금액"} bodyText={details.budget} />
-          <DetailSpan
-            titleText={"1인당 예상금액"}
-            bodyText={details.perBudget}
-            fontSize="10rem"
-          />
-        </StApplication>
+        <DetailApplicationBody details={details} />
         <hr />
-        <StBuyLocation id="map">🔻{details.address}</StBuyLocation>
+        {/* 거래 장소 지도 */}
+        <DetailSpan
+          titleText="거래 위치"
+          bodyText={
+            <>
+              <RiMapPin2Fill /> {details?.address}
+            </>
+          }
+        />
+        <StBuyLocation id="map" />
         <hr />
         {/*         {details.doneStatus && 
         '완료된 게시글입니다'
@@ -138,14 +121,14 @@ const Detail = () => {
               {applicationModal && (
                 <DetailApplicationList postingId={postingId} />
               )}
-              <ElApplicationBtn _onClick={onClickApplicationModalHandler}>
-                신청 리스트 보기
-              </ElApplicationBtn>
+              <ButtonBasic _onClick={onClickApplicationModalHandler}>
+                <img src={applicateBtnIcon} alt="" /> 신청 리스트 보기
+              </ButtonBasic>
             </>
           ) : (
-            <ElApplicationBtn _onClick={onClickApplicateHandler}>
-              참가 신청 하기
-            </ElApplicationBtn>
+            <ButtonBasic _onClick={onClickApplicateHandler}>
+              <img src={applicateBtnIcon} alt="" /> 참가 신청 하기
+            </ButtonBasic>
           )}
         </ElApplicationWrap>
         <StCommentWrap>
@@ -165,10 +148,10 @@ const Detail = () => {
                     {comment.nickname}
                     &nbsp;&nbsp;&nbsp;
                   </span>
-                  <span>{comment.createdAt.split(" ", 1)}</span>
+                  <span>{comment.createdAt?.split(" ", 1)}</span>
                   <p>{comment.content}</p>
                 </span>
-                {details.myPosting && (
+                {token && (
                   <div className="commentOption">
                     {commentModal && (
                       <DetailCommentModal id={comment.commentId} />
@@ -195,10 +178,8 @@ const StDetailWrap = styled.div`
   flex-direction: column;
   padding: 0 1rem;
   hr {
-    background: ${({ theme }) => theme.colors.grayWeak};
-    height: 0.1rem;
     max-width: 57.5rem;
-    border: 0;
+    border-top: 0.1rem solid ${({ theme }) => theme.colors.grayWeak};
   }
 
   @media screen and (max-width: 23.5rem) {
@@ -223,8 +204,9 @@ const ElImgWrap = styled.div`
   margin: 1.875rem 0;
   img {
     width: 100%;
-    height: 32rem;
+    height: 31.625rem;
     object-fit: cover;
+    border-radius: 0.5rem;
   }
 `;
 
@@ -239,12 +221,19 @@ const StCreatorProfile = styled.div`
     flex-direction: row;
     align-items: center;
   }
+  span:first-of-type {
+    margin: 0 0 0.5rem;
+  }
+  span:nth-of-type(2) {
+    color: ${({ theme }) => theme.colors.grayStrong};
+    font-size: ${({ theme }) => theme.fontSize.sm};
+  }
   /* 프로필 이미지 래퍼 */
   .profileWrap {
     width: 3.725rem;
     height: 3.725rem;
     ${({ theme }) => theme.common.flexCenter}
-    margin-right: 1.25rem;
+    margin-right: 0.625rem;
     border-radius: 5rem;
     overflow: hidden;
     border: 0.1rem solid ${({ theme }) => theme.colors.grayWeak};
@@ -263,26 +252,21 @@ const StCreatorProfile = styled.div`
 `;
 
 const StContent = styled.div`
-  line-height: ${({ theme }) => theme.lineHeight.perDiv};
+  /* line-height: ${({ theme }) => theme.lineHeight.perParagraph}; */
   h3 {
     font-weight: 700;
     font-size: ${({ theme }) => theme.fontSize.xl};
-    margin-bottom: ${({ theme }) => theme.lineHeight.perDiv};
+    margin-bottom: ${({ theme }) => theme.lineHeight.perParagraph};
   }
   span {
     display: inline-block;
-    margin-bottom: ${({ theme }) => theme.lineHeight.perDiv};
-    color: #a6a6a6;
+    font-size: ${({ theme }) => theme.fontSize.sm};
+    margin-bottom: ${({ theme }) => theme.lineHeight.perParagraph};
+    color: ${({ theme }) => theme.colors.grayMid};
   }
 
   p {
     line-height: ${({ theme }) => theme.lineHeight.perParagraph};
-  }
-`;
-
-const StApplication = styled.div`
-  span:last-child {
-    /* font-size: larger; */
   }
 `;
 
@@ -291,6 +275,7 @@ const StBuyLocation = styled.div`
   height: 18.725rem;
   border: 1px solid #eee;
   border-radius: 0.5rem;
+  margin-top: 0.5rem;
 `;
 
 const ElApplicationWrap = styled.div`
@@ -301,10 +286,9 @@ const ElApplicationWrap = styled.div`
     background: #ff5a5f;
     color: white;
   }
-`;
-
-const ElApplicationBtn = styled(ButtonBasic)`
-  height: 5.25rem;
+  img {
+    margin-right: 0.4rem;
+  }
 `;
 
 const StCommentWrap = styled.div`
@@ -323,14 +307,16 @@ const StCommentList = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    font-size: ${({ theme }) => theme.fontSize.sm};
   }
-  span > span {
+  span > span:first-of-type {
     display: inline-block;
     margin-bottom: ${({ theme }) => theme.lineHeight.perSpan};
+    font-weight: 700;
   }
-
   span > span:nth-of-type(2) {
     color: ${({ theme }) => theme.colors.grayMid};
+    font-size: ${({ theme }) => theme.fontSize.xs};
   }
 
   .commentOption {

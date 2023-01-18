@@ -3,7 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import useWindowResize from "../../hooks/useWindowResize";
-import { __postComment } from "../../redux/modules/details/commentSlice";
+import {
+  __getComment,
+  __postComment,
+} from "../../redux/modules/details/commentSlice";
 import { __getDetail } from "../../redux/modules/details/detailSlice";
 import { __getMyProfile } from "../../redux/modules/profile/profileSlice";
 import ButtonBasic from "../elements/ButtonBasic";
@@ -17,10 +20,11 @@ const DetailCommentForm = () => {
   const onChangeCommentHandler = (e) => {
     setComment({ content: e.target.value });
   };
-  const onClickCommentPostHandler = () => {
+  const onClickCommentPostHandler = (e) => {
     dispatch(__postComment({ postingId, comment }));
-    dispatch(__getDetail(postingId));
+    dispatch(__getComment(postingId));
   };
+
   useEffect(() => {
     dispatch(__getMyProfile(memberIdData));
   }, [dispatch]);
@@ -49,6 +53,7 @@ const DetailCommentForm = () => {
 export default DetailCommentForm;
 
 const StComment = styled.div`
+  margin-top: ${({ theme }) => theme.lineHeight.perParagraph};
   textarea {
     height: 8rem;
     padding: 1rem 0;

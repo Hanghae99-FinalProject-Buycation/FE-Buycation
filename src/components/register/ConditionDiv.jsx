@@ -55,8 +55,7 @@ const ElConditionDiv = styled.div`
   margin: 0.6rem 0;
   hr {
     width: 100%;
-    height: 0.05rem;
-    background: ${({ theme }) => theme.colors.grayWeak};
+    border-top: 0.1rem solid ${({ theme }) => theme.colors.grayWeak};
     grid-area: elHr;
   }
   span {
