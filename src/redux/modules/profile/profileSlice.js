@@ -6,6 +6,7 @@ const initialState = {
   getProfile: [],
   isLoading: false,
   error: null,
+
   isSuccess: false,
 };
 
@@ -25,7 +26,7 @@ export const __getMyProfile = createAsyncThunk(
 export const __patchProfile = createAsyncThunk(
   "profile/patch",
   async (payload, thunkAPI) => {
-    console.log("수정 데이터", payload);
+    //console.log("수정 데이터", payload);
     try {
       const { data } = await baseURLwToken.patch(
         `members/${payload.memberId}`,
@@ -41,7 +42,7 @@ export const __patchProfile = createAsyncThunk(
 export const __duplicateCheck = createAsyncThunk(
   "duplicateCheck/patch",
   async (payload, thunkAPI) => {
-    console.log("중복체크", payload);
+    //console.log("중복체크", payload);
     try {
       const { data } = await baseURL.get(`members/signup?nickname=${payload}`);
       console.log(data.msg);
