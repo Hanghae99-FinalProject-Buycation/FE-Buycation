@@ -41,38 +41,11 @@ const useBuyLocation = (address) => {
           image: markerImage,
         });
 
-        /* const infowindow = new kakao.maps.InfoWindow({
-          content: `<div style="display: block;
-          background: #50627F;
-          color: #fff;
-          text-align: center;
-          height: 2rem;
-          border-radius:0.5rem;
-          padding:0.5rem;" class="info-title">거래 장소</div>`,
-          map: kakao_map,
-          position: coords,
-        });
-        // 인포윈도우로 장소에 대한 설명을 표시합니다
-        infowindow.open(kakao_map, marker); */
-
         // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
         kakao_map.setCenter(coords);
-
-        /*         const infoTitle = document.querySelectorAll(".info-title");
-        infoTitle.forEach(function (e) {
-          const w = e.offsetWidth + 10;
-          const ml = w / 2;
-          e.parentElement.style.top = "-2rem";
-          e.parentElement.style.left = "50%";
-          e.parentElement.style.marginLeft = -ml + "px";
-          e.parentElement.style.width = w + "px";
-          e.parentElement.previousSibling.style.display = "none";
-          e.parentElement.parentElement.style.border = "none";
-          e.parentElement.parentElement.style.background = "unset";
-        }); */
       }
     });
-  }, []);
+  }, [address]);
 };
 
 export default useBuyLocation;

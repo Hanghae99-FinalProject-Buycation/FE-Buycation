@@ -7,6 +7,7 @@ import { __getDetail } from "../../redux/modules/details/detailSlice";
 import { __postApplication } from "../../redux/modules/application/applicationSlice";
 
 import ButtonBasic from "../elements/ButtonBasic";
+import { Spinners } from "../../shared/layout/Spinners";
 
 import useBuyLocation from "../../hooks/useBuyLocation";
 import DetailSpan from "./DetailSpan";
@@ -15,21 +16,23 @@ import DetailPostingOptionModal from "./DetailPostingOptionModal";
 import DetailCommentModal from "./DetailCommentModal";
 import DetailApplicationList from "./DetailApplicationList";
 import { useNavigate, useParams } from "react-router-dom";
-import { addressForm } from "../../utils/editedData";
 import DetailCommentForm from "./DetailCommentForm";
-import { sendModalStatus } from "../../redux/modules/modal/modalSlice";
+import { getCookies } from "../../core/cookie";
+import markerMain from "../../assets/mapMarker/markerMain.svg";
 
 const Detail = () => {
+  const { kakao } = window;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const postingId = parseInt(useParams().postingId);
   const details = useSelector((state) => state.getDetail.getDetail);
-  const modalStatus = useSelector((state) => state.generalModal.toggleModal);
+  /*   const { isLoading, error } = useSelector(
+    (state) => state.getDetail.getDetail
+  ); */
   const [postingModal, setPostingModal] = useState(false);
   const [commentModal, setCommentModal] = useState(false);
   const [applicationModal, setApplicationModal] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(["id"]);
-  const token = cookies.id;
+  const token = getCookies("id");
   const commentsLength = details.commentList?.length || 0;
 
   const onClickPostingModalHandler = () => {
@@ -52,17 +55,17 @@ const Detail = () => {
       dispatch(__postApplication({ postingId: postingId, token: token }));
     }
   };
-  useBuyLocation(details.address);
-  // const { getDetail, isLoading, error } = useSelector(
-  // (state) => state.getDetail.getDetail
-  // );
+
+  useBuyLocation(details?.address);
+
   useEffect(() => {
     dispatch(__getDetail(postingId));
   }, [dispatch]);
 
-  // if (isLoading) return <div>로딩ㅜㅜ</div>;
+  // if (isLoading) return <Spinners />;
 
   // if (error) return <div>{error.msg}</div>;
+
   return (
     <StDetailWrap>
       <StDetailForm>
@@ -84,12 +87,9 @@ const Detail = () => {
             ) : (
               <DetailSpan
                 titleText={details.nickname}
-                // bodyText={editedAddress}
                 bodyText={details.address}
               />
             )}
-
-            {/* {details.address.split(" ", 2)} */}
           </div>
           <div className="postingOption">
             {postingModal && <DetailPostingOptionModal postingId={postingId} />}
