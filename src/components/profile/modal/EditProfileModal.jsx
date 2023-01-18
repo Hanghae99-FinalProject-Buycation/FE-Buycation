@@ -16,7 +16,7 @@ import { uploadImg } from "../../../utils/uploadImg";
 
 const EditProfileModal = (props) => {
   const dispatch = useDispatch();
-  const profileData = useSelector((data) => data.profile.getProfile);
+  const myProfileData = useSelector((data) => data.profile.getMyProfile);
   const { isSuccess } = useSelector((state) => state.profile);
   const [duplicateCheck, setDuplicateCheck] = useState(false);
   const postcodeModalStatus = useSelector(
@@ -24,9 +24,9 @@ const EditProfileModal = (props) => {
   );
   const { address } = usePostcode();
   const [editValue, setEditValue] = useState({
-    nickname: profileData.nickname,
-    profileImage: profileData.profileImage,
-    address: profileData.address,
+    nickname: myProfileData.nickname,
+    profileImage: myProfileData.profileImage,
+    address: myProfileData.address,
   });
 
   useEffect(() => {
@@ -75,13 +75,13 @@ const EditProfileModal = (props) => {
 
   const onClickEditHandler = () => {
     const newPatchData = {
-      memberId: profileData.memberId,
+      memberId: myProfileData.memberId,
       nickname: editValue.nickname,
       profileImage: editValue.profileImage,
       address: editValue.address,
     };
     if (
-      profileData.nickname !== editValue.nickname &&
+      myProfileData.nickname !== editValue.nickname &&
       duplicateCheck === false
     ) {
       alert("닉네임 중복 체크가 필요합니다.");

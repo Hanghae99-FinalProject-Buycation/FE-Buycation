@@ -7,9 +7,9 @@ import profile_default from "../../assets/profileImg/profile_default.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { __getMyProfile } from "../../redux/modules/profile/profileSlice";
 
-const MyProfile = () => {
+const ProfileInfo = () => {
   const dispatch = useDispatch();
-  const profileData = useSelector((data) => data.profile.getProfile);
+  const myProfileData = useSelector((data) => data.profile.getMyProfile);
   const { isSuccess } = useSelector((state) => state.profile);
   const [editProfileModal, setEditProfileModal] = useState(false);
 
@@ -35,17 +35,17 @@ const MyProfile = () => {
           <ProfileImage
             alt="profileImage"
             src={
-              profileData.profileImage === "" ||
-              profileData.profileImage === undefined
+              myProfileData.profileImage === "" ||
+              myProfileData.profileImage === undefined
                 ? profile_default
-                : profileData.profileImage
+                : myProfileData.profileImage
             }
           />
           <div>
-            <span>{profileData.nickname}</span>
+            <span>{myProfileData.nickname}</span>
             <p>
               <img alt="review" src={footer} /> 발자국 평점{" "}
-              {profileData.userScore}점
+              {myProfileData.userScore}점
             </p>
           </div>
         </Box>
@@ -57,7 +57,7 @@ const MyProfile = () => {
   );
 };
 
-export default MyProfile;
+export default ProfileInfo;
 
 const Profile = styled.div`
   display: flex;
