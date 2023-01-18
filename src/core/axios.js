@@ -18,13 +18,6 @@ export const baseURLwToken = axios.create({
   },
 });
 
-// baseURLwToken.interceptors.request.use((config) => {
-//   if (config.headers === undefined) return;
-//   const token = localStorage.getItem("id");
-//   config.headers["Authorization"] = `${token}`;
-//   return config;
-// });
-
 baseURLwToken.interceptors.request.use((config) => {
   if (config.headers === undefined) return;
   const token = getCookies("id");

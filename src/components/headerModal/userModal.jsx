@@ -51,7 +51,6 @@ const SmallModal = (props) => {
       )}
     </StPostingOption>
   );
-  // );
 };
 
 export default SmallModal;
