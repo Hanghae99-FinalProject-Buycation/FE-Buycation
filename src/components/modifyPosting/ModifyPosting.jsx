@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
 import { FaLink } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { __postPosting } from "../../redux/modules/posting/postingSlice";
+import { __getDetail } from "../../redux/modules/details/detailSlice";
 import { sendRegisterModalStatus } from "../../redux/modules/postcode/postcodeModalSlice";
 import Postcode from "../postcode/Postcode";
 import usePostcode from "../../hooks/usePostcode";
 import { selectCategory } from "../../utils/option";
 import { uploadImg } from "../../utils/uploadImg";
 import { perBudget } from "../posting/perBudget";
+import { __putPosting } from "../../redux/modules/modifyPosting/modifyPostingSlice";
 
-const Posting = () => {
+const ModifyPosting = () => {
   const { kakao } = window;
+  const postingId = Number(useParams().postingId);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [modData, setModData] = useState({});
   const [postData, setPostData] = useState({
     category: "",
     title: "",
@@ -32,6 +36,7 @@ const Posting = () => {
   const postcodeModalStatus = useSelector(
     (state) => state.postcodeModal.openRegisterModal
   );
+  const getDatas = useSelector((state) => state.getDetail.getDetail);
   const { address } = usePostcode();
   const geocoder = new kakao.maps.services.Geocoder(); //좌표 객체 생성
   const [coords, setCoords] = useState({
@@ -51,6 +56,13 @@ const Posting = () => {
     }
   }, [address]);
 
+  useEffect(() => {
+    dispatch(__getDetail(postingId));
+    if (getDatas !== {}) {
+      setModData(getDatas);
+    }
+  }, [dispatch]);
+
   const onClickPostcodeHandler = () => {
     dispatch(sendRegisterModalStatus(true));
   };
@@ -67,8 +79,8 @@ const Posting = () => {
       [name]: value,
     });
   };
-  console.log("입력값확인:", postData);
-  console.log("imageFile", imageFile);
+  // console.log("입력값확인:", postData);
+  // console.log("imageFile", imageFile);
 
   const onClickSubmitHandler = () => {
     if (
@@ -78,25 +90,26 @@ const Posting = () => {
       address !== "" &&
       postData.totalMembers !== "" &&
       postData.dueDate !== "" &&
-      postData.dueTime !== "" &&
+      // postData.dueTime !== "" &&
       postData.budget !== "" &&
       imageFile !== null
     ) {
       uploadImg(imageFile)
         .then((data) => {
-          const newPostData = {
-            category: postData.category,
+          const modifiedContent = {
             title: postData.title,
-            content: postData.content,
+            category: postData.category,
             address: address,
-            totalMembers: parseInt(postData.totalMembers),
+            content: postData.content,
             dueDate: createDateForm,
             budget: parseInt(postData.budget),
             image: data.Location,
+            totalMembers: parseInt(postData.totalMembers),
             coordsX: coords.coordsX,
             coordsY: coords.coordsY,
           };
-          dispatch(__postPosting(newPostData));
+          console.log(postingId, modifiedContent);
+          dispatch(__putPosting(postingId, modifiedContent));
           //navigate("/")
         })
         .catch((err) => {
@@ -110,7 +123,6 @@ const Posting = () => {
   const onClickCloseHandler = () => {
     navigate("/");
   };
-
   return (
     <Wrap>
       <Postcode hidden={!postcodeModalStatus} />
@@ -129,11 +141,13 @@ const Posting = () => {
               name="title"
               placeholder="제목을 입력해 주세요."
               _onChange={onChangeValueHandler}
+              defaultValue={getDatas?.title}
             />
             <TextArea
               name="content"
               placeholder="내용을 입력해 주세요."
               onChange={onChangeValueHandler}
+              defaultValue={getDatas?.content}
             ></TextArea>
             <Label>
               사진 첨부
@@ -150,8 +164,10 @@ const Posting = () => {
               거래 희망 주소
               <InputBasic
                 name="address"
-                placeholder="이웃과 거래하고 싶은 장소를 선택해 주세요."
+                // placeholder="이웃과 거래하고 싶은 장소를 선택해 주세요."
+                placeholder={getDatas?.address}
                 value={address}
+                defaultValue={getDatas?.address}
                 _onChange={onChangeValueHandler}
               />
               <ButtonBasic
@@ -169,10 +185,10 @@ const Posting = () => {
                 name="detailAddress"
                 placeholder="선택 사항"
                 _onChange={onChangeValueHandler}
+                defaultValue={getDatas?.addressDetail}
               />
             </Label>
           </LeftDivForm>
-
           <RightDivForm>
             <SelectInputForm>
               <label>모집 인원</label>
@@ -181,18 +197,21 @@ const Posting = () => {
                 name="totalMembers"
                 type="number"
                 _onChange={onChangeValueHandler}
+                defaultValue={getDatas?.totalMembers}
               />
               <label>모집 마감일 선택</label>
               <InputBasic
                 name="dueDate"
                 type="date"
                 _onChange={onChangeValueHandler}
+                defaultValue={getDatas?.dueDate.split(" ", 1)}
               />
               <label>모집 마감 시간 선택</label>
               <InputBasic
                 name="dueTime"
                 type="time"
                 _onChange={onChangeValueHandler}
+                defaultValue={getDatas?.dueDate.split(" ")[1]}
               />
               <label>결제 정보</label>
               <InputBasic
@@ -201,6 +220,7 @@ const Posting = () => {
                 type="number"
                 placeholder="공구 물품의 금액을 입력해주세요."
                 _onChange={onChangeValueHandler}
+                defaultValue={getDatas?.budget}
               />
               <span>
                 1인당 결제 금액
@@ -220,7 +240,7 @@ const Posting = () => {
   );
 };
 
-export default Posting;
+export default ModifyPosting;
 
 const Wrap = styled.div`
   width: 100%;

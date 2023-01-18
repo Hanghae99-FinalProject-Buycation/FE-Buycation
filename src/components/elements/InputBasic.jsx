@@ -17,6 +17,7 @@ const InputBasic = (props) => {
     padding,
     gridArea,
     value,
+    defaultValue,
     _onChange,
     inValid,
   } = props;
@@ -42,6 +43,7 @@ const InputBasic = (props) => {
       min={min}
       required={required}
       value={value}
+      defaultValue={defaultValue}
       onChange={_onChange}
       inValid={inValid}
     />
@@ -60,6 +62,7 @@ InputBasic.defaultProps = {
   gridArea: "",
   name: "",
   placeholder: "",
+  defaultValue: "",
   _onChange: () => {},
 };
 
