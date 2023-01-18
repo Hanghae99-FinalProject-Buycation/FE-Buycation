@@ -1,11 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import MyProfile from "./MyProfile";
-import MyStar from "./MyStar";
+import ProfileInfo from "./ProfileInfo";
+import ProfileStar from "./ProfileStar";
 import MyParicipation from "./MyParicipation";
 import MyCreation from "./MyCreation";
+import { useDispatch, useSelector } from "react-redux";
+import { __getProfile } from "../../redux/modules/profile/profileSlice";
 
-const Profile = () => {
+const Profile = ({ memberId }) => {
+  const dispatch = useDispatch();
+  const myProfileData = useSelector((data) => data.profile.getMyProfile);
+  console.log(myProfileData);
+  const profileData = useSelector((data) => data.profile.getProfile);
+  console.log(profileData);
+
   const [tagBtnValue, setTagBtnValue] = useState("default");
 
   const onClickStarBtnHandler = (e) => {
@@ -18,22 +26,32 @@ const Profile = () => {
     setTagBtnValue("owner");
   };
 
+  useEffect(() => {
+    dispatch(__getProfile(6));
+  }, [dispatch]);
+
   return (
     <Wrap>
       <Container>
-        <MyProfile />
-        <TagBtnDiv>
-          <Button onClick={onClickStarBtnHandler}>나의 평점 </Button>
-          <Button onClick={onClickGuestBtnHandler}>참여한 공구</Button>
-          <Button onClick={onClickOwnerBtnHandler}>오픈한 공구</Button>
-        </TagBtnDiv>
+        <ProfileInfo />
+        {profileData?.myProfile || myProfileData.myProfile ? (
+          <TagBtnDiv>
+            <Button onClick={onClickStarBtnHandler}>나의 평점 </Button>
+            <Button onClick={onClickGuestBtnHandler}>참여한 공구</Button>
+            <Button onClick={onClickOwnerBtnHandler}>오픈한 공구</Button>
+          </TagBtnDiv>
+        ) : (
+          <TagBtnDiv>
+            <Button onClick={onClickStarBtnHandler}>나의 평점 </Button>
+          </TagBtnDiv>
+        )}
         <div>
           {tagBtnValue === "guest" ? (
             <MyParicipation />
           ) : tagBtnValue === "owner" ? (
             <MyCreation />
           ) : (
-            <MyStar />
+            <ProfileStar />
           )}
         </div>
       </Container>
@@ -67,12 +85,12 @@ const TagBtnDiv = styled.div`
   margin-top: 5rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grayStrong};
   @media screen and (max-width: 768px) {
     margin-top: 2.7rem;
   }
 `;
 const Button = styled.button`
-  border-bottom: 1px solid ${({ theme }) => theme.colors.grayStrong};
   padding: 0 0 20px 0;
   width: 100%;
   font-size: ${({ theme }) => theme.fontSize.md};

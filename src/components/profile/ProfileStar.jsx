@@ -3,9 +3,9 @@ import styled from "@emotion/styled";
 import reviewFootIcon from "../../assets/reviewIcon/reviewFootIcon.svg";
 import { useSelector } from "react-redux";
 
-const MyStar = () => {
-  const profileData = useSelector((data) => data.profile.getProfile);
-  const myReviewList = profileData.reviewList;
+const ProfileStar = () => {
+  const myProfileData = useSelector((data) => data.profile.getMyProfile);
+  const myReviewList = myProfileData.reviewList;
 
   return (
     <>
@@ -32,7 +32,7 @@ const MyStar = () => {
   );
 };
 
-export default MyStar;
+export default ProfileStar;
 
 const ContentsBox = styled.div`
   width: 100%;
