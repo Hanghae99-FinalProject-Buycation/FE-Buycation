@@ -5,6 +5,7 @@ const initialState = {
   postPosting: [],
   isLoading: false,
   error: null,
+  statusCode: "",
 };
 
 export const __postPosting = createAsyncThunk(
@@ -14,8 +15,7 @@ export const __postPosting = createAsyncThunk(
     try {
       const { data } = await baseURLwToken.post(`posting`, payload);
       console.log("data", data);
-      alert(data.msg);
-      return thunkAPI.fulfillWithValue(data);
+      return thunkAPI.fulfillWithValue(data.statusCode);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -33,6 +33,7 @@ export const postingSlice = createSlice({
       })
       .addCase(__postPosting.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.statusCode = action.payload;
       })
       .addCase(__postPosting.rejected, (state, action) => {
         state.isLoading = false;

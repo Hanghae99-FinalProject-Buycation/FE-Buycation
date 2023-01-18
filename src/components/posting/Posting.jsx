@@ -15,8 +15,11 @@ import { perBudget } from "./perBudget";
 
 const Posting = () => {
   const { kakao } = window;
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { statusCode } = useSelector((data) => data.postPosting);
+  const [status, setStatus] = useState();
+  console.log(statusCode);
   const [postData, setPostData] = useState({
     category: "",
     title: "",
@@ -27,8 +30,8 @@ const Posting = () => {
     dueTime: "",
     budget: "",
   });
-  const [imageFile, setImageFile] = useState(null);
   const createDateForm = `${postData.dueDate} ${postData.dueTime}`;
+  const [imageFile, setImageFile] = useState(null);
   const postcodeModalStatus = useSelector(
     (state) => state.postcodeModal.openRegisterModal
   );
@@ -44,12 +47,11 @@ const Posting = () => {
       geocoder.addressSearch(address, (result, status) => {
         if (status === kakao.maps.services.Status.OK) {
           const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-          console.log(coords);
           setCoords({ coordsX: coords.La, coordsY: coords.Ma });
         }
       });
     }
-  }, [address]);
+  }, [address, status]);
 
   const onClickPostcodeHandler = () => {
     dispatch(sendRegisterModalStatus(true));
@@ -67,8 +69,6 @@ const Posting = () => {
       [name]: value,
     });
   };
-  //console.log("입력값확인:", postData);
-  //console.log("imageFile", imageFile);
 
   const onClickSubmitHandler = () => {
     if (
@@ -97,7 +97,10 @@ const Posting = () => {
             coordsY: coords.coordsY,
           };
           dispatch(__postPosting(newPostData));
-          //navigate("/")
+          if (status === 200) {
+            alert("게시글이 등록되었습니다.");
+            navigate("/");
+          }
         })
         .catch((err) => {
           console.log("업로드 실패");
