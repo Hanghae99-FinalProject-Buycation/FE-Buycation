@@ -11,7 +11,6 @@ const Oauth2RedirectHandler = () => {
     await baseURL
       .get(`members/login/kakao?code=${code}`)
       .then((res) => {
-        console.log(res);
         setCookies("id", res.headers.authorization, {
           path: "/",
           maxAge: 1750,
