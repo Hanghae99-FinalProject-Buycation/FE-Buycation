@@ -2,11 +2,7 @@ import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import useWindowResize from "../../hooks/useWindowResize";
-import {
-  __getComment,
-  __postComment,
-} from "../../redux/modules/details/commentSlice";
+import { __postComment } from "../../redux/modules/details/commentSlice";
 import { __getDetail } from "../../redux/modules/details/detailSlice";
 import { __getMyProfile } from "../../redux/modules/profile/profileSlice";
 import ButtonBasic from "../elements/ButtonBasic";
@@ -21,8 +17,13 @@ const DetailCommentForm = () => {
     setComment({ content: e.target.value });
   };
   const onClickCommentPostHandler = (e) => {
-    dispatch(__postComment({ postingId, comment }));
-    dispatch(__getComment(postingId));
+    if (comment.content.trim() === "") {
+      alert("내용을 입력해주세요");
+    } else {
+      dispatch(__postComment({ postingId, comment }));
+      dispatch(__getDetail(postingId));
+      setComment({ content: "" });
+    }
   };
 
   useEffect(() => {
@@ -35,6 +36,7 @@ const DetailCommentForm = () => {
       <textarea
         placeholder="댓글을 남겨보세요"
         onChange={onChangeCommentHandler}
+        value={comment.content}
       />
       <div>
         <ButtonBasic
@@ -69,5 +71,11 @@ const StComment = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+  }
+
+  @media screen and (max-width: 23.5rem) {
+    textarea {
+      height: 4rem;
+    }
   }
 `;
