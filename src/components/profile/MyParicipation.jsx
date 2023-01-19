@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { FaMapMarkerAlt, FaUser } from "react-icons/fa";
 import ReviewModal from "./modal/ReviewModal";
-import { addressForm } from "../../utils/editedData";
+import { addressForm, titleForm } from "../../utils/editedData";
 import { useDispatch, useSelector } from "react-redux";
 import { __getParticipatedList } from "../../redux/modules/profile/myListSlice";
 
@@ -48,7 +48,7 @@ const MyParicipation = () => {
               <p>
                 <FaMapMarkerAlt size="11px" /> {addressForm(item.address)}
               </p>
-              <p>{item.title}</p>
+              <p>{titleForm(item.title)}</p>
               <p>{item.dueDate} 까지 모집</p>
               <p>
                 <FaUser size="11px" /> {item.currentMembers}/{item.totalMembers}

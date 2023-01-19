@@ -5,7 +5,7 @@ import { FaMapMarkerAlt, FaUser } from "react-icons/fa";
 import ReviewModal from "./modal/ReviewModal";
 import { useDispatch, useSelector } from "react-redux";
 import { __getCreatedList } from "../../redux/modules/profile/myListSlice";
-import { addressForm } from "../../utils/editedData";
+import { addressForm, titleForm } from "../../utils/editedData";
 
 const MyCreation = () => {
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ const MyCreation = () => {
               <p>
                 <FaMapMarkerAlt size="11px" /> {addressForm(item.address)}
               </p>
-              <p>{item.title}</p>
+              <p>{titleForm(item.title)}</p>
               <p>{item.dueDate} 까지 모집</p>
               <p>
                 <FaUser size="11px" /> {item.currentMembers}/{item.totalMembers}
