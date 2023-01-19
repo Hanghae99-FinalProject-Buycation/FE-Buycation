@@ -10,8 +10,8 @@ export const getCookies = (id) => {
   return cookies.get(id);
 };
 
-export const removeCookies = (id) => {
-  return cookies.remove(id);
+export const removeCookies = (id, option) => {
+  return cookies.remove(id, { ...option });
 };
 
 const cookieControler = () => {
