@@ -1,15 +1,17 @@
 import styled from "@emotion/styled";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import { RxCross1 } from "react-icons/rx";
-import { FaShoePrints } from "react-icons/fa";
 import ButtonBasic from "../elements/ButtonBasic";
-import { useDispatch, useSelector } from "react-redux";
+import DetailSpan from "../detail/elements/DetailSpan";
 import {
   __allowApplication,
   __denyApplication,
   __getApplication,
 } from "../../redux/modules/application/applicationSlice";
+import profileDefault from "../../assets/profileImg/profile_default.svg";
+import footIcon from "../../assets/reviewIcon/reviewFootIcon.svg";
 
 const DetailApplicationList = ({ postingId }) => {
   const dispatch = useDispatch();
@@ -53,13 +55,25 @@ const DetailApplicationList = ({ postingId }) => {
         {data &&
           data?.map((item) => (
             <div key={"frag" + item.applicationId} className="wrap">
-              <img src={item.profileImage} alt="" />
-              <span>{item.nickname}</span>
-              <span className="btnWrap">
-                <FaShoePrints />
-                {item.userScore}
-                발자국
-              </span>
+              {item?.profileImage ? (
+                <img src={item.profileImage} className="profile" alt="" />
+              ) : (
+                <img src={profileDefault} className="profile" alt="" />
+              )}
+              <DetailSpan
+                titleText={item.nickname}
+                bodyText={
+                  <>
+                    <img className="btnWrap" src={footIcon} alt="" />
+                    {item.userScore}
+                    발자국
+                  </>
+                }
+                margin="0"
+                color="#a6a6a6"
+                fontSize="10px"
+                // padding="0"
+              />
               <ButtonBasic
                 _onClick={() => {
                   onClickDenyApplicationHandler(item);
@@ -101,7 +115,6 @@ const StApplicationList = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 1rem;
-    border-bottom: 0.1rem solid ${({ theme }) => theme.colors.grayList};
     span {
       font-size: ${({ theme }) => theme.fontSize.md};
     }
@@ -112,28 +125,31 @@ const StApplicationList = styled.div`
     grid-template-columns: auto 1fr auto auto auto;
     align-items: center;
     padding: 0.75rem;
+    height: fit-content;
     border-bottom: 0.1rem solid ${({ theme }) => theme.colors.grayList};
     font-size: ${({ theme }) => theme.fontSize.sm};
 
-    img {
+    .profile {
       width: 2rem;
       height: 2rem;
       object-fit: cover;
       border-radius: 5rem;
+      border: 0.1rem solid ${({ theme }) => theme.colors.grayWeak};
     }
 
     span {
       display: inline-block;
-      padding: 0 0.5rem;
+      /* padding: 0 0.5rem; */
     }
+    /* && :first-of-type {
+      border-bottom: 0.1rem solid ${({ theme }) => theme.colors.grayList};
+    } */
   }
 
   .btnWrap {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    font-size: ${({ theme }) => theme.fontSize.xs};
-    color: ${({ theme }) => theme.colors.grayWeak};
+    width: 1rem;
+    height: 1rem;
+    margin: 0;
   }
   button {
     width: 2.5rem;
