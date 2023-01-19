@@ -16,6 +16,7 @@ export const __getEmailValidation = createAsyncThunk(
         `members/signup/email?email=${payload}`
       );
       alert(data.msg);
+      return thunkAPI.fulfillWithValue(data.data);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }

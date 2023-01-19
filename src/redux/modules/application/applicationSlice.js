@@ -17,7 +17,6 @@ export const __getApplication = createAsyncThunk(
       const { data } = await baseURLwToken.get(
         `participant/posting/${payload}`
       );
-      console.log(data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
