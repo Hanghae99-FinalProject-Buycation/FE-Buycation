@@ -92,7 +92,7 @@ const EditProfileModal = (props) => {
 
   return (
     <Backdrop>
-      <Postcode hidden={!postcodeModalStatus} />
+      {postcodeModalStatus && <Postcode />}
       <ModalCard>
         <Header>
           <p>프로필 수정</p>

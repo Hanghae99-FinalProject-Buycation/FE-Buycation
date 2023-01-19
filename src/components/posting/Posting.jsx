@@ -126,7 +126,7 @@ const Posting = () => {
 
   return (
     <Wrap>
-      <Postcode hidden={!postcodeModalStatus} />
+      {postcodeModalStatus && <Postcode />}
       <Container>
         <p>공구 글쓰기</p>
         <PostingForm>
