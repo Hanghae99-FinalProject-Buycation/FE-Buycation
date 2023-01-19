@@ -7,6 +7,7 @@ export const signupContents = [
     placeholder: "이메일",
     btnText: "인증",
     gridTemplateAreas: `"elSpan elInput elBtn"`,
+    gridTemplateAreasMobile: `"elSpan ." "elInput elBtn"`,
   },
   {
     id: 2,
@@ -14,6 +15,7 @@ export const signupContents = [
     titleTwo: "재전송",
     name: "resend",
     gridTemplateAreas: `". elSpan elSpan"`,
+    gridTemplateAreasMobile: `". ." "elSpan elSpan"`,
   },
   {
     id: 3,
@@ -23,6 +25,7 @@ export const signupContents = [
     placeholder: "제한시간 10분",
     btnText: "확인",
     gridTemplateAreas: `"elSpan elInput elBtn"`,
+    gridTemplateAreasMobile: `"elSpan ." "elInput elBtn"`,
   },
   {
     id: 4,
@@ -32,6 +35,7 @@ export const signupContents = [
     placeholder: "2~10자, 공백 없이 한글, 영문, 숫자",
     btnText: "중복 확인",
     gridTemplateAreas: `"elSpan elInput elBtn"`,
+    gridTemplateAreasMobile: `"elSpan ." "elInput elBtn"`,
   },
   {
     id: 5,
@@ -41,6 +45,7 @@ export const signupContents = [
     placeholder: "8자 이상 영어, 숫자, 특수문자 포함",
     btnText: "",
     gridTemplateAreas: `"elSpan elInput ."`,
+    gridTemplateAreasMobile: `"elSpan ." "elInput ."`,
   },
   {
     id: 6,
@@ -50,11 +55,13 @@ export const signupContents = [
     placeholder: "비밀번호 확인",
     btnText: "",
     gridTemplateAreas: `"elSpan elInput ."`,
+    gridTemplateAreasMobile: `"elSpan ." "elInput ."`,
   },
   {
     id: 7,
     name: "passAlert",
     gridTemplateAreas: `". elSpan elSpan"`,
+    gridTemplateAreasMobile: `". ." "elSpan elSpan"`,
   },
   {
     id: 8,
@@ -65,11 +72,13 @@ export const signupContents = [
     placeholder: "선택사항",
     btnText: "주소 찾기",
     gridTemplateAreas: `"elSpan elInput elBtn"`,
+    gridTemplateAreasMobile: `"elSpan ." "elInput elBtn"`,
   },
   {
     id: 9,
-    title: "주변 지역 정보 제공을 위해 대략적인 주소를 입력받습니다.",
+    title: "*주변지역 정보 제공을 위해 대략적인 주소를 입력받습니다.",
     name: "addressNotice",
     gridTemplateAreas: `". elSpan elSpan"`,
+    gridTemplateAreasMobile: `". ." "elSpan elSpan"`,
   },
 ];

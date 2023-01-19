@@ -36,19 +36,22 @@ export default SignupConditions;
 
 const StConditionsForm = styled.div`
   width: 100%;
-  max-width: 57.5rem;
-  border: 1px solid ${({ theme }) => theme.colors.main};
-  border-radius: 0.5rem;
+  max-width: 42.5rem;
+  border-top: 0.2rem solid ${({ theme }) => theme.colors.main};
   padding: 1.875rem 3.125rem;
   margin-bottom: 2.25rem;
+
+  @media screen and (max-width: 23.5rem) {
+    width: calc(100% - 3.125rem);
+    padding: 1.875rem 1rem;
+  }
 `;
 
 const ElH2 = styled.div`
   width: 100%;
   max-width: 57.5rem;
-  display: flex;
-  align-items: start;
-  font-size: ${({ theme }) => theme.fontSize.md};
+  ${({ theme }) => theme.common.flexCenter}
+  font-size: ${({ theme }) => theme.fontSize.lg};
   font-weight: 600;
-  margin: 1.5rem;
+  margin: 2rem;
 `;
