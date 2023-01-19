@@ -30,7 +30,9 @@ const Header = () => {
   };
 
   const onMoveLogoutHandler = () => {
-    removeCookies("id");
+    removeCookies("id", {
+      path: "/",
+    });
     navigate("/");
     dispatch(sendModalStatus(true));
   };
@@ -62,7 +64,6 @@ const Header = () => {
           secondClick={onMoveLoginHandler}
           third="로그아웃"
           thirdClick={onMoveLogoutHandler}
-          // hidden={!modalStatus}
         />
       )}
     </HeaderDiv>
