@@ -61,9 +61,12 @@ const SignupPieceMobile = (props) => {
           {item.name === "nickname" && (
             <ButtonBasic
               _onClick={() =>
-                signupForm.nickname.search(nicknameCheck)
-                  ? alert("2~10자, 공백 없이 한글, 영문, 숫자로만 입력해주세요")
-                  : dispatch(__getNicknameDouble(signupForm.nickname))
+                // signupForm.nickname.search(nicknameCheck)
+                signupForm.nickname.trim() !== ""
+                  ? dispatch(__getNicknameDouble(signupForm.nickname))
+                  : alert(
+                      "2~10자, 공백 없이 한글, 영문, 숫자로만 입력해주세요."
+                    )
               }
             >
               {item.btnText}
