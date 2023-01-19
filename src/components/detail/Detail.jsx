@@ -60,7 +60,7 @@ const Detail = () => {
 
   useEffect(() => {
     dispatch(__getDetail(postingId));
-  }, [dispatch, details.commentList]);
+  }, [dispatch]);
 
   // if (isLoading) return <Spinners />;
   // if (error) return <div>{error.msg}</div>;
@@ -81,6 +81,8 @@ const Detail = () => {
             <DetailSpan
               titleText={details.nickname}
               bodyText={details.address?.split(" ", 3).join(" ")}
+              margin="0 0 0.25rem"
+              fontSize="0.875rem"
             />
           </div>
           <div className="postingOption">
@@ -112,23 +114,28 @@ const Detail = () => {
         />
         <StBuyLocation id="map" />
         <hr />
-        {/*         {details.doneStatus && 
-        '완료된 게시글입니다'
-        } */}
         <ElApplicationWrap>
-          {details.myPosting ? (
-            <>
-              {applicationModal && (
-                <DetailApplicationList postingId={postingId} />
-              )}
-              <ButtonBasic _onClick={onClickApplicationModalHandler}>
-                <img src={applicateBtnIcon} alt="" /> 신청 리스트 보기
-              </ButtonBasic>
-            </>
-          ) : (
-            <ButtonBasic _onClick={onClickApplicateHandler}>
-              <img src={applicateBtnIcon} alt="" /> 참가 신청 하기
+          {details.doneStatus ? (
+            <ButtonBasic background="#adadad" color="white">
+              <img src={applicateBtnIcon} alt="" /> 완료된 게시물입니다.
             </ButtonBasic>
+          ) : (
+            <>
+              {details.myPosting ? (
+                <>
+                  {applicationModal && (
+                    <DetailApplicationList postingId={postingId} />
+                  )}
+                  <ButtonBasic _onClick={onClickApplicationModalHandler}>
+                    <img src={applicateBtnIcon} alt="" /> 신청 리스트 보기
+                  </ButtonBasic>
+                </>
+              ) : (
+                <ButtonBasic _onClick={onClickApplicateHandler}>
+                  <img src={applicateBtnIcon} alt="" /> 참가 신청 하기
+                </ButtonBasic>
+              )}
+            </>
           )}
         </ElApplicationWrap>
         <StCommentWrap>
@@ -137,7 +144,7 @@ const Detail = () => {
           ) : (
             <span> 댓글 0</span>
           )}
-          {token && <DetailCommentForm />}
+          {token && !details.doneStatus && <DetailCommentForm />}
         </StCommentWrap>
         {commentsLength !== 0 &&
           details.commentList?.map((comment, idx) => (
@@ -207,6 +214,10 @@ const ElImgWrap = styled.div`
     height: 31.625rem;
     object-fit: cover;
     border-radius: 0.5rem;
+
+    @media screen and (max-width: 23.5rem) {
+      height: 18.75rem;
+    }
   }
 `;
 
@@ -220,9 +231,6 @@ const StCreatorProfile = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-  }
-  span:first-of-type {
-    margin: 0 0 0.5rem;
   }
   span:nth-of-type(2) {
     color: ${({ theme }) => theme.colors.grayStrong};
@@ -252,7 +260,6 @@ const StCreatorProfile = styled.div`
 `;
 
 const StContent = styled.div`
-  /* line-height: ${({ theme }) => theme.lineHeight.perParagraph}; */
   h3 {
     font-weight: 700;
     font-size: ${({ theme }) => theme.fontSize.xl};
@@ -276,6 +283,10 @@ const StBuyLocation = styled.div`
   border: 1px solid #eee;
   border-radius: 0.5rem;
   margin-top: 0.5rem;
+
+  @media screen and (max-width: 23.5rem) {
+    height: 9.5rem;
+  }
 `;
 
 const ElApplicationWrap = styled.div`
@@ -283,8 +294,6 @@ const ElApplicationWrap = styled.div`
   button {
     height: 3.125rem;
     margin: 1.875rem 0;
-    background: #ff5a5f;
-    color: white;
   }
   img {
     margin-right: 0.4rem;

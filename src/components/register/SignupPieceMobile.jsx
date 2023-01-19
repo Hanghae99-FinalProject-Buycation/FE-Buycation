@@ -1,16 +1,15 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import styled from "@emotion/styled";
 import ButtonBasic from "../elements/ButtonBasic";
 import InputBasic from "../elements/InputBasic";
-import SignupPieceMobile from "./SignupPieceMobile";
+import { useDispatch } from "react-redux";
 import {
   __getEmailValidation,
   __getNicknameDouble,
   __getEmailValidationCheck,
 } from "../../redux/modules/login/signupSlice";
 
-const SignupPiece = (props) => {
+const SignupPieceMobile = (props) => {
   const {
     onClickPostcodeHandler,
     onChangeHandler,
@@ -25,25 +24,24 @@ const SignupPiece = (props) => {
   const passCheck =
     /(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
   return (
-    <StGridWrap style={{ gridTemplateAreas: item.gridTemplateAreas }}>
+    <StGridWrap style={{ gridTemplateAreas: item.gridTemplateAreasMobile }}>
       {/* 이메일 */}
       {item.name === "email" && (
         <>
-          <span style={{ margin: "0 0 -0.5rem 0" }}>{item.title}</span>
+          <span style={{ margin: "0 0 0.25rem 0" }}>{item.title}</span>
           <InputBasic
             type={item.type}
             name={item.name}
             placeholder={item.placeholder}
             required={item.required}
             _onChange={onChangeHandler}
-            margin="0 0 -0.5rem 0"
+            margin="0 0 0.25rem 0"
           />
           <ButtonBasic
-            gridArea="elBtn"
             _onClick={() => {
               dispatch(__getEmailValidation(signupForm.email));
             }}
-            margin="0 0 -0.5rem 0"
+            margin="0 0 0.25rem 0"
           >
             {item.btnText}
           </ButtonBasic>
@@ -62,7 +60,6 @@ const SignupPiece = (props) => {
           />
           {item.name === "nickname" && (
             <ButtonBasic
-              gridArea="elBtn"
               _onClick={() =>
                 signupForm.nickname.search(nicknameCheck)
                   ? alert("2~10자, 공백 없이 한글, 영문, 숫자로만 입력해주세요")
@@ -100,7 +97,6 @@ const SignupPiece = (props) => {
             _onChange={onChangeCompareHandler}
           />
           <ButtonBasic
-            gridArea="elBtn"
             _onClick={() => {
               dispatch(
                 __getEmailValidationCheck({
@@ -117,13 +113,13 @@ const SignupPiece = (props) => {
       {/* 비밀번호 확인 */}
       {item.name === "passwordCheck" && (
         <>
-          <span style={{ margin: "0 0 -0.5rem 0" }}>{item.title}</span>
+          <span style={{ margin: "0 0 0.25rem 0" }}>{item.title}</span>
           <InputBasic
             type={item.type}
             name={item.name}
             placeholder={item.placeholder}
             _onChange={onChangeCompareHandler}
-            margin="0 0 -0.5rem 0"
+            margin="0 0 0.25rem 0"
           />
         </>
       )}
@@ -154,7 +150,7 @@ const SignupPiece = (props) => {
             value={value}
             _onChange={onChangeHandler}
           />
-          <ButtonBasic gridArea="elBtn" _onClick={onClickPostcodeHandler}>
+          <ButtonBasic _onClick={onClickPostcodeHandler}>
             {item.btnText}
           </ButtonBasic>
         </>
@@ -171,14 +167,15 @@ const SignupPiece = (props) => {
   );
 };
 
-export default SignupPiece;
+export default SignupPieceMobile;
 
 const StGridWrap = styled.div`
   display: grid;
-  grid-template-columns: 8rem 15.5rem 4.5rem;
+  grid-template-columns: 15.5rem 4.5rem;
+  grid-template-rows: 1fr 1fr;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0;
+  column-gap: 0.5rem;
+  padding: 0.25rem 0;
   span {
     grid-area: elSpan;
   }
@@ -190,13 +187,15 @@ const StGridWrap = styled.div`
 
   button {
     height: 2.25rem;
+    width: 4rem;
     border: 0.1rem solid ${({ theme }) => theme.colors.main};
     font-size: ${({ theme }) => theme.fontSize.xs};
     color: ${({ theme }) => theme.colors.main};
+    background: #fff;
+    grid-area: elBtn;
     :hover {
       background: ${({ theme }) => theme.colors.main};
       color: #fff;
     }
-    background: #fff;
   }
 `;
