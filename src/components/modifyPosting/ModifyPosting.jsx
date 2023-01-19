@@ -5,7 +5,6 @@ import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
 import { FaLink } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { __postPosting } from "../../redux/modules/posting/postingSlice";
 import { __getDetail } from "../../redux/modules/details/detailSlice";
 import { sendRegisterModalStatus } from "../../redux/modules/postcode/postcodeModalSlice";
 import Postcode from "../postcode/Postcode";
@@ -42,28 +41,6 @@ const ModifyPosting = () => {
     coordsX: "",
     coordsY: "",
   });
-
-  useEffect(() => {
-    if (address !== "") {
-      geocoder.addressSearch(address, (result, status) => {
-        if (status === kakao.maps.services.Status.OK) {
-          const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-          setCoords({ coordsX: coords.La, coordsY: coords.Ma });
-        }
-      });
-    }
-  }, [address]);
-
-  useEffect(() => {
-    dispatch(__getDetail(postingId));
-    if (getDatas) {
-      setPostData({
-        ...getDatas,
-        dueDate: getDatas.dueDate.split(" ")[0],
-        dueTime: getDatas.dueDate.split(" ")[1],
-      });
-    }
-  }, [dispatch]);
 
   const onClickPostcodeHandler = () => {
     dispatch(sendRegisterModalStatus(true));
@@ -110,7 +87,8 @@ const ModifyPosting = () => {
             coordsY: coords.coordsY,
           };
           dispatch(__putPosting({ postingId, modifiedContent }));
-          // navigate("/")
+          dispatch(__getDetail(postingId));
+          navigate(`../details/${postingId}`);
         })
         .catch((err) => {
           console.log("업로드 실패");
@@ -119,13 +97,36 @@ const ModifyPosting = () => {
       alert("모든 입력칸을 입력해 주세요 :)");
     }
   };
-
   const onClickCloseHandler = () => {
-    navigate("/");
+    navigate(`../details/${postingId}`);
   };
+
+  useEffect(() => {
+    if (address !== "") {
+      geocoder.addressSearch(address, (result, status) => {
+        if (status === kakao.maps.services.Status.OK) {
+          const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+          setCoords({ coordsX: coords.La, coordsY: coords.Ma });
+        }
+      });
+    }
+  }, [address]);
+
+  useEffect(() => {
+    dispatch(__getDetail(postingId));
+    if (getDatas) {
+      setPostData({
+        ...getDatas,
+        dueDate: getDatas.dueDate?.split(" ")[0],
+        dueTime: getDatas.dueDate?.split(" ")[1],
+      });
+    }
+  }, [dispatch]);
+
   return (
     <Wrap>
-      <Postcode hidden={!postcodeModalStatus} />
+      {/* <Postcode hidden={postcodeModalStatus} width="90%" /> */}
+      {postcodeModalStatus && <Postcode width="90%" />}
       <Container>
         <p>공구 글쓰기</p>
         <PostingForm>
@@ -142,7 +143,6 @@ const ModifyPosting = () => {
               placeholder="제목을 입력해 주세요."
               _onChange={onChangeValueHandler}
               defaultValue={getDatas?.title}
-              // defaultValue={modData.title}
             />
             <TextArea
               name="content"
@@ -167,7 +167,7 @@ const ModifyPosting = () => {
                 name="address"
                 // value={address ? address : postData.address}
                 value={address}
-                // value={address}
+                // defaultValue={postData?.address}
                 _onChange={onChangeValueHandler}
               />
               <ButtonBasic
@@ -204,14 +204,14 @@ const ModifyPosting = () => {
                 name="dueDate"
                 type="date"
                 _onChange={onChangeValueHandler}
-                defaultValue={getDatas?.dueDate.split(" ")[0]}
+                defaultValue={getDatas.dueDate?.split(" ")[0]}
               />
               <label>모집 마감 시간 선택</label>
               <InputBasic
                 name="dueTime"
                 type="time"
                 _onChange={onChangeValueHandler}
-                defaultValue={getDatas?.dueDate.split(" ")[1]}
+                defaultValue={getDatas.dueDate?.split(" ")[1]}
               />
               <label>결제 정보</label>
               <InputBasic

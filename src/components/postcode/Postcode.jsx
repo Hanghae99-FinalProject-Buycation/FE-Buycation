@@ -12,7 +12,7 @@ import {
 } from "../../redux/modules/postcode/postcodeModalSlice";
 import useOutsideClick from "../../hooks/useOutsideClick";
 
-const Postcode = ({ width, height, hidden }) => {
+const Postcode = ({ width, height }) => {
   const dispatch = useDispatch();
   const selectAddress = (e) => {
     dispatch(sendZonecode(e.zonecode));
@@ -26,33 +26,35 @@ const Postcode = ({ width, height, hidden }) => {
   };
 
   const ref = useOutsideClick(handleClickOutside);
-
   return (
     <>
-      <StPostcodeWrap ref={ref} width={width} height={height} hidden={hidden}>
-        <StPostcode
+      <StPostcodeWrap ref={ref} width={width} height={height}>
+        <DaumPostCode
           onComplete={(e) => selectAddress(e)}
-          autoClose={false}
+          autoClose={true}
           defaultQuery=""
         />
       </StPostcodeWrap>
-      <StPostcodeBg hidden={hidden}></StPostcodeBg>
+      <StPostcodeBg />
     </>
   );
 };
 
 export default Postcode;
 
-Postcode.defaultProps = {
-  width: "",
-  height: "",
-};
-
 const StPostcodeWrap = styled.div`
-  width: ${({ width }) => width};
+  ${({ theme }) => theme.common.flexCenter}
+  width: ${({ width }) => (width ? width : "370px")};
   height: ${({ height }) => height};
-  border-radius: 1rem 1rem 0 0;
-  border: 4px solid red;
+  border-radius: 1rem;
+  left: 0;
+  right: 0;
+  top: 25%;
+  margin: 0 auto 0;
+  border: 0.1rem solid ${({ theme }) => theme.colors.grayMid};
+  z-index: 12;
+  position: fixed;
+  overflow: auto;
 `;
 
 const StPostcodeBg = styled.div`
@@ -65,14 +67,4 @@ const StPostcodeBg = styled.div`
   height: 100vh;
   overflow: hidden;
   z-index: 4;
-`;
-
-const StPostcode = styled(DaumPostCode)`
-  ${({ theme }) => theme.common.flexCenter}
-  left: 0;
-  right: 0;
-  margin: 0 auto 0;
-  border: 1px solid #ffffff;
-  z-index: 5;
-  position: fixed;
 `;
