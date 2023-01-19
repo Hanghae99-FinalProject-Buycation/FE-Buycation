@@ -22,6 +22,7 @@ const SignupPiece = (props) => {
   } = props;
   const dispatch = useDispatch();
   const nicknameCheck = /^.[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-Z|0-9][\W|\s/g/]{2,10}$/;
+  const spaceCheck = /[\s]/g;
   const passCheck =
     /(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
   return (
@@ -64,9 +65,11 @@ const SignupPiece = (props) => {
             <ButtonBasic
               gridArea="elBtn"
               _onClick={() =>
-                signupForm.nickname.search(nicknameCheck)
-                  ? alert("2~10자, 공백 없이 한글, 영문, 숫자로만 입력해주세요")
-                  : dispatch(__getNicknameDouble(signupForm.nickname))
+                signupForm.nickname.trim() !== ""
+                  ? dispatch(__getNicknameDouble(signupForm.nickname))
+                  : alert(
+                      "2~10자, 공백 없이 한글, 영문, 숫자로만 입력해주세요."
+                    )
               }
             >
               {item.btnText}
