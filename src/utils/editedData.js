@@ -10,5 +10,9 @@ export const addressForm = (address) => {
 
 //제목 데이터 수정
 export const titleForm = (title) => {
-  return title.substr(0, 15);
+  if (title.length < 12) {
+    return title;
+  } else {
+    return title.substr(0, 11) + "...";
+  }
 };
