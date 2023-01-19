@@ -21,7 +21,6 @@ const Signup = () => {
     password: "",
     nickname: "",
     address: "",
-    // addressDetail: "", //삭제 예정
   });
   const [compare, setCompare] = useState({
     passwordCheck: "",
@@ -49,12 +48,8 @@ const Signup = () => {
   };
   const signupHandler = (e) => {
     e.preventDefault();
-    if (emailCode !== compare.emailValidation) {
-      alert("인증번호를 확인해주세요");
-    } else {
-      dispatch(__postSignup(signupForm));
-      navigate("/login");
-    }
+    dispatch(__postSignup(signupForm));
+    navigate("/login");
   };
 
   useEffect(() => {}, [dispatch]);
@@ -82,6 +77,7 @@ const Signup = () => {
               signupForm={signupForm}
               compare={compare}
               value={address}
+              emailCode={emailCode}
             />
           ) : (
             <SignupPiece
@@ -93,6 +89,7 @@ const Signup = () => {
               signupForm={signupForm}
               compare={compare}
               value={address}
+              emailCode={emailCode}
             />
           )
         )}
