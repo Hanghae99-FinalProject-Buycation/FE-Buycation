@@ -123,4 +123,5 @@ const Logo = styled.div`
 const Icon = styled.div`
   display: flex;
   gap: 23px;
+  cursor: pointer;
 `;

@@ -191,7 +191,7 @@ const StDetailWrap = styled.div`
 
   @media screen and (max-width: 23.5rem) {
     div:first-of-type {
-      margin-top: 0;
+      margin-top: 1.5rem;
     }
     padding: 0 1rem;
   }
