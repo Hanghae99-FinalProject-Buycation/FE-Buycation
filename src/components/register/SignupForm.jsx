@@ -81,7 +81,6 @@ const Signup = () => {
               onClickPostcodeHandler={onClickPostcodeHandler}
               signupForm={signupForm}
               compare={compare}
-              emailCode={emailCode}
               value={address}
             />
           ) : (
@@ -93,7 +92,6 @@ const Signup = () => {
               onClickPostcodeHandler={onClickPostcodeHandler}
               signupForm={signupForm}
               compare={compare}
-              emailCode={emailCode}
               value={address}
             />
           )

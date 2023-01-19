@@ -128,20 +128,21 @@ const SignupPiece = (props) => {
         </>
       )}
       {/* 비밀번호 일치 알림 */}
-      {item.name === "passAlert" && (
+      {item.name === "passAlert" &&
         // signupForm.password.search(passCheck) &&
         // compare.passwordCheck.search(passCheck) &&
-        // signupForm.password.trim() !== "" && (
-        <span style={{ fontSize: "12px", margin: "-0.5rem 0" }}>
-          {signupForm.password !== compare.passwordCheck ? (
-            <span style={{ color: "#f04452" }}>
-              비밀번호 형식이나 내용이 일치하지 않습니다.
-            </span>
-          ) : (
-            <span style={{ color: "#34C759" }}>비밀번호 사용 가능</span>
-          )}
-        </span>
-      )}
+        signupForm.password.trim() !== "" &&
+        compare.passwordCheck.trim() !== "" && (
+          <span style={{ fontSize: "12px", margin: "-0.5rem 0" }}>
+            {signupForm.password !== compare.passwordCheck ? (
+              <span style={{ color: "#f04452" }}>
+                비밀번호 형식이나 내용이 일치하지 않습니다.
+              </span>
+            ) : (
+              <span style={{ color: "#34C759" }}>비밀번호 사용 가능</span>
+            )}
+          </span>
+        )}
 
       {/* 주소 */}
       {item.name === "address" && (
