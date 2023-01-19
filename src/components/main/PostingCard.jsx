@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { FaMapMarkerAlt, FaUser } from "react-icons/fa";
 import ButtonBasic from "../elements/ButtonBasic";
-import { addressForm } from "../../utils/editedData";
+import { addressForm, titleForm } from "../../utils/editedData";
 
 const PostingCard = ({
   postingId,
@@ -18,6 +18,7 @@ const PostingCard = ({
 }) => {
   const navigate = useNavigate();
   const editedAddress = addressForm(address);
+  const editedTitle = titleForm(title);
 
   const onClickMoveDetailHandler = () => {
     navigate(`/details/${postingId}`);
@@ -32,7 +33,7 @@ const PostingCard = ({
             <p>
               <FaMapMarkerAlt size="11px" /> {editedAddress}
             </p>
-            <p>{title}</p>
+            <p>{editedTitle}</p>
             <p>
               <FaUser size="11px" /> {currentMembers}/{totalMembers}
             </p>
