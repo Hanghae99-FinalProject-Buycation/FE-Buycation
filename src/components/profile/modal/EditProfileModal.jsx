@@ -61,7 +61,7 @@ const EditProfileModal = (props) => {
         setEditValue({ ...editValue, profileImage: data?.Location });
       })
       .catch((err) => {
-        console.log("이미지 업로드 실패");
+        //console.log("이미지 업로드 실패");
       });
   };
 

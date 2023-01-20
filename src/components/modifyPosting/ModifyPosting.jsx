@@ -91,7 +91,7 @@ const ModifyPosting = () => {
           navigate(`../details/${postingId}`);
         })
         .catch((err) => {
-          console.log("업로드 실패");
+          //console.log("업로드 실패");
         });
     } else {
       alert("모든 입력칸을 입력해 주세요 :)");

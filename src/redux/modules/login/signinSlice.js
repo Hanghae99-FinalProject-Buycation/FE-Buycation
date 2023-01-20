@@ -14,7 +14,7 @@ export const __postSignin = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await baseURL.post(`members/login`, payload);
-      console.log("data", data);
+      //console.log("data", data);
       if (data.headers.authorization !== undefined) {
         setCookies("id", data.headers.authorization, {
           path: "/",
@@ -35,7 +35,6 @@ export const signinSlice = createSlice({
   reducers: {
     //상태 초기화
     __isSussess: (state, action) => {
-      console.log(action.payload);
       state.isSussess = action.payload;
     },
   },
@@ -46,7 +45,7 @@ export const signinSlice = createSlice({
       })
       .addCase(__postSignin.fulfilled, (state, action) => {
         state.isLoading = false;
-        console.log(action.payload);
+        //console.log(action.payload);
         if (action.payload === 200) {
           state.isSussess = true;
         }

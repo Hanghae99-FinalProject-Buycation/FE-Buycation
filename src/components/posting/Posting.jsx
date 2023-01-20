@@ -56,7 +56,6 @@ const Posting = () => {
   }, [address, status]);
 
   useEffect(() => {
-    console.log(isSuccess);
     if (isSuccess) {
       navigate("/");
       dispatch(__isSuccess(false));
@@ -242,6 +241,7 @@ const Wrap = styled.div`
   display: flex;
   justify-content: center;
 `;
+
 const Container = styled.div`
   width: 1392px;
   height: 100%;
@@ -252,6 +252,7 @@ const Container = styled.div`
     border-bottom: 3px solid ${({ theme }) => theme.colors.main};
   }
 `;
+
 const PostingForm = styled.div`
   width: 100%;
   display: flex;
@@ -262,6 +263,7 @@ const PostingForm = styled.div`
     flex-direction: column;
   }
 `;
+
 const LeftDivForm = styled.div`
   width: 75%;
   display: flex;
@@ -272,6 +274,7 @@ const LeftDivForm = styled.div`
     height: 100%;
   }
 `;
+
 const SelectInput = styled.select`
   width: 50%;
   height: 2.25rem;
@@ -282,6 +285,7 @@ const SelectInput = styled.select`
     width: 100%;
   }
 `;
+
 const Label = styled.label`
   display: grid;
   grid-template-columns: 7rem 22rem 5rem;
@@ -293,6 +297,7 @@ const Label = styled.label`
     grid-template-rows: 1fr 1fr;
   }
 `;
+
 const TextArea = styled.textarea`
   width: 100%;
   height: 20rem;
@@ -300,6 +305,7 @@ const TextArea = styled.textarea`
   border-radius: 0.5rem;
   padding: 1.8rem;
 `;
+
 const FileInput = styled.div`
   width: 22rem;
   height: 1.938rem;
@@ -318,6 +324,7 @@ const FileInput = styled.div`
     width: 100%;
   }
 `;
+
 const RightDivForm = styled.div`
   width: 25%;
   display: flex;
@@ -329,6 +336,7 @@ const RightDivForm = styled.div`
     padding-bottom: 1rem;
   }
 `;
+
 const SelectInputForm = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.grayStrong};
   border-radius: 0.5rem;
@@ -351,6 +359,7 @@ const SelectInputForm = styled.div`
     font-weight: 600;
   }
 `;
+
 const ButtonForm = styled.div`
   display: flex;
   flex-direction: column;

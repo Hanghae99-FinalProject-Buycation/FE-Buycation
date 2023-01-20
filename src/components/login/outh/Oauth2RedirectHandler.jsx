@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { baseURL } from "../../../core/axios";
-import { Spinners } from "../../../shared/layout/Spinners";
 import { setCookies } from "../../../core/cookie";
+import { Spinners } from "../../../shared/layout/Spinners";
 
 const Oauth2RedirectHandler = () => {
   const navigate = useNavigate();
-  let code = new URL(window.location.href).searchParams.get("code");
+  const code = new URL(window.location.href).searchParams.get("code");
 
   const kakao = async () => {
     await baseURL
@@ -18,7 +18,7 @@ const Oauth2RedirectHandler = () => {
         navigate("/");
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   };
   kakao();

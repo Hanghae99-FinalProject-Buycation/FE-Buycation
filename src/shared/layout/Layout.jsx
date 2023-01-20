@@ -1,7 +1,7 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
 import styled from "@emotion/styled";
 import Header from "./Header";
+import { Outlet } from "react-router-dom";
 
 const Layout = () => {
   return (

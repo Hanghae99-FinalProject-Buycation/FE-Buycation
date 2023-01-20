@@ -1,4 +1,3 @@
-//아마자 관련
 import { v1 } from "uuid";
 import AWS from "aws-sdk";
 import { BUCKET, REGION, ASSESSKEY_ID, SECRET_ACCESSKEY } from "../core/env";

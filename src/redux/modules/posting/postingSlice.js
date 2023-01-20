@@ -11,7 +11,6 @@ const initialState = {
 export const __postPosting = createAsyncThunk(
   "posting/post",
   async (payload, thunkAPI) => {
-    console.log("페이로드 :", payload);
     try {
       const { data } = await baseURLwToken.post(`posting`, payload);
       alert(data.msg);
@@ -28,7 +27,6 @@ export const postingSlice = createSlice({
   reducers: {
     //상태 초기화
     __isSuccess: (state, action) => {
-      console.log(action.payload);
       state.isSuccess = action.payload;
     },
   },

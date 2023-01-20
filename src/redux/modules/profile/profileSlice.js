@@ -15,7 +15,7 @@ export const __getProfile = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await baseURLwToken.get(`members/${payload}/profile`);
-      console.log(data.data);
+      //console.log(data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -28,7 +28,7 @@ export const __getMyProfile = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await baseURLwToken.get(`members/myprofile`);
-      console.log(data.data);
+      //console.log(data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -45,6 +45,7 @@ export const __patchProfile = createAsyncThunk(
         `members/${payload.memberId}`,
         payload
       );
+      console.log(data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -58,7 +59,7 @@ export const __duplicateCheck = createAsyncThunk(
     //console.log("중복체크", payload);
     try {
       const { data } = await baseURL.get(`members/signup?nickname=${payload}`);
-      console.log(data.msg);
+      //console.log(data.msg);
       alert(data.msg);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {

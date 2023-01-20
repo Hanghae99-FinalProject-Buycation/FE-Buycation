@@ -39,7 +39,7 @@ const Detail = () => {
     setPostingModal(!postingModal);
   };
   const onClickCommentModalHandler = (e) => {
-    console.log(e.target.id);
+    //console.log(e.target.id);
     if (e.target.id === details.commentList.commentId) {
       setCommentModal(!commentModal);
     }
