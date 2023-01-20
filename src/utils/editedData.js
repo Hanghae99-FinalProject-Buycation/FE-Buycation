@@ -16,3 +16,16 @@ export const titleForm = (title) => {
     return title.substr(0, 11) + "...";
   }
 };
+
+export const longTitleForm = (title) => {
+  if (title?.length < 60) {
+    return title;
+  } else {
+    return title?.substr(0, 60) + "...";
+  }
+};
+
+// 금액 자릿수 추가
+export const countComma = (money) => {
+  return money?.toLocaleString("ko-KR") + "원";
+};

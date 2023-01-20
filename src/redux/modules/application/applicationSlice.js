@@ -26,11 +26,10 @@ export const __getApplication = createAsyncThunk(
 
 export const __postApplication = createAsyncThunk(
   "application/post",
-  async ({ postingId, token }, thunkAPI) => {
+  async (postingId, thunkAPI) => {
     try {
       const { data } = await baseURLwToken.post(
-        `participant/posting/${postingId}`,
-        token
+        `participant/posting/${postingId}`
       );
       alert(data.msg);
       // return thunkAPI.fulfillWithValue(data);

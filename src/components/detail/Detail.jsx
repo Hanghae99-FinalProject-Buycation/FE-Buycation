@@ -8,9 +8,6 @@ import { RiMapPin2Fill } from "react-icons/ri";
 import applicateBtnIcon from "../../assets/detailIcon/applicateBtnIcon.svg";
 
 import ButtonBasic from "../elements/ButtonBasic";
-import { Spinners } from "../../shared/layout/Spinners";
-
-import useBuyLocation from "../../hooks/useBuyLocation";
 import DetailSpan from "./elements/DetailSpan";
 import DetailMoreButton from "./elements/DetailMoreButton";
 import DetailPostingOptionModal from "./modals/DetailPostingOptionModal";
@@ -19,7 +16,10 @@ import DetailApplicationList from "./DetailApplicationList";
 import DetailCommentForm from "./DetailCommentForm";
 import DetailApplicationBody from "./DetailApplicationBody";
 import { getCookies } from "../../core/cookie";
+import { longTitleForm, titleForm } from "../../utils/editedData";
+import { Spinners } from "../../shared/layout/Spinners";
 import { __getComment } from "../../redux/modules/details/commentSlice";
+import useBuyLocation from "../../hooks/useBuyLocation";
 
 const Detail = () => {
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ const Detail = () => {
       alert("로그인 해주세요.");
       navigate("/login");
     } else {
-      dispatch(__postApplication({ postingId: postingId, token: token }));
+      dispatch(__postApplication(postingId));
     }
   };
   const onClickMoveProfileHandler = (memberId) => {
@@ -101,7 +101,8 @@ const Detail = () => {
         </StCreatorProfile>
         <hr />
         <StContent>
-          <h3>{details.title}</h3>
+          <h3>{details?.title}</h3>
+          {/* <h3>{longtitleForm(details.title)}</h3> */}
           <span>
             <u>{details.category}</u> {details.createdAt?.split(" ")[0]}
           </span>
@@ -141,6 +142,10 @@ const Detail = () => {
                 <ButtonBasic _onClick={onClickApplicateHandler}>
                   <img src={applicateBtnIcon} alt="" /> 참가 신청 하기
                 </ButtonBasic>
+                // 참가 확정인 건 어떻게 판단?
+                // <ButtonBasic _onClick={onClickApplicateHandler}>
+                //   <img src={applicateBtnIcon} alt="" /> 참가 취소 하기
+                // </ButtonBasic>
               )}
             </>
           )}
@@ -222,6 +227,10 @@ const ElImgWrap = styled.div`
     object-fit: cover;
     border-radius: 0.5rem;
 
+    @media screen and (max-width: 48rem) {
+      height: 25rem;
+    }
+
     @media screen and (max-width: 23.5rem) {
       height: 18.75rem;
     }
@@ -233,7 +242,7 @@ const StCreatorProfile = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 5rem;
+  /* height: 5rem; */
   div:first-of-type {
     display: flex;
     flex-direction: row;
