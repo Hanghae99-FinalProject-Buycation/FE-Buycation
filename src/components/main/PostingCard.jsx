@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { FaMapMarkerAlt, FaUser } from "react-icons/fa";
 import ButtonBasic from "../elements/ButtonBasic";
-import { addressForm, titleForm } from "../../utils/editedData";
+import { addressForm, titleForm, countComma } from "../../utils/editedData";
 
 const PostingCard = ({
   postingId,
@@ -19,6 +19,7 @@ const PostingCard = ({
   const navigate = useNavigate();
   const editedAddress = addressForm(address);
   const editedTitle = titleForm(title);
+  const editedBudget = countComma(perBudget);
 
   const onClickMoveDetailHandler = () => {
     navigate(`/details/${postingId}`);
@@ -39,7 +40,7 @@ const PostingCard = ({
             </p>
             <p>{dueData} 까지 모집</p>
             <p>
-              {perBudget} <span>(1인당 예산 금액)</span>
+              {editedBudget} <span>(1인당 예산 금액)</span>
             </p>
           </article>
         </ContentsBox>
