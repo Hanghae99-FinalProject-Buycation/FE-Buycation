@@ -3,6 +3,7 @@ import { baseURL } from "../../../core/axios";
 import { baseURLwToken } from "../../../core/axios";
 
 const initialState = {
+  memberId: {},
   getProfile: [],
   isLoading: false,
   error: null,
@@ -13,7 +14,7 @@ export const __getProfile = createAsyncThunk(
   "profile/get",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await baseURL.get(`members/${payload}/profile`);
+      const { data } = await baseURLwToken.get(`members/${payload}/profile`);
       console.log(data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -73,7 +74,6 @@ export const profileSlice = createSlice({
   reducers: {
     //상태 초기화
     __isSuccess: (state, action) => {
-      console.log(action.payload);
       state.isSuccess = action.payload;
     },
   },

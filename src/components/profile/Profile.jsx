@@ -4,13 +4,15 @@ import ProfileInfo from "./ProfileInfo";
 import ProfileStar from "./ProfileStar";
 import MyParicipation from "./MyParicipation";
 import MyCreation from "./MyCreation";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   __getProfile,
   __isSuccess,
 } from "../../redux/modules/profile/profileSlice";
 
-const Profile = ({ memberId }) => {
+const Profile = () => {
+  const { memberId } = useParams();
   const dispatch = useDispatch();
   const { isSuccess } = useSelector((state) => state.profile);
   const profileData = useSelector((data) => data.profile.getProfile);
@@ -28,11 +30,11 @@ const Profile = ({ memberId }) => {
   };
 
   useEffect(() => {
-    dispatch(__getProfile(4)); //임의 설정
+    dispatch(__getProfile(memberId));
     if (isSuccess) {
       dispatch(__isSuccess(false));
     }
-  }, [dispatch, isSuccess]);
+  }, [dispatch, isSuccess, memberId]);
 
   return (
     <Wrap>

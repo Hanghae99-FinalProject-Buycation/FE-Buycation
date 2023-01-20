@@ -55,6 +55,9 @@ const Detail = () => {
       dispatch(__postApplication({ postingId: postingId, token: token }));
     }
   };
+  const onClickMoveProfileHandler = (memberId) => {
+    navigate(`/profile/${memberId}`);
+  };
 
   useBuyLocation(details?.address);
 
@@ -75,7 +78,11 @@ const Detail = () => {
           <div>
             {/* 프로필 이미지 */}
             <div className="profileWrap">
-              <img src={details.profileImage} alt="" />
+              <img
+                src={details.profileImage}
+                alt=""
+                onClick={() => onClickMoveProfileHandler(details.memberId)}
+              />
             </div>
             {/* 유저 정보 */}
             <DetailSpan
