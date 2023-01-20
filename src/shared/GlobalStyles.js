@@ -2,16 +2,38 @@ import { Global, css } from "@emotion/react";
 
 const styles = css`
   @font-face {
-    font-family: "Pretendard-Regular";
-    src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
-      format("woff");
+    font-family: "Pretendard";
+    font-style: normal;
+    src: local("Pretendard") url("../styles/fonts/Pretendard-Regular.woff2")
+      format("woff2");
     font-weight: 400;
     font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Pretendard";
+    font-style: bold;
+    src: local("Pretendard") url("../styles/fonts/Pretendard-SemiBold.woff2")
+      format("woff2");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Pretendard";
+    font-style: bold;
+    src: local("Pretendard") url("../styles/fonts/Pretendard-Bold.woff2")
+      format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
   }
 
   * {
     box-sizing: border-box;
-    font-family: "Pretendard-Regular";
+    font-family: "Pretendard";
   }
 
   body {
@@ -19,7 +41,7 @@ const styles = css`
     color: #000000;
     padding: 0;
     margin: 0;
-    font-family: "Pretendard-Regular";
+    font-family: "Pretendard";
   }
 
   button,
