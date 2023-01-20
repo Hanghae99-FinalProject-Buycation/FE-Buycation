@@ -314,7 +314,7 @@ const FileInput = styled.div`
     background: none;
     color: ${({ theme }) => theme.colors.grayMid};
   }
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
   }
 `;
@@ -323,7 +323,7 @@ const RightDivForm = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
     height: 100%;
     padding-bottom: 1rem;
