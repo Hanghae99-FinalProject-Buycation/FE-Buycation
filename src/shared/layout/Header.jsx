@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import SmallModal from "../../components/headerModal/userModal";
+import UserModal from "../../components/header/UserModal";
 import ButtonBasic from "../../components/elements/ButtonBasic";
 import postingIcon from "../../assets/headerIcon/postingIcon.svg";
 import chattingIcon from "../../assets/headerIcon/chattingIcon.svg";
@@ -81,7 +81,7 @@ const Header = () => {
       )}
 
       {!modalStatus && (
-        <SmallModal
+        <UserModal
           top="4rem"
           right="0"
           first="마이페이지"
