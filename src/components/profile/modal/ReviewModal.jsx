@@ -34,7 +34,7 @@ const ReviewModal = ({ onClose, postingIdData }) => {
       userScore: parseInt(starClicked),
     };
     dispatch(__postReviewScore(newPostData));
-    console.log(newPostData);
+    //console.log(newPostData);
   };
 
   return (

@@ -4,12 +4,8 @@ import useOutsideClick from "../../../hooks/useOutsideClick";
 
 const DetailCommentModal = () => {
   const [hide, setHide] = useState(false);
-  const onClickModifyCommentHandler = () => {
-    console.log("수정");
-  };
-  const onClickDeleteCommentHandler = () => {
-    console.log("삭제");
-  };
+  const onClickModifyCommentHandler = () => {};
+  const onClickDeleteCommentHandler = () => {};
   const onClickCloseHandler = () => {
     setHide(!hide);
   };

@@ -24,7 +24,6 @@ const SignIn = () => {
   });
 
   useEffect(() => {
-    console.log(isSussess);
     if (isSussess) {
       navigate("/");
       dispatch(__isSussess(false));
@@ -124,12 +123,12 @@ const Wrap = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 7.5rem;
-
   @media screen and (max-width: 768px) {
     margin-top: 0;
     align-items: center;
   }
 `;
+
 const Form = styled.form`
   width: 25rem;
   padding: 1rem;
@@ -145,11 +144,13 @@ const Form = styled.form`
     line-height: 28px;
   }
 `;
+
 const InputBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
 `;
+
 const OrTxt = styled.span`
   color: ${({ theme }) => theme.colors.grayStrong};
   text-align: center;
@@ -173,6 +174,7 @@ const OrTxt = styled.span`
     background-color: ${({ theme }) => theme.colors.grayStrong};
   }
 `;
+
 const LinkDiv = styled.div`
   text-align: center;
   a {

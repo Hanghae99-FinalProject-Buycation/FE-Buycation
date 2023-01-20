@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { useDispatch, useSelector } from "react-redux";
-import useOutsideClick from "../../hooks/useOutsideClick";
-import { sendModalStatus } from "../../redux/modules/modal/modalSlice";
 import { getCookies } from "../../core/cookie";
+import useOutsideClick from "../../hooks/useOutsideClick";
+import { useDispatch, useSelector } from "react-redux";
+import { sendModalStatus } from "../../redux/modules/modal/modalSlice";
 
 const UserModal = (props) => {
   const {
@@ -18,9 +18,10 @@ const UserModal = (props) => {
     right,
     bottom,
   } = props;
+
+  const tokenValue = getCookies("id");
   const dispatch = useDispatch();
   const modalStatus = useSelector((state) => state.generalModal.toggleModal);
-  const tokenValue = getCookies("id");
 
   const onClickCloseHandler = () => {
     dispatch(sendModalStatus(!modalStatus));

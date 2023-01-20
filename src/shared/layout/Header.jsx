@@ -1,7 +1,5 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import UserModal from "../../components/header/UserModal";
 import ButtonBasic from "../../components/elements/ButtonBasic";
 import postingIcon from "../../assets/headerIcon/postingIcon.svg";
@@ -10,17 +8,20 @@ import alarmIcon from "../../assets/headerIcon/alarmIcon.svg";
 import profileIcon from "../../assets/headerIcon/profileIcon.svg";
 import logo from "../../assets/headerIcon/buycationLogo.webp";
 import logoHover from "../../assets/headerIcon/buycationLogoHover.webp";
-import { sendModalStatus } from "../../redux/modules/modal/modalSlice";
-import { getCookies, removeCookies } from "../../core/cookie";
-import { HiOutlineBars3 } from "react-icons/hi2";
 import useWindowResize from "../../hooks/useWindowResize";
+import { HiOutlineBars3 } from "react-icons/hi2";
+import { getCookies, removeCookies } from "../../core/cookie";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { sendModalStatus } from "../../redux/modules/modal/modalSlice";
 
 const Header = () => {
+  const { innerWidth } = useWindowResize();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = getCookies("id");
   const modalStatus = useSelector((state) => state.generalModal.toggleModal);
-  const { innerWidth } = useWindowResize();
+
   const onMovePostingHandler = () => {
     navigate("/posting");
   };
@@ -51,7 +52,7 @@ const Header = () => {
     <HeaderDiv>
       <Logo alt="바이케이션" onClick={() => navigate("/")} />
       {token ? (
-        innerWidth > 450 ? (
+        innerWidth > 768 ? (
           <Icon>
             <img
               alt="posting"
