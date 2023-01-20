@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import { sendModalStatus } from "../../redux/modules/modal/modalSlice";
 import { getCookies } from "../../core/cookie";
 
-const SmallModal = (props) => {
+const UserModal = (props) => {
   const {
     first,
     second,
@@ -53,7 +53,7 @@ const SmallModal = (props) => {
   );
 };
 
-export default SmallModal;
+export default UserModal;
 
 const StPostingOption = styled.div`
   width: 90px;
