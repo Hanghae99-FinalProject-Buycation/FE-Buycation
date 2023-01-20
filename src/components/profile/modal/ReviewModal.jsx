@@ -12,10 +12,11 @@ import {
 const ReviewModal = ({ onClose, postingIdData }) => {
   const dispatch = useDispatch();
   const reviewList = useSelector((data) => data.reviews.reviews);
+  const { isSuccess } = useSelector((state) => state.reviews);
 
   useEffect(() => {
     dispatch(__getReviewList(postingIdData));
-  }, [dispatch, postingIdData]);
+  }, [dispatch, postingIdData, isSuccess]);
 
   const [starClicked, setStarClicked] = useState([]);
 
