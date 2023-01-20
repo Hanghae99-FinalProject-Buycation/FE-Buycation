@@ -25,7 +25,7 @@ const PostingList = () => {
   }, [dispatch, searchValue]);
 
   const onKeyupSearchHandler = (event) => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" || event.keyCode === 13) {
       const keyword = event.target.value;
       setSearchValue({ ...searchValue, search: keyword });
       dispatch(__getPostingList({ ...searchValue, search: keyword }));

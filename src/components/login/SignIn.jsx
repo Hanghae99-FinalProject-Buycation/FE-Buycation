@@ -124,8 +124,8 @@ const Wrap = styled.div`
   justify-content: center;
   margin-top: 7.5rem;
   @media screen and (max-width: 768px) {
-    margin-top: 0;
-    align-items: center;
+    margin-top: 5.5rem;
+    /* align-items: center; */
   }
 `;
 
