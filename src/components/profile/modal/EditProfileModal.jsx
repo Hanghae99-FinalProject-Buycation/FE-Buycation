@@ -164,7 +164,7 @@ const ModalCard = styled.div`
   z-index: 10;
   background: white;
   border-radius: 5px;
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
   }
 `;
@@ -216,7 +216,7 @@ const FileInput = styled.div`
     background: none;
     color: ${({ theme }) => theme.colors.grayMid};
   }
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
   }
 `;

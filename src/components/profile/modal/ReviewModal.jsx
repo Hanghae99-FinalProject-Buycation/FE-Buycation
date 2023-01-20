@@ -112,7 +112,7 @@ const ModalCard = styled.div`
   z-index: 10;
   background: white;
   border-radius: 5px;
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
   }
 `;
