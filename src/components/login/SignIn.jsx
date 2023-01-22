@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import styled from "@emotion/styled";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
 import { useDispatch, useSelector } from "react-redux";
 import {
   __postSignin,
-  __isSussess,
+  __statusCode,
+  __isSuccess,
 } from "../../redux/modules/login/signinSlice";
 import { CLIENT_ID, REDIRECT_URI } from "../../core/env";
 
 const SignIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isSussess } = useSelector((data) => data.postSignin);
+  const postSigninData = useSelector((data) => data.postSignin);
   const [loginValue, setLoginValue] = useState({
     email: "",
     password: "",
@@ -24,11 +26,29 @@ const SignIn = () => {
   });
 
   useEffect(() => {
-    if (isSussess) {
-      navigate("/");
-      dispatch(__isSussess(false));
+    if (postSigninData.isSuccess) {
+      //alert : 일단 라이브러리 사용 - 커스텀 불편
+      Swal.fire({
+        text: postSigninData.alertMsg,
+        confirmBUttonText: "확인",
+        confirmButtonColor: "#FF5A5F",
+        confirmButtonHeight: "10px",
+        buttonHeight: "20px",
+      }).then(() => {
+        dispatch(__isSuccess(false));
+        if (postSigninData.statusCode) {
+          navigate("/");
+          dispatch(__statusCode(false));
+        }
+      });
     }
-  }, [isSussess, dispatch, navigate]);
+  }, [
+    dispatch,
+    postSigninData.isSuccess,
+    postSigninData.alertMsg,
+    postSigninData.statusCode,
+    navigate,
+  ]);
 
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}
 &redirect_uri=${REDIRECT_URI}&response_type=code`;

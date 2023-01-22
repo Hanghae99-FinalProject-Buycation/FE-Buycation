@@ -6,7 +6,10 @@ const initialState = {
   postSignin: [],
   isLoading: false,
   error: null,
-  isSussess: false,
+
+  isSuccess: false,
+  statusCode: false,
+  alertMsg: {},
 };
 
 export const __postSignin = createAsyncThunk(
@@ -14,15 +17,13 @@ export const __postSignin = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await baseURL.post(`members/login`, payload);
-      //console.log("data", data);
       if (data.headers.authorization !== undefined) {
         setCookies("id", data.headers.authorization, {
           path: "/",
           maxAge: 1750,
         });
       }
-      alert(data.data.msg);
-      return thunkAPI.fulfillWithValue(data.data.statusCode);
+      return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -33,29 +34,24 @@ export const signinSlice = createSlice({
   name: "postSignin",
   initialState,
   reducers: {
-    //상태 초기화
-    __isSussess: (state, action) => {
-      state.isSussess = action.payload;
+    __isSuccess: (state, action) => {
+      state.isSuccess = action.payload;
+    },
+    __statusCode: (state, action) => {
+      state.statusCode = action.payload;
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(__postSignin.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(__postSignin.fulfilled, (state, action) => {
-        state.isLoading = false;
-        //console.log(action.payload);
-        if (action.payload === 200) {
-          state.isSussess = true;
-        }
-      })
-      .addCase(__postSignin.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      });
+    builder.addCase(__postSignin.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.alertMsg = action.payload.msg;
+      if (action.payload.statusCode === 200) {
+        state.statusCode = true;
+      }
+    });
   },
 });
 
-export const { __isSussess } = signinSlice.actions;
+export const { __isSuccess, __statusCode } = signinSlice.actions;
 export default signinSlice.reducer;
