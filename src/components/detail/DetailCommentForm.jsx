@@ -2,7 +2,10 @@ import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { __postComment } from "../../redux/modules/details/commentSlice";
+import {
+  __isSuccess,
+  __postComment,
+} from "../../redux/modules/details/commentSlice";
 import { __getDetail } from "../../redux/modules/details/detailSlice";
 import { __getMyProfile } from "../../redux/modules/profile/profileSlice";
 import ButtonBasic from "../elements/ButtonBasic";
@@ -12,6 +15,7 @@ const DetailCommentForm = () => {
   const postingId = Number(useParams().postingId);
   const memberIdData = parseInt(localStorage.getItem("memberId"));
   const { nickname } = useSelector((state) => state.profile.getProfile);
+  const isSuccess = useSelector((state) => state.comments.isSuccess);
   const [comment, setComment] = useState({ content: "" });
   const onChangeCommentHandler = (e) => {
     setComment({ content: e.target.value });
@@ -21,14 +25,16 @@ const DetailCommentForm = () => {
       alert("내용을 입력해주세요");
     } else {
       dispatch(__postComment({ postingId, comment }));
-      dispatch(__getDetail(postingId));
       setComment({ content: "" });
+      if (isSuccess) {
+        dispatch(__isSuccess(false));
+      }
     }
   };
 
   useEffect(() => {
     dispatch(__getMyProfile(memberIdData));
-  }, [dispatch]);
+  }, [dispatch, memberIdData]);
 
   return (
     <StComment>
