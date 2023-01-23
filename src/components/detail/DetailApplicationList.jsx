@@ -13,7 +13,7 @@ import {
 import profileDefault from "../../assets/profileImg/profile_default.svg";
 import footIcon from "../../assets/reviewIcon/reviewFootIcon.svg";
 
-const DetailApplicationList = ({ postingId }) => {
+const DetailApplicationList = ({ postingId, onClickMoveProfileHandler }) => {
   const dispatch = useDispatch();
   const [hide, setHide] = useState(false);
   const onClickCloseHandler = () => {
@@ -42,7 +42,7 @@ const DetailApplicationList = ({ postingId }) => {
 
   useEffect(() => {
     dispatch(__getApplication(postingId));
-  }, [dispatch]);
+  }, [dispatch, postingId]);
   return (
     !hide && (
       <StApplicationList ref={ref}>
@@ -56,9 +56,23 @@ const DetailApplicationList = ({ postingId }) => {
           data?.map((item) => (
             <div key={"frag" + item.applicationId} className="wrap">
               {item?.profileImage ? (
-                <img src={item.profileImage} className="profile" alt="" />
+                <img
+                  src={item.profileImage}
+                  className="profile"
+                  alt=""
+                  onClick={() => {
+                    onClickMoveProfileHandler(item?.memberId);
+                  }}
+                />
               ) : (
-                <img src={profileDefault} className="profile" alt="" />
+                <img
+                  src={profileDefault}
+                  className="profile"
+                  alt=""
+                  onClick={() => {
+                    onClickMoveProfileHandler(item?.memberId);
+                  }}
+                />
               )}
               <DetailSpan
                 titleText={item.nickname}
@@ -135,10 +149,13 @@ const StApplicationList = styled.div`
       object-fit: cover;
       border-radius: 5rem;
       border: 0.1rem solid ${({ theme }) => theme.colors.grayWeak};
+      cursor: pointer;
     }
 
     span {
       display: inline-block;
+      cursor: pointer;
+
       /* padding: 0 0.5rem; */
     }
     /* && :first-of-type {
