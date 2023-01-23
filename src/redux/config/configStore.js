@@ -6,6 +6,7 @@ import postcode from "../modules/postcode/postcodeSlice";
 import getPostingList from "../modules/main/postingListSlice";
 import postPosting from "../modules/posting/postingSlice";
 import getDetail from "../modules/details/detailSlice";
+import comments from "../modules/details/commentSlice";
 import profile from "../modules/profile/profileSlice";
 import myList from "../modules/profile/myListSlice";
 import reviews from "../modules/profile/reviewsSlice";
@@ -21,6 +22,7 @@ const store = configureStore({
     getPostingList,
     postPosting,
     getDetail,
+    comments,
     profile,
     myList,
     reviews,
