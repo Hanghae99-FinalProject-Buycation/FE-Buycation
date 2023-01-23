@@ -30,10 +30,8 @@ const SignIn = () => {
       //alert : 일단 라이브러리 사용 - 커스텀 불편
       Swal.fire({
         text: postSigninData.alertMsg,
-        confirmBUttonText: "확인",
+        confirmButtonText: "확인",
         confirmButtonColor: "#FF5A5F",
-        confirmButtonHeight: "10px",
-        buttonHeight: "20px",
       }).then(() => {
         dispatch(__isSuccess(false));
         if (postSigninData.statusCode) {
