@@ -49,7 +49,7 @@ const DetailApplicationBody = ({ details }) => {
         titleText={"1인당 예상 금액"}
         bodyText={countComma(details?.perBudget)}
         fontSize="1.313rem"
-        fontWeight="700"
+        fontWeight="600"
       />
     </ElDiv>
   );

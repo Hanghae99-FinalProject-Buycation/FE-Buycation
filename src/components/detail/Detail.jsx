@@ -6,6 +6,7 @@ import { __getDetail } from "../../redux/modules/details/detailSlice";
 import { __postApplication } from "../../redux/modules/application/applicationSlice";
 import { RiMapPin2Fill } from "react-icons/ri";
 import applicateBtnIcon from "../../assets/detailIcon/applicateBtnIcon.svg";
+import profileDefault from "../../assets/profileImg/profile_default.svg";
 
 import ButtonBasic from "../elements/ButtonBasic";
 import DetailSpan from "./elements/DetailSpan";
@@ -26,13 +27,14 @@ const Detail = () => {
   const navigate = useNavigate();
   const postingId = parseInt(useParams().postingId);
   const details = useSelector((state) => state.getDetail.getDetail);
+  const isSuccess = useSelector((state) => state.comments.isSuccess);
   /*   const { isLoading, error } = useSelector(
     (state) => state.getDetail.getDetail
   ); */
   const [postingModal, setPostingModal] = useState(false);
   const [commentModal, setCommentModal] = useState(false);
   const [applicationModal, setApplicationModal] = useState(false);
-  const token = getCookies("id");
+  const tokenValue = getCookies("id");
   const commentsLength = details.commentList?.length || 0;
 
   const onClickPostingModalHandler = () => {
@@ -48,7 +50,7 @@ const Detail = () => {
     setApplicationModal(!applicationModal);
   };
   const onClickApplicateHandler = () => {
-    if (!token) {
+    if (!tokenValue) {
       alert("로그인 해주세요.");
       navigate("/login");
     } else {
@@ -63,7 +65,7 @@ const Detail = () => {
 
   useEffect(() => {
     dispatch(__getDetail(postingId));
-  }, [dispatch]);
+  }, [dispatch, postingId, isSuccess]);
 
   // if (isLoading) return <Spinners />;
   // if (error) return <div>{error.msg}</div>;
@@ -78,11 +80,19 @@ const Detail = () => {
           <div>
             {/* 프로필 이미지 */}
             <div className="profileWrap">
-              <img
-                src={details.profileImage}
-                alt=""
-                onClick={() => onClickMoveProfileHandler(details.memberId)}
-              />
+              {details.profileImage !== "" ? (
+                <img
+                  src={details.profileImage}
+                  alt=""
+                  onClick={() => onClickMoveProfileHandler(details.memberId)}
+                />
+              ) : (
+                <img
+                  src={profileDefault}
+                  alt=""
+                  onClick={() => onClickMoveProfileHandler(details.memberId)}
+                />
+              )}
             </div>
             {/* 유저 정보 */}
             <DetailSpan
@@ -132,7 +142,10 @@ const Detail = () => {
               {details.myPosting ? (
                 <>
                   {applicationModal && (
-                    <DetailApplicationList postingId={postingId} />
+                    <DetailApplicationList
+                      postingId={postingId}
+                      onClickMoveProfileHandler={onClickMoveProfileHandler}
+                    />
                   )}
                   <ButtonBasic _onClick={onClickApplicationModalHandler}>
                     <img src={applicateBtnIcon} alt="" /> 신청 리스트 보기
@@ -146,6 +159,8 @@ const Detail = () => {
                 // <ButtonBasic _onClick={onClickApplicateHandler}>
                 //   <img src={applicateBtnIcon} alt="" /> 참가 취소 하기
                 // </ButtonBasic>
+                // 얼럿 들어가고
+                // postingId하고 토큰
               )}
             </>
           )}
@@ -156,7 +171,7 @@ const Detail = () => {
           ) : (
             <span> 댓글 0</span>
           )}
-          {token && !details.doneStatus && <DetailCommentForm />}
+          {tokenValue && !details.doneStatus && <DetailCommentForm />}
         </StCommentWrap>
         {commentsLength !== 0 &&
           details.commentList?.map((comment, idx) => (
@@ -170,7 +185,7 @@ const Detail = () => {
                   <span>{comment.createdAt?.split(" ", 1)}</span>
                   <p>{comment.content}</p>
                 </span>
-                {token && (
+                {tokenValue && (
                   <div className="commentOption">
                     {commentModal && (
                       <DetailCommentModal id={comment.commentId} />
