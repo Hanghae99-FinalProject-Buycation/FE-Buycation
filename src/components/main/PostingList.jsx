@@ -111,6 +111,11 @@ const Section = styled.div`
   align-items: center;
   overflow: auto;
   grid-area: "list";
+  @media screen and (max-width: 768px) {
+    border-top: 2px solid ${({ theme }) => theme.colors.grayStrong};
+    border-radius: 8px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25), 0px 0px 12px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 const SearchBox = styled.header`

@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
-import UserModal from "../../components/header/UserModal";
 import postingIcon from "../../assets/headerIcon/postingIcon.svg";
 import chattingIcon from "../../assets/headerIcon/chattingIcon.svg";
 import alarmIcon from "../../assets/headerIcon/alarmIcon.svg";
@@ -13,6 +12,8 @@ import { HiOutlineBars3 } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { sendModalStatus } from "../../redux/modules/modal/modalSlice";
+import UserModal from "../../components/header/UserModal";
+import Alarm from "../../components/header/Alarm";
 
 const Header = () => {
   const { innerWidth } = useWindowResize();
@@ -20,6 +21,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const modalStatus = useSelector((state) => state.generalModal.toggleModal);
+  const [alarmModal, setAlarmModal] = useState(false);
 
   const onMovePostingHandler = () => {
     navigate("/posting");
@@ -48,6 +50,18 @@ const Header = () => {
     dispatch(sendModalStatus(!modalStatus));
   };
 
+  //alarm
+  const onClickAlarmModalHandler = () => {
+    setAlarmModal(true);
+  };
+  const onMoveSelectPageHandler = () => {
+    navigate(`/details/${9}`);
+    setAlarmModal(false);
+  };
+  const onCloseAlarmModalHandler = () => {
+    setAlarmModal(false);
+  };
+
   return (
     <>
       {innerWidth > 768 ? (
@@ -61,7 +75,28 @@ const Header = () => {
                 onClick={onMovePostingHandler}
               />
               <img alt="chatting" src={chattingIcon} />
-              <img alt="alarm" src={alarmIcon} />
+              {alarmModal ? (
+                <>
+                  <img
+                    alt="alarm"
+                    src={alarmIcon}
+                    onClick={onClickAlarmModalHandler}
+                  />
+                  <Alarm
+                    top="4rem"
+                    right="0"
+                    alarmData="테스트"
+                    onMove={onMoveSelectPageHandler}
+                    onClose={onCloseAlarmModalHandler}
+                  />
+                </>
+              ) : (
+                <img
+                  alt="alarm"
+                  src={alarmIcon}
+                  onClick={onClickAlarmModalHandler}
+                />
+              )}
               <img
                 alt="profile"
                 src={profileIcon}
@@ -74,14 +109,47 @@ const Header = () => {
         </HeaderDiv>
       ) : (
         <HeaderDiv>
-          <Icon>
-            <img alt="alarm" src={alarmIcon} />
-          </Icon>
-          <Logo alt="바이케이션" onClick={() => navigate("/")} />
           {tokenValue ? (
-            <HiOutlineBars3 size="1.5rem" onClick={onClickMypageModalHandler} />
+            <>
+              {alarmModal ? (
+                <Icon>
+                  <img
+                    alt="alarm"
+                    src={alarmIcon}
+                    onClick={onClickAlarmModalHandler}
+                  />
+                  <Alarm
+                    top="4rem"
+                    left="0"
+                    alarmData="테스트"
+                    onMove={onMoveSelectPageHandler}
+                    onClose={onCloseAlarmModalHandler}
+                  />
+                </Icon>
+              ) : (
+                <Icon>
+                  <img
+                    alt="alarm"
+                    src={alarmIcon}
+                    onClick={onClickAlarmModalHandler}
+                  />
+                </Icon>
+              )}
+              <Logo alt="바이케이션" onClick={() => navigate("/")} />
+              <HiOutlineBars3
+                size="1.5rem"
+                onClick={onClickMypageModalHandler}
+              />
+            </>
           ) : (
-            <img alt="profile" src={profileIcon} onClick={onMoveLoginHandler} />
+            <>
+              <Logo alt="바이케이션" onClick={() => navigate("/")} />
+              <img
+                alt="profile"
+                src={profileIcon}
+                onClick={onMoveLoginHandler}
+              />
+            </>
           )}
         </HeaderDiv>
       )}

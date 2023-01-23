@@ -22,7 +22,7 @@ const Wrap = styled.div`
   grid-template-areas: "list map";
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-rows: 15rem auto;
     grid-template-areas:
       "map"
       "list";
