@@ -58,7 +58,9 @@ export const __duplicateCheck = createAsyncThunk(
   async (payload, thunkAPI) => {
     //console.log("중복체크", payload);
     try {
-      const { data } = await baseURL.get(`members/signup?nickname=${payload}`);
+      const { data } = await baseURLwToken.get(
+        `members/signup?nickname=${payload}`
+      );
       //console.log(data.msg);
       alert(data.msg);
       return thunkAPI.fulfillWithValue(data.data);

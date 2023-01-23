@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "@emotion/styled";
-import ButtonBasic from "../../components/elements/ButtonBasic";
 import UserModal from "../../components/header/UserModal";
 import postingIcon from "../../assets/headerIcon/postingIcon.svg";
 import chattingIcon from "../../assets/headerIcon/chattingIcon.svg";
@@ -70,14 +69,7 @@ const Header = () => {
               />
             </Icon>
           ) : (
-            <ButtonBasic
-              width="4rem"
-              height="2rem"
-              borderRadius="2rem"
-              _onClick={onMoveLoginHandler}
-            >
-              로그인
-            </ButtonBasic>
+            <img alt="profile" src={profileIcon} onClick={onMoveLoginHandler} />
           )}
         </HeaderDiv>
       ) : (
@@ -89,14 +81,7 @@ const Header = () => {
           {tokenValue ? (
             <HiOutlineBars3 size="1.5rem" onClick={onClickMypageModalHandler} />
           ) : (
-            <ButtonBasic
-              width="4rem"
-              height="2rem"
-              borderRadius="2rem"
-              _onClick={onMoveLoginHandler}
-            >
-              로그인
-            </ButtonBasic>
+            <img alt="profile" src={profileIcon} onClick={onMoveLoginHandler} />
           )}
         </HeaderDiv>
       )}
