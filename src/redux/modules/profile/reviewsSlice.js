@@ -5,13 +5,13 @@ const initialState = {
   reviews: [],
   isLoading: false,
   error: null,
+
   isSuccess: {},
 };
 
 export const __getReviewList = createAsyncThunk(
   "reviewList/get",
   async (payload, thunkAPI) => {
-    //console.log("포스팅ID", payload);
     try {
       const { data } = await baseURLwToken.get(`profile/posting/${payload}`);
       return thunkAPI.fulfillWithValue(data.data);
@@ -24,15 +24,12 @@ export const __getReviewList = createAsyncThunk(
 export const __postReviewScore = createAsyncThunk(
   "reviewScore/post",
   async (payload, thunkAPI) => {
-    //console.log("리뷰 등록 페이로드", payload);
     const post = { userScore: payload.userScore };
     try {
       const { data } = await baseURLwToken.post(
-        //페이로드로 넘길 값 : postingId랑 memberId랑 UseScore
         `profile/posting/${payload.postingId}/review/${payload.memberId}`,
         post
       );
-      alert(data.msg);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

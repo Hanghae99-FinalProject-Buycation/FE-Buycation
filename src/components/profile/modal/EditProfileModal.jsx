@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import styled from "@emotion/styled";
 import { FaTimes, FaLink } from "react-icons/fa";
 import InputBasic from "../../elements/InputBasic";
@@ -16,8 +17,8 @@ import { uploadImg } from "../../../utils/uploadImg";
 
 const EditProfileModal = (props) => {
   const dispatch = useDispatch();
+  const profileStateData = useSelector((state) => state.profile);
   const myProfileData = useSelector((data) => data.profile.getProfile);
-  const { isSuccess } = useSelector((state) => state.profile);
   const [duplicateCheck, setDuplicateCheck] = useState(false);
   const postcodeModalStatus = useSelector(
     (state) => state.postcodeModal.openRegisterModal
@@ -39,11 +40,16 @@ const EditProfileModal = (props) => {
   }, [address, editValue]);
 
   useEffect(() => {
-    if (isSuccess) {
-      alert("프로필 수정이 완료되었습니다 :)");
-      dispatch(__isSuccess(false));
+    if (profileStateData.isSuccess) {
+      Swal.fire({
+        text: profileStateData.alertMsg,
+        confirmButtonText: "확인",
+        confirmButtonColor: "#FF5A5F",
+      }).then(() => {
+        dispatch(__isSuccess(false));
+      });
     }
-  }, [isSuccess, dispatch]);
+  }, [profileStateData.isSuccess, profileStateData.alertMsg, dispatch]);
 
   const onClickDuplicateCheckHandler = () => {
     dispatch(__duplicateCheck(editValue.nickname));
@@ -56,13 +62,9 @@ const EditProfileModal = (props) => {
 
   const onChangeFileInputHandler = (e) => {
     const file = e.target.files[0];
-    uploadImg(file)
-      .then((data) => {
-        setEditValue({ ...editValue, profileImage: data?.Location });
-      })
-      .catch((err) => {
-        //console.log("이미지 업로드 실패");
-      });
+    uploadImg(file).then((data) => {
+      setEditValue({ ...editValue, profileImage: data?.Location });
+    });
   };
 
   const onChangeValueHandler = (event) => {
@@ -74,6 +76,8 @@ const EditProfileModal = (props) => {
   };
 
   const onClickEditHandler = () => {
+    console.log(myProfileData.nickname);
+    console.log(editValue.nickname);
     const newPatchData = {
       memberId: myProfileData.memberId,
       nickname: editValue.nickname,
@@ -115,9 +119,6 @@ const EditProfileModal = (props) => {
           />
           <Item>
             <label>프로필 변경</label>
-            {/* <ButtonBasic _onClick={onClickPostcodeHandler}>
-              기본 설정
-            </ButtonBasic> */}
           </Item>
           <FileInput>
             <input
@@ -154,6 +155,7 @@ const Backdrop = styled.div`
   z-index: 1;
   background: rgba(0, 0, 0, 0.75);
 `;
+
 const ModalCard = styled.div`
   position: fixed;
   margin: auto;
@@ -168,6 +170,7 @@ const ModalCard = styled.div`
     width: 100%;
   }
 `;
+
 const Header = styled.header`
   padding: 1rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grayStrong};
@@ -179,16 +182,19 @@ const Header = styled.header`
     margin: auto;
   }
 `;
+
 const CloseBtn = styled.button`
   background: none;
   cursor: pointer;
 `;
+
 const ContentsBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
 `;
+
 const Item = styled.div`
   display: flex;
   gap: 1rem;
@@ -197,11 +203,12 @@ const Item = styled.div`
     width: 5rem;
     height: 2rem;
     background: inherit;
-    border: 1px solid #ff5a5f;
+    border: 1px solid ${({ theme }) => theme.colors.main};
     color: ${({ theme }) => theme.colors.main};
     font-size: ${({ theme }) => theme.fontSize.xs};
   }
 `;
+
 const FileInput = styled.div`
   width: 100%;
   height: 2rem;

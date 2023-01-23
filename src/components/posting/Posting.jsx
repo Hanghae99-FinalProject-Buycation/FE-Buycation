@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import styled from "@emotion/styled";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
 import { FaLink } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   __postPosting,
@@ -20,8 +21,8 @@ const Posting = () => {
   const { kakao } = window;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isSuccess } = useSelector((data) => data.postPosting);
-  const [status, setStatus] = useState();
+  const postingData = useSelector((data) => data.postPosting);
+  console.log(postingData);
   const [postData, setPostData] = useState({
     category: "",
     title: "",
@@ -53,14 +54,20 @@ const Posting = () => {
         }
       });
     }
-  }, [address, status]);
+  }, [address]);
 
   useEffect(() => {
-    if (isSuccess) {
-      navigate("/");
-      dispatch(__isSuccess(false));
+    if (postingData.isSuccess) {
+      Swal.fire({
+        text: postingData.alertMsg,
+        confirmButtonText: "확인",
+        confirmButtonColor: "#FF5A5F",
+      }).then(() => {
+        navigate("/");
+        dispatch(__isSuccess(false));
+      });
     }
-  }, [isSuccess, navigate, dispatch]);
+  }, [postingData.isSuccess, postingData.alertMsg, navigate, dispatch]);
 
   const onClickPostcodeHandler = () => {
     dispatch(sendRegisterModalStatus(true));
@@ -106,10 +113,6 @@ const Posting = () => {
             coordsY: coords.coordsY,
           };
           dispatch(__postPosting(newPostData));
-          if (status === 200) {
-            alert("게시글이 등록되었습니다.");
-            navigate("/");
-          }
         })
         .catch((err) => {
           console.log("업로드 실패");
