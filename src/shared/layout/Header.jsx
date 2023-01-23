@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
-import UserModal from "../../components/header/UserModal";
 import ButtonBasic from "../../components/elements/ButtonBasic";
+import UserModal from "../../components/header/UserModal";
 import postingIcon from "../../assets/headerIcon/postingIcon.svg";
 import chattingIcon from "../../assets/headerIcon/chattingIcon.svg";
 import alarmIcon from "../../assets/headerIcon/alarmIcon.svg";
@@ -9,24 +9,25 @@ import profileIcon from "../../assets/headerIcon/profileIcon.svg";
 import logo from "../../assets/headerIcon/buycationLogo.webp";
 import logoHover from "../../assets/headerIcon/buycationLogoHover.webp";
 import useWindowResize from "../../hooks/useWindowResize";
-import { HiOutlineBars3 } from "react-icons/hi2";
 import { getCookies, removeCookies } from "../../core/cookie";
+import { HiOutlineBars3 } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { sendModalStatus } from "../../redux/modules/modal/modalSlice";
 
 const Header = () => {
   const { innerWidth } = useWindowResize();
+  const tokenValue = getCookies("id");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const token = getCookies("id");
   const modalStatus = useSelector((state) => state.generalModal.toggleModal);
 
   const onMovePostingHandler = () => {
     navigate("/posting");
+    dispatch(sendModalStatus(true));
   };
 
-  const onMoveProfileHandler = () => {
+  const onMoveMyProfileHandler = () => {
     navigate("/myprofile");
     dispatch(sendModalStatus(true));
   };
@@ -48,28 +49,20 @@ const Header = () => {
     dispatch(sendModalStatus(!modalStatus));
   };
 
-  return (
+  return innerWidth > 768 ? (
     <HeaderDiv>
       <Logo alt="바이케이션" onClick={() => navigate("/")} />
-      {token ? (
-        innerWidth > 768 ? (
-          <Icon>
-            <img
-              alt="posting"
-              src={postingIcon}
-              onClick={onMovePostingHandler}
-            />
-            <img alt="chatting" src={chattingIcon} />
-            <img alt="alarm" src={alarmIcon} />
-            <img
-              alt="profile"
-              src={profileIcon}
-              onClick={onClickMypageModalHandler}
-            />
-          </Icon>
-        ) : (
-          <HiOutlineBars3 size="1.5rem" onClick={onClickMypageModalHandler} />
-        )
+      {tokenValue ? (
+        <Icon>
+          <img alt="posting" src={postingIcon} onClick={onMovePostingHandler} />
+          <img alt="chatting" src={chattingIcon} />
+          <img alt="alarm" src={alarmIcon} />
+          <img
+            alt="profile"
+            src={profileIcon}
+            onClick={onClickMypageModalHandler}
+          />
+        </Icon>
       ) : (
         <ButtonBasic
           width="4rem"
@@ -85,12 +78,48 @@ const Header = () => {
         <UserModal
           top="4rem"
           right="0"
-          first="마이페이지"
-          firstClick={onMoveProfileHandler}
-          second="로그인"
-          secondClick={onMoveLoginHandler}
-          third="로그아웃"
-          thirdClick={onMoveLogoutHandler}
+          posting="게시글 작성"
+          postingClick={onMovePostingHandler}
+          myProfile="마이페이지"
+          myProfileClick={onMoveMyProfileHandler}
+          logout="로그아웃"
+          logoutClick={onMoveLogoutHandler}
+          login="로그인"
+          loginClick={onMoveLoginHandler}
+        />
+      )}
+    </HeaderDiv>
+  ) : (
+    <HeaderDiv>
+      <Icon>
+        <img alt="alarm" src={alarmIcon} />
+      </Icon>
+      <Logo alt="바이케이션" onClick={() => navigate("/")} />
+      {tokenValue ? (
+        <HiOutlineBars3 size="1.5rem" onClick={onClickMypageModalHandler} />
+      ) : (
+        <ButtonBasic
+          width="4rem"
+          height="2rem"
+          borderRadius="2rem"
+          _onClick={onMoveLoginHandler}
+        >
+          로그인
+        </ButtonBasic>
+      )}
+
+      {!modalStatus && (
+        <UserModal
+          top="4rem"
+          right="0"
+          posting="게시글 작성"
+          postingClick={onMovePostingHandler}
+          myProfile="마이페이지"
+          myProfileClick={onMoveMyProfileHandler}
+          logout="로그아웃"
+          logoutClick={onMoveLogoutHandler}
+          login="로그인"
+          loginClick={onMoveLoginHandler}
         />
       )}
     </HeaderDiv>
@@ -106,8 +135,8 @@ const HeaderDiv = styled.div`
   align-items: center;
   padding: 2rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.main};
-  & > a {
-    color: black;
+  @media screen and (max-width: 768px) {
+    padding: 2rem 1;
   }
 `;
 

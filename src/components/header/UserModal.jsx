@@ -1,18 +1,20 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { getCookies } from "../../core/cookie";
 import useOutsideClick from "../../hooks/useOutsideClick";
+import { getCookies } from "../../core/cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { sendModalStatus } from "../../redux/modules/modal/modalSlice";
 
 const UserModal = (props) => {
   const {
-    first,
-    second,
-    third,
-    firstClick,
-    secondClick,
-    thirdClick,
+    posting,
+    myProfile,
+    logout,
+    login,
+    postingClick,
+    myProfileClick,
+    logoutClick,
+    loginClick,
     top,
     left,
     right,
@@ -38,17 +40,12 @@ const UserModal = (props) => {
     >
       {tokenValue ? (
         <div>
-          <button type="button" onClick={firstClick}>
-            {first}
-          </button>
-          <button type="button" onClick={thirdClick}>
-            {third}
-          </button>
+          <button onClick={postingClick}>{posting}</button>
+          <button onClick={myProfileClick}>{myProfile}</button>
+          <button onClick={logoutClick}>{logout}</button>
         </div>
       ) : (
-        <button type="button" onClick={secondClick}>
-          {second}
-        </button>
+        <button onClick={loginClick}>{login}</button>
       )}
     </StPostingOption>
   );
@@ -71,7 +68,6 @@ const StPostingOption = styled.div`
   box-shadow: 0px 0px 1px 2px ${({ theme }) => theme.colors.grayList};
   background: #fff;
   z-index: 4;
-
   button {
     width: 100%;
     height: 100%;
