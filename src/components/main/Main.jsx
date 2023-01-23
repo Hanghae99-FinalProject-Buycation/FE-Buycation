@@ -20,7 +20,6 @@ const Wrap = styled.div`
   display: grid;
   grid-template-columns: 355px 1fr;
   grid-template-areas: "list map";
-
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(2, 1fr);
