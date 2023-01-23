@@ -49,29 +49,56 @@ const Header = () => {
     dispatch(sendModalStatus(!modalStatus));
   };
 
-  return innerWidth > 768 ? (
-    <HeaderDiv>
-      <Logo alt="바이케이션" onClick={() => navigate("/")} />
-      {tokenValue ? (
-        <Icon>
-          <img alt="posting" src={postingIcon} onClick={onMovePostingHandler} />
-          <img alt="chatting" src={chattingIcon} />
-          <img alt="alarm" src={alarmIcon} />
-          <img
-            alt="profile"
-            src={profileIcon}
-            onClick={onClickMypageModalHandler}
-          />
-        </Icon>
+  return (
+    <>
+      {innerWidth > 768 ? (
+        <HeaderDiv>
+          <Logo alt="바이케이션" onClick={() => navigate("/")} />
+          {tokenValue ? (
+            <Icon>
+              <img
+                alt="posting"
+                src={postingIcon}
+                onClick={onMovePostingHandler}
+              />
+              <img alt="chatting" src={chattingIcon} />
+              <img alt="alarm" src={alarmIcon} />
+              <img
+                alt="profile"
+                src={profileIcon}
+                onClick={onClickMypageModalHandler}
+              />
+            </Icon>
+          ) : (
+            <ButtonBasic
+              width="4rem"
+              height="2rem"
+              borderRadius="2rem"
+              _onClick={onMoveLoginHandler}
+            >
+              로그인
+            </ButtonBasic>
+          )}
+        </HeaderDiv>
       ) : (
-        <ButtonBasic
-          width="4rem"
-          height="2rem"
-          borderRadius="2rem"
-          _onClick={onMoveLoginHandler}
-        >
-          로그인
-        </ButtonBasic>
+        <HeaderDiv>
+          <Icon>
+            <img alt="alarm" src={alarmIcon} />
+          </Icon>
+          <Logo alt="바이케이션" onClick={() => navigate("/")} />
+          {tokenValue ? (
+            <HiOutlineBars3 size="1.5rem" onClick={onClickMypageModalHandler} />
+          ) : (
+            <ButtonBasic
+              width="4rem"
+              height="2rem"
+              borderRadius="2rem"
+              _onClick={onMoveLoginHandler}
+            >
+              로그인
+            </ButtonBasic>
+          )}
+        </HeaderDiv>
       )}
 
       {!modalStatus && (
@@ -88,41 +115,7 @@ const Header = () => {
           loginClick={onMoveLoginHandler}
         />
       )}
-    </HeaderDiv>
-  ) : (
-    <HeaderDiv>
-      <Icon>
-        <img alt="alarm" src={alarmIcon} />
-      </Icon>
-      <Logo alt="바이케이션" onClick={() => navigate("/")} />
-      {tokenValue ? (
-        <HiOutlineBars3 size="1.5rem" onClick={onClickMypageModalHandler} />
-      ) : (
-        <ButtonBasic
-          width="4rem"
-          height="2rem"
-          borderRadius="2rem"
-          _onClick={onMoveLoginHandler}
-        >
-          로그인
-        </ButtonBasic>
-      )}
-
-      {!modalStatus && (
-        <UserModal
-          top="4rem"
-          right="0"
-          posting="게시글 작성"
-          postingClick={onMovePostingHandler}
-          myProfile="마이페이지"
-          myProfileClick={onMoveMyProfileHandler}
-          logout="로그아웃"
-          logoutClick={onMoveLogoutHandler}
-          login="로그인"
-          loginClick={onMoveLoginHandler}
-        />
-      )}
-    </HeaderDiv>
+    </>
   );
 };
 
@@ -136,7 +129,7 @@ const HeaderDiv = styled.div`
   padding: 2rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.main};
   @media screen and (max-width: 768px) {
-    padding: 2rem 1;
+    padding: 2rem 1rem;
   }
 `;
 
