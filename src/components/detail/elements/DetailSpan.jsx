@@ -2,12 +2,20 @@ import React from "react";
 import styled from "@emotion/styled";
 
 const DetailSpan = (props) => {
-  const { titleText, bodyText, fontSize, fontWeight, color, margin, padding } =
-    props;
+  const {
+    titleText,
+    bodyText,
+    fontSize,
+    fontWeight,
+    color,
+    margin,
+    padding,
+    _onClick,
+  } = props;
   const styles = { fontSize, fontWeight, color, margin, padding };
   return (
     <ElSpan {...styles}>
-      <span>{titleText}</span>
+      <span onClick={_onClick}>{titleText}</span>
       <span>{bodyText}</span>
     </ElSpan>
   );
@@ -16,6 +24,7 @@ const DetailSpan = (props) => {
 DetailSpan.defaultProps = {
   fontSize: "1rem",
   fontWeight: "",
+  _onClick: () => {},
 };
 
 export default DetailSpan;
