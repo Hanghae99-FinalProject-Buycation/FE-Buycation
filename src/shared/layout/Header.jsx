@@ -30,8 +30,11 @@ const Header = () => {
 
   //알람 갯수
   useEffect(() => {
-    dispatch(__getAlarmCount());
-  }, [dispatch]);
+    if (tokenValue) {
+      // dispatch(__getAlarmCount());
+    }
+  }, [dispatch, tokenValue]);
+
   //alarm
   const onClickAlarmModalHandler = () => {
     setAlarmModal(true);
