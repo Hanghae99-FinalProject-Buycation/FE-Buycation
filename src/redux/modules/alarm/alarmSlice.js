@@ -6,6 +6,8 @@ const initialState = {
   alarmKey: "",
   isLoading: false,
   error: null,
+
+  deleteState: false,
 };
 
 export const __getAlarmCount = createAsyncThunk(
@@ -36,10 +38,9 @@ export const __getAlarmList = createAsyncThunk(
 export const __deleteAlarm = createAsyncThunk(
   "deleteAlarm/delete",
   async (payload, thunkAPI) => {
-    console.log("알림Id", payload);
     try {
       const data = await baseURLwToken.delete(`alarm/${payload}`);
-      //console.log(data);
+      console.log(data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -52,7 +53,7 @@ export const __patchAlarmState = createAsyncThunk(
   async (payload, thunkAPI) => {
     console.log("알림Id", payload);
     try {
-      const data = await baseURLwToken.delpatchete(`alarm/${payload}`);
+      const data = await baseURLwToken.patch(`alarm/${payload}`);
       //console.log(data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -64,7 +65,11 @@ export const __patchAlarmState = createAsyncThunk(
 export const alarmSlice = createSlice({
   name: "alarm",
   initialState,
-  reducers: {},
+  reducers: {
+    __deleteState: (state, action) => {
+      state.deleteState = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(__getAlarmList.fulfilled, (state, action) => {
       state.isLoading = false;
@@ -73,8 +78,12 @@ export const alarmSlice = createSlice({
       //   state.alarmKey = action.payload.nextPageRequest.key;
       // }
     });
+    builder.addCase(__deleteAlarm.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.deleteState = true;
+    });
   },
 });
 
-export const {} = alarmSlice.actions;
+export const { __deleteState } = alarmSlice.actions;
 export default alarmSlice.reducer;
