@@ -7,8 +7,8 @@ import profileIcon from "../../assets/headerIcon/profileIcon.svg";
 import logo from "../../assets/headerIcon/buycationLogo.webp";
 import logoHover from "../../assets/headerIcon/buycationLogoHover.webp";
 import useWindowResize from "../../hooks/useWindowResize";
+import ButtonBasic from "../../components/elements/ButtonBasic";
 import { getCookies, removeCookies } from "../../core/cookie";
-import { HiOutlineBars3 } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import UserModal from "../../components/header/UserModal";
@@ -110,7 +110,14 @@ const Header = () => {
               />
             </Icon>
           ) : (
-            <img alt="profile" src={profileIcon} onClick={onMoveLoginHandler} />
+            <ButtonBasic
+              width="4rem"
+              height="2rem"
+              borderRadius="2rem"
+              _onClick={onMoveLoginHandler}
+            >
+              로그인
+            </ButtonBasic>
           )}
         </HeaderDiv>
       ) : (
@@ -141,19 +148,23 @@ const Header = () => {
                 </Icon>
               )}
               <Logo alt="바이케이션" onClick={() => navigate("/")} />
-              <HiOutlineBars3
-                size="1.5rem"
+              <img
+                alt="tapBar"
+                src={profileIcon}
                 onClick={onClickMypageModalHandler}
               />
             </>
           ) : (
             <>
               <Logo alt="바이케이션" onClick={() => navigate("/")} />
-              <img
-                alt="profile"
-                src={profileIcon}
-                onClick={onMoveLoginHandler}
-              />
+              <ButtonBasic
+                width="4rem"
+                height="2rem"
+                borderRadius="2rem"
+                _onClick={onMoveLoginHandler}
+              >
+                로그인
+              </ButtonBasic>
             </>
           )}
         </HeaderDiv>
