@@ -40,7 +40,6 @@ export const __deleteAlarm = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await baseURLwToken.delete(`alarm/${payload}`);
-      console.log(data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -54,7 +53,7 @@ export const __patchAlarmState = createAsyncThunk(
     console.log("알림Id", payload);
     try {
       const data = await baseURLwToken.patch(`alarm/${payload}`);
-      //console.log(data);
+      console.log(data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -81,6 +80,10 @@ export const alarmSlice = createSlice({
     builder.addCase(__deleteAlarm.fulfilled, (state, action) => {
       state.isLoading = false;
       state.deleteState = true;
+    });
+    builder.addCase(__patchAlarmState.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.alarmList = action.payload;
     });
   },
 });

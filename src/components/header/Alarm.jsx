@@ -32,7 +32,7 @@ const Alarm = (props) => {
       dispatch(__getAlarmList(alarmKey));
       dispatch(__deleteState(false));
     }
-  }, [dispatch]);
+  }, [dispatch, deleteState]);
 
   const onClickDeleteAlarmHandler = (alarmId) => {
     dispatch(__deleteAlarm(alarmId));
@@ -49,8 +49,8 @@ const Alarm = (props) => {
           <PerAlarm key={item.alarmId}>
             <article>
               <div onClick={() => onMove(item.postingId, item.alarmId)}>
-                <p>[{titleForm(item.title)}]</p>
-                <p>{item.message}</p>
+                <p className={item.read && "read"}>[{titleForm(item.title)}]</p>
+                <p className={item.read && "read"}>{item.message}</p>
                 <span>{item.createdAt}</span>
               </div>
             </article>
@@ -89,12 +89,13 @@ const StPostingOption = styled.div`
     width: 100%;
     height: 100%;
     padding: 0.5rem 1rem;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.grayWeak};
+    border-bottom: 1px solid ${({ theme }) => theme.colors.grayStrong};
     span:nth-of-type(1) {
       font-weight: 600;
     }
     span:nth-of-type(2) {
       color: ${({ theme }) => theme.colors.grayStrong};
+      font-weight: 600;
     }
   }
 `;
@@ -108,7 +109,7 @@ const PerAlarm = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.grayList};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grayWeak};
   font-size: ${({ theme }) => theme.fontSize.sm};
   div {
     width: 220px;
@@ -117,6 +118,9 @@ const PerAlarm = styled.div`
     gap: 2px;
     p:nth-of-type(1) {
       font-weight: 600;
+    }
+    .read {
+      color: ${({ theme }) => theme.colors.grayStrong};
     }
   }
   span {
