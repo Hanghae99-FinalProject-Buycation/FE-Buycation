@@ -49,8 +49,10 @@ const Alarm = (props) => {
           <PerAlarm key={item.alarmId}>
             <article>
               <div onClick={() => onMove(item.postingId, item.alarmId)}>
-                <p className={item.read && "read"}>[{titleForm(item.title)}]</p>
-                <p className={item.read && "read"}>{item.message}</p>
+                <p className={item.read ? "read" : ""}>
+                  [{titleForm(item.title)}]
+                </p>
+                <p className={item.read ? "read" : ""}>{item.message}</p>
                 <span>{item.createdAt}</span>
               </div>
             </article>

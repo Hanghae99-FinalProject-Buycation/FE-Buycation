@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import postingIcon from "../../assets/headerIcon/postingIcon.svg";
 import chattingIcon from "../../assets/headerIcon/chattingIcon.svg";
@@ -18,20 +18,21 @@ import {
   __getAlarmCount,
   __patchAlarmState,
 } from "../../redux/modules/alarm/alarmSlice";
-import { useEffect } from "react";
 
 const Header = () => {
   const { innerWidth } = useWindowResize();
   const tokenValue = getCookies("id");
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { alarmCount } = useSelector((data) => data?.alarm);
+  const ALARMCOUNT = Number(alarmCount) >= 1;
   const modalStatus = useSelector((state) => state.generalModal.toggleModal);
   const [alarmModal, setAlarmModal] = useState(false);
 
   //알람 갯수
   useEffect(() => {
     if (tokenValue) {
-      // dispatch(__getAlarmCount());
+      dispatch(__getAlarmCount());
     }
   }, [dispatch, tokenValue]);
 
@@ -88,6 +89,7 @@ const Header = () => {
               {alarmModal ? (
                 <>
                   <img
+                    className={ALARMCOUNT ? "mainColor" : ""}
                     alt="alarm"
                     src={alarmIcon}
                     onClick={onClickAlarmModalHandler}
@@ -101,6 +103,7 @@ const Header = () => {
                 </>
               ) : (
                 <img
+                  className={ALARMCOUNT ? "mainColor" : ""}
                   alt="alarm"
                   src={alarmIcon}
                   onClick={onClickAlarmModalHandler}
@@ -130,6 +133,7 @@ const Header = () => {
               {alarmModal ? (
                 <Icon>
                   <img
+                    className={ALARMCOUNT ? "mainColor" : ""}
                     alt="alarm"
                     src={alarmIcon}
                     onClick={onClickAlarmModalHandler}
@@ -144,6 +148,7 @@ const Header = () => {
               ) : (
                 <Icon>
                   <img
+                    className={ALARMCOUNT ? "mainColor" : ""}
                     alt="alarm"
                     src={alarmIcon}
                     onClick={onClickAlarmModalHandler}
@@ -216,4 +221,8 @@ const Icon = styled.div`
   display: flex;
   gap: 23px;
   cursor: pointer;
+
+  .mainColor {
+    filter: ${({ theme }) => theme.colors.imgFilter};
+  }
 `;
