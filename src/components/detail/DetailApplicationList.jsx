@@ -21,8 +21,10 @@ const DetailApplicationList = ({ postingId, onClickMoveProfileHandler }) => {
   };
   // 더블클릭 해야 다시 버튼 등장함...
   const ref = useOutsideClick(onClickCloseHandler);
-  // const data = applicationList.data;
-  const data = useSelector((state) => state.applicate.getApplication);
+  // const applicateStatus = applicationList.data;
+  const applicateStatus = useSelector(
+    (state) => state.applicate.getApplication
+  );
   const onClickAllowApplicationHandler = (item) => {
     dispatch(
       __allowApplication({
@@ -46,14 +48,14 @@ const DetailApplicationList = ({ postingId, onClickMoveProfileHandler }) => {
   return (
     !hide && (
       <StApplicationList ref={ref}>
-        <div>
+        <div className="title">
           <span>신청자 리스트</span>
           <span>
             <RxCross1 onClick={onClickCloseHandler} />
           </span>
         </div>
-        {data &&
-          data?.map((item) => (
+        {applicateStatus &&
+          applicateStatus?.map((item) => (
             <div key={"frag" + item.applicationId} className="wrap">
               {item?.profileImage ? (
                 <img
@@ -86,7 +88,7 @@ const DetailApplicationList = ({ postingId, onClickMoveProfileHandler }) => {
                 margin="0"
                 color="#a6a6a6"
                 fontSize="10px"
-                // padding="0"
+                _onClick={() => onClickMoveProfileHandler(item?.memberId)}
               />
               <ButtonBasic
                 _onClick={() => {
@@ -112,7 +114,7 @@ const DetailApplicationList = ({ postingId, onClickMoveProfileHandler }) => {
 export default DetailApplicationList;
 
 const StApplicationList = styled.div`
-  width: 20rem;
+  width: 20.25rem;
   height: 14rem;
   overflow-y: scroll;
   display: flex;
@@ -125,20 +127,23 @@ const StApplicationList = styled.div`
   box-shadow: 0px 0px 1px 2px ${({ theme }) => theme.colors.grayList};
   background: #fff;
 
-  div:first-of-type {
+  .title {
     display: flex;
     justify-content: space-between;
     padding: 1rem;
+    border-bottom: 0.1rem solid ${({ theme }) => theme.colors.grayList};
     span {
       font-size: ${({ theme }) => theme.fontSize.md};
+      font-weight: 600;
     }
   }
 
   .wrap {
     display: grid;
     grid-template-columns: auto 1fr auto auto auto;
+    grid-template-rows: 3.5rem;
     align-items: center;
-    padding: 0.75rem;
+    padding: 0 0.75rem 0;
     height: fit-content;
     border-bottom: 0.1rem solid ${({ theme }) => theme.colors.grayList};
     font-size: ${({ theme }) => theme.fontSize.sm};
