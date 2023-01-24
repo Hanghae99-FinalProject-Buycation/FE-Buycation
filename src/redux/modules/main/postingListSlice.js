@@ -12,12 +12,10 @@ const initialState = {
 export const __getPostingList = createAsyncThunk(
   "search/get",
   async (payload, thunkAPI) => {
-    //console.log("페이로드 값 :", payload);
     try {
       const { data } = await baseURL.get(
         `posting?search=${payload.search}&category=${payload.category}&sort=${payload.sort}`
       );
-      //console.log("data", data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
