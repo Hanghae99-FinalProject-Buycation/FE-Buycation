@@ -11,9 +11,14 @@ import { getCookies, removeCookies } from "../../core/cookie";
 import { HiOutlineBars3 } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { sendModalStatus } from "../../redux/modules/modal/modalSlice";
 import UserModal from "../../components/header/UserModal";
+import { sendModalStatus } from "../../redux/modules/modal/modalSlice";
 import Alarm from "../../components/header/Alarm";
+import {
+  __getAlarmCount,
+  __patchAlarmState,
+} from "../../redux/modules/alarm/alarmSlice";
+import { useEffect } from "react";
 
 const Header = () => {
   const { innerWidth } = useWindowResize();
@@ -23,21 +28,36 @@ const Header = () => {
   const modalStatus = useSelector((state) => state.generalModal.toggleModal);
   const [alarmModal, setAlarmModal] = useState(false);
 
+  //알람 갯수
+  useEffect(() => {
+    dispatch(__getAlarmCount());
+  }, [dispatch]);
+  //alarm
+  const onClickAlarmModalHandler = () => {
+    setAlarmModal(true);
+  };
+  const onMoveSelectPageHandler = (postingId, alarmId) => {
+    setAlarmModal(false);
+    navigate(`/details/${postingId}`);
+    dispatch(__patchAlarmState(alarmId));
+  };
+  const onCloseAlarmModalHandler = () => {
+    setAlarmModal(false);
+  };
+
+  //헤더 아이콘 기능
   const onMovePostingHandler = () => {
     navigate("/posting");
     dispatch(sendModalStatus(true));
   };
-
   const onMoveMyProfileHandler = () => {
     navigate("/myprofile");
     dispatch(sendModalStatus(true));
   };
-
   const onMoveLoginHandler = () => {
     navigate("/login");
     dispatch(sendModalStatus(true));
   };
-
   const onMoveLogoutHandler = () => {
     removeCookies("id", {
       path: "/",
@@ -45,21 +65,8 @@ const Header = () => {
     navigate("/");
     dispatch(sendModalStatus(true));
   };
-
   const onClickMypageModalHandler = () => {
     dispatch(sendModalStatus(!modalStatus));
-  };
-
-  //alarm
-  const onClickAlarmModalHandler = () => {
-    setAlarmModal(true);
-  };
-  const onMoveSelectPageHandler = () => {
-    navigate(`/details/${9}`);
-    setAlarmModal(false);
-  };
-  const onCloseAlarmModalHandler = () => {
-    setAlarmModal(false);
   };
 
   return (
@@ -85,7 +92,6 @@ const Header = () => {
                   <Alarm
                     top="4rem"
                     right="0"
-                    alarmData="테스트"
                     onMove={onMoveSelectPageHandler}
                     onClose={onCloseAlarmModalHandler}
                   />
@@ -121,7 +127,6 @@ const Header = () => {
                   <Alarm
                     top="4rem"
                     left="0"
-                    alarmData="테스트"
                     onMove={onMoveSelectPageHandler}
                     onClose={onCloseAlarmModalHandler}
                   />
@@ -153,7 +158,6 @@ const Header = () => {
           )}
         </HeaderDiv>
       )}
-
       {!modalStatus && (
         <UserModal
           top="4rem"

@@ -1,19 +1,49 @@
 import React from "react";
 import styled from "@emotion/styled";
+import alarmClose from "../../assets/headerIcon/alarmClose.svg";
+import { useDispatch } from "react-redux";
+import {
+  __getAlarmList,
+  __deleteAlarm,
+} from "../../redux/modules/alarm/alarmSlice";
+import { useEffect } from "react";
 
 const Alarm = (props) => {
-  const { alarmData, onMove, onClose, top, left, right } = props;
+  const { onMove, onClose, top, left, right } = props;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(__getAlarmList());
+  }, [dispatch]);
+
+  const onClickDeleteAlarmHandler = (alarmId) => {
+    console.log(alarmId);
+    dispatch(__deleteAlarm(alarmId));
+  };
 
   return (
     <StPostingOption top={top} left={left} right={right}>
       <header>
-        <span>알림 리스트 15</span>
+        <span>알림</span>
         <span onClick={onClose}>창닫기</span>
       </header>
       <AlarmBox>
-        <PerAlarm onClick={onMove}>{alarmData}</PerAlarm>
-        <PerAlarm onClick={onMove}>{alarmData}</PerAlarm>
-        <PerAlarm onClick={onMove}>{alarmData}</PerAlarm>
+        {[1, 2, 3].map((item) => (
+          <PerAlarm key={item}>
+            <article>
+              <div onClick={() => onMove(9, 2)}>
+                <p>[세제공구합시다.연습글자숫자맞춰보기...]</p>
+                <p>공구에 댓글이 달렸습니다.</p>
+                <span>6분전</span>
+              </div>
+            </article>
+            <img
+              alt="alarmClose"
+              src={alarmClose}
+              onClick={() => onClickDeleteAlarmHandler(2)}
+            />
+          </PerAlarm>
+        ))}
       </AlarmBox>
     </StPostingOption>
   );
@@ -42,7 +72,6 @@ const StPostingOption = styled.div`
     height: 100%;
     padding: 0.5rem 1rem;
     border-bottom: 1px solid ${({ theme }) => theme.colors.grayWeak};
-    font-size: ${({ theme }) => theme.fontSize.sm};
     span:nth-of-type(1) {
       font-weight: 600;
     }
@@ -58,7 +87,19 @@ const AlarmBox = styled.div`
 `;
 
 const PerAlarm = styled.div`
-  padding: 0.5rem 1rem;
+  display: flex;
+  gap: 1.5rem;
+  /* justify-content: space-between; */
+  padding: 1rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grayList};
   font-size: ${({ theme }) => theme.fontSize.sm};
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  span {
+    font-size: ${({ theme }) => theme.fontSize.xs};
+    color: ${({ theme }) => theme.colors.grayStrong};
+  }
 `;
