@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
 import { FaLink } from "react-icons/fa";
+import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { __getDetail } from "../../redux/modules/details/detailSlice";
 import { sendRegisterModalStatus } from "../../redux/modules/postcode/postcodeModalSlice";
@@ -19,10 +20,12 @@ const ModifyPosting = () => {
   const postingId = Number(useParams().postingId);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { address } = usePostcode();
   const [postData, setPostData] = useState({
     category: "",
     title: "",
     content: "",
+    address: address,
     addressDetail: "",
     totalMembers: "",
     dueDate: "",
@@ -35,7 +38,6 @@ const ModifyPosting = () => {
   );
   const getDatas = useSelector((state) => state.getDetail.getDetail);
   const createDateForm = `${postData.dueDate} ${postData.dueTime}`;
-  const { address } = usePostcode();
   const geocoder = new kakao.maps.services.Geocoder(); //좌표 객체 생성
   const [coords, setCoords] = useState({
     coordsX: "",
@@ -58,7 +60,6 @@ const ModifyPosting = () => {
       [name]: value,
     });
   };
-
   const onClickSubmitHandler = () => {
     if (
       postData.category !== "" &&
@@ -70,6 +71,7 @@ const ModifyPosting = () => {
       postData.dueTime !== "" &&
       postData.budget !== "" &&
       imageFile !== null
+      // typeof imageFile !== String
     ) {
       uploadImg(imageFile)
         .then((data) => {
@@ -88,13 +90,18 @@ const ModifyPosting = () => {
           };
           dispatch(__putPosting({ postingId, modifiedContent }));
           dispatch(__getDetail(postingId));
-          navigate(`../details/${postingId}`);
+          // useBuyLocation 터지는 문제 떄문에 임시로 메인으로 이동
+          // navigate(`../details/${postingId}`);
+          navigate(`/`);
         })
         .catch((err) => {
           //console.log("업로드 실패");
         });
     } else {
-      alert("모든 입력칸을 입력해 주세요 :)");
+      Swal.fire({
+        text: "모든 입력칸을 입력해 주세요 :)",
+        confirmButtonColor: "#FF5A5F",
+      });
     }
   };
   const onClickCloseHandler = () => {
@@ -131,7 +138,11 @@ const ModifyPosting = () => {
         <p>공구 글쓰기</p>
         <PostingForm>
           <LeftDivForm>
-            <SelectInput name="category" onChange={onChangeValueHandler}>
+            <SelectInput
+              name="category"
+              onChange={onChangeValueHandler}
+              defaultValue={getDatas?.category}
+            >
               <option value="">카테고리를 선택해 주세요.</option>
               {selectCategory.map((option, index) => (
                 <option key={index}>{option}</option>
@@ -163,12 +174,10 @@ const ModifyPosting = () => {
             </Label>
             <Label>
               거래 희망 주소
-              <InputBasic
+              <AddressInput
                 name="address"
-                // value={address ? address : postData.address}
-                value={address}
-                // defaultValue={postData?.address}
-                _onChange={onChangeValueHandler}
+                value={address ? address : getDatas?.address}
+                onChange={onChangeValueHandler}
               />
               <ButtonBasic
                 width="5rem"
@@ -299,6 +308,14 @@ const Label = styled.label`
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
   }
+`;
+const AddressInput = styled.input`
+  width: 100%;
+  height: 1.938rem;
+  border: 1px solid #d9d9d9;
+  border-radius: 0.5rem;
+  background: white;
+  padding: 0.8rem;
 `;
 const TextArea = styled.textarea`
   width: 100%;
