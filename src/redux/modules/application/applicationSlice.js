@@ -33,6 +33,7 @@ export const __postApplication = createAsyncThunk(
       const { data } = await baseURLwToken.post(
         `participant/posting/${postingId}`
       );
+      alert(data.msg);
       return thunkAPI.fulfillWithValue(data.msg);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -47,6 +48,7 @@ export const __allowApplication = createAsyncThunk(
       const { data } = await baseURLwToken.post(
         `participant/${applicationId}/posting/${postingId}`
       );
+      alert(data.msg);
       return thunkAPI.fulfillWithValue(data.msg);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -61,6 +63,7 @@ export const __denyApplication = createAsyncThunk(
       const { data } = await baseURLwToken.delete(
         `participant/${applicationId}/posting/${postingId}`
       );
+      alert(data.msg);
       return thunkAPI.fulfillWithValue(data.msg);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);

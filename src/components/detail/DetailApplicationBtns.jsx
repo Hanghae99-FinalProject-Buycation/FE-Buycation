@@ -25,39 +25,33 @@ const DetailApplicationBtns = ({
   const [applicationModal, setApplicationModal] = useState(false);
   const getMsg = useSelector((data) => data.applicate.postApplication);
 
-  console.log(getMsg);
-
-  // 403 터지는 부분
-  const getProfileData = useSelector((state) => state.profile.getProfile);
-  const getMemberId = getProfileData?.memberId;
-  const participatedList = useSelector(
-    (state) => state.myList.participatedList
-  );
-  const participateStatus = participatedList?.filter(
-    (x) => x.postingId === postingId
-  );
   const onClickApplicationModalHandler = () => {
     setApplicationModal(!applicationModal);
   };
   const onClickApplicateHandler = () => {
     if (!tokenValue) {
-      alert("로그인 해주세요.");
-      navigate("/login");
+      Swal.fire({
+        text: "로그인 해주세요.",
+        confirmButtonColor: "#FF5A5F",
+      }).then((res) => {
+        if (res.isConfirmed) {
+          navigate("/login");
+        }
+      });
     } else {
-      dispatch(__postApplication(postingId)).then(
+      dispatch(__postApplication(postingId));
+      /* if (getMsg !== {}) {
         Swal.fire({
           text: getMsg,
           confirmButtonColor: "#FF5A5F",
-        })
-      );
-      navigate(`../details/${postingId}`);
+        }).then(() => navigate(`../details/${postingId}`));
+      } */
     }
   };
   const onClickCancelHandler = () => {
     Swal.fire({
       text: "참가를 취소하시겠습니까?",
       padding: "1rem 0",
-      showConfirmButton: true,
       showDenyButton: true,
       confirmButtonColor: "#FF5A5F",
       denyButtonColor: "#adadad",
@@ -77,11 +71,7 @@ const DetailApplicationBtns = ({
     });
   };
 
-  useEffect(() => {
-    dispatch(__getParticipatedList(getMemberId)).then(
-      dispatch(__getMyProfile())
-    );
-  }, [dispatch, getMemberId]);
+  useEffect(() => {}, [dispatch, getMsg]);
 
   if (details?.doneStatus)
     return (
@@ -108,7 +98,7 @@ const DetailApplicationBtns = ({
       </ElApplicationWrap>
     );
   // 미로그인 상태이거나 참가중이지 않을 때
-  if (!tokenValue || !participateStatus?.length)
+  if (!tokenValue || !details?.participant)
     return (
       <ElApplicationWrap>
         <ButtonBasic _onClick={onClickApplicateHandler}>
@@ -116,7 +106,8 @@ const DetailApplicationBtns = ({
         </ButtonBasic>
       </ElApplicationWrap>
     );
-  if (participateStatus?.length > 0)
+  // if (participateStatus?.length > 0)
+  if (details?.participant)
     return (
       <ElApplicationWrap>
         <ButtonBasic _onClick={onClickCancelHandler} background="#939393">
