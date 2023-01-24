@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   __getAlarmList,
   __deleteAlarm,
+  __deleteState,
 } from "../../redux/modules/alarm/alarmSlice";
 import { useEffect } from "react";
 import { titleForm } from "../../utils/editedData";
@@ -17,7 +18,7 @@ const Alarm = (props) => {
   const alarmListData = useSelector((data) => data.alarm);
   const alarmList = alarmListData.alarmList.dataList;
   const alarmKey = alarmListData.alarmKey; //무한 스크롤 시  사용될 예정 현재는 ""만 보냄
-  console.log("alarm 데이터 확인:", alarmListData);
+  const { deleteState } = useSelector((state) => state.alarm);
   console.log("alarmList 확인:", alarmList);
 
   useEffect(() => {
@@ -25,6 +26,13 @@ const Alarm = (props) => {
       dispatch(__getAlarmList(alarmKey));
     }
   }, [dispatch, tokenValue]);
+
+  useEffect(() => {
+    if (deleteState) {
+      dispatch(__getAlarmList(alarmKey));
+      dispatch(__deleteState(false));
+    }
+  }, [dispatch]);
 
   const onClickDeleteAlarmHandler = (alarmId) => {
     dispatch(__deleteAlarm(alarmId));
@@ -41,7 +49,7 @@ const Alarm = (props) => {
           <PerAlarm key={item.alarmId}>
             <article>
               <div onClick={() => onMove(item.postingId, item.alarmId)}>
-                <p>{titleForm(item.title)}</p>
+                <p>[{titleForm(item.title)}]</p>
                 <p>{item.message}</p>
                 <span>{item.createdAt}</span>
               </div>
