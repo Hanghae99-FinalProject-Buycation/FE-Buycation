@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { __getDetail } from "../../redux/modules/details/detailSlice";
-import { __postApplication } from "../../redux/modules/application/applicationSlice";
 import { RiMapPin2Fill } from "react-icons/ri";
 
 import DetailSpan from "./elements/DetailSpan";
@@ -12,7 +11,6 @@ import DetailApplicationBody from "./DetailApplicationBody";
 import { getCookies } from "../../core/cookie";
 // import { longTitleForm, titleForm } from "../../utils/editedData";
 import { Spinners } from "../../shared/layout/Spinners";
-import { __getComment } from "../../redux/modules/details/commentSlice";
 import useBuyLocation from "../../hooks/useBuyLocation";
 import DetailApplicationBtns from "./DetailApplicationBtns";
 import DetailCommentList from "./DetailCommentList";
