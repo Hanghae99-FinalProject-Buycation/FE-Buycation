@@ -1,23 +1,32 @@
 import React from "react";
 import styled from "@emotion/styled";
 import alarmClose from "../../assets/headerIcon/alarmClose.svg";
-import { useDispatch } from "react-redux";
+import { getCookies } from "../../core/cookie";
+import { useDispatch, useSelector } from "react-redux";
 import {
   __getAlarmList,
   __deleteAlarm,
 } from "../../redux/modules/alarm/alarmSlice";
 import { useEffect } from "react";
+import { titleForm } from "../../utils/editedData";
 
 const Alarm = (props) => {
   const { onMove, onClose, top, left, right } = props;
+  const tokenValue = getCookies("id");
   const dispatch = useDispatch();
+  const alarmListData = useSelector((data) => data.alarm);
+  const alarmList = alarmListData.alarmList.dataList;
+  const alarmKey = alarmListData.alarmKey; //무한 스크롤 시  사용될 예정 현재는 ""만 보냄
+  console.log("alarm 데이터 확인:", alarmListData);
+  console.log("alarmList 확인:", alarmList);
 
   useEffect(() => {
-    dispatch(__getAlarmList());
-  }, [dispatch]);
+    if (tokenValue) {
+      dispatch(__getAlarmList(alarmKey));
+    }
+  }, [dispatch, tokenValue]);
 
   const onClickDeleteAlarmHandler = (alarmId) => {
-    console.log(alarmId);
     dispatch(__deleteAlarm(alarmId));
   };
 
@@ -27,24 +36,24 @@ const Alarm = (props) => {
         <span>알림</span>
         <span onClick={onClose}>창닫기</span>
       </header>
-      <AlarmBox>
-        {[1, 2, 3].map((item) => (
-          <PerAlarm key={item}>
+      <AlarmListBox>
+        {alarmList?.map((item) => (
+          <PerAlarm key={item.alarmId}>
             <article>
-              <div onClick={() => onMove(9, 2)}>
-                <p>세제공구합시다.연습글자숫자맞춰보기...</p>
-                <p>공구에 댓글이 달렸습니다.</p>
-                <span>6분전</span>
+              <div onClick={() => onMove(item.postingId, item.alarmId)}>
+                <p>{titleForm(item.title)}</p>
+                <p>{item.message}</p>
+                <span>{item.createdAt}</span>
               </div>
             </article>
             <img
               alt="alarmClose"
               src={alarmClose}
-              onClick={() => onClickDeleteAlarmHandler(2)}
+              onClick={() => onClickDeleteAlarmHandler(item.alarmId)}
             />
           </PerAlarm>
         ))}
-      </AlarmBox>
+      </AlarmListBox>
     </StPostingOption>
   );
 };
@@ -53,6 +62,7 @@ export default Alarm;
 
 const StPostingOption = styled.div`
   width: 300px;
+
   display: flex;
   flex-direction: column !important;
   position: absolute;
@@ -81,15 +91,15 @@ const StPostingOption = styled.div`
   }
 `;
 
-const AlarmBox = styled.div`
-  width: 100%;
-  height: 415px;
+const AlarmListBox = styled.div`
+  overflow: auto;
+  height: 380px;
 `;
 
 const PerAlarm = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 1rem;
+  padding: 1rem 1.5rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grayList};
   font-size: ${({ theme }) => theme.fontSize.sm};
   div {
