@@ -15,9 +15,10 @@ import { RxCross1 } from "react-icons/rx";
 import profileIcon from "../../assets/headerIcon/profileIcon.svg";
 import { titleForm } from "../../utils/editedData";
 import useWindowResize from "../../hooks/useWindowResize";
+import { sendChatStatus } from "../../redux/modules/modal/modalSlice";
 
 var stompClient = null;
-const ChatRoom = () => {
+const Chatroom = () => {
   const dispatch = useDispatch();
   const [roomId, setRoomId] = useState(null);
   const [hide, setHide] = useState(false);
@@ -34,6 +35,8 @@ const ChatRoom = () => {
 
   const chatList = useSelector((state) => state.chat.getChatList);
   const chatBody = useSelector((state) => state.chat.getChatRoom);
+  const chatStatus = useSelector((state) => state.generalModal.toggleChat);
+
   const { innerWidth } = useWindowResize();
 
   const connect = () => {
@@ -180,14 +183,14 @@ const ChatRoom = () => {
           ) : (
             <RxCross1
               onClick={() => {
-                console.log("모달 닫기");
+                dispatch(sendChatStatus(!chatStatus));
               }}
             />
           )
         ) : (
           <RxCross1
             onClick={() => {
-              console.log("모달 닫기");
+              dispatch(sendChatStatus(!chatStatus));
             }}
           />
         )}
@@ -277,14 +280,20 @@ const ChatRoom = () => {
   );
 };
 
-export default ChatRoom;
+export default Chatroom;
 
 const StWrap = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 100%;
   max-width: 60.75rem;
   height: 41.625rem;
   border-radius: 0.5rem;
+  background: #fff;
   box-shadow: 0 0 4px 1px ${({ theme }) => theme.colors.grayWeak};
+  z-index: 5;
 
   .mainTitle {
     display: flex;
@@ -304,7 +313,10 @@ const StWrap = styled.div`
   }
 
   @media screen and (max-width: 48rem) {
-    height: 100%;
+    height: calc(100% - 4rem);
+    top: 4rem;
+    left: 50%;
+    transform: translate(-50%, 0%);
   }
 `;
 

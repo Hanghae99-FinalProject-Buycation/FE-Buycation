@@ -10,9 +10,11 @@ const UserModal = (props) => {
     posting,
     myProfile,
     logout,
+    chat,
     postingClick,
     myProfileClick,
     logoutClick,
+    chatClick,
     top,
     left,
     right,
@@ -40,6 +42,7 @@ const UserModal = (props) => {
         <button onClick={myProfileClick}>{myProfile}</button>
         <button onClick={logoutClick}>{logout}</button>
         <button>{guide}</button>
+        <button onClick={chatClick}>{chat}</button>
       </div>
     </StPostingOption>
   );
