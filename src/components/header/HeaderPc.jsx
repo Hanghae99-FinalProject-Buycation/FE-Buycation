@@ -50,9 +50,8 @@ const HeaderPc = (props) => {
           <img alt="posting" src={postingIcon} onClick={onMovePostingHandler} />
           <img alt="chatting" src={chattingIcon} />
           {onAlarmModal ? (
-            <>
+            <div>
               <img
-                className={onAlarmCount ? "mainColor" : ""}
                 alt="alarm"
                 src={alarmIcon}
                 onClick={onClickAlarmModalHandler}
@@ -63,14 +62,18 @@ const HeaderPc = (props) => {
                 onMove={onMoveSelectPageHandler}
                 onClose={onCloseAlarmModalHandler}
               />
-            </>
+            </div>
           ) : (
-            <img
-              className={onAlarmCount ? "mainColor" : ""}
-              alt="alarm"
-              src={alarmIcon}
-              onClick={onClickAlarmModalHandler}
-            />
+            <AlarmBox>
+              <img
+                alt="alarm"
+                src={alarmIcon}
+                onClick={onClickAlarmModalHandler}
+              />
+              <AlarmNumber display={onAlarmCount === 0 ? "none" : ""}>
+                <span>{onAlarmCount}</span>
+              </AlarmNumber>
+            </AlarmBox>
           )}
           <img
             alt="profile"
@@ -120,9 +123,27 @@ const Icon = styled.div`
   display: flex;
   gap: 23px;
   cursor: pointer;
+`;
 
-  .mainColor {
-    filter: ${({ theme }) => theme.colors.imgFilter};
+const AlarmBox = styled.div`
+  position: relative;
+`;
+
+const AlarmNumber = styled.div`
+  display: ${({ display }) => display};
+  position: absolute;
+  top: -4px;
+  right: -10px;
+  width: 24px;
+  height: 14px;
+  text-align: center;
+  background: ${({ theme }) => theme.colors.main};
+  border: 1px solid ${({ theme }) => theme.colors.main};
+  border-radius: 40%;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  span {
+    color: #fff;
+    font-weight: 600;
   }
 `;
 

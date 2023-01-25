@@ -11,6 +11,8 @@ import {
   __getAlarmCount,
   __patchAlarmState,
 } from "../../redux/modules/alarm/alarmSlice";
+import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
+import { BACK_API } from "../../core/env";
 
 const Header = () => {
   const { innerWidth } = useWindowResize();
@@ -19,15 +21,43 @@ const Header = () => {
   const dispatch = useDispatch();
   const modalStatus = useSelector((state) => state.generalModal.toggleModal);
   const { alarmCount } = useSelector((data) => data?.alarm);
-  const ALARMCOUNT = Number(alarmCount) >= 1;
   const [alarmModal, setAlarmModal] = useState(false);
+  const EventSource = EventSourcePolyfill || NativeEventSource;
 
-  //알람 갯수
+  //알람 구독
   useEffect(() => {
     if (tokenValue) {
-      dispatch(__getAlarmCount());
+      let eventSource = new EventSource(
+        `${BACK_API}/alarm/subscribe/1`, //임시
+        {
+          headers: {
+            Authorization: tokenValue,
+            // lastEventId: "1_10101010",
+          },
+        }
+      );
+      //EVENTSOURCE ONMESSAGE
+      eventSource.onmessage = (event) => {
+        console.log(event.data);
+        dispatch(__getAlarmCount());
+      };
+      //EVENTSOURCE ONERROR
+      eventSource.onerror = (event) => {
+        console.log(event.error.message);
+        eventSource.close();
+        if (!event.error.message.includes("No activity")) {
+          console.log("이벤트  종료");
+          eventSource.close();
+        }
+      };
+
+      eventSource.addEventListener("No activity", function (event) {
+        if (event) {
+          eventSource.close();
+        }
+      });
     }
-  }, [dispatch, tokenValue]);
+  }, [tokenValue, dispatch, EventSource]);
 
   //alarm 조회, 삭제, 수정
   const onClickAlarmModalHandler = () => {
@@ -65,7 +95,7 @@ const Header = () => {
     <>
       {innerWidth > 768 ? (
         <HeaderPc
-          onAlarmCount={ALARMCOUNT}
+          onAlarmCount={alarmCount}
           onClickAlarmModalHandler={onClickAlarmModalHandler}
           onMoveSelectPageHandler={onMoveSelectPageHandler}
           onCloseAlarmModalHandler={onCloseAlarmModalHandler}
@@ -73,7 +103,7 @@ const Header = () => {
         />
       ) : (
         <HeaderMobile
-          onAlarmCount={ALARMCOUNT}
+          onAlarmCount={alarmCount}
           onClickAlarmModalHandler={onClickAlarmModalHandler}
           onMoveSelectPageHandler={onMoveSelectPageHandler}
           onCloseAlarmModalHandler={onCloseAlarmModalHandler}
@@ -91,7 +121,6 @@ const Header = () => {
           myProfileClick={onMoveMyProfileHandler}
           logout="로그아웃"
           logoutClick={onMoveLogoutHandler}
-          guide="가이드북"
         />
       )}
     </>

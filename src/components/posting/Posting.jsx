@@ -22,7 +22,6 @@ const Posting = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const postingData = useSelector((data) => data.postPosting);
-  console.log(postingData);
   const [postData, setPostData] = useState({
     category: "",
     title: "",

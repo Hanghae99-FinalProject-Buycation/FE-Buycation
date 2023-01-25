@@ -16,7 +16,6 @@ export const __getAlarmCount = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await baseURLwToken.get(`alarm/count`);
-      console.log(data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

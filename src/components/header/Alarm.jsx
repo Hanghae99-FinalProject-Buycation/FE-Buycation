@@ -17,9 +17,8 @@ const Alarm = (props) => {
   const dispatch = useDispatch();
   const alarmListData = useSelector((data) => data.alarm);
   const alarmList = alarmListData.alarmList.dataList;
-  const alarmKey = alarmListData.alarmKey; //무한 스크롤 시  사용될 예정 현재는 ""만 보냄
+  const alarmKey = alarmListData.alarmKey; //무한 스크롤 시 사용될 예정 현재는 ""만 보냄
   const { deleteState } = useSelector((state) => state.alarm);
-  console.log("alarmList 확인:", alarmList);
 
   useEffect(() => {
     if (tokenValue) {
@@ -72,7 +71,6 @@ export default Alarm;
 
 const StPostingOption = styled.div`
   width: 300px;
-
   display: flex;
   flex-direction: column !important;
   position: absolute;

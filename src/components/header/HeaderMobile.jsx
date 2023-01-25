@@ -42,7 +42,6 @@ const HeaderMobile = (props) => {
           {onAlarmModal ? (
             <Icon>
               <img
-                className={onAlarmCount ? "mainColor" : ""}
                 alt="alarm"
                 src={alarmIcon}
                 onClick={onClickAlarmModalHandler}
@@ -56,12 +55,16 @@ const HeaderMobile = (props) => {
             </Icon>
           ) : (
             <Icon>
-              <img
-                className={onAlarmCount ? "mainColor" : ""}
-                alt="alarm"
-                src={alarmIcon}
-                onClick={onClickAlarmModalHandler}
-              />
+              <AlarmBox>
+                <img
+                  alt="alarm"
+                  src={alarmIcon}
+                  onClick={onClickAlarmModalHandler}
+                />
+                <AlarmNumber display={onAlarmCount === 0 ? "none" : ""}>
+                  <span>{onAlarmCount}</span>
+                </AlarmNumber>
+              </AlarmBox>
             </Icon>
           )}
           <Logo alt="바이케이션" onClick={() => navigate("/")} />
@@ -119,6 +122,28 @@ const Icon = styled.div`
 
   .mainColor {
     filter: ${({ theme }) => theme.colors.imgFilter};
+  }
+`;
+
+const AlarmBox = styled.div`
+  position: relative;
+`;
+
+const AlarmNumber = styled.div`
+  display: ${({ display }) => display};
+  position: absolute;
+  top: -4px;
+  right: -10px;
+  width: 24px;
+  height: 14px;
+  text-align: center;
+  background: ${({ theme }) => theme.colors.main};
+  border: 1px solid ${({ theme }) => theme.colors.main};
+  border-radius: 40%;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  span {
+    color: #fff;
+    font-weight: 600;
   }
 `;
 
