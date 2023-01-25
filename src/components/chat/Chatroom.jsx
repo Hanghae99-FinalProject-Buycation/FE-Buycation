@@ -14,10 +14,13 @@ import { IoMdSend } from "react-icons/io";
 import { RxCross1 } from "react-icons/rx";
 import profileIcon from "../../assets/headerIcon/profileIcon.svg";
 import { titleForm } from "../../utils/editedData";
+import useWindowResize from "../../hooks/useWindowResize";
 
 var stompClient = null;
 const ChatRoom = () => {
   const dispatch = useDispatch();
+  const [roomId, setRoomId] = useState(null);
+  const [hide, setHide] = useState(false);
   const [privateChats, setPrivateChats] = useState(new Map());
   // const [publicChats, setPublicChats] = useState([]);
   const [tab, setTab] = useState("CHATROOM");
@@ -28,17 +31,20 @@ const ChatRoom = () => {
     seondDate: "",
     connected: false,
   });
-  const [roomId, setRoomId] = useState(null);
 
   const chatList = useSelector((state) => state.chat.getChatList);
-
   const chatBody = useSelector((state) => state.chat.getChatRoom);
-  const tokenValue = { Authorization: getCookies("id") };
+  const { innerWidth } = useWindowResize();
 
   const connect = () => {
     let Sock = new SockJS("http://54.180.87.207:8080/ws");
     stompClient = over(Sock);
-    stompClient.connect({}, onConnected, onError);
+    stompClient.connect(
+      {},
+      // { Authorization: getCookies("id") },
+      onConnected,
+      onError
+    );
   };
 
   const onConnected = () => {
@@ -62,7 +68,7 @@ const ChatRoom = () => {
     // stompClient.send("/talk/${roomid}", {}, JSON.stringify(chatMessage));
   };
 
-  /*   const onMessageReceived = (payload) => {
+  const onMessageReceived = (payload) => {
     var payloadData = JSON.parse(payload.body);
     switch (payloadData.status) {
       case "JOIN":
@@ -71,15 +77,16 @@ const ChatRoom = () => {
           setPrivateChats(new Map(privateChats));
         }
         break;
-      case "MESSAGE":
+      /* case "MESSAGE":
         publicChats.push(payloadData);
         setPublicChats([...publicChats]);
-        break;
+        break; */
       // 내가 추가함
       default:
         return;
     }
-  }; */
+  };
+  // const [list, setList] = useState([]);
 
   const onPrivateMessage = (payload) => {
     console.log(payload);
@@ -90,6 +97,7 @@ const ChatRoom = () => {
     } else {
       let list = [];
       list.push(payloadData);
+      // setList(...list, payloadData);
       privateChats.set(payloadData.sender, list);
       setPrivateChats(new Map(privateChats));
     }
@@ -103,7 +111,7 @@ const ChatRoom = () => {
     const { value } = event.target;
     setUserData({ ...userData, message: value });
   };
-  const sendValue = () => {
+  /*   const sendValue = () => {
     if (stompClient) {
       var chatMessage = {
         sender: userData.sender,
@@ -115,14 +123,13 @@ const ChatRoom = () => {
       stompClient.send("/talk", {}, JSON.stringify(chatMessage));
       setUserData({ ...userData, message: "" });
     }
-  };
+  }; */
 
   const sendPrivateValue = () => {
-    console.log("clicked", roomId, stompClient);
+    console.log("clicked", stompClient);
     if (stompClient) {
       var chatMessage = {
         sender: userData.sender,
-        // sender: "sender",
         receiverName: tab,
         message: userData.message,
         status: "MESSAGE",
@@ -163,17 +170,39 @@ const ChatRoom = () => {
       <div className="mainTitle">
         <span></span>
         <span>채팅</span>
-        <RxCross1 className="icon" />
+        {innerWidth < 768 ? (
+          hide ? (
+            <RxCross1
+              onClick={() => {
+                setHide(!hide);
+              }}
+            />
+          ) : (
+            <RxCross1
+              onClick={() => {
+                console.log("모달 닫기");
+              }}
+            />
+          )
+        ) : (
+          <RxCross1
+            onClick={() => {
+              console.log("모달 닫기");
+            }}
+          />
+        )}
       </div>
       {/* {userData.connected ? ( */}
-      <StChatContainer>
-        <StChatList>
+      <StChatContainer className={innerWidth < 768 ? hide : ""}>
+        <StChatList className={innerWidth < 768 ? `${!hide} list` : ""}>
+          {/* <StChatList style={{ display: innerWidth < 768 ? "" : "" }}> */}
           <ul>
             {chatList?.map((room) => (
-              <StChatRoom
+              <StChatRooms
                 onClick={() => {
                   setTab(room.title);
                   onClickSelectRoomHandler(room.id);
+                  setHide(!hide);
                 }}
                 // className={tab === room.id}
                 key={room.id}
@@ -187,11 +216,12 @@ const ChatRoom = () => {
                   fontWeight="400"
                   color="#adadad"
                 />
-              </StChatRoom>
+              </StChatRooms>
             ))}
           </ul>
         </StChatList>
-        <StRoomWrap>
+        {/* <StRoomWrap style={{ display: innerWidth < 768 ? hide : "" }}> */}
+        <StRoomWrap className={innerWidth < 768 ? `${hide} room` : ""}>
           <StChatRoomTitle>
             <div>
               <ElChatRoomImage src="test.jpg" alt="" />
@@ -252,6 +282,7 @@ export default ChatRoom;
 const StWrap = styled.div`
   width: 100%;
   max-width: 60.75rem;
+  height: 41.625rem;
   border-radius: 0.5rem;
   box-shadow: 0 0 4px 1px ${({ theme }) => theme.colors.grayWeak};
 
@@ -266,29 +297,55 @@ const StWrap = styled.div`
     font-weight: 600;
     border-bottom: 0.1rem solid ${({ theme }) => theme.colors.grayWeak};
   }
-  /* position: relative; */
 
   ul {
     padding: 0;
     list-style: none;
   }
+
+  @media screen and (max-width: 48rem) {
+    height: 100%;
+  }
 `;
 
 const StChatContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  height: 41.625rem;
+  display: grid;
+  height: 100%;
+  grid-template-columns: 16.25rem 1fr;
+  grid-template-rows: 100%;
+  grid-template-areas: "chatlist chatroom";
+
+  .false.list {
+    display: none;
+  }
+
+  .false.room {
+    display: none;
+  }
+
+  @media screen and (max-width: 48rem) {
+    height: calc(100% - 4.5rem);
+    grid-template-columns: 1fr;
+    grid-template-areas: ${(props) =>
+      props.className === true ? "'chatroom'" : "'chatlist'"};
+  }
 `;
 
 const StChatList = styled.ul`
-  width: 16.25rem;
+  grid-area: chatlist;
+  width: 100%;
+  height: calc(100% - 4rem);
   border-right: 0.1rem solid ${({ theme }) => theme.colors.grayWeak};
+  @media screen and (max-width: 48rem) {
+    height: 100%;
+  }
 `;
 
-const StChatRoom = styled.li`
+const StChatRooms = styled.li`
   display: flex;
   align-items: center;
   flex-direction: row;
+  width: 100%;
   height: 4.5rem;
   padding: 1rem 1.5rem;
   border-bottom: 0.1rem solid ${({ theme }) => theme.colors.grayWeak};
@@ -296,7 +353,7 @@ const StChatRoom = styled.li`
   font-weight: 600;
   cursor: pointer;
   :hover {
-    border: 0.1rem solid ${({ theme }) => theme.colors.main};
+    border: 0.1rem solid ${({ theme }) => theme.colors.grayMid};
   }
 `;
 
@@ -310,10 +367,14 @@ const ElChatRoomImage = styled.img`
 `;
 
 const StRoomWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: calc(100% - 16.25rem);
-  height: 100%;
+  display: grid;
+  grid-template-rows: 4rem 1fr auto;
+  grid-area: chatroom;
+  width: 100%;
+  height: calc(100% - 4rem);
+  @media screen and (max-width: 48rem) {
+    height: 100%;
+  }
 `;
 
 const StChatRoomTitle = styled.div`
@@ -343,7 +404,6 @@ const StChatRoomTitle = styled.div`
 
 const StChatZone = styled.div`
   width: 100%;
-  height: 100%;
   padding: 1rem;
   overflow-x: hidden;
   overflow-y: scroll;
