@@ -118,7 +118,11 @@ const Posting = () => {
           console.log("업로드 실패");
         });
     } else {
-      alert("모든 입력칸을 입력해 주세요 :)");
+      Swal.fire({
+        text: "모든 입력칸을 입력해 주세요 :)",
+        confirmButtonText: "확인",
+        confirmButtonColor: "#FF5A5F",
+      });
     }
   };
 

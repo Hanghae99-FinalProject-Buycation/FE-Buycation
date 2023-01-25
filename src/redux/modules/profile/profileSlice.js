@@ -59,7 +59,6 @@ export const __duplicateCheck = createAsyncThunk(
       );
       return thunkAPI.fulfillWithValue(data.msg);
     } catch (error) {
-      alert(error.response.data.msg);
       return thunkAPI.rejectWithValue(error);
     }
   }
