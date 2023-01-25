@@ -9,6 +9,9 @@ import DetailsPage from "../pages/DetailsPage";
 import ModifyPage from "../pages/ModifyPage";
 import ProfilePage from "../pages/ProfilePage";
 import MyProfilePage from "../pages/MyProfilePage";
+import Chatroom from "../components/chat/Chatroom";
+import ChatroomMod from "../components/chat/ChatroomMod";
+import ChatroomModMod from "../components/chat/ChatroomModMod";
 
 const Router = () => {
   return (
@@ -24,6 +27,9 @@ const Router = () => {
           <Route path="/modify/:postingId" element={<ModifyPage />} />
           <Route path="/profile/:memberId" element={<ProfilePage />} />
           <Route path="/myprofile" element={<MyProfilePage />} />
+          <Route path="/chat" element={<Chatroom />} />
+          <Route path="/chat2" element={<ChatroomMod />} />
+          <Route path="/chat3" element={<ChatroomModMod />} />
         </Route>
       </Routes>
     </BrowserRouter>
