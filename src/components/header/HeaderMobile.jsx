@@ -2,6 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import alarmIcon from "../../assets/headerIcon/alarmIcon.svg";
 import profileIcon from "../../assets/headerIcon/profileIcon.svg";
+import guide from "../../assets/headerIcon/guide.svg";
 import logo from "../../assets/headerIcon/buycationLogo.webp";
 import logoHover from "../../assets/headerIcon/buycationLogoHover.webp";
 import ButtonBasic from "../elements/ButtonBasic";
@@ -73,14 +74,17 @@ const HeaderMobile = (props) => {
       ) : (
         <>
           <Logo alt="바이케이션" onClick={() => navigate("/")} />
-          <ButtonBasic
-            width="4rem"
-            height="2rem"
-            borderRadius="2rem"
-            _onClick={onMoveLoginHandler}
-          >
-            로그인
-          </ButtonBasic>
+          <LoginBox>
+            <ButtonBasic
+              width="4rem"
+              height="2rem"
+              borderRadius="2rem"
+              _onClick={onMoveLoginHandler}
+            >
+              로그인
+            </ButtonBasic>
+            <img alt="guide" src={guide} />
+          </LoginBox>
         </>
       )}
     </HeaderDiv>
@@ -116,4 +120,9 @@ const Icon = styled.div`
   .mainColor {
     filter: ${({ theme }) => theme.colors.imgFilter};
   }
+`;
+
+const LoginBox = styled.div`
+  display: flex;
+  gap: 1rem;
 `;

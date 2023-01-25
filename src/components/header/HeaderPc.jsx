@@ -4,6 +4,7 @@ import postingIcon from "../../assets/headerIcon/postingIcon.svg";
 import chattingIcon from "../../assets/headerIcon/chattingIcon.svg";
 import alarmIcon from "../../assets/headerIcon/alarmIcon.svg";
 import profileIcon from "../../assets/headerIcon/profileIcon.svg";
+import guide from "../../assets/headerIcon/guide.svg";
 import logo from "../../assets/headerIcon/buycationLogo.webp";
 import logoHover from "../../assets/headerIcon/buycationLogoHover.webp";
 import ButtonBasic from "../elements/ButtonBasic";
@@ -78,14 +79,17 @@ const HeaderPc = (props) => {
           />
         </Icon>
       ) : (
-        <ButtonBasic
-          width="4rem"
-          height="2rem"
-          borderRadius="2rem"
-          _onClick={onMoveLoginHandler}
-        >
-          로그인
-        </ButtonBasic>
+        <LoginBox>
+          <ButtonBasic
+            width="4rem"
+            height="2rem"
+            borderRadius="2rem"
+            _onClick={onMoveLoginHandler}
+          >
+            로그인
+          </ButtonBasic>
+          <img alt="guide" src={guide} />
+        </LoginBox>
       )}
     </HeaderDiv>
   );
@@ -120,4 +124,9 @@ const Icon = styled.div`
   .mainColor {
     filter: ${({ theme }) => theme.colors.imgFilter};
   }
+`;
+
+const LoginBox = styled.div`
+  display: flex;
+  gap: 1rem;
 `;

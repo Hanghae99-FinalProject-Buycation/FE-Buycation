@@ -91,6 +91,7 @@ const Header = () => {
           myProfileClick={onMoveMyProfileHandler}
           logout="로그아웃"
           logoutClick={onMoveLogoutHandler}
+          guide="가이드북"
         />
       )}
     </>
