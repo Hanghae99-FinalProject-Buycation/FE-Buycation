@@ -5,9 +5,9 @@ import chattingIcon from "../../assets/headerIcon/chattingIcon.svg";
 import alarmIcon from "../../assets/headerIcon/alarmIcon.svg";
 import profileIcon from "../../assets/headerIcon/profileIcon.svg";
 import guide from "../../assets/headerIcon/guide.svg";
+import login from "../../assets/headerIcon/login.svg";
 import logo from "../../assets/headerIcon/buycationLogo.webp";
 import logoHover from "../../assets/headerIcon/buycationLogoHover.webp";
-import ButtonBasic from "../elements/ButtonBasic";
 import Alarm from "./Alarm";
 import { getCookies } from "../../core/cookie";
 import { useNavigate } from "react-router-dom";
@@ -83,15 +83,8 @@ const HeaderPc = (props) => {
         </Icon>
       ) : (
         <LoginBox>
-          <ButtonBasic
-            width="4rem"
-            height="2rem"
-            borderRadius="2rem"
-            _onClick={onMoveLoginHandler}
-          >
-            로그인
-          </ButtonBasic>
           <img alt="guide" src={guide} />
+          <img alt="login" src={login} onClick={onMoveLoginHandler} />
         </LoginBox>
       )}
     </HeaderDiv>
@@ -149,5 +142,5 @@ const AlarmNumber = styled.div`
 
 const LoginBox = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 23px;
 `;
