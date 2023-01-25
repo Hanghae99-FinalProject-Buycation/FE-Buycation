@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 import alarmIcon from "../../assets/headerIcon/alarmIcon.svg";
 import profileIcon from "../../assets/headerIcon/profileIcon.svg";
@@ -10,30 +10,19 @@ import { getCookies } from "../../core/cookie";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { sendModalStatus } from "../../redux/modules/modal/modalSlice";
-import { __patchAlarmState } from "../../redux/modules/alarm/alarmSlice";
 
 const HeaderMobile = (props) => {
-  const { onAlarmCount } = props;
+  const {
+    onAlarmCount,
+    onClickAlarmModalHandler,
+    onMoveSelectPageHandler,
+    onCloseAlarmModalHandler,
+    onAlarmModal,
+  } = props;
   const tokenValue = getCookies("id");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const modalStatus = useSelector((state) => state.generalModal.toggleModal);
-  const [alarmModal, setAlarmModal] = useState(false);
-
-  //alarm
-  const onClickAlarmModalHandler = () => {
-    setAlarmModal(true);
-  };
-
-  const onMoveSelectPageHandler = (postingId, alarmId) => {
-    setAlarmModal(false);
-    navigate(`/details/${postingId}`);
-    dispatch(__patchAlarmState(alarmId));
-  };
-
-  const onCloseAlarmModalHandler = () => {
-    setAlarmModal(false);
-  };
 
   //헤더 아이콘 기능
   const onMoveLoginHandler = () => {
@@ -49,7 +38,7 @@ const HeaderMobile = (props) => {
     <HeaderDiv>
       {tokenValue ? (
         <>
-          {alarmModal ? (
+          {onAlarmModal ? (
             <Icon>
               <img
                 className={onAlarmCount ? "mainColor" : ""}
