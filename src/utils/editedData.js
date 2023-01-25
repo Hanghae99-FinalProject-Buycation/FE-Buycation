@@ -13,6 +13,14 @@ export const titleForm = (title) => {
   }
 };
 
+export const midTitleForm = (title) => {
+  if (title.length < 20) {
+    return title;
+  } else {
+    return title.substr(0, 20) + "...";
+  }
+};
+
 export const longTitleForm = (title) => {
   if (title?.length < 60) {
     return title;

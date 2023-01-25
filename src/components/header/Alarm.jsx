@@ -9,7 +9,7 @@ import {
   __deleteState,
 } from "../../redux/modules/alarm/alarmSlice";
 import { useEffect } from "react";
-import { titleForm } from "../../utils/editedData";
+import { midTitleForm } from "../../utils/editedData";
 
 const Alarm = (props) => {
   const { onMove, onClose, top, left, right } = props;
@@ -50,7 +50,7 @@ const Alarm = (props) => {
             <article>
               <div onClick={() => onMove(item.postingId, item.alarmId)}>
                 <p className={item.read ? "read" : ""}>
-                  [{titleForm(item.title)}]
+                  [{midTitleForm(item.title)}]
                 </p>
                 <p className={item.read ? "read" : ""}>{item.message}</p>
                 <span>{item.createdAt}</span>
