@@ -9,13 +9,13 @@ import {
   __getChatList,
   __getChatRoom,
 } from "../../redux/modules/chat/chatSlice";
-import { getCookies } from "../../core/cookie";
+import { sendChatStatus } from "../../redux/modules/modal/modalSlice";
 import { IoMdSend } from "react-icons/io";
 import { RxCross1 } from "react-icons/rx";
 import profileIcon from "../../assets/headerIcon/profileIcon.svg";
 import { titleForm } from "../../utils/editedData";
 import useWindowResize from "../../hooks/useWindowResize";
-import { sendChatStatus } from "../../redux/modules/modal/modalSlice";
+import useOutsideClick from "../../hooks/useOutsideClick";
 
 var stompClient = null;
 const Chatroom = () => {
@@ -23,11 +23,12 @@ const Chatroom = () => {
   const [roomId, setRoomId] = useState(null);
   const [hide, setHide] = useState(false);
   const [privateChats, setPrivateChats] = useState(new Map());
+  const [list, setList] = useState([]);
   // const [publicChats, setPublicChats] = useState([]);
-  const [tab, setTab] = useState("CHATROOM");
+  const [tab, setTab] = useState("");
   const [userData, setUserData] = useState({
     sender: "",
-    receivername: "",
+    receiver: "",
     message: "",
     seondDate: "",
     connected: false,
@@ -36,28 +37,19 @@ const Chatroom = () => {
   const chatList = useSelector((state) => state.chat.getChatList);
   const chatBody = useSelector((state) => state.chat.getChatRoom);
   const chatStatus = useSelector((state) => state.generalModal.toggleChat);
-
   const { innerWidth } = useWindowResize();
+  const ref = useOutsideClick(() => dispatch(sendChatStatus(!chatStatus)));
 
   const connect = () => {
     let Sock = new SockJS("http://54.180.87.207:8080/ws");
     stompClient = over(Sock);
-    stompClient.connect(
-      {},
-      // { Authorization: getCookies("id") },
-      onConnected,
-      onError
-    );
+    stompClient.connect({}, onConnected, onError);
   };
 
   const onConnected = () => {
-    setUserData({ ...userData, connected: true });
+    setUserData({ ...userData, connected: true, sender: "buycation" });
     // stompClient.subscribe("/chatroom/public", onMessageReceived);
-    stompClient.subscribe(
-      // "/user/" + userData.sender + "/private",
-      "/talk/" + roomId,
-      onPrivateMessage
-    );
+    stompClient.subscribe(`/talk/room/${roomId}`, onPrivateMessage);
     userJoin();
   };
 
@@ -67,7 +59,8 @@ const Chatroom = () => {
       status: "JOIN",
     };
     // stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
-    stompClient.send("/talk", {}, JSON.stringify(chatMessage));
+    // stompClient.send("/talk", {}, JSON.stringify(chatMessage));
+    stompClient.send("/talk/room", {}, JSON.stringify(chatMessage));
     // stompClient.send("/talk/${roomid}", {}, JSON.stringify(chatMessage));
   };
 
@@ -95,12 +88,12 @@ const Chatroom = () => {
     console.log(payload);
     var payloadData = JSON.parse(payload.body);
     if (privateChats.get(payloadData.sender)) {
-      privateChats.get(payloadData.sender).push(payloadData);
+      // privateChats.get(payloadData.sender).push(payloadData);
       setPrivateChats(new Map(privateChats));
     } else {
-      let list = [];
-      list.push(payloadData);
-      // setList(...list, payloadData);
+      // let list = [];
+      // list.push(payloadData);
+      setList(...list, payloadData);
       privateChats.set(payloadData.sender, list);
       setPrivateChats(new Map(privateChats));
     }
@@ -129,21 +122,23 @@ const Chatroom = () => {
   }; */
 
   const sendPrivateValue = () => {
-    console.log("clicked", stompClient);
+    console.log("stompClient: ", stompClient);
     if (stompClient) {
       var chatMessage = {
-        sender: userData.sender,
-        receiverName: tab,
+        // sender: userData.sender,
+        sender: "david",
+        receiver: tab,
         message: userData.message,
         status: "MESSAGE",
       };
 
       if (userData.sender !== tab) {
-        privateChats.get(tab).push(chatMessage);
+        // privateChats.get(tab).push(chatMessage);
         setPrivateChats(new Map(privateChats));
       }
       // stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
-      stompClient.send(`/talk/${roomId}`, {}, JSON.stringify(chatMessage));
+      // stompClient.send(`/talk/${roomId}`, {}, JSON.stringify(chatMessage));
+      stompClient.send(`/talk/room/${roomId}`, {}, JSON.stringify(chatMessage));
       setUserData({ ...userData, message: "" });
     }
   };
@@ -169,7 +164,7 @@ const Chatroom = () => {
   }, [dispatch, userData]);
 
   return (
-    <StWrap>
+    <StWrap ref={ref}>
       <div className="mainTitle">
         <span></span>
         <span>채팅</span>
@@ -322,7 +317,7 @@ const StWrap = styled.div`
 
 const StChatContainer = styled.div`
   display: grid;
-  height: 100%;
+  height: calc(100% - 4rem);
   grid-template-columns: 16.25rem 1fr;
   grid-template-rows: 100%;
   grid-template-areas: "chatlist chatroom";
@@ -346,7 +341,7 @@ const StChatContainer = styled.div`
 const StChatList = styled.ul`
   grid-area: chatlist;
   width: 100%;
-  height: calc(100% - 4rem);
+  /* height: calc(100% - 4rem); */
   border-right: 0.1rem solid ${({ theme }) => theme.colors.grayWeak};
   @media screen and (max-width: 48rem) {
     height: 100%;
@@ -383,7 +378,7 @@ const StRoomWrap = styled.div`
   grid-template-rows: 4rem 1fr auto;
   grid-area: chatroom;
   width: 100%;
-  height: calc(100% - 4rem);
+  /* height: calc(100% - 4rem); */
   @media screen and (max-width: 48rem) {
     height: 100%;
   }
