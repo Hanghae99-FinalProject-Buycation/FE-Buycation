@@ -6,13 +6,17 @@ import HeaderMobile from "../../components/header/HeaderMobile";
 import { getCookies, removeCookies } from "../../core/cookie";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { sendModalStatus } from "../../redux/modules/modal/modalSlice";
+import {
+  sendChatStatus,
+  sendModalStatus,
+} from "../../redux/modules/modal/modalSlice";
 import {
   // __getAlarmCount,
   __patchAlarmState,
 } from "../../redux/modules/alarm/alarmSlice";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { BACK_API } from "../../core/env";
+import Chatroom from "../../components/chat/Chatroom";
 
 const Header = () => {
   const { innerWidth } = useWindowResize();
@@ -122,6 +126,11 @@ const Header = () => {
     dispatch(sendModalStatus(true));
   };
 
+  // 채팅 모달
+  const onClickChatOpenHandler = () => {
+    dispatch(sendChatStatus(!chatStatus));
+  };
+
   return (
     <>
       {innerWidth > 768 ? (
@@ -131,6 +140,7 @@ const Header = () => {
           onMoveSelectPageHandler={onMoveSelectPageHandler}
           onCloseAlarmModalHandler={onCloseAlarmModalHandler}
           onAlarmModal={alarmModal}
+          onClickChatOpenHandler={onClickChatOpenHandler}
         />
       ) : (
         <HeaderMobile
@@ -152,8 +162,11 @@ const Header = () => {
           myProfileClick={onMoveMyProfileHandler}
           logout="로그아웃"
           logoutClick={onMoveLogoutHandler}
+          chat="채팅"
+          chatClick={onClickChatOpenHandler}
         />
       )}
+      {!chatStatus && <Chatroom />}
     </>
   );
 };

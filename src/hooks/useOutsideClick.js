@@ -17,7 +17,7 @@ const useOutsideClick = (callback) => {
 
   return ref;
   // 해당 훅을 실행할 컴포넌트에서 훅을 import한 후  const ref = useOutsideClick(밖을 클릭했을 때 실행할 기능) 선언
-  // 예: const ref = useOutsideClick(dispatch(isOpenModal(false)))
+  // 예: const ref = useOutsideClick(()=> dispatch(isOpenModal(false)))
   // 부모 컴포넌트 안 기준 요소(컴포넌트 아님. 요소)에 ref={ref} 설정
 };
 

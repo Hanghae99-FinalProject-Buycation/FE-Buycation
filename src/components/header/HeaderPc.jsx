@@ -21,6 +21,7 @@ const HeaderPc = (props) => {
     onMoveSelectPageHandler,
     onCloseAlarmModalHandler,
     onAlarmModal,
+    onClickChatOpenHandler,
   } = props;
   const tokenValue = getCookies("id");
   const navigate = useNavigate();
@@ -48,7 +49,11 @@ const HeaderPc = (props) => {
       {tokenValue ? (
         <Icon>
           <img alt="posting" src={postingIcon} onClick={onMovePostingHandler} />
-          <img alt="chatting" src={chattingIcon} />
+          <img
+            alt="chatting"
+            src={chattingIcon}
+            onClick={onClickChatOpenHandler}
+          />
           {onAlarmModal ? (
             <div>
               <img
