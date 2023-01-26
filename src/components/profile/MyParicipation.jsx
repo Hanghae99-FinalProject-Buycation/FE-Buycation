@@ -14,6 +14,7 @@ const MyParicipation = () => {
   const participatedList = useSelector((data) => data.myList.participatedList);
   const [reviewModal, setReviewModal] = useState(false);
   const [postingID, setPostingID] = useState("");
+  console.log(participatedList);
 
   const onClickReviewHandler = (postingId) => {
     setReviewModal(true);
@@ -41,6 +42,7 @@ const MyParicipation = () => {
         <ContentsBox key={item.postingId}>
           <Box>
             <Image
+              filter={item.doneStatus ? "brightness(40%)" : ""}
               src={item.image}
               onClick={() => onClickMoveDetails(item.postingId)}
             ></Image>
@@ -93,10 +95,12 @@ const Box = styled.div`
 `;
 
 const Image = styled.img`
+  filter: ${({ filter }) => filter};
   width: 11rem;
   height: 11rem;
   border-radius: 5px;
   cursor: pointer;
+
   @media screen and (max-width: 768px) {
     width: 7.5rem;
     height: 7.5rem;
