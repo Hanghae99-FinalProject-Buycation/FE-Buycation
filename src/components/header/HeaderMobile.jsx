@@ -3,9 +3,9 @@ import styled from "@emotion/styled";
 import alarmIcon from "../../assets/headerIcon/alarmIcon.svg";
 import profileIcon from "../../assets/headerIcon/profileIcon.svg";
 import guide from "../../assets/headerIcon/guide.svg";
+import login from "../../assets/headerIcon/login.svg";
 import logo from "../../assets/headerIcon/buycationLogo.webp";
 import logoHover from "../../assets/headerIcon/buycationLogoHover.webp";
-import ButtonBasic from "../elements/ButtonBasic";
 import Alarm from "./Alarm";
 import { getCookies } from "../../core/cookie";
 import { useNavigate } from "react-router-dom";
@@ -42,7 +42,6 @@ const HeaderMobile = (props) => {
           {onAlarmModal ? (
             <Icon>
               <img
-                className={onAlarmCount ? "mainColor" : ""}
                 alt="alarm"
                 src={alarmIcon}
                 onClick={onClickAlarmModalHandler}
@@ -56,12 +55,16 @@ const HeaderMobile = (props) => {
             </Icon>
           ) : (
             <Icon>
-              <img
-                className={onAlarmCount ? "mainColor" : ""}
-                alt="alarm"
-                src={alarmIcon}
-                onClick={onClickAlarmModalHandler}
-              />
+              <AlarmBox>
+                <img
+                  alt="alarm"
+                  src={alarmIcon}
+                  onClick={onClickAlarmModalHandler}
+                />
+                <AlarmNumber display={onAlarmCount === "0" ? "none" : ""}>
+                  <span>{onAlarmCount}</span>
+                </AlarmNumber>
+              </AlarmBox>
             </Icon>
           )}
           <Logo alt="바이케이션" onClick={() => navigate("/")} />
@@ -75,15 +78,8 @@ const HeaderMobile = (props) => {
         <>
           <Logo alt="바이케이션" onClick={() => navigate("/")} />
           <LoginBox>
-            <ButtonBasic
-              width="4rem"
-              height="2rem"
-              borderRadius="2rem"
-              _onClick={onMoveLoginHandler}
-            >
-              로그인
-            </ButtonBasic>
             <img alt="guide" src={guide} />
+            <img alt="login" src={login} onClick={onMoveLoginHandler} />
           </LoginBox>
         </>
       )}
@@ -122,7 +118,29 @@ const Icon = styled.div`
   }
 `;
 
+const AlarmBox = styled.div`
+  position: relative;
+`;
+
+const AlarmNumber = styled.div`
+  display: ${({ display }) => display};
+  position: absolute;
+  top: -4px;
+  right: -10px;
+  width: 24px;
+  height: 14px;
+  text-align: center;
+  background: ${({ theme }) => theme.colors.main};
+  border: 1px solid ${({ theme }) => theme.colors.main};
+  border-radius: 40%;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  span {
+    color: #fff;
+    font-weight: 600;
+  }
+`;
+
 const LoginBox = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 0.8rem;
 `;

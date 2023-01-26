@@ -18,6 +18,7 @@
     "@testing-library/user-event": "^13.2.1",
     "aws-sdk": "^2.1289.0",
     "axios": "^1.2.2",
+    "event-source-polyfill": "^1.0.31",
     "net": "^1.0.2",
     "react": "^18.2.0",
     "react-cookie": "^4.1.1",
@@ -45,7 +46,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "yarn run build && aws s3 sync build/ s3://www.buycation.shop"
+    "deploy": "yarn run build && aws s3 sync build/ s3://buycation.co.kr"
   },
   "eslintConfig": {
     "extends": [
