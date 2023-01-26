@@ -200,7 +200,8 @@ const Chatroom = () => {
                 onClick={() => {
                   setTab(room.title);
                   onClickSelectRoomHandler(room.id);
-                  setHide(!hide);
+                  innerWidth < 768 ? setHide(!hide) : setHide(true);
+                  console.log(hide);
                 }}
                 // className={tab === room.id}
                 key={room.id}
@@ -219,7 +220,7 @@ const Chatroom = () => {
           </ul>
         </StChatList>
         {/* <StRoomWrap style={{ display: innerWidth < 768 ? hide : "" }}> */}
-        <StRoomWrap className={innerWidth < 768 ? `${hide} room` : ""}>
+        <StRoomWrap className={innerWidth < 768 ? `${hide} room` : !hide}>
           <StChatRoomTitle>
             <div>
               <ElChatRoomImage src="test.jpg" alt="" />
@@ -234,7 +235,7 @@ const Chatroom = () => {
               /totalMember명
             </span>
           </StChatRoomTitle>
-          <StChatZone>
+          <StChatZone className={!hide}>
             {/* {[...privateChats.get(tab)].map((chat, index) => ( */}
             {chatBody?.map((chat, index) => (
               <StChatBubble
@@ -374,7 +375,7 @@ const ElChatRoomImage = styled.img`
 `;
 
 const StRoomWrap = styled.div`
-  display: grid;
+  display: ${(props) => (props.className === true ? "none" : "grid")};
   grid-template-rows: 4rem 1fr auto;
   grid-area: chatroom;
   width: 100%;
