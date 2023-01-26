@@ -28,16 +28,16 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
 
       # Github Repository Secrets를 통해 환경 변수 파일을 생성합니다.
-      - name: Generate Environment Variables File for Production
+      - name: Generate Environment Variables File
         run: |
-          echo "REACT_APP_BACKAPI=$REACT_APP_BACKAPI" >> .env.production
-          echo "REACT_APP_CLIENT_ID=$REACT_APP_CLIENT_ID" >> .env.production
-          echo "REACT_APP_REDIRECT_URI=$REACT_APP_REDIRECT_URI" >> .env.production
-          echo "REACT_APP_KAKAO_MAP_KEY=$REACT_APP_KAKAO_MAP_KEY" >> .env.production
-          echo "REACT_APP_BUCKET=$REACT_APP_BUCKET" >> .env.production
-          echo "REACT_APP_REGION=$REACT_APP_REGION" >> .env.production
-          echo "REACT_APP_ASSESSKEY_ID=$REACT_APP_ASSESSKEY_ID" >> .env.production
-          echo "REACT_APP_SECRET_ACCESSKEY=$REACT_APP_SECRET_ACCESSKEY" >> .env.production
+          echo "REACT_APP_BACKAPI=$REACT_APP_BACKAPI" >> .env
+          echo "REACT_APP_CLIENT_ID=$REACT_APP_CLIENT_ID" >> .env
+          echo "REACT_APP_REDIRECT_URI=$REACT_APP_REDIRECT_URI" >> .env
+          echo "REACT_APP_KAKAO_MAP_KEY=$REACT_APP_KAKAO_MAP_KEY" >> .env
+          echo "REACT_APP_BUCKET=$REACT_APP_BUCKET" >> .env
+          echo "REACT_APP_REGION=$REACT_APP_REGION" >> .env
+          echo "REACT_APP_ASSESSKEY_ID=$REACT_APP_ASSESSKEY_ID" >> .env
+          echo "REACT_APP_SECRET_ACCESSKEY=$REACT_APP_SECRET_ACCESSKEY" >> .env
         env:
           REACT_APP_BACKAPI: ${{ secrets.REACT_APP_BACKAPI }}
           REACT_APP_CLIENT_ID: ${{ secrets.REACT_APP_CLIENT_ID }}
