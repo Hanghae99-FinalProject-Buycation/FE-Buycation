@@ -41,6 +41,7 @@ const MyCreation = () => {
         <ContentsBox key={item.postingId}>
           <Box>
             <Image
+              filter={item.doneStatus ? "brightness(40%)" : ""}
               src={item.image}
               onClick={() => onClickMoveDetails(item.postingId)}
             ></Image>
@@ -91,6 +92,7 @@ const Box = styled.div`
   }
 `;
 const Image = styled.img`
+  filter: ${({ filter }) => filter};
   width: 11rem;
   height: 11rem;
   border-radius: 5px;
