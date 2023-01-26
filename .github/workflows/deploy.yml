@@ -27,6 +27,27 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
 
+      # Github Repository Secrets를 통해 환경 변수 파일을 생성합니다.
+      - name: Generate Environment Variables File for Production
+        run: |
+          echo "REACT_APP_BACKAPI=$REACT_APP_BACKAPI" >> .env.production
+          echo "REACT_APP_CLIENT_ID=$REACT_APP_CLIENT_ID" >> .env.production
+          echo "REACT_APP_REDIRECT_URI=$REACT_APP_REDIRECT_URI" >> .env.production
+          echo "REACT_APP_KAKAO_MAP_KEY=$REACT_APP_KAKAO_MAP_KEY" >> .env.production
+          echo "REACT_APP_BUCKET=$REACT_APP_BUCKET" >> .env.production
+          echo "REACT_APP_REGION=$REACT_APP_REGION" >> .env.production
+          echo "REACT_APP_ASSESSKEY_ID=$REACT_APP_ASSESSKEY_ID" >> .env.production
+          echo "REACT_APP_SECRET_ACCESSKEY=$REACT_APP_SECRET_ACCESSKEY" >> .env.production
+        env:
+          REACT_APP_BACKAPI: ${{ secrets.REACT_APP_BACKAPI }}
+          REACT_APP_CLIENT_ID: ${{ secrets.REACT_APP_CLIENT_ID }}
+          REACT_APP_REDIRECT_URI: ${{ secrets.REACT_APP_REDIRECT_URI }}
+          REACT_APP_KAKAO_MAP_KEY: ${{ secrets.REACT_APP_KAKAO_MAP_KEY }}
+          REACT_APP_BUCKET: ${{ secrets.REACT_APP_BUCKET }}
+          REACT_APP_REGION: ${{ secrets.REACT_APP_REGION }}
+          REACT_APP_ASSESSKEY_ID: ${{ secrets.REACT_APP_ASSESSKEY_ID }}
+          REACT_APP_SECRET_ACCESSKEY: ${{ secrets.REACT_APP_SECRET_ACCESSKEY }}
+
       - name: Invalidate CloudFront Cache # 새로 리소스를 업데이트할 때 기존 캐시 무효화
         uses: chetan/invalidate-cloudfront-action@master
         env:
@@ -34,13 +55,5 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
           DISTRIBUTION: ${{ secrets.AWS_DISTRIBUTION_ID }}
-          REACT_APP_CLIENT_ID: ${{ secrets.REACT_APP_CLIENT_ID }}
-          REACT_APP_KAKAO_MAP_KEY: ${{ secrets.REACT_APP_KAKAO_MAP_KEY }}
-          REACT_APP_REDIRECT_URI: ${{ secrets.REACT_APP_REDIRECT_URI }}
-          REACT_APP_BUCKET: ${{ secrets.REACT_APP_BACKAPI }}
-          REACT_APP_REGION: ${{ secrets.REACT_APP_CLIENT_ID }}
-          REACT_APP_ASSESSKEY_ID: ${{ secrets.REACT_APP_KAKAO_MAP_KEY }}
-          REACT_APP_SECRET_ACCESSKEY: ${{ secrets.REACT_APP_REDIRECT_URI }}
-          REACT_APP_BACKAPI: ${{ secrets.REACT_APP_BACKAPI }}
           PATHS: "/index.html"
         continue-on-error: true
