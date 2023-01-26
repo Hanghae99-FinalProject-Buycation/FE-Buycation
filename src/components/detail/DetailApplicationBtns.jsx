@@ -9,10 +9,10 @@ import {
   __cancelApplication,
   __postApplication,
 } from "../../redux/modules/application/applicationSlice";
-import { MdOutlineCancel } from "react-icons/md";
 import { __getParticipatedList } from "../../redux/modules/profile/myListSlice";
 import { __getMyProfile } from "../../redux/modules/profile/profileSlice";
 import applicateBtnIcon from "../../assets/detailIcon/applicateBtnIcon.svg";
+import applicateCancelIcon from "../../assets/detailIcon/applicateCancelIcon.svg";
 
 const DetailApplicationBtns = ({
   details,
@@ -111,8 +111,8 @@ const DetailApplicationBtns = ({
     return (
       <ElApplicationWrap>
         <ButtonBasic _onClick={onClickCancelHandler} background="#939393">
-          <MdOutlineCancel />
-          &nbsp;참가 취소 하기
+          <img src={applicateCancelIcon} alt="" />
+          참가 취소 하기
         </ButtonBasic>
       </ElApplicationWrap>
     );
