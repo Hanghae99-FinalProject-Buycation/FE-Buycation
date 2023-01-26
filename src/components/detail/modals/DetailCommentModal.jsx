@@ -1,36 +1,45 @@
 import styled from "@emotion/styled";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import useOutsideClick from "../../../hooks/useOutsideClick";
+import {
+  __deleteComment,
+  __isSuccess,
+} from "../../../redux/modules/details/commentSlice";
 
-const DetailCommentModal = () => {
-  const [hide, setHide] = useState(false);
+const DetailCommentModal = ({ id, modalId, setModalId }) => {
+  const dispatch = useDispatch();
+  const isSuccess = useSelector((state) => state.comments.isSuccess);
   const onClickModifyCommentHandler = () => {};
-  const onClickDeleteCommentHandler = () => {};
+  const onClickDeleteCommentHandler = () => {
+    dispatch(__deleteComment(id));
+    if (isSuccess) {
+      dispatch(__isSuccess(false));
+    }
+  };
   const onClickCloseHandler = () => {
-    setHide(!hide);
+    setModalId("");
   };
   const ref = useOutsideClick(onClickCloseHandler);
   return (
-    !hide && (
-      <StCommentModal ref={ref}>
-        <button type="button" onClick={onClickModifyCommentHandler}>
-          수정
-        </button>
-        <hr />
-        <button type="button" onClick={onClickDeleteCommentHandler}>
-          삭제
-        </button>
-      </StCommentModal>
-    )
+    <StCommentModal ref={ref} className={modalId === id ? "show" : ""}>
+      <button type="button" onClick={onClickModifyCommentHandler}>
+        수정
+      </button>
+      <hr />
+      <button type="button" onClick={onClickDeleteCommentHandler}>
+        삭제
+      </button>
+    </StCommentModal>
   );
 };
 
 export default DetailCommentModal;
 
 const StCommentModal = styled.div`
-  width: 90px;
-  display: flex;
-  flex-direction: column !important;
+  display: ${(props) => (props.className === "show" ? "flex" : "none")};
+  flex-direction: column;
+  width: 5.5rem;
   position: absolute;
   right: 0;
   bottom: -4.5rem;

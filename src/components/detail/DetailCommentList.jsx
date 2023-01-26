@@ -2,16 +2,19 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 import DetailCommentModal from "./modals/DetailCommentModal";
 import DetailCommentForm from "./DetailCommentForm";
+import { useSelector } from "react-redux";
 
-const DetailCommentList = ({ details, tokenValue, DetailMoreButton }) => {
+const DetailCommentList = ({
+  details,
+  tokenValue,
+  DetailMoreButton,
+  memberId,
+}) => {
   const commentsLength = details.commentList?.length || 0;
-  const [commentModal, setCommentModal] = useState(false);
+  const [modalId, setModalId] = useState("");
 
-  const onClickCommentModalHandler = (e) => {
-    //console.log(e.target.id);
-    if (e.target.id === details.commentList.commentId) {
-      setCommentModal(!commentModal);
-    }
+  const onClickCommentModalHandler = (id) => {
+    setModalId(id);
   };
   return (
     <>
@@ -26,7 +29,7 @@ const DetailCommentList = ({ details, tokenValue, DetailMoreButton }) => {
       {commentsLength !== 0 &&
         details.commentList?.map((comment, idx) => (
           <StCommentList key={comment.nickname[0] + idx}>
-            <div>
+            <StComment>
               <span>
                 <span>
                   {comment.nickname}
@@ -35,18 +38,21 @@ const DetailCommentList = ({ details, tokenValue, DetailMoreButton }) => {
                 <span>{comment.createdAt?.split(" ", 1)}</span>
                 <p>{comment.content}</p>
               </span>
-              {tokenValue && (
+              {tokenValue && memberId === comment.memberId && (
                 <div className="commentOption">
-                  {commentModal && (
-                    <DetailCommentModal id={comment.commentId} />
-                  )}
-                  <DetailMoreButton
-                    onClick={onClickCommentModalHandler}
+                  <DetailCommentModal
                     id={comment.commentId}
+                    modalId={modalId}
+                    setModalId={setModalId}
+                  />
+                  <DetailMoreButton
+                    onClick={() =>
+                      onClickCommentModalHandler(comment.commentId)
+                    }
                   />
                 </div>
               )}
-            </div>
+            </StComment>
             <hr key={"hr" + idx} />
           </StCommentList>
         ))}
@@ -67,13 +73,6 @@ const StCommentWrap = styled.div`
 `;
 
 const StCommentList = styled.div`
-  div {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    font-size: ${({ theme }) => theme.fontSize.sm};
-  }
   span > span:first-of-type {
     display: inline-block;
     margin-bottom: ${({ theme }) => theme.lineHeight.perSpan};
@@ -87,4 +86,12 @@ const StCommentList = styled.div`
   .commentOption {
     position: relative;
   }
+`;
+
+const StComment = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: ${({ theme }) => theme.fontSize.sm};
 `;

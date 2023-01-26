@@ -16,6 +16,7 @@ import DetailApplicationBtns from "./DetailApplicationBtns";
 import DetailCommentList from "./DetailCommentList";
 import DetailCreatorProfile from "./DetailCreatorProfile";
 import DetailContent from "./DetailContent";
+import { __getMyProfile } from "../../redux/modules/profile/profileSlice";
 
 const Detail = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const Detail = () => {
   const { isLoading, error } = useSelector((state) => state.getDetail);
   const details = useSelector((state) => state.getDetail.getDetail);
   const isSuccess = useSelector((state) => state.comments.isSuccess);
+  const { memberId } = useSelector((data) => data.profile.getProfile);
 
   const onClickMoveProfileHandler = (memberId) => {
     navigate(`/profile/${memberId}`);
@@ -34,6 +36,7 @@ const Detail = () => {
 
   useEffect(() => {
     dispatch(__getDetail(postingId));
+    dispatch(__getMyProfile());
   }, [dispatch, postingId, isSuccess]);
 
   if (isLoading) return <Spinners />;
@@ -82,6 +85,7 @@ const Detail = () => {
           details={details}
           tokenValue={tokenValue}
           DetailMoreButton={DetailMoreButton}
+          memberId={memberId}
         />
       </StDetailForm>
     </StDetailWrap>
