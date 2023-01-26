@@ -61,7 +61,7 @@ const HeaderMobile = (props) => {
                   src={alarmIcon}
                   onClick={onClickAlarmModalHandler}
                 />
-                <AlarmNumber display={onAlarmCount === 0 ? "none" : ""}>
+                <AlarmNumber display={onAlarmCount === "0" ? "none" : ""}>
                   <span>{onAlarmCount}</span>
                 </AlarmNumber>
               </AlarmBox>
