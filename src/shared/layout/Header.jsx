@@ -24,6 +24,7 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const modalStatus = useSelector((state) => state.generalModal.toggleModal);
+  const chatStatus = useSelector((state) => state.generalModal.toggleChat);
   //const { alarmCount } = useSelector((data) => data?.alarm);
   const [alarmModal, setAlarmModal] = useState(false);
   const EventSource = EventSourcePolyfill;
@@ -67,7 +68,7 @@ const Header = () => {
             headers: {
               Authorization: tokenValue,
             },
-            //heartbeatTimeout: 120000, //2분
+            heartbeatTimeout: 60 * 1000 * 5, //5분
             withCredentials: true, //크로스 도메인에 요청을 보낼 때 요청에 credential 정보를 담아서 보낼 지를 결정하는 항목
           });
 
