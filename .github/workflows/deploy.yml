@@ -45,5 +45,10 @@ jobs:
           REACT_APP_CLIENT_ID: ${{ secrets.REACT_APP_CLIENT_ID }}
           REACT_APP_KAKAO_MAP_KEY: ${{ secrets.REACT_APP_KAKAO_MAP_KEY }}
           REACT_APP_REDIRECT_URI: ${{ secrets.REACT_APP_REDIRECT_URI }}
+          REACT_APP_BUCKET: ${{ secrets.REACT_APP_BACKAPI }}
+          REACT_APP_REGION: ${{ secrets.REACT_APP_CLIENT_ID }}
+          REACT_APP_ASSESSKEY_ID: ${{ secrets.REACT_APP_KAKAO_MAP_KEY }}
+          REACT_APP_SECRET_ACCESSKEY: ${{ secrets.REACT_APP_REDIRECT_URI }}
+          REACT_APP_BACKAPI: ${{ secrets.REACT_APP_BACKAPI }}
           PATHS: "/index.html"
         continue-on-error: true
