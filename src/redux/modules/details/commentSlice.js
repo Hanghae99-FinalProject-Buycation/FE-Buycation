@@ -37,6 +37,20 @@ export const __getComment = createAsyncThunk(
   }
 );
 
+export const __deleteComment = createAsyncThunk(
+  "comment/delete",
+  async (payload, thunkAPI) => {
+    try {
+      const { data } = await baseURLwToken.delete(
+        `posting/comments/${payload}`
+      );
+      // return thunkAPI.fulfillWithValue(data)
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
 export const commentSlice = createSlice({
   name: "comments",
   initialState,
@@ -54,6 +68,10 @@ export const commentSlice = createSlice({
       })
       .addCase(__getComment.fulfilled, (state, action) => {
         state.getComment = action.payload;
+      })
+      .addCase(__deleteComment.fulfilled, (state, action) => {
+        state.deleteComment = action.payload;
+        state.isSuccess = true;
       });
   },
 });
