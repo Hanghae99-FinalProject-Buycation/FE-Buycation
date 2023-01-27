@@ -9,6 +9,7 @@ const theme = {
     grayWeak: "#D9D9D9", // 회색 비강조
     grayMid: "#A6A6A6",
     grayStrong: "#939393", // 회색 강조
+    grayHover: "#616161", //호버 시 진한 회색
     imgFilter:
       "invert(41%) sepia(45%) saturate(1242%) hue-rotate(317deg) brightness(112%) contrast(101%);",
   },

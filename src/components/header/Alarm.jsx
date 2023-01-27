@@ -97,6 +97,9 @@ const StPostingOption = styled.div`
       color: ${({ theme }) => theme.colors.grayStrong};
       font-weight: 600;
     }
+    span:nth-of-type(2):hover {
+      color: ${({ theme }) => theme.colors.grayHover};
+    }
   }
 `;
 
@@ -127,5 +130,8 @@ const PerAlarm = styled.div`
     margin-top: 6px;
     font-size: ${({ theme }) => theme.fontSize.xs};
     color: ${({ theme }) => theme.colors.grayStrong};
+  }
+  img:hover {
+    filter: ${({ theme }) => theme.colors.imgFilter};
   }
 `;
