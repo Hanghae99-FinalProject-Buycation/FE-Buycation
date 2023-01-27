@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { baseURL, baseURLwToken } from "../../../core/axios";
+import { baseURLwToken } from "../../../core/axios";
 
 const initialState = {
   getComment: [],

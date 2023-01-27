@@ -9,7 +9,6 @@ import DetailSpan from "./elements/DetailSpan";
 import DetailMoreButton from "./elements/DetailMoreButton";
 import DetailApplicationBody from "./DetailApplicationBody";
 import { getCookies } from "../../core/cookie";
-// import { longTitleForm, titleForm } from "../../utils/editedData";
 import { Spinners } from "../../shared/layout/Spinners";
 import useBuyLocation from "../../hooks/useBuyLocation";
 import DetailApplicationBtns from "./DetailApplicationBtns";

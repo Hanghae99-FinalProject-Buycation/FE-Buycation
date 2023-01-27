@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 import DetailCommentModal from "./modals/DetailCommentModal";
 import DetailCommentForm from "./DetailCommentForm";
-import { useSelector } from "react-redux";
 
 const DetailCommentList = ({
   details,
