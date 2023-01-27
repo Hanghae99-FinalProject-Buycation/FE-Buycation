@@ -27,7 +27,6 @@ const SignIn = () => {
 
   useEffect(() => {
     if (postSigninData.isSuccess) {
-      //alert : 일단 라이브러리 사용 - 커스텀 불편
       Swal.fire({
         text: postSigninData.alertMsg,
         confirmButtonText: "확인",
