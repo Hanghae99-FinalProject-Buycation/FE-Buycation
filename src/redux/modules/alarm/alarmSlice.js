@@ -52,7 +52,6 @@ export const __patchAlarmState = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await baseURLwToken.patch(`alarm/${payload}`);
-      console.log(data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
