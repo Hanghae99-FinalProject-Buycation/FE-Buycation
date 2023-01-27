@@ -170,7 +170,7 @@ const Posting = () => {
                 name="address"
                 placeholder="이웃과 거래하고 싶은 장소를 선택해 주세요."
                 value={address}
-                _onChange={onChangeValueHandler}
+                onChange={onChangeValueHandler}
               />
               <ButtonBasic
                 width="5rem"

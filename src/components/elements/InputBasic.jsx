@@ -62,7 +62,6 @@ InputBasic.defaultProps = {
   gridArea: "",
   name: "",
   placeholder: "",
-  defaultValue: "",
   _onChange: () => {},
 };
 
