@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
 import { over } from "stompjs";
@@ -16,6 +16,7 @@ import profileIcon from "../../assets/headerIcon/profileIcon.svg";
 import { titleForm } from "../../utils/editedData";
 import useWindowResize from "../../hooks/useWindowResize";
 import useOutsideClick from "../../hooks/useOutsideClick";
+import ChatZone from "./ChatZone";
 
 var stompClient = null;
 const Chatroom = () => {
@@ -23,8 +24,6 @@ const Chatroom = () => {
   const [roomId, setRoomId] = useState(null);
   const [hide, setHide] = useState(false);
   const [privateChats, setPrivateChats] = useState(new Map());
-  const [list, setList] = useState([]);
-  // const [publicChats, setPublicChats] = useState([]);
   const [tab, setTab] = useState("");
   const [userData, setUserData] = useState({
     sender: "",
@@ -35,10 +34,17 @@ const Chatroom = () => {
   });
 
   const chatList = useSelector((state) => state.chat.getChatList);
-  const chatBody = useSelector((state) => state.chat.getChatRoom);
+  const { nickname, talks } = useSelector((state) => state.chat.getChatRoom);
   const chatStatus = useSelector((state) => state.generalModal.toggleChat);
   const { innerWidth } = useWindowResize();
   const ref = useOutsideClick(() => dispatch(sendChatStatus(!chatStatus)));
+  const bottomRef = useRef(null);
+
+  const onPressEnterHandler = (e) => {
+    if (e.keyCode === 13) {
+      sendPrivateValue();
+    }
+  };
 
   const connect = () => {
     let Sock = new SockJS("http://54.180.87.207:8080/ws");
@@ -47,53 +53,37 @@ const Chatroom = () => {
   };
 
   const onConnected = () => {
-    setUserData({ ...userData, connected: true, sender: "buycation" });
-    // stompClient.subscribe("/chatroom/public", onMessageReceived);
-    stompClient.subscribe(`/talk/room/${roomId}`, onPrivateMessage);
+    setUserData({ ...userData, connected: true, sender: nickname });
+    // stompClient.subscribe(`/talk/${roomId}`, onPrivateMessage);
     userJoin();
   };
 
+  const bringPrevMessages = () => {
+    // DB에 있는 걸 privateChats에 박을 거임
+    // talks를 불러옴
+    privateChats.set(nickname, talks);
+  };
+  // console.log(talks);
+
   const userJoin = () => {
     var chatMessage = {
-      sender: userData.sender,
+      sender: nickname,
       status: "JOIN",
     };
-    // stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
-    // stompClient.send("/talk", {}, JSON.stringify(chatMessage));
-    stompClient.send("/talk/room", {}, JSON.stringify(chatMessage));
-    // stompClient.send("/talk/${roomid}", {}, JSON.stringify(chatMessage));
+    stompClient.send("/send", {}, JSON.stringify(chatMessage));
   };
-
-  const onMessageReceived = (payload) => {
-    var payloadData = JSON.parse(payload.body);
-    switch (payloadData.status) {
-      case "JOIN":
-        if (!privateChats.get(payloadData.sender)) {
-          privateChats.set(payloadData.sender, []);
-          setPrivateChats(new Map(privateChats));
-        }
-        break;
-      /* case "MESSAGE":
-        publicChats.push(payloadData);
-        setPublicChats([...publicChats]);
-        break; */
-      // 내가 추가함
-      default:
-        return;
-    }
-  };
-  // const [list, setList] = useState([]);
 
   const onPrivateMessage = (payload) => {
-    console.log(payload);
-    var payloadData = JSON.parse(payload.body);
+    let payloadData = JSON.parse(payload.body);
     if (privateChats.get(payloadData.sender)) {
-      // privateChats.get(payloadData.sender).push(payloadData);
+      console.log("여긴가");
+      privateChats.get(payloadData.sender).push(payloadData);
       setPrivateChats(new Map(privateChats));
+      console.log(privateChats);
     } else {
-      // let list = [];
-      // list.push(payloadData);
-      setList(...list, payloadData);
+      console.log("저긴가");
+      let list = [];
+      list.push(payloadData);
       privateChats.set(payloadData.sender, list);
       setPrivateChats(new Map(privateChats));
     }
@@ -107,61 +97,41 @@ const Chatroom = () => {
     const { value } = event.target;
     setUserData({ ...userData, message: value });
   };
-  /*   const sendValue = () => {
-    if (stompClient) {
-      var chatMessage = {
-        sender: userData.sender,
-        message: userData.message,
-        status: "MESSAGE",
-      };
-      console.log(chatMessage);
-      // stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
-      stompClient.send("/talk", {}, JSON.stringify(chatMessage));
-      setUserData({ ...userData, message: "" });
-    }
-  }; */
 
   const sendPrivateValue = () => {
-    console.log("stompClient: ", stompClient);
     if (stompClient) {
-      var chatMessage = {
-        // sender: userData.sender,
-        sender: "david",
+      let chatMessage = {
+        sender: nickname,
         receiver: tab,
         message: userData.message,
         status: "MESSAGE",
       };
 
-      if (userData.sender !== tab) {
+      // if (userData.sender !== tab) {
+      if (!privateChats.size) {
+        console.log(privateChats);
+        privateChats.set(nickname, []);
         // privateChats.get(tab).push(chatMessage);
+        privateChats.get(nickname).push(chatMessage);
         setPrivateChats(new Map(privateChats));
       }
-      // stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
-      // stompClient.send(`/talk/${roomId}`, {}, JSON.stringify(chatMessage));
-      stompClient.send(`/talk/room/${roomId}`, {}, JSON.stringify(chatMessage));
+      stompClient.send(`/send/${roomId}`, {}, JSON.stringify(chatMessage));
       setUserData({ ...userData, message: "" });
     }
-  };
-
-  const handlesender = (event) => {
-    const { value } = event.target;
-    setUserData({ ...userData, sender: value });
-  };
-
-  const registerUser = () => {
-    connect();
   };
 
   const onClickSelectRoomHandler = (roomNo) => {
     dispatch(__getChatRoom(roomNo));
     setRoomId(roomNo);
+    stompClient.subscribe(`/talk/${roomId}`, onPrivateMessage);
   };
 
   useEffect(() => {
     connect();
     dispatch(__getChatList());
-    console.log(userData);
-  }, [dispatch, userData]);
+    bringPrevMessages();
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [dispatch, privateChats]);
 
   return (
     <StWrap ref={ref}>
@@ -190,10 +160,8 @@ const Chatroom = () => {
           />
         )}
       </div>
-      {/* {userData.connected ? ( */}
       <StChatContainer className={innerWidth < 768 ? hide : ""}>
         <StChatList className={innerWidth < 768 ? `${!hide} list` : ""}>
-          {/* <StChatList style={{ display: innerWidth < 768 ? "" : "" }}> */}
           <ul>
             {chatList?.map((room) => (
               <StChatRooms
@@ -201,15 +169,15 @@ const Chatroom = () => {
                   setTab(room.title);
                   onClickSelectRoomHandler(room.id);
                   innerWidth < 768 ? setHide(!hide) : setHide(true);
-                  console.log(hide);
                 }}
                 // className={tab === room.id}
                 key={room.id}
               >
                 <ElChatRoomImage src={"test.jpg"} alt="" />
+                {/* {console.log(talks[talks.length - 1]?.sendDate)} */}
                 <DetailSpan
                   titleText={titleForm(room?.title)}
-                  bodyText="n분전"
+                  bodyText="n분 전"
                   margin="0 0 0.25rem"
                   fontSize="0.8rem"
                   fontWeight="400"
@@ -219,7 +187,6 @@ const Chatroom = () => {
             ))}
           </ul>
         </StChatList>
-        {/* <StRoomWrap style={{ display: innerWidth < 768 ? hide : "" }}> */}
         <StRoomWrap className={innerWidth < 768 ? `${hide} room` : !hide}>
           <StChatRoomTitle>
             <div>
@@ -236,36 +203,20 @@ const Chatroom = () => {
             </span>
           </StChatRoomTitle>
           <StChatZone className={!hide}>
-            {/* {[...privateChats.get(tab)].map((chat, index) => ( */}
-            {chatBody?.map((chat, index) => (
-              <StChatBubble
-                className={`${chat.sender === userData.sender && "self"}`}
-                key={index}
-              >
-                {/* 보낸 사람 이름 */}
-                {chat.sender !== userData.sender && (
-                  <StSender>{chat.sender}</StSender>
-                )}
-
-                {/* 메시지 */}
-                <div className="bubbleWrap">
-                  <StChatMsg>{chat.message}</StChatMsg>
-                  <span>{chat.sendDate.split("T")[0]}</span>
-                </div>
-
-                {/* 유저 부분 */}
-                {chat.sender === userData.sender && (
-                  // <div className="avatar self">{chat.sender}</div>
-                  <StSenderSelf>작성자</StSenderSelf>
-                )}
-              </StChatBubble>
-            ))}
+            <ChatZone
+              privateChats={privateChats}
+              talks={talks}
+              userData={userData}
+              nickname={nickname}
+            />
+            <div ref={bottomRef} id="bottom" />
           </StChatZone>
           <StSendZone>
             <input
               type="text"
               placeholder="메시지를 입력해주세요"
               value={userData.message}
+              onKeyDown={onPressEnterHandler}
               onChange={handleMessage}
             />
             <IoMdSend color="#ff5f5a" size="1rem" onClick={sendPrivateValue} />
@@ -342,7 +293,6 @@ const StChatContainer = styled.div`
 const StChatList = styled.ul`
   grid-area: chatlist;
   width: 100%;
-  /* height: calc(100% - 4rem); */
   border-right: 0.1rem solid ${({ theme }) => theme.colors.grayWeak};
   @media screen and (max-width: 48rem) {
     height: 100%;
@@ -379,7 +329,6 @@ const StRoomWrap = styled.div`
   grid-template-rows: 4rem 1fr auto;
   grid-area: chatroom;
   width: 100%;
-  /* height: calc(100% - 4rem); */
   @media screen and (max-width: 48rem) {
     height: 100%;
   }
@@ -417,45 +366,6 @@ const StChatZone = styled.div`
   overflow-y: scroll;
 `;
 
-const StChatBubble = styled.li`
-  display: flex;
-  flex-direction: column;
-  margin: 1rem 0;
-
-  .bubbleWrap {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-
-    span {
-      display: inline-block;
-      width: 14ch;
-      margin-left: 0.25rem;
-      font-size: ${({ theme }) => theme.fontSize.xs};
-      color: ${({ theme }) => theme.colors.grayWeak};
-    }
-  }
-`;
-
-const StSender = styled.div`
-  background: #fff;
-  font-size: ${({ theme }) => theme.fontSize.sm};
-  margin-bottom: 0.25rem;
-`;
-
-const StSenderSelf = styled.div`
-  font-size: ${({ theme }) => theme.fontSize.sm};
-  justify-content: end;
-`;
-
-const StChatMsg = styled.div`
-  width: fit-content;
-  padding: 0.25rem 0.25rem 0.25rem 0.5rem;
-  border-radius: 0 1rem 1rem 1.5rem;
-  background: ${({ theme }) => theme.colors.grayWeak};
-  font-size: ${({ theme }) => theme.fontSize.sm};
-`;
-
 const StSendZone = styled.div`
   display: flex;
   flex-direction: row;
@@ -468,6 +378,7 @@ const StSendZone = styled.div`
   background: ${({ theme }) => theme.colors.grayList};
 
   input {
+    width: 100%;
     background: ${({ theme }) => theme.colors.grayList};
   }
 `;

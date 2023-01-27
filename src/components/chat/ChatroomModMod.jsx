@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { over } from "stompjs";
 import SockJS from "sockjs-client";
+import styled from "@emotion/styled";
 
-var stompClient = null;
+let stompClient = null;
 const ChatRoom = () => {
   const [privateChats, setPrivateChats] = useState(new Map());
   const [publicChats, setPublicChats] = useState([]);
@@ -14,11 +15,11 @@ const ChatRoom = () => {
     message: "",
   });
   useEffect(() => {
-    console.log(userData);
+    // console.log(userData);
   }, [userData]);
 
   const connect = () => {
-    let Sock = new SockJS("http://localhost:8080/ws");
+    let Sock = new SockJS("http://54.180.87.207:8080/ws");
     stompClient = over(Sock);
     stompClient.connect({}, onConnected, onError);
   };
@@ -27,26 +28,28 @@ const ChatRoom = () => {
     setUserData({ ...userData, connected: true });
     stompClient.subscribe("/chatroom/public", onMessageReceived);
     stompClient.subscribe(
-      "/user/" + userData.username + "/private",
+      // "/user/" + userData.username + "/private",
+      "/talk/1",
       onPrivateMessage
     );
     userJoin();
   };
 
   const userJoin = () => {
-    var chatMessage = {
-      senderName: userData.username,
+    let chatMessage = {
+      sender: userData.username,
       status: "JOIN",
     };
-    stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+    // stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+    stompClient.send("/send", {}, JSON.stringify(chatMessage));
   };
 
   const onMessageReceived = (payload) => {
-    var payloadData = JSON.parse(payload.body);
+    let payloadData = JSON.parse(payload.body);
     switch (payloadData.status) {
       case "JOIN":
-        if (!privateChats.get(payloadData.senderName)) {
-          privateChats.set(payloadData.senderName, []);
+        if (!privateChats.get(payloadData.sender)) {
+          privateChats.set(payloadData.sender, []);
           setPrivateChats(new Map(privateChats));
         }
         break;
@@ -54,19 +57,22 @@ const ChatRoom = () => {
         publicChats.push(payloadData);
         setPublicChats([...publicChats]);
         break;
+
+      default:
+        break;
     }
   };
 
   const onPrivateMessage = (payload) => {
     console.log(payload);
-    var payloadData = JSON.parse(payload.body);
-    if (privateChats.get(payloadData.senderName)) {
-      privateChats.get(payloadData.senderName).push(payloadData);
+    let payloadData = JSON.parse(payload.body);
+    if (privateChats.get(payloadData.sender)) {
+      privateChats.get(payloadData.sender).push(payloadData);
       setPrivateChats(new Map(privateChats));
     } else {
       let list = [];
       list.push(payloadData);
-      privateChats.set(payloadData.senderName, list);
+      privateChats.set(payloadData.sender, list);
       setPrivateChats(new Map(privateChats));
     }
   };
@@ -81,21 +87,22 @@ const ChatRoom = () => {
   };
   const sendValue = () => {
     if (stompClient) {
-      var chatMessage = {
-        senderName: userData.username,
+      let chatMessage = {
+        sender: userData.username,
         message: userData.message,
         status: "MESSAGE",
       };
       console.log(chatMessage);
-      stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+      // stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+      stompClient.send("/send/1", {}, JSON.stringify(chatMessage));
       setUserData({ ...userData, message: "" });
     }
   };
 
   const sendPrivateValue = () => {
     if (stompClient) {
-      var chatMessage = {
-        senderName: userData.username,
+      let chatMessage = {
+        sender: userData.username,
         receiverName: tab,
         message: userData.message,
         status: "MESSAGE",
@@ -105,7 +112,8 @@ const ChatRoom = () => {
         privateChats.get(tab).push(chatMessage);
         setPrivateChats(new Map(privateChats));
       }
-      stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
+      // stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
+      stompClient.send("/send/1", {}, JSON.stringify(chatMessage));
       setUserData({ ...userData, message: "" });
     }
   };
@@ -119,7 +127,7 @@ const ChatRoom = () => {
     connect();
   };
   return (
-    <div className="container">
+    <StWrap className="container">
       {userData.connected ? (
         <div className="chat-box">
           <div className="member-list">
@@ -151,16 +159,16 @@ const ChatRoom = () => {
                 {publicChats.map((chat, index) => (
                   <li
                     className={`message ${
-                      chat.senderName === userData.username && "self"
+                      chat.sender === userData.username && "self"
                     }`}
                     key={index}
                   >
-                    {chat.senderName !== userData.username && (
-                      <div className="avatar">{chat.senderName}</div>
+                    {chat.sender !== userData.username && (
+                      <div className="avatar">{chat.sender}</div>
                     )}
                     <div className="message-data">{chat.message}</div>
-                    {chat.senderName === userData.username && (
-                      <div className="avatar self">{chat.senderName}</div>
+                    {chat.sender === userData.username && (
+                      <div className="avatar self">{chat.sender}</div>
                     )}
                   </li>
                 ))}
@@ -190,16 +198,16 @@ const ChatRoom = () => {
                 {[...privateChats.get(tab)].map((chat, index) => (
                   <li
                     className={`message ${
-                      chat.senderName === userData.username && "self"
+                      chat.sender === userData.username && "self"
                     }`}
                     key={index}
                   >
-                    {chat.senderName !== userData.username && (
-                      <div className="avatar">{chat.senderName}</div>
+                    {chat.sender !== userData.username && (
+                      <div className="avatar">{chat.sender}</div>
                     )}
                     <div className="message-data">{chat.message}</div>
-                    {chat.senderName === userData.username && (
-                      <div className="avatar self">{chat.senderName}</div>
+                    {chat.sender === userData.username && (
+                      <div className="avatar self">{chat.sender}</div>
                     )}
                   </li>
                 ))}
@@ -239,8 +247,142 @@ const ChatRoom = () => {
           </button>
         </div>
       )}
-    </div>
+    </StWrap>
   );
 };
 
 export default ChatRoom;
+
+const StWrap = styled.div`
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+      "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+      "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+      monospace;
+  }
+
+  input {
+    padding: 10px;
+    font-size: 1.2em;
+  }
+  button {
+    border: none;
+    padding: 10px;
+    background: green;
+    color: #fff;
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+
+  .container {
+    position: relative;
+  }
+
+  .register {
+    position: fixed;
+    padding: 30px;
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+      0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+      0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+      0 100px 80px rgba(0, 0, 0, 0.12);
+    top: 35%;
+    left: 32%;
+    display: flex;
+    flex-direction: row;
+  }
+  .chat-box {
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+      0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+      0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+      0 100px 80px rgba(0, 0, 0, 0.12);
+    margin: 40px 50px;
+    height: 600px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .member-list {
+    width: 20%;
+  }
+
+  .chat-content {
+    width: 80%;
+    margin-left: 10px;
+  }
+
+  .chat-messages {
+    height: 80%;
+    border: 1px solid #000;
+  }
+
+  .send-message {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .input-message {
+    width: 90%;
+    border-radius: 50px;
+  }
+
+  ul {
+    padding: 0;
+    list-style-type: none;
+  }
+  .send-button {
+    width: 10%;
+    border-radius: 50px;
+    margin-left: 5px;
+    cursor: pointer;
+  }
+  .member {
+    padding: 10px;
+    background: #eee;
+    border: #000;
+    cursor: pointer;
+    margin: 5px 2px;
+    box-shadow: 0 8px 8px -4px lightblue;
+  }
+  .member.active {
+    background: blueviolet;
+    color: #fff;
+  }
+  .member:hover {
+    background: grey;
+    color: #fff;
+  }
+
+  .avatar {
+    background-color: cornflowerblue;
+    padding: 3px 5px;
+    border-radius: 5px;
+    color: #fff;
+  }
+  .avatar.self {
+    color: #000;
+    background-color: greenyellow;
+  }
+  .message {
+    padding: 5px;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    margin: 5px 10px;
+  }
+  .message-data {
+    padding: 5px;
+  }
+  .message.self {
+    justify-content: end;
+  }
+`;
