@@ -14,7 +14,6 @@ const MyParicipation = () => {
   const participatedList = useSelector((data) => data.myList.participatedList);
   const [reviewModal, setReviewModal] = useState(false);
   const [postingID, setPostingID] = useState("");
-  console.log(participatedList);
 
   const onClickReviewHandler = (postingId) => {
     setReviewModal(true);

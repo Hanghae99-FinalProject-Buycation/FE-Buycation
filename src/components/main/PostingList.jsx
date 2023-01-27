@@ -113,7 +113,7 @@ const Section = styled.div`
   grid-area: "list";
   @media screen and (max-width: 768px) {
     border-top: 2px solid ${({ theme }) => theme.colors.grayStrong};
-    border-radius: 8px;
+    border-radius: 12px;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25), 0px 0px 12px rgba(0, 0, 0, 0.1);
   }
 `;
