@@ -1,14 +1,24 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
+import Swal from "sweetalert2";
+
 import ButtonBasic from "../elements/ButtonBasic";
 import InputBasic from "../elements/InputBasic";
-import SignupPieceMobile from "./SignupPieceMobile";
 import {
   __getEmailValidation,
   __getNicknameDouble,
   __getEmailValidationCheck,
+  __isSuccess,
 } from "../../redux/modules/login/signupSlice";
+import useWindowResize from "../../hooks/useWindowResize";
+import {
+  emailCheck,
+  emailForm,
+  nicknameCheck,
+  passCheck,
+  passValidate,
+} from "./checkSignup";
 
 const SignupPiece = (props) => {
   const {
@@ -19,18 +29,77 @@ const SignupPiece = (props) => {
     value,
     signupForm,
     compare,
+    // getMsg,
   } = props;
   const dispatch = useDispatch();
-  const nicknameCheck = /^.[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-Z|0-9][\W|\s/g/]{2,10}$/;
-  const spaceCheck = /[\s]/g;
-  const passCheck =
-    /(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
+
+  const isSuccess = useSelector((state) => state.postSignup.isSuccess);
+
+  const { innerWidth } = useWindowResize();
+  const onClickEmailValidationHandler = () => {
+    if (!emailCheck.test(signupForm.email)) {
+      alert("이메일 형식을 지켜주세요");
+    } else {
+      dispatch(__getEmailValidation(signupForm.email)).then((res) =>
+        Swal.fire({
+          text: res.payload.msg,
+          confirmButtonColor: "#FF5A5F",
+        })
+      );
+    }
+  };
+  const onClickEmailValidationCheckHandler = () => {
+    dispatch(
+      __getEmailValidationCheck({
+        email: signupForm.email,
+        code: compare.emailValidation,
+      })
+    ).then((res) =>
+      Swal.fire({
+        text: res.payload.msg,
+        confirmButtonColor: "#FF5A5F",
+      })
+    );
+  };
+
+  const onClickNicknameHandler = () => {
+    if (
+      // !nicknameCheck.test(signupForm.nickname) ||
+      signupForm.nickname.trim() !== ""
+    ) {
+      /* {
+      Swal.fire({
+        text: "2~10자, 공백 없이 한글, 영문, 숫자로만 입력해주세요.",
+        padding: "1rem",
+        confirmButtonColor: "#FF5A5F",
+      });
+    } else  */
+      dispatch(__getNicknameDouble(signupForm.nickname)).then((res) =>
+        Swal.fire({
+          text: res.payload,
+          padding: "1rem",
+          confirmButtonColor: "#FF5A5F",
+        })
+      );
+    }
+  };
+
+  useEffect(() => {}, [dispatch]);
+
   return (
-    <StGridWrap style={{ gridTemplateAreas: item.gridTemplateAreas }}>
+    <StGridWrap
+      style={{
+        gridTemplateAreas:
+          innerWidth > 768
+            ? item.gridTemplateAreas
+            : item.gridTemplateAreasMobile,
+      }}
+      className={innerWidth > 768 ? "" : "mobile"}
+    >
       {/* 이메일 */}
       {item.name === "email" && (
         <>
-          <span style={{ margin: "0 0 -0.5rem 0" }}>{item.title}</span>
+          <span>{item.title}</span>
           <InputBasic
             type={item.type}
             name={item.name}
@@ -41,9 +110,7 @@ const SignupPiece = (props) => {
           />
           <ButtonBasic
             gridArea="elBtn"
-            _onClick={() => {
-              dispatch(__getEmailValidation(signupForm.email));
-            }}
+            _onClick={onClickEmailValidationHandler}
             margin="0 0 -0.5rem 0"
           >
             {item.btnText}
@@ -62,16 +129,7 @@ const SignupPiece = (props) => {
             _onChange={onChangeHandler}
           />
           {item.name === "nickname" && (
-            <ButtonBasic
-              gridArea="elBtn"
-              _onClick={() =>
-                signupForm.nickname.trim() !== ""
-                  ? dispatch(__getNicknameDouble(signupForm.nickname))
-                  : alert(
-                      "2~10자, 공백 없이 한글, 영문, 숫자로만 입력해주세요."
-                    )
-              }
-            >
+            <ButtonBasic gridArea="elBtn" _onClick={onClickNicknameHandler}>
               {item.btnText}
             </ButtonBasic>
           )}
@@ -83,9 +141,7 @@ const SignupPiece = (props) => {
           {item.title}{" "}
           <span
             style={{ textDecoration: "underline" }}
-            onClick={() => {
-              dispatch(__getEmailValidation(signupForm.email));
-            }}
+            onClick={onClickEmailValidationHandler}
           >
             {item.titleTwo}
           </span>
@@ -104,14 +160,7 @@ const SignupPiece = (props) => {
           />
           <ButtonBasic
             gridArea="elBtn"
-            _onClick={() => {
-              dispatch(
-                __getEmailValidationCheck({
-                  email: signupForm.email,
-                  code: compare.emailValidation,
-                })
-              );
-            }}
+            _onClick={onClickEmailValidationCheckHandler}
           >
             {item.btnText}
           </ButtonBasic>
@@ -132,21 +181,23 @@ const SignupPiece = (props) => {
       )}
       {/* 비밀번호 일치 알림 */}
       {item.name === "passAlert" &&
-        // signupForm.password.search(passCheck) &&
-        // compare.passwordCheck.search(passCheck) &&
         signupForm.password.trim() !== "" &&
         compare.passwordCheck.trim() !== "" && (
           <span style={{ fontSize: "12px", margin: "-0.5rem 0" }}>
-            {signupForm.password !== compare.passwordCheck ? (
-              <span style={{ color: "#f04452" }}>
-                비밀번호 형식이나 내용이 일치하지 않습니다.
-              </span>
-            ) : (
-              <span style={{ color: "#34C759" }}>비밀번호 사용 가능</span>
-            )}
+            {/* {signupForm.password !== compare.passwordCheck ? ( */}
+            <span
+              style={{
+                color:
+                  signupForm.password !== compare.passwordCheck ||
+                  !passCheck.test(signupForm.password)
+                    ? "#f04452"
+                    : "#34C759",
+              }}
+            >
+              {passValidate(signupForm.password, compare.passwordCheck)}
+            </span>
           </span>
         )}
-
       {/* 주소 */}
       {item.name === "address" && (
         <>
@@ -179,7 +230,8 @@ export default SignupPiece;
 
 const StGridWrap = styled.div`
   display: grid;
-  grid-template-columns: 8rem 15.5rem 4.5rem;
+  grid-template-columns: ${(props) =>
+    props.className ? "15.5rem 4.5rem" : "8rem 15.5rem 4.5rem"};
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0;
