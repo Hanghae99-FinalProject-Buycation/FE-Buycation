@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "@emotion/styled";
+import { useEffect } from "react";
+import { Spinners } from "../../shared/layout/Spinners";
+import { useDispatch } from "react-redux";
+import { __getChatRoom } from "../../redux/modules/chat/chatSlice";
 
-const ChatZone = ({ privateChats, talks, userData, nickname }) => {
-  console.log(privateChats);
-  // if (privateChats?.size > 0)
-  if (0 === 1)
+const ChatZone = ({ privateChats, userData, nickname, talks, tab, roomId }) => {
+  const bottomRef = useRef(null);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // room dispatch 하면 무한렌더링 됨
+    bottomRef.current?.scrollIntoView();
+  }, [privateChats]);
+
+  if (privateChats.size === 0 || !privateChats.get(tab)) return <Spinners />;
+
+  if (privateChats.get(tab)?.length > 0)
     return (
       <>
-        {[...privateChats?.get(nickname)]?.map((chat, index) =>
+        {[...privateChats?.get(tab)]?.map((chat, index) =>
           chat.sender !== nickname ? (
             <StChatBubble key={index}>
               {chat.sender !== userData.sender && (
@@ -15,39 +27,21 @@ const ChatZone = ({ privateChats, talks, userData, nickname }) => {
               )}
               <StBubbleWrap>
                 <StChatMsg>{chat.message}</StChatMsg>
-                <span>{chat.sendDate.split("T")[0]}</span>
+                <span>{chat.sendDate?.split("T")[0]}</span>
               </StBubbleWrap>
             </StChatBubble>
           ) : (
             <StChatBubble key={"user" + index} className="self">
               <StBubbleWrap className="self">
-                <span>{chat.sendDate.split("T")[0]}</span>
+                <span>{chat.sendDate?.split("T").join(" ")}</span>
                 <StChatMsg className="self">{chat.message}</StChatMsg>
               </StBubbleWrap>
             </StChatBubble>
           )
         )}
+        <div ref={bottomRef} id="bottom" />
       </>
     );
-
-  return talks?.map((chat, index) =>
-    chat.sender !== nickname ? (
-      <StChatBubble key={"user" + index}>
-        {chat.sender !== userData.sender && <StSender>{chat.sender}</StSender>}
-        <StBubbleWrap>
-          <StChatMsg>{chat.message}</StChatMsg>
-          <span>{chat.sendDate?.split("T")[0]}</span>
-        </StBubbleWrap>
-      </StChatBubble>
-    ) : (
-      <StChatBubble key={"user" + index} className="self">
-        <StBubbleWrap className="self">
-          <span>{chat.sendDate?.split("T")[0]}</span>
-          <StChatMsg className="self">{chat.message}</StChatMsg>
-        </StBubbleWrap>
-      </StChatBubble>
-    )
-  );
 };
 
 export default ChatZone;
