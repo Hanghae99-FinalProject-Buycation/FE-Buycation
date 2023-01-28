@@ -106,6 +106,7 @@ const Header = () => {
     <>
       {innerWidth > 768 ? (
         <HeaderPc
+          onInnerWidth={innerWidth}
           onAlarmCount={alarmCount}
           onClickAlarmModalHandler={onClickAlarmModalHandler}
           onMoveSelectPageHandler={onMoveSelectPageHandler}
@@ -115,6 +116,7 @@ const Header = () => {
         />
       ) : (
         <HeaderMobile
+          onInnerWidth={innerWidth}
           onAlarmCount={alarmCount}
           onClickAlarmModalHandler={onClickAlarmModalHandler}
           onMoveSelectPageHandler={onMoveSelectPageHandler}
