@@ -13,7 +13,6 @@ export const __getCreatedList = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await baseURLwToken.get(`profile/${payload}/myposting`);
-      //console.log("생성한 게시글", data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -28,7 +27,6 @@ export const __getParticipatedList = createAsyncThunk(
       const { data } = await baseURLwToken.get(
         `profile/${payload}/joinposting`
       );
-      //console.log("참여한 게시글", data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

@@ -76,8 +76,6 @@ const EditProfileModal = (props) => {
   };
 
   const onClickEditHandler = () => {
-    console.log(myProfileData.nickname);
-    console.log(editValue.nickname);
     const newPatchData = {
       memberId: myProfileData.memberId,
       nickname: editValue.nickname,
