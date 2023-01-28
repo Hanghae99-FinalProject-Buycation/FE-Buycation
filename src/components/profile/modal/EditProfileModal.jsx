@@ -88,7 +88,11 @@ const EditProfileModal = (props) => {
       myProfileData.nickname !== editValue.nickname &&
       duplicateCheck === false
     ) {
-      alert("닉네임 중복 체크가 필요합니다.");
+      Swal.fire({
+        text: "닉네임 중복 체크를 해주세요.",
+        confirmButtonText: "확인",
+        confirmButtonColor: "#FF5A5F",
+      });
     } else {
       dispatch(__patchProfile(newPatchData));
     }
