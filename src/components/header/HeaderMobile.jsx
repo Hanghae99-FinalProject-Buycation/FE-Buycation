@@ -28,7 +28,6 @@ const HeaderMobile = (props) => {
   const modalStatus = useSelector((state) => state.generalModal.toggleModal);
   const [showUserGuide, setShowUserGuide] = useState(false);
 
-  //헤더 아이콘 기능
   const onMoveLoginHandler = () => {
     navigate("/login");
     dispatch(sendModalStatus(true));
@@ -129,10 +128,6 @@ const Icon = styled.div`
   display: flex;
   gap: 23px;
   cursor: pointer;
-  img {
-    width: 25px;
-    height: 25px;
-  }
 
   .mainColor {
     filter: ${({ theme }) => theme.colors.imgFilter};
@@ -164,8 +159,4 @@ const AlarmNumber = styled.div`
 const LoginBox = styled.div`
   display: flex;
   gap: 0.8rem;
-  img {
-    width: 25px;
-    height: 25px;
-  }
 `;

@@ -41,7 +41,7 @@ const Alarm = (props) => {
     <StPostingOption top={top} left={left} right={right}>
       <header>
         <span>알림</span>
-        <span onClick={onClose}>창닫기</span>
+        <span onClick={onClose}>닫기</span>
       </header>
       <AlarmListBox>
         {alarmList?.map((item) => (

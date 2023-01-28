@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { baseURL } from "../../../core/axios";
 import { setCookies } from "../../../core/cookie";
 import { Spinners } from "../../../shared/layout/Spinners";
+import Swal from "sweetalert2";
 
 const Oauth2RedirectHandler = () => {
   const navigate = useNavigate();
@@ -18,7 +19,11 @@ const Oauth2RedirectHandler = () => {
         navigate("/");
       })
       .catch((error) => {
-        //console.log(error);
+        Swal.fire({
+          text: "다시 로그인 해 주세요.",
+          confirmButtonText: "확인",
+          confirmButtonColor: "#FF5A5F",
+        });
       });
   };
   kakao();

@@ -31,7 +31,6 @@ const HeaderPc = (props) => {
   const modalStatus = useSelector((state) => state.generalModal.toggleModal);
   const [showUserGuide, setShowUserGuide] = useState(false);
 
-  //헤더 아이콘 기능
   const onMovePostingHandler = () => {
     navigate("/posting");
     dispatch(sendModalStatus(true));
@@ -138,10 +137,6 @@ const Icon = styled.div`
   display: flex;
   gap: 23px;
   cursor: pointer;
-  img {
-    width: 25px;
-    height: 25px;
-  }
 `;
 
 const AlarmBox = styled.div`
@@ -169,8 +164,4 @@ const AlarmNumber = styled.div`
 const LoginBox = styled.div`
   display: flex;
   gap: 23px;
-  img {
-    width: 25px;
-    height: 25px;
-  }
 `;
