@@ -4,8 +4,8 @@ import postingIcon from "../../assets/headerIcon/postingIcon.svg";
 import chattingIcon from "../../assets/headerIcon/chattingIcon.svg";
 import alarmIcon from "../../assets/headerIcon/alarmIcon.svg";
 import profileIcon from "../../assets/headerIcon/profileIcon.svg";
-import guide from "../../assets/headerIcon/guide.svg";
-import login from "../../assets/headerIcon/login.svg";
+import guideIcon from "../../assets/headerIcon/guideIcon.svg";
+import loginIcon from "../../assets/headerIcon/loginIcon.svg";
 import logo from "../../assets/headerIcon/buycationLogo.webp";
 import logoHover from "../../assets/headerIcon/buycationLogoHover.webp";
 import Alarm from "./Alarm";
@@ -105,8 +105,8 @@ const HeaderPc = (props) => {
               onInnerWidth={onInnerWidth}
             />
           ) : null}
-          <img alt="guide" src={guide} onClick={onShowUserGuide} />
-          <img alt="login" src={login} onClick={onMoveLoginHandler} />
+          <img alt="guide" src={guideIcon} onClick={onShowUserGuide} />
+          <img alt="login" src={loginIcon} onClick={onMoveLoginHandler} />
         </LoginBox>
       )}
     </HeaderDiv>
@@ -138,6 +138,10 @@ const Icon = styled.div`
   display: flex;
   gap: 23px;
   cursor: pointer;
+  img {
+    width: 25px;
+    height: 25px;
+  }
 `;
 
 const AlarmBox = styled.div`
@@ -148,7 +152,7 @@ const AlarmNumber = styled.div`
   display: ${({ display }) => display};
   position: absolute;
   top: -4px;
-  right: -10px;
+  right: -14px;
   width: 24px;
   height: 14px;
   text-align: center;
@@ -165,4 +169,8 @@ const AlarmNumber = styled.div`
 const LoginBox = styled.div`
   display: flex;
   gap: 23px;
+  img {
+    width: 25px;
+    height: 25px;
+  }
 `;

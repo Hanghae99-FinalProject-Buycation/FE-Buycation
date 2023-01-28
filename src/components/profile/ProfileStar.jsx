@@ -54,13 +54,15 @@ const ProfileInfo = styled.div`
   gap: 0.5rem;
   p:nth-of-type(2) {
     font-size: ${({ theme }) => theme.fontSize.xs};
-    color: ${({ theme }) => theme.colors.grayMid};
+    color: ${({ theme }) => theme.colors.grayStrong};
   }
 `;
 const FootReview = styled.div`
   display: flex;
   gap: 12px;
   img {
+    width: 26px;
+    height: 44px;
     font-size: 30px;
   }
   .colorStar {

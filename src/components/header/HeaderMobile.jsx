@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 import alarmIcon from "../../assets/headerIcon/alarmIcon.svg";
 import profileIcon from "../../assets/headerIcon/profileIcon.svg";
-import guide from "../../assets/headerIcon/guide.svg";
-import login from "../../assets/headerIcon/login.svg";
+import guideIcon from "../../assets/headerIcon/guideIcon.svg";
+import loginIcon from "../../assets/headerIcon/loginIcon.svg";
 import logo from "../../assets/headerIcon/buycationLogo.webp";
 import logoHover from "../../assets/headerIcon/buycationLogoHover.webp";
 import Alarm from "./Alarm";
@@ -95,8 +95,8 @@ const HeaderMobile = (props) => {
                 onInnerWidth={onInnerWidth}
               />
             ) : null}
-            <img alt="guide" src={guide} onClick={onShowUserGuide} />
-            <img alt="login" src={login} onClick={onMoveLoginHandler} />
+            <img alt="guide" src={guideIcon} onClick={onShowUserGuide} />
+            <img alt="login" src={loginIcon} onClick={onMoveLoginHandler} />
           </LoginBox>
         </>
       )}
@@ -129,6 +129,10 @@ const Icon = styled.div`
   display: flex;
   gap: 23px;
   cursor: pointer;
+  img {
+    width: 25px;
+    height: 25px;
+  }
 
   .mainColor {
     filter: ${({ theme }) => theme.colors.imgFilter};
@@ -143,7 +147,7 @@ const AlarmNumber = styled.div`
   display: ${({ display }) => display};
   position: absolute;
   top: -4px;
-  right: -10px;
+  right: -14px;
   width: 24px;
   height: 14px;
   text-align: center;
@@ -160,4 +164,8 @@ const AlarmNumber = styled.div`
 const LoginBox = styled.div`
   display: flex;
   gap: 0.8rem;
+  img {
+    width: 25px;
+    height: 25px;
+  }
 `;

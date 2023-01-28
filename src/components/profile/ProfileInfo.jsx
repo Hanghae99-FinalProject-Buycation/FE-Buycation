@@ -82,10 +82,11 @@ const Box = styled.div`
     align-items: center;
     margin-top: 10px;
     font-size: ${({ theme }) => theme.fontSize.sm};
-    color: ${({ theme }) => theme.colors.grayMid};
+    color: ${({ theme }) => theme.colors.grayStrong};
   }
   div > p > img {
     width: 20px;
+    height: 20px;
     margin-right: 5px;
   }
 `;
