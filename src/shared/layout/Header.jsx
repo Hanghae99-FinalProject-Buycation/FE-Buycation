@@ -55,7 +55,7 @@ const Header = () => {
           /* EVENTSOURCE ONERROR : 에러가 발생하거나 EventSource 객체에서 error event가 감지되었을 때 호출하는 이벤트 핸들러 */
           eventSource.onerror = async (event) => {
             console.log(event.error.message);
-            eventSource.close(); //렌더링이 안되서 연결이 안되는 거일수도 있음
+            eventSource.close();
           };
         } catch (error) {}
       };
