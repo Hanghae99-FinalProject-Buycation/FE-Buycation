@@ -6,6 +6,7 @@ import SockJS from "sockjs-client";
 import { SOCKET_URL } from "../../core/env";
 import DetailSpan from "../detail/elements/DetailSpan";
 import {
+  getChatRoom,
   __getChatList,
   __getChatRoom,
 } from "../../redux/modules/chat/chatSlice";
@@ -14,6 +15,7 @@ import { IoMdSend } from "react-icons/io";
 import { RxCross1 } from "react-icons/rx";
 import profileIcon from "../../assets/headerIcon/profileIcon.svg";
 import { titleForm } from "../../utils/editedData";
+import Spinner, { Spinners } from "../../shared/layout/Spinners";
 import useWindowResize from "../../hooks/useWindowResize";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import ChatZone from "./ChatZone";
@@ -29,16 +31,16 @@ const Chatroom = () => {
     sender: "",
     receiver: "",
     message: "",
-    seondDate: "",
+    sendDate: "",
     connected: false,
   });
 
+  const { isLoading, error } = useSelector((state) => state.chat);
   const chatList = useSelector((state) => state.chat.getChatList);
   const { nickname, talks } = useSelector((state) => state.chat.getChatRoom);
   const chatStatus = useSelector((state) => state.generalModal.toggleChat);
   const { innerWidth } = useWindowResize();
   const ref = useOutsideClick(() => dispatch(sendChatStatus(!chatStatus)));
-  const bottomRef = useRef(null);
 
   const onPressEnterHandler = (e) => {
     if (e.keyCode === 13) {
@@ -47,26 +49,18 @@ const Chatroom = () => {
   };
 
   const connect = () => {
-    let Sock = new SockJS("http://54.180.87.207:8080/ws");
+    let Sock = new SockJS(SOCKET_URL);
     stompClient = over(Sock);
     stompClient.connect({}, onConnected, onError);
   };
 
   const onConnected = () => {
     setUserData({ ...userData, connected: true, sender: nickname });
-    // stompClient.subscribe(`/talk/${roomId}`, onPrivateMessage);
     userJoin();
   };
 
-  const bringPrevMessages = () => {
-    // DB에 있는 걸 privateChats에 박을 거임
-    // talks를 불러옴
-    privateChats.set(nickname, talks);
-  };
-  // console.log(talks);
-
   const userJoin = () => {
-    var chatMessage = {
+    let chatMessage = {
       sender: nickname,
       status: "JOIN",
     };
@@ -75,16 +69,12 @@ const Chatroom = () => {
 
   const onPrivateMessage = (payload) => {
     let payloadData = JSON.parse(payload.body);
-    if (privateChats.get(payloadData.sender)) {
-      console.log("여긴가");
-      privateChats.get(payloadData.sender).push(payloadData);
+    if (tab !== "" || tab === undefined) {
+      privateChats.set(tab, [...privateChats.get(tab), payloadData]);
       setPrivateChats(new Map(privateChats));
-      console.log(privateChats);
     } else {
-      console.log("저긴가");
-      let list = [];
-      list.push(payloadData);
-      privateChats.set(payloadData.sender, list);
+      dispatch(getChatRoom(payloadData.talkRoomId));
+      privateChats.set(tab, [...privateChats.get(tab), payloadData]);
       setPrivateChats(new Map(privateChats));
     }
   };
@@ -107,14 +97,9 @@ const Chatroom = () => {
         status: "MESSAGE",
       };
 
-      // if (userData.sender !== tab) {
-      if (!privateChats.size) {
-        console.log(privateChats);
-        privateChats.set(nickname, []);
-        // privateChats.get(tab).push(chatMessage);
-        privateChats.get(nickname).push(chatMessage);
-        setPrivateChats(new Map(privateChats));
-      }
+      /* if (userData.username !== nickname) {
+        privateChats.set(tab, [...privateChats.get(tab), chatMessage]);
+      } */
       stompClient.send(`/send/${roomId}`, {}, JSON.stringify(chatMessage));
       setUserData({ ...userData, message: "" });
     }
@@ -123,15 +108,20 @@ const Chatroom = () => {
   const onClickSelectRoomHandler = (roomNo) => {
     dispatch(__getChatRoom(roomNo));
     setRoomId(roomNo);
+    privateChats.set(tab, talks);
+    privateChats.delete("");
+    privateChats.delete(undefined);
     stompClient.subscribe(`/talk/${roomId}`, onPrivateMessage);
   };
 
   useEffect(() => {
     connect();
     dispatch(__getChatList());
-    bringPrevMessages();
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [dispatch, privateChats]);
+  }, [dispatch]);
+
+  if (isLoading) return <Spinners />;
+
+  if (error) return <span>{error}</span>;
 
   return (
     <StWrap ref={ref}>
@@ -170,11 +160,9 @@ const Chatroom = () => {
                   onClickSelectRoomHandler(room.id);
                   innerWidth < 768 ? setHide(!hide) : setHide(true);
                 }}
-                // className={tab === room.id}
                 key={room.id}
               >
                 <ElChatRoomImage src={"test.jpg"} alt="" />
-                {/* {console.log(talks[talks.length - 1]?.sendDate)} */}
                 <DetailSpan
                   titleText={titleForm(room?.title)}
                   bodyText="n분 전"
@@ -208,8 +196,9 @@ const Chatroom = () => {
               talks={talks}
               userData={userData}
               nickname={nickname}
+              tab={tab}
+              roomId={roomId}
             />
-            <div ref={bottomRef} id="bottom" />
           </StChatZone>
           <StSendZone>
             <input
