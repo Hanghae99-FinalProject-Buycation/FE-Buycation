@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import alarmIcon from "../../assets/headerIcon/alarmIcon.svg";
 import profileIcon from "../../assets/headerIcon/profileIcon.svg";
@@ -7,6 +7,7 @@ import login from "../../assets/headerIcon/login.svg";
 import logo from "../../assets/headerIcon/buycationLogo.webp";
 import logoHover from "../../assets/headerIcon/buycationLogoHover.webp";
 import Alarm from "./Alarm";
+import GuideModal from "./guideModal/GuideModal";
 import { getCookies } from "../../core/cookie";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +15,7 @@ import { sendModalStatus } from "../../redux/modules/modal/modalSlice";
 
 const HeaderMobile = (props) => {
   const {
+    onInnerWidth,
     onAlarmCount,
     onClickAlarmModalHandler,
     onMoveSelectPageHandler,
@@ -24,6 +26,7 @@ const HeaderMobile = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const modalStatus = useSelector((state) => state.generalModal.toggleModal);
+  const [showUserGuide, setShowUserGuide] = useState(false);
 
   //헤더 아이콘 기능
   const onMoveLoginHandler = () => {
@@ -33,6 +36,14 @@ const HeaderMobile = (props) => {
 
   const onClickMypageModalHandler = () => {
     dispatch(sendModalStatus(!modalStatus));
+  };
+
+  const onShowUserGuide = () => {
+    setShowUserGuide(true);
+  };
+
+  const onCloseUserGuide = () => {
+    setShowUserGuide(false);
   };
 
   return (
@@ -78,7 +89,13 @@ const HeaderMobile = (props) => {
         <>
           <Logo alt="바이케이션" onClick={() => navigate("/")} />
           <LoginBox>
-            <img alt="guide" src={guide} />
+            {showUserGuide ? (
+              <GuideModal
+                onClose={onCloseUserGuide}
+                onInnerWidth={onInnerWidth}
+              />
+            ) : null}
+            <img alt="guide" src={guide} onClick={onShowUserGuide} />
             <img alt="login" src={login} onClick={onMoveLoginHandler} />
           </LoginBox>
         </>

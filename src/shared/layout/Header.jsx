@@ -40,7 +40,7 @@ const Header = () => {
             headers: {
               Authorization: tokenValue,
             },
-            heartbeatTimeout: 60 * 1000 * 30, //30분
+            heartbeatTimeout: 60 * 1000 * 30,
             //withCredentials: true, //크로스 도메인에 요청을 보낼 때 요청에 credential 정보를 담아서 보낼 지를 결정하는 항목
           });
 
@@ -56,10 +56,7 @@ const Header = () => {
           eventSource.onerror = async (event) => {
             console.log("45000 에러 이벤트 발생");
             console.log(event.error.message);
-            if (!event.error.message.includes("No activity")) {
-              console.log("에러 이벤트 발생");
-              eventSource.close();
-            }
+            eventSource.close(); //렌더링이 안되서 연결이 안되는 거일수도 있음
           };
         } catch (error) {}
       };
@@ -109,6 +106,7 @@ const Header = () => {
     <>
       {innerWidth > 768 ? (
         <HeaderPc
+          onInnerWidth={innerWidth}
           onAlarmCount={alarmCount}
           onClickAlarmModalHandler={onClickAlarmModalHandler}
           onMoveSelectPageHandler={onMoveSelectPageHandler}
@@ -118,6 +116,7 @@ const Header = () => {
         />
       ) : (
         <HeaderMobile
+          onInnerWidth={innerWidth}
           onAlarmCount={alarmCount}
           onClickAlarmModalHandler={onClickAlarmModalHandler}
           onMoveSelectPageHandler={onMoveSelectPageHandler}

@@ -103,9 +103,9 @@ const EditProfileModal = (props) => {
       {postcodeModalStatus && <Postcode />}
       <ModalCard>
         <Header>
-          <p>프로필 수정</p>
+          <span>프로필 수정</span>
           <CloseBtn onClick={props.onClose}>
-            <FaTimes size="1.3rem" />
+            <FaTimes size="1.2rem" />
           </CloseBtn>
         </Header>
         <ContentsBox>
@@ -171,7 +171,7 @@ const ModalCard = styled.div`
   background: white;
   border-radius: 5px;
   @media screen and (max-width: 768px) {
-    width: 100%;
+    width: 90%;
   }
 `;
 
@@ -181,9 +181,19 @@ const Header = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  p {
-    font-size: ${({ theme }) => theme.fontSize.xl};
+  span {
     margin: auto;
+    font-size: ${({ theme }) => theme.fontSize.xl};
+    font-weight: 600;
+  }
+  button {
+    padding: 0;
+  }
+  @media screen and (max-width: 768px) {
+    padding: 0.6rem;
+    & > span {
+      font-size: ${({ theme }) => theme.fontSize.lg};
+    }
   }
 `;
 
