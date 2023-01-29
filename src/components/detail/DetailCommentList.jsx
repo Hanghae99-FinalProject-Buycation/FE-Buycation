@@ -25,8 +25,9 @@ const DetailCommentList = ({
         ) : (
           <span> 댓글 0</span>
         )}
+        {console.log(details.doneStatus)}
         {tokenValue && !details.doneStatus && (
-          <DetailCommentForm className={true} />
+          <DetailCommentForm className="show" />
         )}
       </StCommentWrap>
       {commentsLength !== 0 &&
@@ -99,7 +100,6 @@ const StCommentList = styled.div`
 
 const StComment = styled.div`
   display: ${(props) => (props.className === "show" ? "flex" : "none")};
-  /* display: flex; */
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
