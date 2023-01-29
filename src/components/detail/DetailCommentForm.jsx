@@ -3,32 +3,66 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
+  sendCommentId,
+  sendCommentToggle,
   __isSuccess,
   __postComment,
+  __putComment,
 } from "../../redux/modules/details/commentSlice";
 import { __getDetail } from "../../redux/modules/details/detailSlice";
 import { __getMyProfile } from "../../redux/modules/profile/profileSlice";
+import Swal from "sweetalert2";
 import ButtonBasic from "../elements/ButtonBasic";
 
-const DetailCommentForm = () => {
+const DetailCommentForm = ({
+  id,
+  modalId,
+  setModalId,
+  className,
+  commentId,
+  commentContent,
+}) => {
   const dispatch = useDispatch();
   const postingId = Number(useParams().postingId);
   const memberIdData = parseInt(localStorage.getItem("memberId"));
+  const [comment, setComment] = useState({ content: commentContent });
   const { nickname } = useSelector((state) => state.profile.getProfile);
   const isSuccess = useSelector((state) => state.comments.isSuccess);
-  const [comment, setComment] = useState({ content: "" });
+  const toggleComment = useSelector((state) => state.comments.toggleComment);
+  const getCommentId = useSelector((state) => state.comments.getCommentId);
+
   const onChangeCommentHandler = (e) => {
     setComment({ content: e.target.value });
   };
+
   const onClickCommentPostHandler = (e) => {
     if (comment.content.trim() === "") {
-      alert("내용을 입력해주세요");
+      Swal.fire({
+        text: "내용을 입력해주세요.",
+        confirmButtonColor: "#ff5a5f",
+      });
     } else {
-      dispatch(__postComment({ postingId, comment }));
       setComment({ content: "" });
-      if (isSuccess) {
-        dispatch(__isSuccess(false));
-      }
+      dispatch(sendCommentToggle(true));
+    }
+    if (isSuccess) {
+      dispatch(__isSuccess(false));
+    }
+  };
+
+  const onClickCommentPutHandler = (e) => {
+    if (comment.content.trim() === "") {
+      Swal.fire({
+        text: "내용을 입력해주세요.",
+        confirmButtonColor: "#ff5a5f",
+      });
+    } else {
+      dispatch(__putComment({ commentId, comment }));
+      dispatch(sendCommentToggle(true));
+      dispatch(sendCommentId(null));
+    }
+    if (isSuccess) {
+      dispatch(__isSuccess(false));
     }
   };
 
@@ -37,7 +71,7 @@ const DetailCommentForm = () => {
   }, [dispatch, memberIdData]);
 
   return (
-    <StComment>
+    <StComment className={className}>
       <span>{nickname}</span>
       <textarea
         placeholder="댓글을 남겨보세요"
@@ -49,9 +83,13 @@ const DetailCommentForm = () => {
           width="4.375rem"
           height="fit-content"
           color="white"
-          _onClick={onClickCommentPostHandler}
+          _onClick={
+            className === "show" && !toggleComment
+              ? onClickCommentPutHandler
+              : onClickCommentPostHandler
+          }
         >
-          등록
+          {className === "show" && !toggleComment ? "수정" : "등록"}
         </ButtonBasic>
       </div>
     </StComment>
@@ -61,7 +99,11 @@ const DetailCommentForm = () => {
 export default DetailCommentForm;
 
 const StComment = styled.div`
+  display: ${(props) => (props.className === "show" ? "flex" : "none")};
+  flex-direction: column;
   margin-top: ${({ theme }) => theme.lineHeight.perParagraph};
+  padding: 1rem;
+  background: ${({ theme }) => theme.colors.grayList};
   textarea {
     height: 8rem;
     padding: 1rem 0;

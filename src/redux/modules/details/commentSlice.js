@@ -6,6 +6,8 @@ const initialState = {
   postComment: {},
   putComment: {},
   deleteComment: {},
+  toggleComment: true, // 댓글 내용이 보이는 상태(미수정)
+  getCommentId: null, // 댓글 보이는 상태
   isSuccess: false,
 };
 
@@ -17,7 +19,7 @@ export const __postComment = createAsyncThunk(
         `posting/${postingId}/comments`,
         comment
       );
-      alert(data.msg);
+      // alert(data.msg);
       return thunkAPI.fulfillWithValue(data);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -44,7 +46,21 @@ export const __deleteComment = createAsyncThunk(
       const { data } = await baseURLwToken.delete(
         `posting/comments/${payload}`
       );
-      // return thunkAPI.fulfillWithValue(data)
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+export const __putComment = createAsyncThunk(
+  "comment/put",
+  async ({ commentId, comment }, thunkAPI) => {
+    try {
+      const { data } = await baseURLwToken.put(
+        `posting/comments/${commentId}`,
+        comment
+      );
+      console.log(data);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
@@ -59,6 +75,12 @@ export const commentSlice = createSlice({
     __isSuccess: (state, action) => {
       state.isSuccess = action.payload;
     },
+    sendCommentToggle: (state, action) => {
+      state.toggleComment = action.payload;
+    },
+    sendCommentId: (state, action) => {
+      state.getCommentId = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -72,9 +94,14 @@ export const commentSlice = createSlice({
       .addCase(__deleteComment.fulfilled, (state, action) => {
         state.deleteComment = action.payload;
         state.isSuccess = true;
+      })
+      .addCase(__putComment.fulfilled, (state, action) => {
+        state.putComment = action.payload;
+        state.isSuccess = true;
       });
   },
 });
 
-export const { __isSuccess } = commentSlice.actions;
+export const { __isSuccess, sendCommentToggle, sendCommentId } =
+  commentSlice.actions;
 export default commentSlice.reducer;
