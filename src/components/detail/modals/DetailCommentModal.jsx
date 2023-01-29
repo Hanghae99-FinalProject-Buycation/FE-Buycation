@@ -5,7 +5,6 @@ import useOutsideClick from "../../../hooks/useOutsideClick";
 import {
   __deleteComment,
   __isSuccess,
-  toggleComment,
   sendCommentToggle,
   sendCommentId,
 } from "../../../redux/modules/details/commentSlice";
@@ -13,8 +12,6 @@ import {
 const DetailCommentModal = ({ id, modalId, setModalId }) => {
   const dispatch = useDispatch();
   const isSuccess = useSelector((state) => state.comments.isSuccess);
-  const toggleComment = useSelector((state) => state.comments.toggleComment);
-  const getCommentId = useSelector((state) => state.comments.getCommentId);
 
   const onClickModifyCommentHandler = () => {
     dispatch(sendCommentToggle(false));
@@ -31,6 +28,7 @@ const DetailCommentModal = ({ id, modalId, setModalId }) => {
     setModalId("");
   };
   const ref = useOutsideClick(onClickCloseHandler);
+
   return (
     <StCommentModal ref={ref} className={modalId === id ? "show" : ""}>
       <button type="button" onClick={onClickModifyCommentHandler}>

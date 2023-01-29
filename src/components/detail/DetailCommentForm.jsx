@@ -1,35 +1,23 @@
 import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import {
   sendCommentId,
   sendCommentToggle,
   __isSuccess,
-  __postComment,
   __putComment,
 } from "../../redux/modules/details/commentSlice";
-import { __getDetail } from "../../redux/modules/details/detailSlice";
 import { __getMyProfile } from "../../redux/modules/profile/profileSlice";
 import Swal from "sweetalert2";
 import ButtonBasic from "../elements/ButtonBasic";
 
-const DetailCommentForm = ({
-  id,
-  modalId,
-  setModalId,
-  className,
-  commentId,
-  commentContent,
-}) => {
+const DetailCommentForm = ({ className, commentId, commentContent }) => {
   const dispatch = useDispatch();
-  const postingId = Number(useParams().postingId);
   const memberIdData = parseInt(localStorage.getItem("memberId"));
   const [comment, setComment] = useState({ content: commentContent });
   const { nickname } = useSelector((state) => state.profile.getProfile);
   const isSuccess = useSelector((state) => state.comments.isSuccess);
   const toggleComment = useSelector((state) => state.comments.toggleComment);
-  const getCommentId = useSelector((state) => state.comments.getCommentId);
 
   const onChangeCommentHandler = (e) => {
     setComment({ content: e.target.value });
