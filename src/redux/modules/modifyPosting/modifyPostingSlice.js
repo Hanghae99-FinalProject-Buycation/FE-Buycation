@@ -13,8 +13,7 @@ export const __putPosting = createAsyncThunk(
         `posting/${postingId}`,
         modifiedContent
       );
-      alert(data.msg);
-      // return thunkAPI.fulfillWithValue(data);
+      return thunkAPI.fulfillWithValue(data.msg);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
@@ -41,5 +40,5 @@ export const modifyPostingSlice = createSlice({
   },
 });
 
-export const {} = modifyPostingSlice.actions;
+export const { putPosting } = modifyPostingSlice.actions;
 export default modifyPostingSlice.reducer;

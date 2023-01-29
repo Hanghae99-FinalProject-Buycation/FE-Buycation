@@ -1,19 +1,19 @@
+import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import styled from "@emotion/styled";
+import { useDispatch, useSelector } from "react-redux";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
-import { FaLink } from "react-icons/fa";
-import Swal from "sweetalert2";
-import { useDispatch, useSelector } from "react-redux";
-import { __getDetail } from "../../redux/modules/details/detailSlice";
-import { sendRegisterModalStatus } from "../../redux/modules/postcode/postcodeModalSlice";
 import Postcode from "../postcode/Postcode";
 import usePostcode from "../../hooks/usePostcode";
+import Swal from "sweetalert2";
+import { FaLink } from "react-icons/fa";
+import { __getDetail } from "../../redux/modules/details/detailSlice";
+import { sendRegisterModalStatus } from "../../redux/modules/postcode/postcodeModalSlice";
+import { __putPosting } from "../../redux/modules/modifyPosting/modifyPostingSlice";
 import { selectCategory } from "../../utils/option";
 import { uploadImg } from "../../utils/uploadImg";
 import { perBudget } from "../posting/perBudget";
-import { __putPosting } from "../../redux/modules/modifyPosting/modifyPostingSlice";
 
 const ModifyPosting = () => {
   const { kakao } = window;
@@ -65,20 +65,19 @@ const ModifyPosting = () => {
       postData.category !== "" &&
       postData.title !== "" &&
       postData.content !== "" &&
-      address !== "" &&
+      // address !== "" &&
       postData.totalMembers !== "" &&
       postData.dueDate !== "" &&
       postData.dueTime !== "" &&
       postData.budget !== "" &&
       imageFile !== null
-      // typeof imageFile !== String
     ) {
       uploadImg(imageFile)
         .then((data) => {
           const modifiedContent = {
             title: postData.title,
             category: postData.category,
-            address: address,
+            address: address ? address : getDatas.address,
             addressDetail: postData.addressDetail,
             content: postData.content,
             dueDate: createDateForm,
@@ -104,6 +103,44 @@ const ModifyPosting = () => {
       });
     }
   };
+
+  const onClickModifyHandler = () => {
+    if (
+      postData.category !== "" &&
+      postData.title !== "" &&
+      postData.content !== "" &&
+      // address !== "" &&
+      postData.totalMembers !== "" &&
+      postData.dueDate !== "" &&
+      postData.dueTime !== "" &&
+      postData.budget !== ""
+    ) {
+      const modifiedContent = {
+        title: postData.title,
+        category: postData.category,
+        address: address ? address : getDatas.address,
+        addressDetail: postData.addressDetail,
+        content: postData.content,
+        dueDate: createDateForm,
+        budget: parseInt(postData.budget),
+        image: getDatas.image,
+        totalMembers: parseInt(postData.totalMembers),
+        coordsX: coords.coordsX,
+        coordsY: coords.coordsY,
+      };
+      dispatch(__putPosting({ postingId, modifiedContent })).then((res) =>
+        Swal.fire({
+          text: "게시글 수정에 성공하였습니다.",
+          confirmButtonColor: "#ff5a5f",
+        })
+      );
+      dispatch(__getDetail(postingId));
+      // useBuyLocation 터지는 문제 떄문에 임시로 메인으로 이동
+      // navigate(`../details/${postingId}`);
+      navigate(`/`);
+    }
+  };
+
   const onClickCloseHandler = () => {
     navigate(`../details/${postingId}`);
   };
@@ -132,7 +169,6 @@ const ModifyPosting = () => {
 
   return (
     <Wrap>
-      {/* <Postcode hidden={postcodeModalStatus} width="90%" /> */}
       {postcodeModalStatus && <Postcode width="90%" />}
       <Container>
         <p>공구 글쓰기</p>
@@ -239,7 +275,15 @@ const ModifyPosting = () => {
               </span>
             </SelectInputForm>
             <ButtonForm>
-              <ButtonBasic _onClick={onClickSubmitHandler}>등록</ButtonBasic>
+              <ButtonBasic
+                _onClick={() =>
+                  getDatas?.image !== null && imageFile === null
+                    ? onClickModifyHandler()
+                    : onClickSubmitHandler()
+                }
+              >
+                등록
+              </ButtonBasic>
               <ButtonBasic _onClick={onClickCloseHandler}>닫기</ButtonBasic>
             </ButtonForm>
           </RightDivForm>
