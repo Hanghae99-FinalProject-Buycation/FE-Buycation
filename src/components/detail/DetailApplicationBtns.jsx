@@ -39,13 +39,12 @@ const DetailApplicationBtns = ({
         }
       });
     } else {
-      dispatch(__postApplication(postingId));
-      /* if (getMsg !== {}) {
+      dispatch(__postApplication(postingId)).then((res) =>
         Swal.fire({
-          text: getMsg,
+          text: res.payload,
           confirmButtonColor: "#FF5A5F",
-        }).then(() => navigate(`../details/${postingId}`));
-      } */
+        })
+      );
     }
   };
   const onClickCancelHandler = () => {
@@ -106,7 +105,6 @@ const DetailApplicationBtns = ({
         </ButtonBasic>
       </ElApplicationWrap>
     );
-  // if (participateStatus?.length > 0)
   if (details?.participant)
     return (
       <ElApplicationWrap>

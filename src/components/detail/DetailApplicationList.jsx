@@ -9,9 +9,11 @@ import {
   __allowApplication,
   __denyApplication,
   __getApplication,
+  __isSuccess,
 } from "../../redux/modules/application/applicationSlice";
 import profileDefault from "../../assets/profileImg/profile_default.svg";
 import footIcon from "../../assets/reviewIcon/reviewFootIcon.svg";
+import Swal from "sweetalert2";
 
 const DetailApplicationList = ({ postingId, onClickMoveProfileHandler }) => {
   const dispatch = useDispatch();
@@ -25,13 +27,22 @@ const DetailApplicationList = ({ postingId, onClickMoveProfileHandler }) => {
   const applicateStatus = useSelector(
     (state) => state.applicate.getApplication
   );
+  const isSuccess = useSelector((state) => state.applicate.isSuccess);
   const onClickAllowApplicationHandler = (item) => {
     dispatch(
       __allowApplication({
         applicationId: item.applicationId,
         postingId: postingId,
       })
-    );
+    ).then((res) => {
+      /*  Swal.fire({
+        text: res.payload,
+        confirmButtonColor: "#ff5f5a",
+      }); */
+      if (isSuccess) {
+        dispatch(__isSuccess(false));
+      }
+    });
   };
   const onClickDenyApplicationHandler = (item) => {
     dispatch(
@@ -39,12 +50,19 @@ const DetailApplicationList = ({ postingId, onClickMoveProfileHandler }) => {
         applicationId: item.applicationId,
         postingId: postingId,
       })
-    );
+    ).then((res) => {
+      /* Swal.fire({
+        text: res.payload,
+        confirmButtonColor: "#ff5f5a",
+      }); */
+      if (isSuccess) {
+        dispatch(__isSuccess(false));
+      }
+    });
   };
-
   useEffect(() => {
     dispatch(__getApplication(postingId));
-  }, [dispatch, postingId]);
+  }, [dispatch, postingId, isSuccess]);
   return (
     !hide && (
       <StApplicationList ref={ref}>
@@ -160,12 +178,7 @@ const StApplicationList = styled.div`
     span {
       display: inline-block;
       cursor: pointer;
-
-      /* padding: 0 0.5rem; */
     }
-    /* && :first-of-type {
-      border-bottom: 0.1rem solid ${({ theme }) => theme.colors.grayList};
-    } */
   }
 
   .btnWrap {
