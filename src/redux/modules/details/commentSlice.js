@@ -60,7 +60,6 @@ export const __putComment = createAsyncThunk(
         `posting/comments/${commentId}`,
         comment
       );
-      console.log(data);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }

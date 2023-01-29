@@ -33,7 +33,6 @@ const Signup = () => {
   const postcodeModalStatus = useSelector(
     (state) => state.postcodeModal.openRegisterModal
   );
-  const getMsg = useSelector((state) => state.postSignup);
   const { address } = usePostcode();
 
   const onClickPostcodeHandler = () => {
@@ -91,7 +90,6 @@ const Signup = () => {
             compare={compare}
             value={address}
             emailCode={emailCode}
-            getMsg={getMsg}
           />
         ))}
       </StSignupWrap>
