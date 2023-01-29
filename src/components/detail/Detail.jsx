@@ -66,7 +66,7 @@ const Detail = () => {
           titleText="거래 위치"
           bodyText={
             <>
-              <RiMapPin2Fill /> {details?.address}
+              <RiMapPin2Fill /> {details?.address} {details?.addressDetail}
             </>
           }
         />
