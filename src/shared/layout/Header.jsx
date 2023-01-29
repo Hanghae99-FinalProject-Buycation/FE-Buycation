@@ -30,7 +30,7 @@ const Header = () => {
   const EventSource = EventSourcePolyfill;
   const [alarmCount, setAlarmCount] = useState();
 
-  //알람 구독
+  //알람 구독//
   useEffect(() => {
     if (tokenValue) {
       let eventSource;
