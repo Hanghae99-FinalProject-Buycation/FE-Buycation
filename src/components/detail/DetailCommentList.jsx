@@ -25,7 +25,6 @@ const DetailCommentList = ({
         ) : (
           <span> 댓글 0</span>
         )}
-        {console.log(details.doneStatus)}
         {tokenValue && !details.doneStatus && (
           <DetailCommentForm className="show" />
         )}
