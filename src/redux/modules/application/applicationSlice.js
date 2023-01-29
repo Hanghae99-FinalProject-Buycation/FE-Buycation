@@ -33,7 +33,6 @@ export const __postApplication = createAsyncThunk(
       const { data } = await baseURLwToken.post(
         `participant/posting/${postingId}`
       );
-      alert(data.msg);
       return thunkAPI.fulfillWithValue(data.msg);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -48,7 +47,6 @@ export const __allowApplication = createAsyncThunk(
       const { data } = await baseURLwToken.post(
         `participant/${applicationId}/posting/${postingId}`
       );
-      alert(data.msg);
       return thunkAPI.fulfillWithValue(data.msg);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -63,7 +61,6 @@ export const __denyApplication = createAsyncThunk(
       const { data } = await baseURLwToken.delete(
         `participant/${applicationId}/posting/${postingId}`
       );
-      alert(data.msg);
       return thunkAPI.fulfillWithValue(data.msg);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -88,7 +85,12 @@ export const __cancelApplication = createAsyncThunk(
 export const applicationSlice = createSlice({
   name: "applicate",
   initialState,
-  reducers: {},
+  reducers: {
+    //상태 초기화
+    __isSuccess: (state, action) => {
+      state.isSuccess = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(__getApplication.fulfilled, (state, action) => {
@@ -98,20 +100,25 @@ export const applicationSlice = createSlice({
       .addCase(__postApplication.fulfilled, (state, action) => {
         state.isLoading = false;
         state.postApplication = action.payload;
+        state.isSuccess = true;
       })
       .addCase(__allowApplication.fulfilled, (state, action) => {
         state.isLoading = false;
         state.allowApplication = action.payload;
+        state.isSuccess = true;
       })
       .addCase(__denyApplication.fulfilled, (state, action) => {
         state.isLoading = false;
         state.denyApplication = action.payload;
+        state.isSuccess = true;
       })
       .addCase(__cancelApplication.fulfilled, (state, action) => {
         state.isLoading = false;
         state.denyApplication = action.payload;
+        state.isSuccess = true;
       });
   },
 });
 
+export const { __isSuccess } = applicationSlice.actions;
 export default applicationSlice.reducer;
