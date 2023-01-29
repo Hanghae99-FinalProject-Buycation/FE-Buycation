@@ -2,8 +2,7 @@ import React, { Fragment, useState } from "react";
 import styled from "@emotion/styled";
 import DetailCommentModal from "./modals/DetailCommentModal";
 import DetailCommentForm from "./DetailCommentForm";
-import { useDispatch, useSelector } from "react-redux";
-import { sendCommentId } from "../../redux/modules/details/commentSlice";
+import { useSelector } from "react-redux";
 
 const DetailCommentList = ({
   details,
@@ -11,12 +10,9 @@ const DetailCommentList = ({
   DetailMoreButton,
   memberId,
 }) => {
-  const dispatch = useDispatch();
   const commentsLength = details.commentList?.length || 0;
   const [modalId, setModalId] = useState("");
-  const [modifyId, setModifyId] = useState("");
   const getCommentId = useSelector((state) => state.comments.getCommentId);
-  const toggleComment = useSelector((state) => state.comments.toggleComment);
 
   const onClickCommentModalHandler = (id) => {
     setModalId(id);
