@@ -12,13 +12,7 @@ import {
   __isSuccess,
 } from "../../redux/modules/login/signupSlice";
 import useWindowResize from "../../hooks/useWindowResize";
-import {
-  emailCheck,
-  emailForm,
-  nicknameCheck,
-  passCheck,
-  passValidate,
-} from "./checkSignup";
+import { emailCheck, passCheck, passValidate } from "./checkSignup";
 
 const SignupPiece = (props) => {
   const {
@@ -29,16 +23,19 @@ const SignupPiece = (props) => {
     value,
     signupForm,
     compare,
-    // getMsg,
   } = props;
   const dispatch = useDispatch();
 
   const isSuccess = useSelector((state) => state.postSignup.isSuccess);
 
   const { innerWidth } = useWindowResize();
+
   const onClickEmailValidationHandler = () => {
     if (!emailCheck.test(signupForm.email)) {
-      alert("이메일 형식을 지켜주세요");
+      Swal.fire({
+        text: "이메일 형식을 지켜주세요.",
+        confirmButtonColor: "#FF5A5F",
+      });
     } else {
       dispatch(__getEmailValidation(signupForm.email)).then((res) =>
         Swal.fire({
@@ -49,31 +46,33 @@ const SignupPiece = (props) => {
     }
   };
   const onClickEmailValidationCheckHandler = () => {
-    dispatch(
-      __getEmailValidationCheck({
-        email: signupForm.email,
-        code: compare.emailValidation,
-      })
-    ).then((res) =>
+    if (compare.emailValidation.trim() === "") {
       Swal.fire({
-        text: res.payload.msg,
+        text: "인증번호를 입력해주세요.",
         confirmButtonColor: "#FF5A5F",
-      })
-    );
+      });
+    } else {
+      dispatch(
+        __getEmailValidationCheck({
+          email: signupForm.email,
+          code: compare.emailValidation,
+        })
+      ).then((res) =>
+        res.msg
+          ? Swal.fire({
+              text: res.payload.msg,
+              confirmButtonColor: "#FF5A5F",
+            })
+          : Swal.fire({
+              text: "인증번호를 정확히 입력해주세요.",
+              confirmButtonColor: "#FF5A5F",
+            })
+      );
+    }
   };
 
   const onClickNicknameHandler = () => {
-    if (
-      // !nicknameCheck.test(signupForm.nickname) ||
-      signupForm.nickname.trim() !== ""
-    ) {
-      /* {
-      Swal.fire({
-        text: "2~10자, 공백 없이 한글, 영문, 숫자로만 입력해주세요.",
-        padding: "1rem",
-        confirmButtonColor: "#FF5A5F",
-      });
-    } else  */
+    if (signupForm.nickname.trim() !== "") {
       dispatch(__getNicknameDouble(signupForm.nickname)).then((res) =>
         Swal.fire({
           text: res.payload,
