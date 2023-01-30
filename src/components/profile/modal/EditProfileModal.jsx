@@ -115,7 +115,6 @@ const EditProfileModal = (props) => {
           </Item>
           <InputBasic
             name="nickname"
-            height="2rem"
             value={editValue.nickname}
             _onChange={onChangeValueHandler}
           />
@@ -136,7 +135,7 @@ const EditProfileModal = (props) => {
               주소 찾기
             </ButtonBasic>
           </Item>
-          <InputBasic name="address" height="2rem" value={editValue.address} />
+          <InputBasic name="address" value={editValue.address} />
           <ButtonBasic height="2.5rem" _onClick={onClickEditHandler}>
             수정
           </ButtonBasic>
@@ -223,7 +222,7 @@ const Item = styled.div`
 
 const FileInput = styled.div`
   width: 100%;
-  height: 2rem;
+  height: 2.25rem;
   border: 1px solid ${({ theme }) => theme.colors.grayWeak};
   border-radius: 0.5rem;
   padding: 0.5rem;
