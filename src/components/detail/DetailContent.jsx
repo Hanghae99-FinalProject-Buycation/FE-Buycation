@@ -31,5 +31,6 @@ const StContent = styled.div`
 
   p {
     line-height: ${({ theme }) => theme.lineHeight.perParagraph};
+    white-space: pre-wrap;
   }
 `;
