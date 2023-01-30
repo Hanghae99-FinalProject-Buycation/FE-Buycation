@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import styled from "@emotion/styled";
-import { FaTimes, FaLink } from "react-icons/fa";
+import ModalClose from "../../../assets/headerIcon/modalClose.svg";
+import { FaLink } from "react-icons/fa";
 import InputBasic from "../../elements/InputBasic";
 import ButtonBasic from "../../elements/ButtonBasic";
 import { useDispatch, useSelector } from "react-redux";
@@ -103,7 +104,7 @@ const EditProfileModal = (props) => {
         <Header>
           <span>프로필 수정</span>
           <CloseBtn onClick={props.onClose}>
-            <FaTimes size="1.2rem" />
+            <img alt="modalClose" src={ModalClose} />
           </CloseBtn>
         </Header>
         <ContentsBox>
