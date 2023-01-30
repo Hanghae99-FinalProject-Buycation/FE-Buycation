@@ -25,6 +25,7 @@ jobs:
           echo "REACT_APP_REGION=$REACT_APP_REGION" >> .env
           echo "REACT_APP_ASSESSKEY_ID=$REACT_APP_ASSESSKEY_ID" >> .env
           echo "REACT_APP_SECRET_ACCESSKEY=$REACT_APP_SECRET_ACCESSKEY" >> .env
+          echo "REACT_APP_SOCKET_URL=$REACT_APP_SOCKET_URL" >> .env
         env:
           REACT_APP_BACKAPI: ${{ secrets.REACT_APP_BACKAPI }}
           REACT_APP_CLIENT_ID: ${{ secrets.REACT_APP_CLIENT_ID }}
@@ -34,6 +35,7 @@ jobs:
           REACT_APP_REGION: ${{ secrets.REACT_APP_REGION }}
           REACT_APP_ASSESSKEY_ID: ${{ secrets.REACT_APP_ASSESSKEY_ID }}
           REACT_APP_SECRET_ACCESSKEY: ${{ secrets.REACT_APP_SECRET_ACCESSKEY }}
+          REACT_APP_SOCKET_URL: ${{ secrets.REACT_APP_SOCKET_URL }}
 
       - name: Install dependencies
         run: yarn install

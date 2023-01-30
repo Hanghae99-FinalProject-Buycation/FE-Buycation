@@ -103,6 +103,7 @@ const Button = styled.button`
   font-size: ${({ theme }) => theme.fontSize.md};
   font-weight: 500;
   background: white;
+  color: ${({ theme }) => theme.colors.black};
   cursor: pointer;
   :focus {
     border-bottom: 2px solid ${({ theme }) => theme.colors.main};
