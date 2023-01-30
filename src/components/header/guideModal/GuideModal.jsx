@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { FaTimes } from "react-icons/fa";
+import ModalClose from "../../../assets/headerIcon/modalClose.svg";
 //import { Spinners } from "../../../shared/layout/Spinners";
 
 const GuideModal = (props) => {
@@ -10,7 +10,7 @@ const GuideModal = (props) => {
         <Header>
           <span>가이드 북</span>
           <CloseBtn onClick={props.onClose}>
-            <FaTimes size="1.2rem" />
+            <img alt="modalClose" src={ModalClose} />
           </CloseBtn>
         </Header>
         {props.onInnerWidth > 768 ? (

@@ -142,14 +142,14 @@ const AlarmNumber = styled.div`
   display: ${({ display }) => display};
   position: absolute;
   top: -4px;
-  right: -14px;
+  right: -15px;
   width: 24px;
   height: 14px;
   text-align: center;
   background: ${({ theme }) => theme.colors.main};
   border: 1px solid ${({ theme }) => theme.colors.main};
   border-radius: 40%;
-  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-size: ${({ theme }) => theme.fontSize.xs};
   span {
     color: #fff;
     font-weight: 600;
