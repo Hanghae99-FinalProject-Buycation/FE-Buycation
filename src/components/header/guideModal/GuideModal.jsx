@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { FaTimes } from "react-icons/fa";
+import guidepagePc from "../../../assets/useGuide/guidepagePc.svg";
+import guidepageMobile from "../../../assets/useGuide/guidepageMobile.svg";
+//import { Spinners } from "../../../shared/layout/Spinners";
 
 const GuideModal = (props) => {
   return (
@@ -12,8 +15,15 @@ const GuideModal = (props) => {
             <FaTimes size="1.2rem" />
           </CloseBtn>
         </Header>
-        {/* 이미지 넣으면 됌 */}
-        {props.onInnerWidth > 768 ? <img alt="guide" /> : <img alt="guide" />}
+        {props.onInnerWidth > 768 ? (
+          <GuidePage>
+            <img alt="guidepagePc" src={guidepagePc} />
+          </GuidePage>
+        ) : (
+          <GuidePage>
+            <img alt="guidepageMobile" src={guidepageMobile} />
+          </GuidePage>
+        )}
       </UserGuide>
     </Backdrop>
   );
@@ -37,17 +47,20 @@ const UserGuide = styled.div`
   left: 0;
   right: 0;
   top: 10%;
-  width: 42rem;
+  width: 920px;
+  height: 590;
   z-index: 10;
   background: white;
   border-radius: 5px;
   @media screen and (max-width: 768px) {
-    width: 90%;
+    width: 300px;
+    height: 540px;
   }
 `;
 
 const Header = styled.header`
   padding: 1rem;
+  height: 52px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grayStrong};
   display: flex;
   justify-content: space-between;
@@ -73,4 +86,17 @@ const Header = styled.header`
 const CloseBtn = styled.button`
   background: none;
   cursor: pointer;
+`;
+
+const GuidePage = styled.div`
+  overflow: auto;
+  width: 100%;
+  height: 530px;
+  img {
+    width: 100%;
+  }
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: 480px;
+  }
 `;
