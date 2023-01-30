@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
 import { over } from "stompjs";
@@ -14,8 +14,7 @@ import { sendChatStatus } from "../../redux/modules/modal/modalSlice";
 import { IoMdSend } from "react-icons/io";
 import { RxCross1 } from "react-icons/rx";
 import profileIcon from "../../assets/headerIcon/profileIcon.svg";
-import { titleForm } from "../../utils/editedData";
-import Spinner, { Spinners } from "../../shared/layout/Spinners";
+import { Spinners } from "../../shared/layout/Spinners";
 import useWindowResize from "../../hooks/useWindowResize";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import ChatZone from "./ChatZone";
@@ -28,6 +27,7 @@ const Chatroom = () => {
   const [privateChats, setPrivateChats] = useState(new Map());
   const [tab, setTab] = useState("");
   const [userData, setUserData] = useState({
+    memberId: "",
     sender: "",
     receiver: "",
     message: "",
@@ -37,7 +37,12 @@ const Chatroom = () => {
 
   const { isLoading, error } = useSelector((state) => state.chat);
   const chatList = useSelector((state) => state.chat.getChatList);
-  const { nickname, talks } = useSelector((state) => state.chat.getChatRoom);
+  const { nickname, talks, memberId } = useSelector(
+    (state) => state.chat.getChatRoom
+  );
+  const chatBody = useSelector((state) => state.chat.getChatRoom);
+  const { roomInfo } = useSelector((state) => state.chat.getChatRoom);
+
   const chatStatus = useSelector((state) => state.generalModal.toggleChat);
   const { innerWidth } = useWindowResize();
   const ref = useOutsideClick(() => dispatch(sendChatStatus(!chatStatus)));
@@ -55,12 +60,18 @@ const Chatroom = () => {
   };
 
   const onConnected = () => {
-    setUserData({ ...userData, connected: true, sender: nickname });
+    setUserData({
+      ...userData,
+      connected: true,
+      sender: nickname,
+      memberId: memberId,
+    });
     userJoin();
   };
 
   const userJoin = () => {
     let chatMessage = {
+      // memberId: memberId,
       sender: nickname,
       status: "JOIN",
     };
@@ -69,10 +80,13 @@ const Chatroom = () => {
 
   const onPrivateMessage = (payload) => {
     let payloadData = JSON.parse(payload.body);
-    if (tab !== "" || tab === undefined) {
+    console.log(payloadData);
+    if (tab !== "" || tab !== undefined) {
+      console.log("there");
       privateChats.set(tab, [...privateChats.get(tab), payloadData]);
       setPrivateChats(new Map(privateChats));
     } else {
+      console.log("here");
       dispatch(getChatRoom(payloadData.talkRoomId));
       privateChats.set(tab, [...privateChats.get(tab), payloadData]);
       setPrivateChats(new Map(privateChats));
@@ -87,16 +101,16 @@ const Chatroom = () => {
     const { value } = event.target;
     setUserData({ ...userData, message: value });
   };
-
+  console.log(privateChats);
   const sendPrivateValue = () => {
     if (stompClient) {
       let chatMessage = {
+        memberId: memberId,
         sender: nickname,
         receiver: tab,
         message: userData.message,
         status: "MESSAGE",
       };
-
       /* if (userData.username !== nickname) {
         privateChats.set(tab, [...privateChats.get(tab), chatMessage]);
       } */
@@ -162,14 +176,20 @@ const Chatroom = () => {
                 }}
                 key={room.id}
               >
-                <ElChatRoomImage src={"test.jpg"} alt="" />
+                <ElChatRoomImage src={room.image} alt="" />
+
                 <DetailSpan
-                  titleText={titleForm(room?.title)}
-                  bodyText="n분 전"
+                  titleText={
+                    <div className="inner">
+                      <span>{room.title}</span>
+                      <span>{room.lastReceiveTime}</span>
+                    </div>
+                  }
+                  bodyText={
+                    <span className="cropText">{room.lastMessage}</span>
+                  }
                   margin="0 0 0.25rem"
-                  fontSize="0.8rem"
                   fontWeight="400"
-                  color="#adadad"
                 />
               </StChatRooms>
             ))}
@@ -178,7 +198,10 @@ const Chatroom = () => {
         <StRoomWrap className={innerWidth < 768 ? `${hide} room` : !hide}>
           <StChatRoomTitle>
             <div>
-              <ElChatRoomImage src="test.jpg" alt="" />
+              <ElChatRoomImage
+                src={chatList?.filter((item) => item.id === roomId)[0]?.image}
+                alt=""
+              />
               {chatList?.filter((item) => item.id === roomId)[0]?.title}
             </div>
             <span>
@@ -187,7 +210,7 @@ const Chatroom = () => {
                 chatList?.filter((item) => item.id === roomId)[0]
                   ?.currentMembers
               }
-              /totalMember명
+              /{roomInfo?.totalMembers}명
             </span>
           </StChatRoomTitle>
           <StChatZone className={!hide}>
@@ -198,6 +221,8 @@ const Chatroom = () => {
               nickname={nickname}
               tab={tab}
               roomId={roomId}
+              memberId={memberId}
+              // id={id}
             />
           </StChatZone>
           <StSendZone>
@@ -294,13 +319,42 @@ const StChatRooms = styled.li`
   flex-direction: row;
   width: 100%;
   height: 4.5rem;
-  padding: 1rem 1.5rem;
+  padding: 1rem;
   border-bottom: 0.1rem solid ${({ theme }) => theme.colors.grayWeak};
   font-size: ${({ theme }) => theme.fontSize.md};
   font-weight: 600;
   cursor: pointer;
   :hover {
     border: 0.1rem solid ${({ theme }) => theme.colors.grayMid};
+  }
+
+  .inner {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    width: 100%;
+    span:first-of-type {
+      display: block;
+      width: 11ch;
+      font-size: ${({ theme }) => theme.fontSize.md};
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    span:nth-of-type(2) {
+      display: block;
+      color: ${({ theme }) => theme.colors.grayWeak};
+      font-size: ${({ theme }) => theme.fontSize.xs};
+      text-align: right;
+    }
+  }
+
+  .cropText {
+    display: block;
+    width: 11.5rem;
+    font-size: ${({ theme }) => theme.fontSize.sm};
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 `;
 

@@ -5,9 +5,19 @@ import { Spinners } from "../../shared/layout/Spinners";
 import { useDispatch } from "react-redux";
 import { __getChatRoom } from "../../redux/modules/chat/chatSlice";
 
-const ChatZone = ({ privateChats, userData, nickname, talks, tab, roomId }) => {
+const ChatZone = ({
+  privateChats,
+  userData,
+  nickname,
+  talks,
+  tab,
+  memberId,
+  id,
+  roomId,
+}) => {
   const bottomRef = useRef(null);
   const dispatch = useDispatch();
+  const date = new Date().toLocaleString();
 
   useEffect(() => {
     // room dispatch 하면 무한렌더링 됨
@@ -16,24 +26,30 @@ const ChatZone = ({ privateChats, userData, nickname, talks, tab, roomId }) => {
 
   if (privateChats.size === 0 || !privateChats.get(tab)) return <Spinners />;
 
+  console.log(privateChats);
   if (privateChats.get(tab)?.length > 0)
     return (
       <>
         {[...privateChats?.get(tab)]?.map((chat, index) =>
           chat.sender !== nickname ? (
+            // chat.senderId !== memberId ? (
             <StChatBubble key={index}>
               {chat.sender !== userData.sender && (
                 <StSender>{chat.sender}</StSender>
               )}
               <StBubbleWrap>
                 <StChatMsg>{chat.message}</StChatMsg>
-                <span>{chat.sendDate?.split("T")[0]}</span>
+                <span>
+                  {chat.sendDate ? chat.sendDate?.split("T")[0] : date}
+                </span>
               </StBubbleWrap>
             </StChatBubble>
           ) : (
             <StChatBubble key={"user" + index} className="self">
               <StBubbleWrap className="self">
-                <span>{chat.sendDate?.split("T").join(" ")}</span>
+                <span>
+                  {chat.sendDate ? chat.sendDate?.split("T")[0] : date}
+                </span>
                 <StChatMsg className="self">{chat.message}</StChatMsg>
               </StBubbleWrap>
             </StChatBubble>
