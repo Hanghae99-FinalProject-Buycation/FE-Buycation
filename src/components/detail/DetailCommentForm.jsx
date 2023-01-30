@@ -15,12 +15,14 @@ import {
 import Swal from "sweetalert2";
 import ButtonBasic from "../elements/ButtonBasic";
 import { useParams } from "react-router-dom";
+import { getCookies } from "../../core/cookie";
 
 const DetailCommentForm = ({ className, commentId, commentContent }) => {
   const dispatch = useDispatch();
+  const tokenValue = getCookies("id");
   const postingId = parseInt(useParams().postingId);
   const [comment, setComment] = useState({ content: commentContent });
-  const myInfo = useSelector((state) => state.profile.getProfile);
+  const myInfo = useSelector((state) => state.profile?.getProfile);
   const isSuccess = useSelector((state) => state.comments.isSuccess);
   const toggleComment = useSelector((state) => state.comments.toggleComment);
 
@@ -61,7 +63,7 @@ const DetailCommentForm = ({ className, commentId, commentContent }) => {
   };
 
   useEffect(() => {
-    dispatch(__getMyProfile());
+    tokenValue && dispatch(__getMyProfile());
   }, [dispatch]);
 
   return (
