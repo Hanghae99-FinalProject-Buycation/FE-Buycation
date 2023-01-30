@@ -4,12 +4,7 @@ import DetailCommentModal from "./modals/DetailCommentModal";
 import DetailCommentForm from "./DetailCommentForm";
 import { useSelector } from "react-redux";
 
-const DetailCommentList = ({
-  details,
-  tokenValue,
-  DetailMoreButton,
-  // memberId,
-}) => {
+const DetailCommentList = ({ details, tokenValue, DetailMoreButton }) => {
   const commentsLength = details.commentList?.length || 0;
   const [modalId, setModalId] = useState("");
   const getCommentId = useSelector((state) => state.comments.getCommentId);
@@ -42,10 +37,10 @@ const DetailCommentList = ({
                     {comment.nickname}
                     &nbsp;&nbsp;&nbsp;
                   </span>
-                  <span>{comment.createdAt?.split(" ", 1)}</span>
+                  <span>{comment.createdAt}</span>
                   <p>{comment.content}</p>
                 </span>
-                {tokenValue && (
+                {comment.status && (
                   /* memberId === comment.memberId && */ <div className="commentOption">
                     <DetailCommentModal
                       id={comment.commentId}
