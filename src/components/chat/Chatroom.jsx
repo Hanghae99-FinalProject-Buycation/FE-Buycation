@@ -54,7 +54,8 @@ const Chatroom = () => {
   };
 
   const connect = () => {
-    let Sock = new SockJS(SOCKET_URL);
+    // let Sock = new SockJS(SOCKET_URL);
+    let Sock = new SockJS("http://13.125.15.202:8080/ws");
     stompClient = over(Sock);
     stompClient.connect({}, onConnected, onError);
   };
@@ -71,7 +72,6 @@ const Chatroom = () => {
 
   const userJoin = () => {
     let chatMessage = {
-      // memberId: memberId,
       sender: nickname,
       status: "JOIN",
     };
@@ -82,11 +82,9 @@ const Chatroom = () => {
     let payloadData = JSON.parse(payload.body);
     console.log(payloadData);
     if (tab !== "" || tab !== undefined) {
-      console.log("there");
       privateChats.set(tab, [...privateChats.get(tab), payloadData]);
       setPrivateChats(new Map(privateChats));
     } else {
-      console.log("here");
       dispatch(getChatRoom(payloadData.talkRoomId));
       privateChats.set(tab, [...privateChats.get(tab), payloadData]);
       setPrivateChats(new Map(privateChats));
@@ -101,7 +99,6 @@ const Chatroom = () => {
     const { value } = event.target;
     setUserData({ ...userData, message: value });
   };
-  console.log(privateChats);
   const sendPrivateValue = () => {
     if (stompClient) {
       let chatMessage = {
@@ -127,11 +124,21 @@ const Chatroom = () => {
     privateChats.delete(undefined);
     stompClient.subscribe(`/talk/${roomId}`, onPrivateMessage);
   };
-
+  const [idk, setIdk] = useState([]);
   useEffect(() => {
     connect();
     dispatch(__getChatList());
+    chatList?.map((item, idx) => {
+      dispatch(__getChatRoom(item.id)).then((res) => {
+        privateChats.set(chatList[idx]?.title, []);
+        // setIdk([...idk, chatBody]);
+        // ChatList 내에 데이터가 있다면 로비에서 바로 상태값에 주입 가능함
+      });
+    });
   }, [dispatch]);
+
+  // console.log(chatBody);
+  // console.log(chatList);
 
   if (isLoading) return <Spinners />;
 
@@ -315,7 +322,7 @@ const StChatList = styled.ul`
 
 const StChatRooms = styled.li`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: row;
   width: 100%;
   height: 4.5rem;
@@ -331,10 +338,11 @@ const StChatRooms = styled.li`
   .inner {
     display: grid;
     grid-template-columns: 70% 30%;
+    align-items: center;
     width: 100%;
     span:first-of-type {
       display: block;
-      width: 11ch;
+      width: 8.125rem;
       font-size: ${({ theme }) => theme.fontSize.md};
       overflow: hidden;
       white-space: nowrap;
@@ -344,7 +352,7 @@ const StChatRooms = styled.li`
       display: block;
       color: ${({ theme }) => theme.colors.grayWeak};
       font-size: ${({ theme }) => theme.fontSize.xs};
-      text-align: right;
+      text-align: center;
     }
   }
 

@@ -24,9 +24,15 @@ const ChatZone = ({
     bottomRef.current?.scrollIntoView();
   }, [privateChats]);
 
-  if (privateChats.size === 0 || !privateChats.get(tab)) return <Spinners />;
-
   console.log(privateChats);
+  if (privateChats.size === 0 || !privateChats.get(tab))
+    return (
+      <>
+        불편을 드려 죄송합니다. 다시 접속해주세요 ... <br />
+        <Spinners />
+      </>
+    );
+
   if (privateChats.get(tab)?.length > 0)
     return (
       <>
