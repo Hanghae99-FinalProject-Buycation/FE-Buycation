@@ -143,7 +143,6 @@ const Posting = () => {
               ))}
             </SelectInput>
             <InputBasic
-              height="2.25rem"
               name="title"
               placeholder="제목을 입력해 주세요."
               _onChange={onChangeValueHandler}
@@ -174,7 +173,7 @@ const Posting = () => {
               />
               <ButtonBasic
                 width="5rem"
-                height="1.938rem"
+                height="2.25rem"
                 fontSize="14px"
                 _onClick={onClickPostcodeHandler}
               >
@@ -289,6 +288,7 @@ const SelectInput = styled.select`
   border-radius: 0.5rem;
   @media screen and (max-width: 768px) {
     width: 100%;
+    height: 2.25rem;
   }
 `;
 
@@ -314,7 +314,7 @@ const TextArea = styled.textarea`
 
 const FileInput = styled.div`
   width: 22rem;
-  height: 1.938rem;
+  height: 2.25rem;
   border: 1px solid ${({ theme }) => theme.colors.grayWeak};
   border-radius: 0.5rem;
   padding: 0.5rem;
@@ -328,6 +328,7 @@ const FileInput = styled.div`
   }
   @media screen and (max-width: 768px) {
     width: 100%;
+    height: 2.25rem;
   }
 `;
 

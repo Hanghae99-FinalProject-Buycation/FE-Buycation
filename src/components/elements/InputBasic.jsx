@@ -53,7 +53,7 @@ export default InputBasic;
 
 InputBasic.defaultProps = {
   width: "100%",
-  height: "1.938rem",
+  height: "2.25rem",
   border: "1px solid #D9D9D9",
   borderRadius: "8px",
   background: "white",
@@ -74,4 +74,8 @@ const ElInput = styled.input`
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
   grid-area: ${({ gridArea }) => gridArea};
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: 2.25rem;
+  }
 `;
