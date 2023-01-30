@@ -61,8 +61,7 @@ const DetailApplicationBtns = ({
           text: "참가 취소되었습니다.",
           confirmButtonColor: "#ff5a5f",
         });
-        dispatch(__cancelApplication(postingId));
-        navigate("/");
+        dispatch(__cancelApplication(postingId)).then((res) => navigate("/"));
       } else if (res.isDenied) {
         return;
       }

@@ -25,17 +25,16 @@ const Detail = () => {
   const { isLoading, error } = useSelector((state) => state.getDetail);
   const details = useSelector((state) => state.getDetail.getDetail);
   const isSuccess = useSelector((state) => state.comments.isSuccess);
-  const { memberId } = useSelector((data) => data.profile.getProfile);
 
-  const onClickMoveProfileHandler = (memberId) => {
-    navigate(`/profile/${details?.memberId}`);
+  const onClickMoveProfileHandler = (memId) => {
+    navigate(`/profile/${memId}`);
   };
 
   useBuyLocation(details?.address);
 
   useEffect(() => {
     dispatch(__getDetail(postingId));
-    dispatch(__getProfile(details?.memberId));
+    // dispatch(__getProfile(details?.memberId));
   }, [dispatch, postingId, isSuccess]);
 
   if (isLoading) return <Spinners />;
@@ -84,7 +83,7 @@ const Detail = () => {
           details={details}
           tokenValue={tokenValue}
           DetailMoreButton={DetailMoreButton}
-          memberId={memberId}
+          memberId={details.memberId}
         />
       </StDetailForm>
     </StDetailWrap>
