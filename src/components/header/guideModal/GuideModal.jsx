@@ -61,7 +61,7 @@ const UserGuide = styled.div`
 const Header = styled.header`
   padding: 1rem;
   height: 52px;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.grayStrong};
+  border-bottom: 0.1rem solid ${({ theme }) => theme.colors.grayStrong};
   display: flex;
   justify-content: space-between;
   align-items: center;
