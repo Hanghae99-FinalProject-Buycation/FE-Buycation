@@ -69,5 +69,6 @@ const StPostingOption = styled.div`
     padding: 8px;
     background: none;
     border-bottom: 1px solid ${({ theme }) => theme.colors.grayWeak};
+    color: ${({ theme }) => theme.colors.black};
   }
 `;
