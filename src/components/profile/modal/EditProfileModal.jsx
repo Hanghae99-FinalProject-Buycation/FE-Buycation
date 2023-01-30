@@ -174,6 +174,7 @@ const ModalCard = styled.div`
 
 const Header = styled.header`
   padding: 1rem;
+  height: 52px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grayStrong};
   display: flex;
   justify-content: space-between;
@@ -197,6 +198,9 @@ const Header = styled.header`
 const CloseBtn = styled.button`
   background: none;
   cursor: pointer;
+  img {
+    filter: ${({ theme }) => theme.colors.imgFilterBlack};
+  }
 `;
 
 const ContentsBox = styled.div`

@@ -12,6 +12,8 @@ const theme = {
     grayHover: "#616161", //호버 시 진한 회색
     imgFilter:
       "invert(41%) sepia(45%) saturate(1242%) hue-rotate(317deg) brightness(112%) contrast(101%);",
+    imgFilterBlack:
+      "filter: invert(0%) sepia(6%) saturate(0%) hue-rotate(351deg) brightness(90%) contrast(105%);",
   },
 
   fontSize: {
