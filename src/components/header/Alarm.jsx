@@ -131,6 +131,10 @@ const PerAlarm = styled.div`
     font-size: ${({ theme }) => theme.fontSize.xs};
     color: ${({ theme }) => theme.colors.grayStrong};
   }
+  img {
+    width: 10px;
+    height: 50px;
+  }
   img:hover {
     filter: ${({ theme }) => theme.colors.imgFilter};
   }
