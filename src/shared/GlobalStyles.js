@@ -1,35 +1,7 @@
 import { Global, css } from "@emotion/react";
 
 const styles = css`
-  @font-face {
-    font-family: "Pretendard";
-    font-style: normal;
-    src: local("Pretendard") url("../styles/fonts/Pretendard-Regular.woff2")
-      format("woff2");
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: "Pretendard";
-    font-style: bold;
-    src: local("Pretendard") url("../styles/fonts/Pretendard-SemiBold.woff2")
-      format("woff2");
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: "Pretendard";
-    font-style: bold;
-    src: local("Pretendard") url("../styles/fonts/Pretendard-Bold.woff2")
-      format("woff2");
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-  }
+  @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard-dynamic-subset.css");
 
   * {
     box-sizing: border-box;
