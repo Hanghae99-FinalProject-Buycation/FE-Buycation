@@ -1,6 +1,5 @@
 //basic
 export const BACK_API = process.env.REACT_APP_BACKAPI;
-export const TEST_API = process.env.REACT_APP_TESTAPI;
 
 //kakao login
 export const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
