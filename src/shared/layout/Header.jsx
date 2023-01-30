@@ -15,7 +15,8 @@ import {
   __patchAlarmState,
 } from "../../redux/modules/alarm/alarmSlice";
 import { EventSourcePolyfill } from "event-source-polyfill";
-import { BACK_API } from "../../core/env";
+//import { BACK_API } from "../../core/env";
+import { TEST_API } from "../../core/env";
 import Chatroom from "../../components/chat/Chatroom";
 
 const Header = () => {
@@ -36,13 +37,16 @@ const Header = () => {
       let eventSource;
       const fetchSSE = async () => {
         try {
-          eventSource = new EventSource(`${BACK_API}/alarm/subscribe`, {
-            headers: {
-              Authorization: tokenValue,
-            },
-            heartbeatTimeout: 60 * 1000 * 30,
-            //withCredentials: true, //크로스 도메인에 요청을 보낼 때 요청에 credential 정보를 담아서 보낼 지를 결정하는 항목
-          });
+          eventSource = new EventSource(
+            `http://3.38.208.163:8080/api/alarm/subscribe`,
+            {
+              headers: {
+                Authorization: tokenValue,
+              },
+              heartbeatTimeout: 60 * 1000 * 30,
+              //withCredentials: true, //크로스 도메인에 요청을 보낼 때 요청에 credential 정보를 담아서 보낼 지를 결정하는 항목
+            }
+          );
 
           /* EVENTSOURCE ONMESSAGE : 서버로부터 message를 수신했을 때 호출하는 이벤트 핸들러 */
           eventSource.onmessage = async (event) => {
