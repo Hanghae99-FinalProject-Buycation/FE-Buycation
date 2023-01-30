@@ -105,6 +105,7 @@ const StComment = styled.div`
   font-size: ${({ theme }) => theme.fontSize.sm};
 
   p {
-    width: 80%;
+    width: 100%;
+    white-space: pre-wrap;
   }
 `;
