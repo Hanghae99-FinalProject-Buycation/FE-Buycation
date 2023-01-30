@@ -26,7 +26,7 @@ const Posting = () => {
     category: "",
     title: "",
     content: "",
-    detailAddress: "",
+    addressDetail: "",
     totalMembers: "",
     dueDate: "",
     dueTime: "",
@@ -169,7 +169,7 @@ const Posting = () => {
                 name="address"
                 placeholder="이웃과 거래하고 싶은 장소를 선택해 주세요."
                 value={address}
-                onChange={onChangeValueHandler}
+                _onChange={onChangeValueHandler}
               />
               <ButtonBasic
                 width="5rem"
@@ -183,7 +183,7 @@ const Posting = () => {
             <Label>
               상세주소
               <InputBasic
-                name="detailAddress"
+                name="addressDetail"
                 placeholder="선택 사항"
                 _onChange={onChangeValueHandler}
               />
@@ -274,6 +274,12 @@ const LeftDivForm = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  button {
+    background: inherit;
+    border: 1px solid ${({ theme }) => theme.colors.main};
+    color: ${({ theme }) => theme.colors.main};
+    font-size: ${({ theme }) => theme.fontSize.xs};
+  }
   @media screen and (max-width: 768px) {
     width: 100%;
     height: 100%;
@@ -328,7 +334,6 @@ const FileInput = styled.div`
   }
   @media screen and (max-width: 768px) {
     width: 100%;
-    height: 2.25rem;
   }
 `;
 
@@ -352,6 +357,9 @@ const SelectInputForm = styled.div`
   flex-direction: column;
   label {
     margin: 24px 0 8px 0;
+  }
+  input {
+    width: 100%;
   }
   & > span {
     border-top: 1px solid ${({ theme }) => theme.colors.grayStrong};

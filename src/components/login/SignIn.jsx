@@ -92,7 +92,6 @@ const SignIn = () => {
         </p>
         <InputBox>
           <InputBasic
-            height="3rem"
             background="#EDEDED"
             name="email"
             type="text"
@@ -103,7 +102,6 @@ const SignIn = () => {
             inValid={inValid.isEmail}
           />
           <InputBasic
-            height="3rem"
             background="#EDEDED"
             name="password"
             type="password"
