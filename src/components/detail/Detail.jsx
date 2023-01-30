@@ -34,7 +34,6 @@ const Detail = () => {
 
   useEffect(() => {
     dispatch(__getDetail(postingId));
-    // dispatch(__getProfile(details?.memberId));
   }, [dispatch, postingId, isSuccess]);
 
   if (isLoading) return <Spinners />;

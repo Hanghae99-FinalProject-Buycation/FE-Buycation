@@ -22,7 +22,7 @@ const DetailCommentForm = ({ className, commentId, commentContent }) => {
   const tokenValue = getCookies("id");
   const postingId = parseInt(useParams().postingId);
   const [comment, setComment] = useState({ content: commentContent });
-  const myInfo = useSelector((state) => state.profile?.getProfile);
+  // const myInfo = useSelector((state) => state.profile?.getProfile);
   const isSuccess = useSelector((state) => state.comments.isSuccess);
   const toggleComment = useSelector((state) => state.comments.toggleComment);
 
@@ -53,22 +53,23 @@ const DetailCommentForm = ({ className, commentId, commentContent }) => {
         confirmButtonColor: "#ff5a5f",
       });
     } else {
-      dispatch(__putComment({ commentId, comment }));
-      dispatch(sendCommentToggle(true));
-      dispatch(sendCommentId(null));
-    }
-    if (isSuccess) {
-      dispatch(__isSuccess(false));
+      dispatch(__putComment({ commentId, comment })).then((res) => {
+        dispatch(sendCommentToggle(true));
+        dispatch(sendCommentId(null));
+        if (isSuccess) {
+          dispatch(__isSuccess(false));
+        }
+      });
     }
   };
 
   useEffect(() => {
-    tokenValue && dispatch(__getMyProfile());
+    // tokenValue && dispatch(__getMyProfile());
   }, [dispatch]);
 
   return (
     <StComment className={className}>
-      <span>{myInfo?.nickname}</span>
+      <span>{/* {myInfo?.nickname} */}</span>
       <textarea
         placeholder="댓글을 남겨보세요"
         onChange={onChangeCommentHandler}

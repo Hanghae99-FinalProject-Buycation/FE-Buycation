@@ -8,7 +8,7 @@ const DetailCommentList = ({
   details,
   tokenValue,
   DetailMoreButton,
-  memberId,
+  // memberId,
 }) => {
   const commentsLength = details.commentList?.length || 0;
   const [modalId, setModalId] = useState("");
@@ -45,8 +45,8 @@ const DetailCommentList = ({
                   <span>{comment.createdAt?.split(" ", 1)}</span>
                   <p>{comment.content}</p>
                 </span>
-                {tokenValue && memberId === comment.memberId && (
-                  <div className="commentOption">
+                {tokenValue && (
+                  /* memberId === comment.memberId && */ <div className="commentOption">
                     <DetailCommentModal
                       id={comment.commentId}
                       modalId={modalId}
