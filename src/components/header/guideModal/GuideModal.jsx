@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { FaTimes } from "react-icons/fa";
 import guidepagePc from "../../../assets/useGuide/guidepagePc.svg";
 import guidepageMobile from "../../../assets/useGuide/guidepageMobile.svg";
-//import { Spinners } from "../../../shared/layout/Spinners";
+import { Spinners } from "../../../shared/layout/Spinners";
 
 const GuideModal = (props) => {
+  const [loaded, setLoaded] = useState(false);
+  console.log(loaded);
+
   return (
     <Backdrop onClick={props.onClose}>
       <UserGuide>
@@ -17,11 +20,27 @@ const GuideModal = (props) => {
         </Header>
         {props.onInnerWidth > 768 ? (
           <GuidePage>
-            <img alt="guidepagePc" src={guidepagePc} />
+            {loaded ? (
+              <Spinners />
+            ) : (
+              <img
+                alt="guidepagePc"
+                src={guidepagePc}
+                onLoad={() => setLoaded(true)}
+              />
+            )}
           </GuidePage>
         ) : (
           <GuidePage>
-            <img alt="guidepageMobile" src={guidepageMobile} />
+            {loaded ? (
+              <Spinners />
+            ) : (
+              <img
+                alt="guidepageMobile"
+                src={guidepageMobile}
+                onLoad={() => setLoaded(true)}
+              />
+            )}
           </GuidePage>
         )}
       </UserGuide>
