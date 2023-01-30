@@ -62,6 +62,10 @@ const styles = css`
     cursor: pointer;
   }
 
+  a {
+    color: #000000;
+  }
+
   select {
     color: #a6a6a6;
   }
