@@ -16,7 +16,7 @@ const DetailPostingOptionModal = ({ postingId }) => {
     setHide(!hide);
   };
   const onClickSendDoneHandler = () => {
-    dispatch(__doneDetail(postingId));
+    dispatch(__doneDetail(postingId)).then((res) => navigate("/myProfile"));
   };
   const onMoveModifyHandler = () => {
     navigate(`../modify/${postingId}`);
