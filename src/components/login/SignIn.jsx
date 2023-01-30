@@ -155,8 +155,8 @@ const Form = styled.form`
     text-align: center;
     margin-bottom: 1.5rem;
     font-weight: 600;
-    letter-spacing: 0.18rem;
-    line-height: 28px;
+    letter-spacing: 0.1rem;
+    line-height: 30px;
   }
 `;
 
