@@ -14,6 +14,7 @@ import {
 import profileDefault from "../../assets/profileImg/profile_default.svg";
 import footIcon from "../../assets/reviewIcon/reviewFootIcon.svg";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const DetailApplicationList = ({ postingId, onClickMoveProfileHandler }) => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const DetailApplicationList = ({ postingId, onClickMoveProfileHandler }) => {
   const onClickCloseHandler = () => {
     setHide(!hide);
   };
+  const navigate = useNavigate();
   // 더블클릭 해야 다시 버튼 등장함...
   const ref = useOutsideClick(onClickCloseHandler);
   // const applicateStatus = applicationList.data;
@@ -35,10 +37,6 @@ const DetailApplicationList = ({ postingId, onClickMoveProfileHandler }) => {
         postingId: postingId,
       })
     ).then((res) => {
-      /*  Swal.fire({
-        text: res.payload,
-        confirmButtonColor: "#ff5f5a",
-      }); */
       if (isSuccess) {
         dispatch(__isSuccess(false));
       }
@@ -51,10 +49,6 @@ const DetailApplicationList = ({ postingId, onClickMoveProfileHandler }) => {
         postingId: postingId,
       })
     ).then((res) => {
-      /* Swal.fire({
-        text: res.payload,
-        confirmButtonColor: "#ff5f5a",
-      }); */
       if (isSuccess) {
         dispatch(__isSuccess(false));
       }

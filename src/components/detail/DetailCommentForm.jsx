@@ -8,7 +8,10 @@ import {
   __postComment,
   __putComment,
 } from "../../redux/modules/details/commentSlice";
-import { __getProfile } from "../../redux/modules/profile/profileSlice";
+import {
+  __getMyProfile,
+  __getProfile,
+} from "../../redux/modules/profile/profileSlice";
 import Swal from "sweetalert2";
 import ButtonBasic from "../elements/ButtonBasic";
 import { useParams } from "react-router-dom";
@@ -16,9 +19,8 @@ import { useParams } from "react-router-dom";
 const DetailCommentForm = ({ className, commentId, commentContent }) => {
   const dispatch = useDispatch();
   const postingId = parseInt(useParams().postingId);
-  const memberIdData = parseInt(localStorage.getItem("memberId"));
   const [comment, setComment] = useState({ content: commentContent });
-  const { nickname } = useSelector((state) => state.profile.getProfile);
+  const myInfo = useSelector((state) => state.profile.getProfile);
   const isSuccess = useSelector((state) => state.comments.isSuccess);
   const toggleComment = useSelector((state) => state.comments.toggleComment);
 
@@ -59,12 +61,12 @@ const DetailCommentForm = ({ className, commentId, commentContent }) => {
   };
 
   useEffect(() => {
-    dispatch(__getProfile(memberIdData));
-  }, [dispatch, memberIdData]);
+    dispatch(__getMyProfile());
+  }, [dispatch]);
 
   return (
     <StComment className={className}>
-      <span>{nickname}</span>
+      <span>{myInfo?.nickname}</span>
       <textarea
         placeholder="댓글을 남겨보세요"
         onChange={onChangeCommentHandler}
