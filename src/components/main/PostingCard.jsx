@@ -38,7 +38,7 @@ const PostingCard = ({
             <p>
               <FaUser size="11px" /> {currentMembers}/{totalMembers}
             </p>
-            <p>{dueData} 까지 모집</p>
+            <p>{dueData}까지 모집</p>
             <p>
               {editedBudget} <span>(1인당 예산 금액)</span>
             </p>
