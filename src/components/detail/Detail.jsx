@@ -15,7 +15,7 @@ import DetailApplicationBtns from "./DetailApplicationBtns";
 import DetailCommentList from "./DetailCommentList";
 import DetailCreatorProfile from "./DetailCreatorProfile";
 import DetailContent from "./DetailContent";
-import { __getMyProfile } from "../../redux/modules/profile/profileSlice";
+import { __getProfile } from "../../redux/modules/profile/profileSlice";
 
 const Detail = () => {
   const dispatch = useDispatch();
@@ -28,14 +28,14 @@ const Detail = () => {
   const { memberId } = useSelector((data) => data.profile.getProfile);
 
   const onClickMoveProfileHandler = (memberId) => {
-    navigate(`/profile/${memberId}`);
+    navigate(`/profile/${details?.memberId}`);
   };
 
   useBuyLocation(details?.address);
 
   useEffect(() => {
     dispatch(__getDetail(postingId));
-    dispatch(__getMyProfile());
+    dispatch(__getProfile(details?.memberId));
   }, [dispatch, postingId, isSuccess]);
 
   if (isLoading) return <Spinners />;
@@ -126,7 +126,6 @@ const ElImgWrap = styled.div`
     width: 100%;
     height: 31.625rem;
     object-fit: cover;
-    /* border: 0.1rem solid ${({ theme }) => theme.colors.grayWeak}; */
     border-radius: 0.5rem;
 
     @media screen and (max-width: 48rem) {
