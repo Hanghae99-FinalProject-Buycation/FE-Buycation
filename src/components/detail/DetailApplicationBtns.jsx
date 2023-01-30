@@ -10,7 +10,6 @@ import {
   __postApplication,
 } from "../../redux/modules/application/applicationSlice";
 import { __getParticipatedList } from "../../redux/modules/profile/myListSlice";
-import { __getMyProfile } from "../../redux/modules/profile/profileSlice";
 import applicateBtnIcon from "../../assets/detailIcon/applicateBtnIcon.svg";
 import applicateCancelIcon from "../../assets/detailIcon/applicateCancelIcon.svg";
 

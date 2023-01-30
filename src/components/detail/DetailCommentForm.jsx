@@ -8,7 +8,7 @@ import {
   __postComment,
   __putComment,
 } from "../../redux/modules/details/commentSlice";
-import { __getMyProfile } from "../../redux/modules/profile/profileSlice";
+import { __getProfile } from "../../redux/modules/profile/profileSlice";
 import Swal from "sweetalert2";
 import ButtonBasic from "../elements/ButtonBasic";
 import { useParams } from "react-router-dom";
@@ -59,7 +59,7 @@ const DetailCommentForm = ({ className, commentId, commentContent }) => {
   };
 
   useEffect(() => {
-    dispatch(__getMyProfile(memberIdData));
+    dispatch(__getProfile(memberIdData));
   }, [dispatch, memberIdData]);
 
   return (

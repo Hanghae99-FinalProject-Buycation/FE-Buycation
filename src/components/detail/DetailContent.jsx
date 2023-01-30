@@ -18,9 +18,14 @@ export default DetailContent;
 
 const StContent = styled.div`
   h3 {
+    display: block;
+    width: 26ch;
+    margin-bottom: ${({ theme }) => theme.lineHeight.perParagraph};
     font-weight: 600;
     font-size: ${({ theme }) => theme.fontSize.xl};
-    margin-bottom: ${({ theme }) => theme.lineHeight.perParagraph};
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   span {
     display: inline-block;
