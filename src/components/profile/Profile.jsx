@@ -73,6 +73,7 @@ const Wrap = styled.div`
   padding: 6rem 16rem;
   display: flex;
   justify-content: center;
+  overflow: auto;
   @media screen and (max-width: 768px) {
     padding: 2.2rem 0;
     display: block;

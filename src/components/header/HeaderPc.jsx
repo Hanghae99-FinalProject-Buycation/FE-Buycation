@@ -137,6 +137,9 @@ const Icon = styled.div`
   display: flex;
   gap: 23px;
   cursor: pointer;
+  img {
+    height: 25px;
+  }
 `;
 
 const AlarmBox = styled.div`
