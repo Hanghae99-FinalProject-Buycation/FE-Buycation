@@ -5,14 +5,17 @@ import {
   sendCommentId,
   sendCommentToggle,
   __isSuccess,
+  __postComment,
   __putComment,
 } from "../../redux/modules/details/commentSlice";
 import { __getMyProfile } from "../../redux/modules/profile/profileSlice";
 import Swal from "sweetalert2";
 import ButtonBasic from "../elements/ButtonBasic";
+import { useParams } from "react-router-dom";
 
 const DetailCommentForm = ({ className, commentId, commentContent }) => {
   const dispatch = useDispatch();
+  const postingId = parseInt(useParams().postingId);
   const memberIdData = parseInt(localStorage.getItem("memberId"));
   const [comment, setComment] = useState({ content: commentContent });
   const { nickname } = useSelector((state) => state.profile.getProfile);
@@ -30,6 +33,7 @@ const DetailCommentForm = ({ className, commentId, commentContent }) => {
         confirmButtonColor: "#ff5a5f",
       });
     } else {
+      dispatch(__postComment({ postingId, comment }));
       setComment({ content: "" });
       dispatch(sendCommentToggle(true));
     }
@@ -71,10 +75,10 @@ const DetailCommentForm = ({ className, commentId, commentContent }) => {
           width="4.375rem"
           height="fit-content"
           color="white"
-          _onClick={
+          _onClick={() =>
             className === "show" && !toggleComment
-              ? onClickCommentPutHandler
-              : onClickCommentPostHandler
+              ? onClickCommentPutHandler()
+              : onClickCommentPostHandler()
           }
         >
           {className === "show" && !toggleComment ? "수정" : "등록"}
