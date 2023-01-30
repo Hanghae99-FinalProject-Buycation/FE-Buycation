@@ -44,13 +44,6 @@ const styles = css`
     font-family: "Pretendard";
   }
 
-  input,
-  textarea {
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-  }
-
   button,
   input,
   textarea,
@@ -87,6 +80,16 @@ const styles = css`
 
   input::file-selector-button {
     display: none;
+  }
+
+  //IOS CSS 적용
+  input,
+  select,
+  button,
+  textarea {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
   }
 `;
 
