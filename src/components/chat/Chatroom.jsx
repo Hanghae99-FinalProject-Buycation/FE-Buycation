@@ -20,12 +20,11 @@ import useWindowResize from "../../hooks/useWindowResize";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import ChatZone from "./ChatZone";
 
-// var stompClient = null;
 const Chatroom = () => {
   const dispatch = useDispatch();
   const { isLoading, error } = useSelector((state) => state.chat);
   const chatList = useSelector((state) => state.chat.getChatList);
-  const { nickname, talks, memberId } = useSelector(
+  const { nickname, talks, memberId, message } = useSelector(
     (state) => state.chat.getChatRoom
   );
   const chatBody = useSelector((state) => state.chat.getChatRoom);
@@ -35,12 +34,11 @@ const Chatroom = () => {
   const [roomId, setRoomId] = useState(null);
   const [hide, setHide] = useState(false);
   const [privateChats, setPrivateChats] = useState(new Map());
-  const [tab, setTab] = useState("");
+  const [tab, setTab] = useState(null);
   const [userData, setUserData] = useState({
-    // 여기다 넣으면 접속하자마자 내역에 유저 구분은 되지만 유저의 접속 상태를 확인하지 못하는 단점이 있다
     memberId: memberId,
     sender: nickname,
-    receiver: "",
+    receiver: tab,
     message: "",
     sendDate: "",
     connected: false,
@@ -54,6 +52,15 @@ const Chatroom = () => {
     }
   };
   const client = useRef(null);
+
+  const onPrivateMessage = (message) => {
+    const payloadData = JSON.parse(message.body);
+    privateChats.set(payloadData.talkRoomId, [
+      ...privateChats?.get(payloadData.talkRoomId),
+      payloadData,
+    ]);
+    setPrivateChats(new Map(privateChats));
+  };
 
   const connect = () => {
     client.current = new Stomp.Client({
@@ -70,7 +77,6 @@ const Chatroom = () => {
           memberId: memberId,
         });
         userJoin();
-        client.current.subscribe(`/talk/${roomId}`, onPrivateMessage);
       },
       onStompError: (frame) => {},
     });
@@ -88,29 +94,17 @@ const Chatroom = () => {
     });
   };
 
-  const onPrivateMessage = (msg) => {
-    let payloadData = JSON.parse(msg.body);
-    console.log(payloadData);
-    if (tab !== "" || tab !== undefined) {
-      privateChats.set(tab, [...privateChats?.get(tab), payloadData]);
-      setPrivateChats(new Map(privateChats));
-    } else {
-      dispatch(getChatRoom(payloadData.talkRoomId));
-      privateChats.set(tab, [...privateChats?.get(tab), payloadData]);
-      setPrivateChats(new Map(privateChats));
-    }
-  };
-
   const handleMessage = (event) => {
     const { value } = event.target;
     setUserData({ ...userData, message: value });
   };
+
   const sendPrivateValue = () => {
     if (client.current) {
       let chatMessage = {
         memberId: memberId,
         sender: nickname,
-        receiver: tab,
+        receiver: roomId,
         message: userData.message,
         status: "MESSAGE",
       };
@@ -123,21 +117,17 @@ const Chatroom = () => {
   };
   const onClickSelectRoomHandler = (roomNo) => {
     dispatch(__getChatRoom(roomNo));
+    setTab(roomNo);
     setRoomId(roomNo);
-    // privateChats.set(tab, talks);
+    client.current.subscribe(`/talk/${roomNo}`, onPrivateMessage);
+    privateChats.set(tab, talks);
     privateChats.delete("");
+    privateChats.delete(null);
     privateChats.delete(undefined);
   };
 
   useEffect(() => {
     connect();
-    dispatch(__getChatList());
-    const test = chatList?.map((item) => item.id);
-    chatList?.map((item, idx) => {
-      dispatch(__getChatRoom(test[idx])).then((res) => {
-        privateChats.set(chatList[idx]?.title, res?.payload.talks);
-      });
-    });
   }, [dispatch]);
 
   // if (isLoading || privateChats.size === 0 || !privateChats.get(tab))
@@ -150,7 +140,7 @@ const Chatroom = () => {
   if (isLoading)
     return (
       <StWrap ref={ref}>
-        불편을 드려 죄송합니다. 다시 접속해주세요 ... <br />
+        불편을 드려 죄송합니다. 채팅 창을 닫았다가 다시 접속해주세요 ... <br />
         <Spinners />
       </StWrap>
     );
@@ -190,7 +180,6 @@ const Chatroom = () => {
             {chatList?.map((room) => (
               <StChatRooms
                 onClick={() => {
-                  setTab(room.title);
                   onClickSelectRoomHandler(room.id);
                   innerWidth < 768 ? setHide(!hide) : setHide(true);
                 }}
@@ -242,7 +231,7 @@ const Chatroom = () => {
               tab={tab}
               roomId={roomId}
               memberId={memberId}
-              // id={id}
+              message={message}
             />
           </StChatZone>
           <StSendZone>

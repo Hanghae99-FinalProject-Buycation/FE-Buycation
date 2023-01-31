@@ -24,7 +24,6 @@ const ChatZone = ({
     bottomRef.current?.scrollIntoView();
   }, [privateChats]);
 
-  // console.log(privateChats);
   if (privateChats.size === 0 || !privateChats.get(tab))
     return (
       <>
@@ -43,7 +42,7 @@ const ChatZone = ({
                 <StSender>{chat.sender}</StSender>
               )}
               <StBubbleWrap>
-                <StChatMsg>{chat.message}</StChatMsg>
+                <StChatMsg>{chat?.message}</StChatMsg>
                 <span>
                   {/* {chat.sendDate ? chat.sendDate?.split("T")[0] : date} */}
                   {chat.sendDate ? chat.sendDate : date}
