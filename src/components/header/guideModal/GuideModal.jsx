@@ -12,7 +12,7 @@ const GuideModal = (props) => {
     <Backdrop onClick={props.onClose}>
       <UserGuide>
         <Header>
-          <span>가이드 북</span>
+          <span>가이드</span>
           <CloseBtn onClick={props.onClose}>
             <img alt="modalClose" src={ModalClose} />
           </CloseBtn>
@@ -75,7 +75,7 @@ const UserGuide = styled.div`
   left: 0;
   right: 0;
   top: 10%;
-  width: 920px;
+  width: 935px;
   height: 590;
   z-index: 10;
   background: white;
