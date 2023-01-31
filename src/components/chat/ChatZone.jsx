@@ -24,7 +24,7 @@ const ChatZone = ({
     bottomRef.current?.scrollIntoView();
   }, [privateChats]);
 
-  console.log(privateChats);
+  // console.log(privateChats);
   if (privateChats.size === 0 || !privateChats.get(tab))
     return (
       <>
@@ -37,8 +37,7 @@ const ChatZone = ({
     return (
       <>
         {[...privateChats?.get(tab)]?.map((chat, index) =>
-          chat.sender !== nickname ? (
-            // chat.senderId !== memberId ? (
+          userData.memberId !== chat.memberId ? (
             <StChatBubble key={index}>
               {chat.sender !== userData.sender && (
                 <StSender>{chat.sender}</StSender>
@@ -46,16 +45,16 @@ const ChatZone = ({
               <StBubbleWrap>
                 <StChatMsg>{chat.message}</StChatMsg>
                 <span>
-                  {chat.sendDate ? chat.sendDate?.split("T")[0] : date}
+                  {/* {chat.sendDate ? chat.sendDate?.split("T")[0] : date} */}
+                  {chat.sendDate ? chat.sendDate : date}
                 </span>
               </StBubbleWrap>
             </StChatBubble>
           ) : (
             <StChatBubble key={"user" + index} className="self">
               <StBubbleWrap className="self">
-                <span>
-                  {chat.sendDate ? chat.sendDate?.split("T")[0] : date}
-                </span>
+                {/* {chat.sendDate ? chat.sendDate?.split("T")[0] : date} */}
+                <span>{chat.sendDate ? chat.sendDate : date}</span>
                 <StChatMsg className="self">{chat.message}</StChatMsg>
               </StBubbleWrap>
             </StChatBubble>

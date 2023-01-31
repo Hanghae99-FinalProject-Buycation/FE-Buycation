@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
-import { over } from "stompjs";
+// import { Client } from "stompjs";
+import * as Stomp from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import { SOCKET_URL } from "../../core/env";
 import DetailSpan from "../detail/elements/DetailSpan";
@@ -19,22 +20,9 @@ import useWindowResize from "../../hooks/useWindowResize";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import ChatZone from "./ChatZone";
 
-var stompClient = null;
+// var stompClient = null;
 const Chatroom = () => {
   const dispatch = useDispatch();
-  const [roomId, setRoomId] = useState(null);
-  const [hide, setHide] = useState(false);
-  const [privateChats, setPrivateChats] = useState(new Map());
-  const [tab, setTab] = useState("");
-  const [userData, setUserData] = useState({
-    memberId: "",
-    sender: "",
-    receiver: "",
-    message: "",
-    sendDate: "",
-    connected: false,
-  });
-
   const { isLoading, error } = useSelector((state) => state.chat);
   const chatList = useSelector((state) => state.chat.getChatList);
   const { nickname, talks, memberId } = useSelector(
@@ -42,57 +30,77 @@ const Chatroom = () => {
   );
   const chatBody = useSelector((state) => state.chat.getChatRoom);
   const { roomInfo } = useSelector((state) => state.chat.getChatRoom);
-
   const chatStatus = useSelector((state) => state.generalModal.toggleChat);
+
+  const [roomId, setRoomId] = useState(null);
+  const [hide, setHide] = useState(false);
+  const [privateChats, setPrivateChats] = useState(new Map());
+  const [tab, setTab] = useState("");
+  const [userData, setUserData] = useState({
+    // 여기다 넣으면 접속하자마자 내역에 유저 구분은 되지만 유저의 접속 상태를 확인하지 못하는 단점이 있다
+    memberId: memberId,
+    sender: nickname,
+    receiver: "",
+    message: "",
+    sendDate: "",
+    connected: false,
+  });
+
   const { innerWidth } = useWindowResize();
   const ref = useOutsideClick(() => dispatch(sendChatStatus(!chatStatus)));
-
   const onPressEnterHandler = (e) => {
     if (e.keyCode === 13) {
       sendPrivateValue();
     }
   };
+  const client = useRef(null);
 
   const connect = () => {
-    // let Sock = new SockJS(SOCKET_URL);
-    let Sock = new SockJS("https://13.125.15.202/ws");
-    stompClient = over(Sock);
-    stompClient.connect({}, onConnected, onError);
+    client.current = new Stomp.Client({
+      debug: (str) => {
+        console.log(str);
+      },
+      splitLargeFrames: true,
+      webSocketFactory: () => new SockJS(SOCKET_URL),
+      onConnect: () => {
+        setUserData({
+          ...userData,
+          connected: true,
+          sender: nickname,
+          memberId: memberId,
+        });
+        userJoin();
+        client.current.subscribe(`/talk/${roomId}`, onPrivateMessage);
+      },
+      onStompError: (frame) => {},
+    });
+    client.current.activate();
   };
 
-  const onConnected = () => {
-    setUserData({
-      ...userData,
-      connected: true,
-      sender: nickname,
-      memberId: memberId,
-    });
-    userJoin();
-  };
+  console.log(SOCKET_URL);
 
   const userJoin = () => {
     let chatMessage = {
       sender: nickname,
       status: "JOIN",
     };
-    stompClient.send("/send", {}, JSON.stringify(chatMessage));
+    client.current.publish({
+      destination: `/send/${roomId}`,
+      body: JSON.stringify(chatMessage),
+    });
   };
 
-  const onPrivateMessage = (payload) => {
-    let payloadData = JSON.parse(payload.body);
+  const onPrivateMessage = (msg) => {
+    let payloadData = JSON.parse(msg.body);
     console.log(payloadData);
     if (tab !== "" || tab !== undefined) {
-      privateChats.set(tab, [...privateChats.get(tab), payloadData]);
+      privateChats.set(tab, [...privateChats?.get(tab), payloadData]);
       setPrivateChats(new Map(privateChats));
     } else {
       dispatch(getChatRoom(payloadData.talkRoomId));
-      privateChats.set(tab, [...privateChats.get(tab), payloadData]);
+      privateChats.set(tab, [...privateChats?.get(tab), payloadData]);
       setPrivateChats(new Map(privateChats));
     }
-  };
-
-  const onError = (err) => {
-    console.log(err);
   };
 
   const handleMessage = (event) => {
@@ -100,7 +108,7 @@ const Chatroom = () => {
     setUserData({ ...userData, message: value });
   };
   const sendPrivateValue = () => {
-    if (stompClient) {
+    if (client.current) {
       let chatMessage = {
         memberId: memberId,
         sender: nickname,
@@ -108,39 +116,46 @@ const Chatroom = () => {
         message: userData.message,
         status: "MESSAGE",
       };
-      /* if (userData.username !== nickname) {
-        privateChats.set(tab, [...privateChats.get(tab), chatMessage]);
-      } */
-      stompClient.send(`/send/${roomId}`, {}, JSON.stringify(chatMessage));
+      client.current.publish({
+        destination: `/send/${roomId}`,
+        body: JSON.stringify(chatMessage),
+      });
       setUserData({ ...userData, message: "" });
     }
   };
-
   const onClickSelectRoomHandler = (roomNo) => {
     dispatch(__getChatRoom(roomNo));
     setRoomId(roomNo);
-    privateChats.set(tab, talks);
+    // privateChats.set(tab, talks);
     privateChats.delete("");
     privateChats.delete(undefined);
-    stompClient.subscribe(`/talk/${roomId}`, onPrivateMessage);
   };
-  const [idk, setIdk] = useState([]);
+
   useEffect(() => {
     connect();
     dispatch(__getChatList());
+    const test = chatList?.map((item) => item.id);
     chatList?.map((item, idx) => {
-      dispatch(__getChatRoom(item.id)).then((res) => {
-        privateChats.set(chatList[idx]?.title, []);
-        // setIdk([...idk, chatBody]);
-        // ChatList 내에 데이터가 있다면 로비에서 바로 상태값에 주입 가능함
+      dispatch(__getChatRoom(test[idx])).then((res) => {
+        privateChats.set(chatList[idx]?.title, res?.payload.talks);
       });
     });
   }, [dispatch]);
 
-  // console.log(chatBody);
-  // console.log(chatList);
-
-  if (isLoading) return <Spinners />;
+  // if (isLoading || privateChats.size === 0 || !privateChats.get(tab))
+  //   return (
+  //     <StWrap ref={ref}>
+  //       불편을 드려 죄송합니다. 다시 접속해주세요 ... <br />
+  //       <Spinners />
+  //     </StWrap>
+  //   );
+  if (isLoading)
+    return (
+      <StWrap ref={ref}>
+        불편을 드려 죄송합니다. 다시 접속해주세요 ... <br />
+        <Spinners />
+      </StWrap>
+    );
 
   if (error) return <span>{error}</span>;
 
@@ -281,8 +296,8 @@ const StWrap = styled.div`
   }
 
   @media screen and (max-width: 48rem) {
-    height: calc(100% - 4rem);
-    top: 4rem;
+    height: 100%;
+    top: 0;
     left: 50%;
     transform: translate(-50%, 0%);
   }
