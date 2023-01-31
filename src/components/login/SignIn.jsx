@@ -87,7 +87,7 @@ const SignIn = () => {
     <Wrap>
       <Form onSubmit={onSubmitLoginValueHandler}>
         <p>
-          환영합니다! 바이케이션을 시작하고 <br />
+          환영합니다! 바이케이션과 함께 <br />
           저렴하고 풍족한 삶을 누리세요.
         </p>
         <InputBox>
