@@ -2,6 +2,10 @@ import React from "react";
 import styled from "@emotion/styled";
 import ModalClose from "../../../assets/headerIcon/modalClose.svg";
 //import { Spinners } from "../../../shared/layout/Spinners";
+import guidePcVersion1 from "../../../assets/userGuide/guidePcVersion1.svg";
+import guidePcVersion2 from "../../../assets/userGuide/guidePcVersion2.svg";
+import guideMobileVersion1 from "../../../assets/userGuide/guideMovileVersion1.svg";
+import guideMobileVersion2 from "../../../assets/userGuide/guideMobileVersion2.svg";
 
 const GuideModal = (props) => {
   return (
@@ -17,22 +21,26 @@ const GuideModal = (props) => {
           <GuidePage>
             <img
               alt="guidePcVersion1"
-              src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion1.svg"
+              src={guidePcVersion1}
+              // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion1.svg"
             />
             <img
               alt="guidePcVersion2"
-              src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion2.svg"
+              src={guidePcVersion2}
+              // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion2.svg"
             />
           </GuidePage>
         ) : (
           <GuidePage>
             <img
               alt="guideMobileVersion1"
-              src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMovileVersion1.svg"
+              src={guideMobileVersion1}
+              // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMovileVersion1.svg"
             />
             <img
               alt="guideMobileVersion2"
-              src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMobileVersion2.svg"
+              src={guideMobileVersion2}
+              // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMobileVersion2.svg"
             />
           </GuidePage>
         )}
