@@ -77,8 +77,6 @@ const Chatroom = () => {
     client.current.activate();
   };
 
-  console.log(SOCKET_URL);
-
   const userJoin = () => {
     let chatMessage = {
       sender: nickname,
