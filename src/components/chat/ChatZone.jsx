@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import styled from "@emotion/styled";
 import { useEffect } from "react";
 import { Spinners } from "../../shared/layout/Spinners";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { __getChatRoom } from "../../redux/modules/chat/chatSlice";
 
 const ChatZone = ({
@@ -12,37 +12,38 @@ const ChatZone = ({
   talks,
   tab,
   memberId,
-  id,
   roomId,
+  client,
 }) => {
   const bottomRef = useRef(null);
   const dispatch = useDispatch();
   const date = new Date().toLocaleString();
+  const getRoomNo = useSelector((state) => state.chat.getRoomNo);
 
   useEffect(() => {
-    // room dispatch 하면 무한렌더링 됨
     bottomRef.current?.scrollIntoView();
   }, [privateChats]);
-
-  if (privateChats.size === 0 || !privateChats.get(tab))
+  /*   if (privateChats.size === 0 || !privateChats.get(tab))
     return (
       <>
-        불편을 드려 죄송합니다. 다시 접속해주세요 ... <br />
+        불편을 드려 죄송합니다. 채팅 창을 닫았다가 다시 접속해주세요 ... <br />
         <Spinners />
       </>
-    );
-
-  if (privateChats.get(tab)?.length > 0)
+    ); */
+  console.log(privateChats);
+  if (privateChats.get(getRoomNo)?.length > 0)
     return (
       <>
-        {[...privateChats?.get(tab)]?.map((chat, index) =>
+        {[...privateChats?.get(getRoomNo)]?.map((chat, index) =>
+          // {talks?.map((chat, index) =>
           userData.memberId !== chat.memberId ? (
             <StChatBubble key={index}>
+              {/* {console.log(userData, memberId)} */}
               {chat.sender !== userData.sender && (
                 <StSender>{chat.sender}</StSender>
               )}
               <StBubbleWrap>
-                <StChatMsg>{chat?.message}</StChatMsg>
+                <StChatMsg>{chat.message}</StChatMsg>
                 <span>
                   {/* {chat.sendDate ? chat.sendDate?.split("T")[0] : date} */}
                   {chat.sendDate ? chat.sendDate : date}
