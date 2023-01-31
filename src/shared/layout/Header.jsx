@@ -128,14 +128,14 @@ const Header = () => {
         <UserModal
           top="4rem"
           right="0"
+          chat="채팅"
+          chatClick={onClickChatOpenHandler}
           posting="게시글 작성"
           postingClick={onMovePostingHandler}
           myProfile="마이페이지"
           myProfileClick={onMoveMyProfileHandler}
           logout="로그아웃"
           logoutClick={onMoveLogoutHandler}
-          chat="채팅"
-          chatClick={onClickChatOpenHandler}
         />
       )}
       {!chatStatus && <Chatroom />}
