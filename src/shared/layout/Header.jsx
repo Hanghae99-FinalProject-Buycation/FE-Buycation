@@ -17,6 +17,7 @@ import {
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { BACK_API } from "../../core/env";
 import Chatroom from "../../components/chat/Chatroom";
+import { __getChatList } from "../../redux/modules/chat/chatSlice";
 
 const Header = () => {
   const { innerWidth } = useWindowResize();
@@ -98,6 +99,7 @@ const Header = () => {
 
   // 채팅 모달
   const onClickChatOpenHandler = () => {
+    dispatch(__getChatList());
     dispatch(sendChatStatus(!chatStatus));
   };
 
