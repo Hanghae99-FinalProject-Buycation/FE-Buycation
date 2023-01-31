@@ -71,4 +71,7 @@ const StPostingOption = styled.div`
     border-bottom: 1px solid ${({ theme }) => theme.colors.grayWeak};
     color: ${({ theme }) => theme.colors.black};
   }
+  button:hover {
+    color: ${({ theme }) => theme.colors.grayHover};
+  }
 `;
