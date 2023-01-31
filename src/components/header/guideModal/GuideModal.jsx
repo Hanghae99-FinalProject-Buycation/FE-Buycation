@@ -19,29 +19,37 @@ const GuideModal = (props) => {
         </Header>
         {props.onInnerWidth > 768 ? (
           <GuidePage>
-            <img
-              alt="guidePcVersion1"
-              src={guidePcVersion1}
-              // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion1.svg"
-            />
-            <img
-              alt="guidePcVersion2"
-              src={guidePcVersion2}
-              // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion2.svg"
-            />
+            <object type="image/svg+xml" data={guidePcVersion1}>
+              <img
+                alt="guidePcVersion1"
+                src={guidePcVersion1}
+                // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion1.svg"
+              />
+            </object>
+            <object type="image/svg+xml" data={guidePcVersion2}>
+              <img
+                alt="guidePcVersion2"
+                src={guidePcVersion2}
+                // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion2.svg"
+              />
+            </object>
           </GuidePage>
         ) : (
           <GuidePage>
-            <img
-              alt="guideMobileVersion1"
-              src={guideMobileVersion1}
-              // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMovileVersion1.svg"
-            />
-            <img
-              alt="guideMobileVersion2"
-              src={guideMobileVersion2}
-              // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMobileVersion2.svg"
-            />
+            <object type="image/svg+xml" data={guideMobileVersion1}>
+              <img
+                alt="guideMobileVersion1"
+                src={guideMobileVersion1}
+                // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMovileVersion1.svg"
+              />
+            </object>
+            <object type="image/svg+xml" data={guideMobileVersion2}>
+              <img
+                alt="guideMobileVersion2"
+                src={guideMobileVersion2}
+                // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMobileVersion2.svg"
+              />
+            </object>
           </GuidePage>
         )}
       </UserGuide>
