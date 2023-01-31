@@ -55,7 +55,6 @@ const styles = css`
   }
 
   //IOS CSS 적용
-  img,
   input,
   select,
   button,

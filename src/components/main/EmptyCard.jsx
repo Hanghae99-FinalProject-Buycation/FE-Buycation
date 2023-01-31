@@ -16,7 +16,7 @@ export default PostingCard;
 const CardWrap = styled.div`
   width: 100%;
   height: 12rem;
-  padding: 20px 25px;
+  padding: 20px 22px;
   display: flex;
   justify-content: center;
   border-top: 1px solid ${({ theme }) => theme.colors.grayList};

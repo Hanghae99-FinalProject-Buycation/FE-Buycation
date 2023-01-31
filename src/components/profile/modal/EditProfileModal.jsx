@@ -199,9 +199,6 @@ const Header = styled.header`
 const CloseBtn = styled.button`
   background: none;
   cursor: pointer;
-  img {
-    filter: ${({ theme }) => theme.colors.imgFilterBlack};
-  }
 `;
 
 const ContentsBox = styled.div`
@@ -238,8 +235,5 @@ const FileInput = styled.div`
     width: 100%;
     background: none;
     color: ${({ theme }) => theme.colors.grayMid};
-  }
-  @media screen and (max-width: 768px) {
-    width: 100%;
   }
 `;

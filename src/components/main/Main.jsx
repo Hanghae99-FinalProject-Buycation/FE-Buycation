@@ -18,7 +18,7 @@ const Wrap = styled.div`
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: 355px 1fr;
+  grid-template-columns: 360px 1fr;
   grid-template-areas: "list map";
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;

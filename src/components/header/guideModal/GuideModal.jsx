@@ -89,9 +89,6 @@ const Header = styled.header`
 const CloseBtn = styled.button`
   background: none;
   cursor: pointer;
-  img {
-    filter: ${({ theme }) => theme.colors.imgFilterBlack};
-  }
 `;
 
 const GuidePage = styled.div`
