@@ -146,6 +146,7 @@ const Chatroom = () => {
     privateChats.delete(null);
     privateChats.delete(undefined);
   };
+  console.log(privateChats);
 
   const onClickExitHandler = () => {
     dispatch(sendChatStatus(!chatStatus));
