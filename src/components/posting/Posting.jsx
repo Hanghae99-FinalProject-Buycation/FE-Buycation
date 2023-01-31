@@ -329,6 +329,7 @@ const FileInput = styled.div`
   justify-content: space-around;
   input {
     width: 100%;
+    height: 1rem;
     background: none;
     color: ${({ theme }) => theme.colors.grayMid};
   }
