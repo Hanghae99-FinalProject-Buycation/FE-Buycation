@@ -32,8 +32,6 @@ const Chatroom = () => {
   const getRoomNo = useSelector((state) => state.chat.getRoomNo);
   const chatStatus = useSelector((state) => state.generalModal.toggleChat);
 
-  console.log(getRoomNo);
-
   const [roomId, setRoomId] = useState(null);
   const [hide, setHide] = useState(false);
   const [privateChats, setPrivateChats] = useState(new Map());
@@ -127,24 +125,28 @@ const Chatroom = () => {
   };
 
   const onClickSelectRoomHandler = (roomNo) => {
-    console.log(roomNo);
-    dispatch(sendRoomNo(roomNo));
-    dispatch(__getChatRoom(roomNo));
-    setTab(roomNo);
-    setRoomId(roomNo);
-    if (!isSubscribed) {
-      client.current.subscribe(`/talk/${roomNo}`, onPrivateMessage);
-      setIsSubscribed(true);
-      console.log(isSubscribed);
-    } else {
-      client.current.unsubscribe();
-      setIsSubscribed(false);
-      console.log(isSubscribed);
-    }
-    privateChats.set(roomNo, talks);
-    privateChats.delete("");
-    privateChats.delete(null);
-    privateChats.delete(undefined);
+    dispatch(__getChatRoom(roomNo)).then((res) => {
+      const payloadData = res.payload;
+      privateChats.set(payloadData.roomInfo.id, payloadData.talks);
+      setTab(roomNo);
+      setRoomId(roomNo);
+      dispatch(sendRoomNo(roomNo));
+      if (!isSubscribed) {
+        client.current.subscribe(`/talk/${roomNo}`, onPrivateMessage);
+        setIsSubscribed(true);
+      } else {
+        client.current.unsubscribe();
+        setIsSubscribed(false);
+      }
+      privateChats.delete("");
+      privateChats.delete(null);
+      privateChats.delete(undefined);
+      setUserData({
+        ...userData,
+        sender: payloadData.nickname,
+        memberId: payloadData.memberId,
+      });
+    });
   };
   console.log(privateChats);
 
@@ -154,12 +156,14 @@ const Chatroom = () => {
     setIsSubscribed(false);
     setTab(null);
     setRoomId(null);
+    privateChats.clear();
   };
 
   useEffect(() => {
     // if (!isLoading) {
-    connect();
-    dispatch(__getChatList());
+    dispatch(__getChatList()).then((res) => {
+      connect();
+    });
     // }
     /*  dispatch(__getChatList()).then((res) => {
         const test = chatList?.map((item) => item.id);
@@ -183,7 +187,6 @@ const Chatroom = () => {
         <Spinners />
       </StWrap>
     );
-  console.log();
   if (error) return <span>{error}</span>;
 
   return (
@@ -254,18 +257,7 @@ const Chatroom = () => {
             </span>
           </StChatRoomTitle>
           <StChatZone className={!hide}>
-            <ChatZone
-              privateChats={privateChats}
-              userData={userData}
-              nickname={nickname}
-              talks={talks}
-              tab={tab}
-              memberId={memberId}
-              roomId={roomId}
-              disconnect={disconnect}
-              client={client}
-              getRoomNo={getRoomNo}
-            />
+            <ChatZone privateChats={privateChats} userData={userData} />
           </StChatZone>
           <StSendZone>
             <input
