@@ -31,7 +31,7 @@ const Header = () => {
   const EventSource = EventSourcePolyfill;
   const [alarmCount, setAlarmCount] = useState();
 
-  //알람 구독//
+  //알람 구독
   useEffect(() => {
     if (tokenValue) {
       let eventSource;
@@ -55,7 +55,6 @@ const Header = () => {
 
           /* EVENTSOURCE ONERROR : 에러가 발생하거나 EventSource 객체에서 error event가 감지되었을 때 호출하는 이벤트 핸들러 */
           eventSource.onerror = async (event) => {
-            console.log(event.error.message);
             eventSource.close();
           };
         } catch (error) {}
