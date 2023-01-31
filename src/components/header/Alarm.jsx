@@ -49,7 +49,7 @@ const Alarm = (props) => {
             <article>
               <div onClick={() => onMove(item.postingId, item.alarmId)}>
                 <p className={item.read ? "read" : ""}>
-                  [{midTitleForm(item.title)}]
+                  {midTitleForm(item.title)}
                 </p>
                 <p className={item.read ? "read" : ""}>{item.message}</p>
                 <span>{item.createdAt}</span>
@@ -118,7 +118,7 @@ const PerAlarm = styled.div`
     width: 220px;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 3px;
     p:nth-of-type(1) {
       font-weight: 600;
     }
