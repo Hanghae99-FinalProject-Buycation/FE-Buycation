@@ -128,6 +128,7 @@ const Logo = styled.div`
   width: 12.5rem;
   margin-bottom: 1rem;
   background: url(${logo}) bottom/100% no-repeat;
+  cursor: pointer;
   :hover {
     background: url(${logoHover}) bottom/100% no-repeat;
   }
@@ -167,4 +168,5 @@ const AlarmNumber = styled.div`
 const LoginBox = styled.div`
   display: flex;
   gap: 23px;
+  cursor: pointer;
 `;

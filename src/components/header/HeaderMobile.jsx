@@ -78,7 +78,7 @@ const HeaderMobile = (props) => {
             </Icon>
           )}
           <Logo alt="바이케이션" onClick={() => navigate("/")} />
-          <img
+          <TabBarIcon
             alt="tapBar"
             src={profileIcon}
             onClick={onClickMypageModalHandler}
@@ -119,6 +119,7 @@ const Logo = styled.div`
   width: 12.5rem;
   margin-bottom: 1rem;
   background: url(${logo}) bottom/100% no-repeat;
+  cursor: pointer;
   :hover {
     background: url(${logoHover}) bottom/100% no-repeat;
   }
@@ -128,10 +129,13 @@ const Icon = styled.div`
   display: flex;
   gap: 23px;
   cursor: pointer;
-
   .mainColor {
     filter: ${({ theme }) => theme.colors.imgFilter};
   }
+`;
+
+const TabBarIcon = styled.img`
+  cursor: pointer;
 `;
 
 const AlarmBox = styled.div`
@@ -159,4 +163,5 @@ const AlarmNumber = styled.div`
 const LoginBox = styled.div`
   display: flex;
   gap: 0.8rem;
+  cursor: pointer;
 `;
