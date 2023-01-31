@@ -7,7 +7,7 @@ import SockJS from "sockjs-client";
 import { SOCKET_URL } from "../../core/env";
 import DetailSpan from "../detail/elements/DetailSpan";
 import {
-  getChatRoom,
+  sendRoomNo,
   __getChatList,
   __getChatRoom,
 } from "../../redux/modules/chat/chatSlice";
@@ -24,21 +24,25 @@ const Chatroom = () => {
   const dispatch = useDispatch();
   const { isLoading, error } = useSelector((state) => state.chat);
   const chatList = useSelector((state) => state.chat.getChatList);
-  const { nickname, talks, memberId, message } = useSelector(
+  const { nickname, talks, memberId } = useSelector(
     (state) => state.chat.getChatRoom
   );
   const chatBody = useSelector((state) => state.chat.getChatRoom);
   const { roomInfo } = useSelector((state) => state.chat.getChatRoom);
+  const getRoomNo = useSelector((state) => state.chat.getRoomNo);
   const chatStatus = useSelector((state) => state.generalModal.toggleChat);
+
+  console.log(getRoomNo);
 
   const [roomId, setRoomId] = useState(null);
   const [hide, setHide] = useState(false);
   const [privateChats, setPrivateChats] = useState(new Map());
   const [tab, setTab] = useState(null);
+  const [isSubscribed, setIsSubscribed] = useState(false);
   const [userData, setUserData] = useState({
-    memberId: memberId,
-    sender: nickname,
-    receiver: tab,
+    memberId: "",
+    sender: "",
+    receiver: "",
     message: "",
     sendDate: "",
     connected: false,
@@ -94,6 +98,10 @@ const Chatroom = () => {
     });
   };
 
+  const disconnect = () => {
+    client.current.deactivate();
+  };
+
   const handleMessage = (event) => {
     const { value } = event.target;
     setUserData({ ...userData, message: value });
@@ -108,26 +116,57 @@ const Chatroom = () => {
         message: userData.message,
         status: "MESSAGE",
       };
-      client.current.publish({
-        destination: `/send/${roomId}`,
-        body: JSON.stringify(chatMessage),
-      });
-      setUserData({ ...userData, message: "" });
+      if (chatMessage.message.trim() !== "") {
+        client.current.publish({
+          destination: `/send/${roomId}`,
+          body: JSON.stringify(chatMessage),
+        });
+        setUserData({ ...userData, message: "" });
+      }
     }
   };
+
   const onClickSelectRoomHandler = (roomNo) => {
+    console.log(roomNo);
+    dispatch(sendRoomNo(roomNo));
     dispatch(__getChatRoom(roomNo));
     setTab(roomNo);
     setRoomId(roomNo);
-    client.current.subscribe(`/talk/${roomNo}`, onPrivateMessage);
-    privateChats.set(tab, talks);
+    if (!isSubscribed) {
+      client.current.subscribe(`/talk/${roomNo}`, onPrivateMessage);
+      setIsSubscribed(true);
+      console.log(isSubscribed);
+    } else {
+      client.current.unsubscribe();
+      setIsSubscribed(false);
+      console.log(isSubscribed);
+    }
+    privateChats.set(roomNo, talks);
     privateChats.delete("");
     privateChats.delete(null);
     privateChats.delete(undefined);
   };
 
+  const onClickExitHandler = () => {
+    dispatch(sendChatStatus(!chatStatus));
+    isSubscribed && client.current.unsubscribe();
+    setIsSubscribed(false);
+    setTab(null);
+    setRoomId(null);
+  };
+
   useEffect(() => {
+    // if (!isLoading) {
     connect();
+    dispatch(__getChatList());
+    // }
+    /*  dispatch(__getChatList()).then((res) => {
+        const test = chatList?.map((item) => item.id);
+        chatList?.map((_, idx) => {
+          dispatch(__getChatRoom(test[idx]));
+        });
+      }); */
+    // }
   }, [dispatch]);
 
   // if (isLoading || privateChats.size === 0 || !privateChats.get(tab))
@@ -140,11 +179,10 @@ const Chatroom = () => {
   if (isLoading)
     return (
       <StWrap ref={ref}>
-        불편을 드려 죄송합니다. 채팅 창을 닫았다가 다시 접속해주세요 ... <br />
         <Spinners />
       </StWrap>
     );
-
+  console.log();
   if (error) return <span>{error}</span>;
 
   return (
@@ -160,18 +198,10 @@ const Chatroom = () => {
               }}
             />
           ) : (
-            <RxCross1
-              onClick={() => {
-                dispatch(sendChatStatus(!chatStatus));
-              }}
-            />
+            <RxCross1 onClick={onClickExitHandler} />
           )
         ) : (
-          <RxCross1
-            onClick={() => {
-              dispatch(sendChatStatus(!chatStatus));
-            }}
-          />
+          <RxCross1 onClick={onClickExitHandler} />
         )}
       </div>
       <StChatContainer className={innerWidth < 768 ? hide : ""}>
@@ -225,13 +255,15 @@ const Chatroom = () => {
           <StChatZone className={!hide}>
             <ChatZone
               privateChats={privateChats}
-              talks={talks}
               userData={userData}
               nickname={nickname}
+              talks={talks}
               tab={tab}
-              roomId={roomId}
               memberId={memberId}
-              message={message}
+              roomId={roomId}
+              disconnect={disconnect}
+              client={client}
+              getRoomNo={getRoomNo}
             />
           </StChatZone>
           <StSendZone>

@@ -4,6 +4,7 @@ import { baseURLwToken } from "../../../core/axios";
 const initialState = {
   getChatList: [],
   getChatRoom: {},
+  getRoomNo: null,
   isLoading: false,
   error: null,
 };
@@ -16,7 +17,6 @@ export const __getChatList = createAsyncThunk(
       return thunkAPI.fulfillWithValue(data.data);
     } catch (err) {
       console.log(err);
-
       return thunkAPI.rejectWithValue(err);
     }
   }
@@ -38,7 +38,11 @@ export const __getChatRoom = createAsyncThunk(
 export const chatSlice = createSlice({
   name: "chat",
   initialState,
-  reducers: {},
+  reducers: {
+    sendRoomNo: (state, action) => {
+      state.getRoomNo = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(__getChatList.pending, (state, action) => {
@@ -66,5 +70,5 @@ export const chatSlice = createSlice({
   },
 });
 
-export const { getChatList, getChatRoom } = chatSlice.actions;
+export const { getChatList, getChatRoom, sendRoomNo } = chatSlice.actions;
 export default chatSlice.reducer;
