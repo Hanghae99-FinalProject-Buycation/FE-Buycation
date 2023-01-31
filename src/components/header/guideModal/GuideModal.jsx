@@ -16,15 +16,23 @@ const GuideModal = (props) => {
         {props.onInnerWidth > 768 ? (
           <GuidePage>
             <img
-              alt="guidepagePc"
-              src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidepagePc.svg"
+              alt="guidePcVersion1"
+              src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion1.svg"
+            />
+            <img
+              alt="guidePcVersion2"
+              src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion2.svg"
             />
           </GuidePage>
         ) : (
           <GuidePage>
             <img
-              alt="guidepageMobile"
-              src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidepageMobile.svg"
+              alt="guideMobileVersion1"
+              src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMovileVersion1.svg"
+            />
+            <img
+              alt="guideMobileVersion2"
+              src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMobileVersion2.svg"
             />
           </GuidePage>
         )}
@@ -97,6 +105,7 @@ const GuidePage = styled.div`
   height: 530px;
   img {
     width: 100%;
+    //content-visibility: auto; //화면 밖 콘텐츠의 렌더링을 생략함으로써 초기 로드 시간을 개선
   }
   @media screen and (max-width: 768px) {
     width: 100%;
