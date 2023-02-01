@@ -1,0 +1,20 @@
+{
+  "data": [
+    {
+      "nickname": "하얀천사",
+      "profileImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMmJpCquhd2hW3AelwgAoTHykBINlDPQZI9Di1NSRj85-R7Uq51ZGlWpE7mAdX9Ox9KrM&usqp=CAU",
+      "userScore": 4,
+      "reviewCount": 2,
+      "reviewList": [
+        {
+          "userScore": 8,
+          "createAt": "2022.0.0 00:00"
+        },
+        {
+          "userScore": 5,
+          "createAt": "2022.0.0 00:00"
+        }
+      ]
+    }
+  ]
+}
