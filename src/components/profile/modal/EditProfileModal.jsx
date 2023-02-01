@@ -94,6 +94,7 @@ const EditProfileModal = (props) => {
       });
     } else {
       dispatch(__patchProfile(newPatchData));
+      props.onClose();
     }
   };
 
