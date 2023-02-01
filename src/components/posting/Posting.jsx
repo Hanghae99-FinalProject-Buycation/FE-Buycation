@@ -245,6 +245,7 @@ const Wrap = styled.div`
   padding: 2rem 1.5rem;
   display: flex;
   justify-content: center;
+  overflow: auto;
 `;
 
 const Container = styled.div`
