@@ -33,6 +33,7 @@ const store = configureStore({
     alarm,
     chat,
   },
+  devTools: false,
 });
 
 export default store;
