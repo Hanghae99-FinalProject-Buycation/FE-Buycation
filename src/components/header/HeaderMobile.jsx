@@ -26,7 +26,7 @@ const HeaderMobile = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const modalStatus = useSelector((state) => state.generalModal.toggleModal);
-  const [showUserGuide, setShowUserGuide] = useState(false);
+  const [showUserGuide, setShowUserGuide] = useState(true);
 
   const onMoveLoginHandler = () => {
     navigate("/login");
