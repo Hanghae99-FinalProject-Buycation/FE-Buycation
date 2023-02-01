@@ -48,7 +48,7 @@ const Header = () => {
           /* EVENTSOURCE ONMESSAGE : 서버로부터 message를 수신했을 때 호출하는 이벤트 핸들러 */
           eventSource.onmessage = async (event) => {
             const res = await event.data;
-            console.log(res);
+            //console.log(res);
             setAlarmCount(res);
             //dispatch(__getAlarmCount());
           };
