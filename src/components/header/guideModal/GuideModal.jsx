@@ -116,7 +116,8 @@ const CloseBtn = styled.button`
 `;
 
 const GuidePage = styled.div`
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: scroll;
   width: 100%;
   height: 530px;
   img {

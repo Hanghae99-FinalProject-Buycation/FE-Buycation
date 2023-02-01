@@ -21,7 +21,8 @@ const DetailCommentForm = ({ className, commentId, commentContent }) => {
   const dispatch = useDispatch();
   const tokenValue = getCookies("id");
   const postingId = parseInt(useParams().postingId);
-  const [comment, setComment] = useState({ content: commentContent });
+  // const [comment, setComment] = useState({ content: commentContent });
+  const [comment, setComment] = useState({ content: "" });
   // const myInfo = useSelector((state) => state.profile?.getProfile);
   const isSuccess = useSelector((state) => state.comments.isSuccess);
   const toggleComment = useSelector((state) => state.comments.toggleComment);
@@ -31,7 +32,7 @@ const DetailCommentForm = ({ className, commentId, commentContent }) => {
   };
 
   const onClickCommentPostHandler = (e) => {
-    if (comment.content.trim() === "") {
+    if (comment.content.trim() === "" || comment.content === "") {
       Swal.fire({
         text: "내용을 입력해주세요.",
         confirmButtonColor: "#ff5a5f",
@@ -45,9 +46,8 @@ const DetailCommentForm = ({ className, commentId, commentContent }) => {
       dispatch(__isSuccess(false));
     }
   };
-
   const onClickCommentPutHandler = (e) => {
-    if (comment.content.trim() === "") {
+    if (comment.content.trim() === "" || comment.content === "") {
       Swal.fire({
         text: "내용을 입력해주세요.",
         confirmButtonColor: "#ff5a5f",
@@ -69,12 +69,20 @@ const DetailCommentForm = ({ className, commentId, commentContent }) => {
 
   return (
     <StComment className={className}>
-      <span>{/* {myInfo?.nickname} */}</span>
-      <textarea
-        placeholder="댓글을 남겨보세요"
-        onChange={onChangeCommentHandler}
-        value={comment.content}
-      />
+      {/* <span>{myInfo?.nickname}</span> */}
+      {commentContent ? (
+        <textarea
+          placeholder="댓글을 남겨보세요"
+          onChange={onChangeCommentHandler}
+          defaultValue={commentContent}
+        />
+      ) : (
+        <textarea
+          placeholder="댓글을 남겨보세요"
+          onChange={onChangeCommentHandler}
+          value={comment.content}
+        />
+      )}
       <div>
         <ButtonBasic
           width="4.375rem"

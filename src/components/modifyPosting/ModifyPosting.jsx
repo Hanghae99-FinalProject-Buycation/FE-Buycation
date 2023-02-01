@@ -238,7 +238,9 @@ const ModifyPosting = () => {
             <SelectInputForm>
               <label>모집 인원</label>
               <InputBasic
-                min="0"
+                min={
+                  getDatas?.currentMembers < 2 ? 2 : getDatas?.currentMembers
+                }
                 name="totalMembers"
                 type="number"
                 _onChange={onChangeValueHandler}

@@ -67,7 +67,7 @@ const Chatroom = () => {
   const connect = () => {
     client.current = new Stomp.Client({
       debug: (str) => {
-        console.log(str);
+        // console.log(str);
       },
       splitLargeFrames: true,
       webSocketFactory: () => new SockJS(SOCKET_URL),
@@ -148,15 +148,14 @@ const Chatroom = () => {
       });
     });
   };
-  console.log(privateChats);
 
   const onClickExitHandler = () => {
     dispatch(sendChatStatus(!chatStatus));
-    isSubscribed && client.current.unsubscribe();
+    /*  isSubscribed &&  */ client.current.unsubscribe();
     setIsSubscribed(false);
     setTab(null);
     setRoomId(null);
-    privateChats.clear();
+    setIsSubscribed(false);
   };
 
   useEffect(() => {

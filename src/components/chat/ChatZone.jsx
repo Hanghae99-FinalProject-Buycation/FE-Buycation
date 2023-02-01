@@ -1,9 +1,7 @@
 import React, { useRef } from "react";
 import styled from "@emotion/styled";
 import { useEffect } from "react";
-import { Spinners } from "../../shared/layout/Spinners";
-import { useDispatch, useSelector } from "react-redux";
-import { __getChatRoom } from "../../redux/modules/chat/chatSlice";
+import { useSelector } from "react-redux";
 
 const ChatZone = ({ privateChats, userData }) => {
   const getRoomNo = useSelector((state) => state.chat.getRoomNo);
@@ -13,18 +11,10 @@ const ChatZone = ({ privateChats, userData }) => {
   useEffect(() => {
     bottomRef.current?.scrollIntoView();
   }, [privateChats]);
-  /* if (privateChats.size === 0 || !privateChats.get(null))
-    return (
-      <>
-        불편을 드려 죄송합니다. 채팅 창을 닫았다가 다시 접속해주세요 ... <br />
-        <Spinners />
-      </>
-    ); */
   if (privateChats.get(getRoomNo)?.length > 0)
     return (
       <>
         {[...privateChats?.get(getRoomNo)]?.map((chat, index) =>
-          // {talks?.map((chat, index) =>
           userData.memberId !== chat.memberId ? (
             <StChatBubble key={index}>
               {chat.sender !== userData.sender && (

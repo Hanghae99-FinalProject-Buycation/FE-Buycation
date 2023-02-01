@@ -7,6 +7,7 @@ import {
   __deleteDetail,
   __doneDetail,
 } from "../../../redux/modules/details/detailSlice";
+import Swal from "sweetalert2";
 
 const DetailPostingOptionModal = ({ postingId }) => {
   const dispatch = useDispatch();
@@ -16,13 +17,39 @@ const DetailPostingOptionModal = ({ postingId }) => {
     setHide(!hide);
   };
   const onClickSendDoneHandler = () => {
-    dispatch(__doneDetail(postingId)).then((res) => navigate("/myProfile"));
+    dispatch(__doneDetail(postingId)).then((res) => {
+      if (res.payload.statusCode !== 200) {
+        Swal.fire({
+          text: res.payload.msg,
+          confirmButtonColor: "#ff5f5a",
+        });
+      } else {
+        Swal.fire({
+          text: res.payload.msg,
+          confirmButtonColor: "#ff5f5a",
+        });
+        navigate("/myProfile");
+      }
+    });
   };
   const onMoveModifyHandler = () => {
     navigate(`../modify/${postingId}`);
   };
   const onClickDeleteHandler = () => {
-    dispatch(__deleteDetail(postingId));
+    dispatch(__deleteDetail(postingId)).then((res) => {
+      if (res.payload.statusCode !== 200) {
+        Swal.fire({
+          text: res.payload.msg,
+          confirmButtonColor: "#ff5f5a",
+        });
+      } else {
+        Swal.fire({
+          text: res.payload.msg,
+          confirmButtonColor: "#ff5f5a",
+        });
+        navigate("/");
+      }
+    });
   };
   // 더블클릭 해야 다시 버튼 등장함...
   const ref = useOutsideClick(onClickCloseHandler);

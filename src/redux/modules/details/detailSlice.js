@@ -26,7 +26,6 @@ export const __doneDetail = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await baseURLwToken.patch(`posting/${payload}`);
-      alert(data.msg);
       return thunkAPI.fulfillWithValue(data);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -39,7 +38,6 @@ export const __deleteDetail = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await baseURLwToken.delete(`posting/${payload}`);
-      alert(data.msg);
       return thunkAPI.fulfillWithValue(data);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
