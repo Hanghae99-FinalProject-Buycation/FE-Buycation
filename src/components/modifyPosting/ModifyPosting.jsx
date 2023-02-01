@@ -139,7 +139,6 @@ const ModifyPosting = () => {
       navigate(`../details/${postingId}`);
     }
   };
-  console.log(getDatas);
   const onClickCloseHandler = () => {
     navigate(`../details/${postingId}`);
   };
