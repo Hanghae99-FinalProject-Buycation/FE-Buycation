@@ -19,10 +19,10 @@ const DetailCommentModal = ({ id, modalId, setModalId }) => {
   };
 
   const onClickDeleteCommentHandler = () => {
-    dispatch(__deleteComment(id)).then({
-      if(isSuccess) {
+    dispatch(__deleteComment(id)).then((res) => {
+      if (isSuccess) {
         dispatch(__isSuccess(false));
-      },
+      }
     });
   };
   const onClickCloseHandler = () => {

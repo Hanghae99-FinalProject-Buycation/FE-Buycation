@@ -57,17 +57,12 @@ const SignupPiece = (props) => {
           email: signupForm.email,
           code: compare.emailValidation,
         })
-      ).then((res) =>
-        res.msg
-          ? Swal.fire({
-              text: res.payload.msg,
-              confirmButtonColor: "#FF5A5F",
-            })
-          : Swal.fire({
-              text: "인증번호를 정확히 입력해주세요.",
-              confirmButtonColor: "#FF5A5F",
-            })
-      );
+      ).then((res) => {
+        Swal.fire({
+          text: res.payload.msg,
+          confirmButtonColor: "#FF5A5F",
+        });
+      });
     }
   };
 

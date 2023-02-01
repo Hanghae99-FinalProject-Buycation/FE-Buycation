@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import { FaLink } from "react-icons/fa";
 import { __getDetail } from "../../redux/modules/details/detailSlice";
 import { sendRegisterModalStatus } from "../../redux/modules/postcode/postcodeModalSlice";
+import { __getPostingList } from "../../redux/modules/main/postingListSlice";
 import { __putPosting } from "../../redux/modules/modifyPosting/modifyPostingSlice";
 import { selectCategory } from "../../utils/option";
 import { uploadImg } from "../../utils/uploadImg";
@@ -128,16 +129,14 @@ const ModifyPosting = () => {
         coordsX: coords.coordsX,
         coordsY: coords.coordsY,
       };
-      dispatch(__putPosting({ postingId, modifiedContent })).then((res) =>
+      dispatch(__putPosting({ postingId, modifiedContent })).then((res) => {
         Swal.fire({
           text: "게시글 수정에 성공하였습니다.",
           confirmButtonColor: "#ff5a5f",
-        })
-      );
-      dispatch(__getDetail(postingId));
-      // useBuyLocation 터지는 문제 떄문에 임시로 메인으로 이동
-      // navigate(`../details/${postingId}`);
-      navigate(`/`);
+        });
+        dispatch(__getDetail(postingId));
+      });
+      navigate(`../details/${postingId}`);
     }
   };
 

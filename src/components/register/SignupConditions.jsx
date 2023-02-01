@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
-import InputCheckboxBasic from "../elements/InputCheckboxBasic";
-import ConditionDiv from "./ConditionDiv";
 import { conditionContents } from "./conditionContents";
 
 const SignupConditions = () => {
-  const [checkedAll, setCheckedAll] = useState(false);
+  const [checked, setChecked] = useState(false);
   const onCheckHandler = (e) => {
-    setCheckedAll(!setCheckedAll);
+    setChecked(!checked);
   };
   return (
     <>
@@ -15,18 +13,19 @@ const SignupConditions = () => {
         <h2>약관 동의</h2>
       </ElH2>
       <StConditionsForm>
-        {conditionContents.map((item) => (
-          <ConditionDiv
-            key={item.id}
-            id={item.id}
-            item={item}
-            _onChange={(e) => onCheckHandler(e)}
-            _onClick={item.clickEvent}
-            // checked={checkedAll} // 이거 들어가면 전체 적용...어떻게 하지
-          >
-            {item.title}
-          </ConditionDiv>
-        ))}
+        <StConditionDiv>
+          <span>
+            {conditionContents?.title}{" "}
+            <input
+              type="checkbox"
+              onChange={onCheckHandler}
+              checked={checked}
+            />
+          </span>
+          <div>
+            <p>{conditionContents?.fullText}</p>
+          </div>
+        </StConditionDiv>
       </StConditionsForm>
     </>
   );
@@ -54,4 +53,35 @@ const ElH2 = styled.div`
   font-size: ${({ theme }) => theme.fontSize.lg};
   font-weight: 600;
   margin: 2rem;
+`;
+
+const StConditionDiv = styled.div`
+  width: 100%;
+  span {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  input {
+    width: 1rem;
+    height: 1rem;
+    border: 0.1rem solid ${({ theme }) => theme.colors.grayMid};
+    border-radius: 0.25rem;
+    :checked {
+      background: ${({ theme }) => theme.colors.main};
+    }
+  }
+  div {
+    width: 100%;
+    height: 12rem;
+    padding: 1.25rem 3.125rem;
+    overflow-y: scroll;
+    border: 0.1rem solid ${({ theme }) => theme.colors.grayMid};
+    border-radius: 0.5rem;
+  }
+  p {
+    font-size: ${({ theme }) => theme.fontSize.sm};
+    line-height: 1rem;
+    white-space: pre-wrap;
+  }
 `;

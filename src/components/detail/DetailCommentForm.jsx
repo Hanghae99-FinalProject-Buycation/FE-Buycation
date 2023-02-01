@@ -8,10 +8,6 @@ import {
   __postComment,
   __putComment,
 } from "../../redux/modules/details/commentSlice";
-import {
-  __getMyProfile,
-  __getProfile,
-} from "../../redux/modules/profile/profileSlice";
 import Swal from "sweetalert2";
 import ButtonBasic from "../elements/ButtonBasic";
 import { useParams } from "react-router-dom";
@@ -19,11 +15,8 @@ import { getCookies } from "../../core/cookie";
 
 const DetailCommentForm = ({ className, commentId, commentContent }) => {
   const dispatch = useDispatch();
-  const tokenValue = getCookies("id");
   const postingId = parseInt(useParams().postingId);
-  // const [comment, setComment] = useState({ content: commentContent });
   const [comment, setComment] = useState({ content: "" });
-  // const myInfo = useSelector((state) => state.profile?.getProfile);
   const isSuccess = useSelector((state) => state.comments.isSuccess);
   const toggleComment = useSelector((state) => state.comments.toggleComment);
 
@@ -41,13 +34,13 @@ const DetailCommentForm = ({ className, commentId, commentContent }) => {
       dispatch(__postComment({ postingId, comment }));
       setComment({ content: "" });
       dispatch(sendCommentToggle(true));
-    }
-    if (isSuccess) {
-      dispatch(__isSuccess(false));
+      if (isSuccess) {
+        dispatch(__isSuccess(false));
+      }
     }
   };
   const onClickCommentPutHandler = (e) => {
-    if (comment.content.trim() === "" || comment.content === "") {
+    if (comment.content?.trim() === "") {
       Swal.fire({
         text: "내용을 입력해주세요.",
         confirmButtonColor: "#ff5a5f",
@@ -59,18 +52,16 @@ const DetailCommentForm = ({ className, commentId, commentContent }) => {
         if (isSuccess) {
           dispatch(__isSuccess(false));
         }
+        setComment({ content: "" });
       });
     }
   };
 
-  useEffect(() => {
-    // tokenValue && dispatch(__getMyProfile());
-  }, [dispatch]);
+  useEffect(() => {}, [dispatch]);
 
   return (
     <StComment className={className}>
-      {/* <span>{myInfo?.nickname}</span> */}
-      {commentContent ? (
+      {commentContent !== "" ? (
         <textarea
           placeholder="댓글을 남겨보세요"
           onChange={onChangeCommentHandler}
