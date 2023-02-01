@@ -36,8 +36,6 @@ const Detail = () => {
     dispatch(__getDetail(postingId));
   }, [dispatch, postingId, isSuccess]);
 
-  if (isLoading) return <Spinners />;
-
   if (error) return <div>{error.msg}</div>;
 
   return (
