@@ -2,7 +2,9 @@ name: CD
 
 on:
   push:
-    branches: ["develop"]
+    main: ["main"]
+  # push:
+  #   branches: ["develop"]
   # pull_request:
   #   branches: ["develop"]
 
