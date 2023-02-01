@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useRef, Fragment } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
-// import { Client } from "stompjs";
 import * as Stomp from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import { SOCKET_URL } from "../../core/env";
@@ -15,21 +14,16 @@ import { sendChatStatus } from "../../redux/modules/modal/modalSlice";
 import { IoMdSend } from "react-icons/io";
 import { RxCross1 } from "react-icons/rx";
 import profileIcon from "../../assets/headerIcon/profileIcon.svg";
-import { Spinners } from "../../shared/layout/Spinners";
 import useWindowResize from "../../hooks/useWindowResize";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import ChatZone from "./ChatZone";
 
 const Chatroom = () => {
   const dispatch = useDispatch();
-  const { isLoading, error } = useSelector((state) => state.chat);
+  const { error } = useSelector((state) => state.chat);
   const chatList = useSelector((state) => state.chat.getChatList);
-  const { nickname, talks, memberId } = useSelector(
-    (state) => state.chat.getChatRoom
-  );
-  const chatBody = useSelector((state) => state.chat.getChatRoom);
+  const { nickname, memberId } = useSelector((state) => state.chat.getChatRoom);
   const { roomInfo } = useSelector((state) => state.chat.getChatRoom);
-  const getRoomNo = useSelector((state) => state.chat.getRoomNo);
   const chatStatus = useSelector((state) => state.generalModal.toggleChat);
 
   const [roomId, setRoomId] = useState(null);
@@ -159,33 +153,11 @@ const Chatroom = () => {
   };
 
   useEffect(() => {
-    // if (!isLoading) {
     dispatch(__getChatList()).then((res) => {
       connect();
     });
-    // }
-    /*  dispatch(__getChatList()).then((res) => {
-        const test = chatList?.map((item) => item.id);
-        chatList?.map((_, idx) => {
-          dispatch(__getChatRoom(test[idx]));
-        });
-      }); */
-    // }
   }, [dispatch]);
 
-  // if (isLoading || privateChats.size === 0 || !privateChats.get(tab))
-  //   return (
-  //     <StWrap ref={ref}>
-  //       불편을 드려 죄송합니다. 다시 접속해주세요 ... <br />
-  //       <Spinners />
-  //     </StWrap>
-  //   );
-  if (isLoading)
-    return (
-      <StWrap ref={ref}>
-        <Spinners />
-      </StWrap>
-    );
   if (error) return <span>{error}</span>;
 
   return (
@@ -277,10 +249,12 @@ const Chatroom = () => {
 export default Chatroom;
 
 const StWrap = styled.div`
+  //
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  //
   width: 100%;
   max-width: 60.75rem;
   height: 41.625rem;

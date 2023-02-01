@@ -9,7 +9,10 @@ const ChatZone = ({ privateChats, userData }) => {
   const date = new Date().toLocaleString();
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView();
+    bottomRef.current?.scrollIntoView({
+      block: "nearest",
+      inline: "start",
+    });
   }, [privateChats]);
   if (privateChats.get(getRoomNo)?.length > 0)
     return (
@@ -59,7 +62,7 @@ const StBubbleWrap = styled.div`
     margin: ${(props) =>
       props.className !== "self" ? "0 0 0 0.25rem" : "0 0.25rem 0 0"};
     font-size: ${({ theme }) => theme.fontSize.xs};
-    color: ${({ theme }) => theme.colors.grayWeak};
+    color: ${({ theme }) => theme.colors.grayStrong};
   }
 `;
 

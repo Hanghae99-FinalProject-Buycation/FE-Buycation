@@ -126,8 +126,8 @@ const ModifyPosting = () => {
         budget: parseInt(postData.budget),
         image: getDatas.image,
         totalMembers: parseInt(postData.totalMembers),
-        coordsX: coords.coordsX,
-        coordsY: coords.coordsY,
+        coordsX: coords.coordsX === "" ? getDatas.coordsX : coords.coordsX,
+        coordsY: coords.coordsY === "" ? getDatas.coordsY : coords.coordsY,
       };
       dispatch(__putPosting({ postingId, modifiedContent })).then((res) => {
         Swal.fire({
@@ -139,7 +139,6 @@ const ModifyPosting = () => {
       navigate(`../details/${postingId}`);
     }
   };
-
   const onClickCloseHandler = () => {
     navigate(`../details/${postingId}`);
   };
