@@ -13,7 +13,7 @@ const Oauth2RedirectHandler = () => {
       .then((res) => {
         setCookies("id", res.headers.authorization, {
           path: "/",
-          maxAge: 1750,
+          maxAge: 3500, //대략 60분
         });
         navigate("/");
       })

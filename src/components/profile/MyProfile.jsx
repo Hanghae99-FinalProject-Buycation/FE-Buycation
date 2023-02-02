@@ -30,7 +30,7 @@ const MyProfile = () => {
     if (isSuccess) {
       dispatch(__isSuccess(false));
     }
-  }, [dispatch, isSuccess]);
+  }, [dispatch, isSuccess, tagBtnValue]);
 
   return (
     <Wrap>
