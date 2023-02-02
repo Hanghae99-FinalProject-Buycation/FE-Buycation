@@ -7,6 +7,7 @@ const InputBasic = (props) => {
     placeholder,
     autoComplete,
     min,
+    maxLength,
     required,
     width,
     height,
@@ -41,6 +42,7 @@ const InputBasic = (props) => {
       placeholder={placeholder}
       autoComplete={autoComplete}
       min={min}
+      maxLength={maxLength}
       required={required}
       value={value}
       defaultValue={defaultValue}
