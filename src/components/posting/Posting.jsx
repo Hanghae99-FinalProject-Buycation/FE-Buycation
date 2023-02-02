@@ -104,6 +104,7 @@ const Posting = () => {
             title: postData.title,
             content: postData.content,
             address: address,
+            addressDetail: postData.addressDetail,
             totalMembers: parseInt(postData.totalMembers),
             dueDate: createDateForm,
             budget: parseInt(postData.budget),
