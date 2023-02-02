@@ -41,7 +41,7 @@ const Header = () => {
             headers: {
               Authorization: tokenValue,
             },
-            heartbeatTimeout: 60 * 1000 * 30,
+            heartbeatTimeout: 60 * 1000 * 60,
             //withCredentials: true, //크로스 도메인에 요청을 보낼 때 요청에 credential 정보를 담아서 보낼 지를 결정하는 항목
           });
 
