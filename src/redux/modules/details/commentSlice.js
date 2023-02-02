@@ -8,6 +8,7 @@ const initialState = {
   deleteComment: {},
   toggleComment: true, // 댓글 내용이 보이는 상태(미수정)
   getCommentId: null, // 댓글 보이는 상태
+  getCommentBody: "",
   isSuccess: false,
 };
 
@@ -19,7 +20,6 @@ export const __postComment = createAsyncThunk(
         `posting/${postingId}/comments`,
         comment
       );
-      // alert(data.msg);
       return thunkAPI.fulfillWithValue(data);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -80,6 +80,9 @@ export const commentSlice = createSlice({
     sendCommentId: (state, action) => {
       state.getCommentId = action.payload;
     },
+    sendCommentBody: (state, action) => {
+      state.getCommentBody = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -101,6 +104,10 @@ export const commentSlice = createSlice({
   },
 });
 
-export const { __isSuccess, sendCommentToggle, sendCommentId } =
-  commentSlice.actions;
+export const {
+  __isSuccess,
+  sendCommentToggle,
+  sendCommentId,
+  sendCommentBody,
+} = commentSlice.actions;
 export default commentSlice.reducer;

@@ -149,13 +149,16 @@ const Posting = () => {
               placeholder="제목을 입력해 주세요. (30글자 수 제한)"
               _onChange={onChangeValueHandler}
             />
-            <TextArea
-              name="content"
-              type="text"
-              maxLength="2000"
-              placeholder="내용을 입력해 주세요.  (2000글자 수 제한)"
-              onChange={onChangeValueHandler}
-            ></TextArea>
+            <TextAreaDiv>
+              <TextArea
+                name="content"
+                type="text"
+                maxLength="2000"
+                placeholder="내용을 입력해 주세요.  (2000글자 수 제한)"
+                onChange={onChangeValueHandler}
+              ></TextArea>
+              <span>{postData.content.length}/2000자</span>
+            </TextAreaDiv>
             <Label>
               사진 첨부
               <FileInput>
@@ -323,12 +326,25 @@ const Label = styled.label`
   }
 `;
 
-const TextArea = styled.textarea`
+const TextAreaDiv = styled.div`
+  position: relative;
   width: 100%;
   height: 20rem;
   border: 1px solid ${({ theme }) => theme.colors.grayWeak};
   border-radius: 0.5rem;
   padding: 1.8rem;
+  span {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: ${({ theme }) => theme.fontSize.sm};
+    color: ${({ theme }) => theme.colors.grayMid};
+  }
+`;
+
+const TextArea = styled.textarea`
+  width: 100%;
+  height: 95%;
 `;
 
 const FileInput = styled.div`

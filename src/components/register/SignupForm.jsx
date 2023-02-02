@@ -57,10 +57,12 @@ const Signup = () => {
       e.preventDefault();
       dispatch(__postSignup(signupForm)).then((res) => {
         Swal.fire({
-          text: res.payload,
+          text: res.payload.msg,
           confirmButtonColor: "#FF5A5F",
         });
-        navigate("/login");
+        if (res.payload.statusCode !== 200) {
+          return;
+        } else navigate("/login");
       });
     }
   };

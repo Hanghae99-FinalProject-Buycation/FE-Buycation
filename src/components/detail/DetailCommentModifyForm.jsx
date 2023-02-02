@@ -2,50 +2,56 @@ import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  sendCommentBody,
+  sendCommentId,
   sendCommentToggle,
   __isSuccess,
-  __postComment,
+  __putComment,
 } from "../../redux/modules/details/commentSlice";
 import Swal from "sweetalert2";
 import ButtonBasic from "../elements/ButtonBasic";
-import { useParams } from "react-router-dom";
 
-const DetailCommentForm = ({ className }) => {
+const DetailCommentModifyForm = ({ className, commentId }) => {
   const dispatch = useDispatch();
-  const postingId = parseInt(useParams().postingId);
   const [comment, setComment] = useState({ content: "" });
   const isSuccess = useSelector((state) => state.comments.isSuccess);
+  const toggleComment = useSelector((state) => state.comments.toggleComment);
+  const modifyContent = useSelector((state) => state.comments.getCommentBody);
 
   const onChangeCommentHandler = (e) => {
     setComment({ content: e.target.value });
   };
 
-  const onClickCommentPostHandler = (e) => {
-    if (comment.content.trim() === "" || comment.content === "") {
+  const onClickCommentPutHandler = (e) => {
+    if (comment.content?.trim() === "") {
       Swal.fire({
         text: "내용을 입력해주세요.",
         confirmButtonColor: "#ff5a5f",
       });
     } else {
-      dispatch(__postComment({ postingId, comment })).then((res) => {
+      dispatch(__putComment({ commentId, comment })).then((res) => {
         dispatch(sendCommentToggle(true));
+        dispatch(sendCommentId(null));
         if (isSuccess) {
           dispatch(__isSuccess(false));
         }
         setComment({ content: "" });
+        dispatch(sendCommentBody(""));
       });
     }
   };
 
-  useEffect(() => {}, [dispatch]);
+  useEffect(() => {
+    setComment({ content: modifyContent });
+  }, [dispatch, modifyContent]);
 
   return (
     <StComment className={className}>
-      {className === "show" && (
+      {className === "show" && !toggleComment && (
         <textarea
           placeholder="댓글을 남겨보세요"
           onChange={onChangeCommentHandler}
-          value={comment.content}
+          defaultValue={modifyContent}
         />
       )}
       <div>
@@ -53,16 +59,16 @@ const DetailCommentForm = ({ className }) => {
           width="4.375rem"
           height="fit-content"
           color="white"
-          _onClick={onClickCommentPostHandler}
+          _onClick={onClickCommentPutHandler}
         >
-          등록
+          수정
         </ButtonBasic>
       </div>
     </StComment>
   );
 };
 
-export default DetailCommentForm;
+export default DetailCommentModifyForm;
 
 const StComment = styled.div`
   display: ${(props) => (props.className === "show" ? "flex" : "none")};

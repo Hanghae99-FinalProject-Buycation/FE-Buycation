@@ -7,15 +7,17 @@ import {
   __isSuccess,
   sendCommentToggle,
   sendCommentId,
+  sendCommentBody,
 } from "../../../redux/modules/details/commentSlice";
 
-const DetailCommentModal = ({ id, modalId, setModalId }) => {
+const DetailCommentModal = ({ id, modalId, setModalId, commentContent }) => {
   const dispatch = useDispatch();
   const isSuccess = useSelector((state) => state.comments.isSuccess);
 
   const onClickModifyCommentHandler = () => {
     dispatch(sendCommentToggle(false));
     dispatch(sendCommentId(id));
+    dispatch(sendCommentBody(commentContent));
   };
 
   const onClickDeleteCommentHandler = () => {
