@@ -38,38 +38,49 @@ const Alarm = (props) => {
   };
 
   return (
-    <StPostingOption top={top} left={left} right={right}>
-      <header>
-        <span>알림</span>
-        <span onClick={onClose}>닫기</span>
-      </header>
-      <AlarmListBox>
-        {alarmList?.map((item) => (
-          <PerAlarm key={item.alarmId}>
-            <article>
-              <div onClick={() => onMove(item.postingId, item.alarmId)}>
-                <p className={item.read ? "read" : ""}>
-                  {midTitleForm(item.title)}
-                </p>
-                <p className={item.read ? "read" : ""}>{item.message}</p>
-                <span>{item.createdAt}</span>
-              </div>
-            </article>
-            <img
-              alt="alarmClose"
-              src={alarmClose}
-              onClick={() => onClickDeleteAlarmHandler(item.alarmId)}
-            />
-          </PerAlarm>
-        ))}
-      </AlarmListBox>
-    </StPostingOption>
+    <Backdrop onClick={onClose}>
+      <AlarmModal top={top} left={left} right={right}>
+        <header>
+          <span>알림</span>
+          <span onClick={onClose}>닫기</span>
+        </header>
+        <AlarmListBox>
+          {alarmList?.map((item) => (
+            <PerAlarm key={item.alarmId}>
+              <article>
+                <div onClick={() => onMove(item.postingId, item.alarmId)}>
+                  <p className={item.read ? "read" : ""}>
+                    {midTitleForm(item.title)}
+                  </p>
+                  <p className={item.read ? "read" : ""}>{item.message}</p>
+                  <span>{item.createdAt}</span>
+                </div>
+              </article>
+              <img
+                alt="alarmClose"
+                src={alarmClose}
+                onClick={() => onClickDeleteAlarmHandler(item.alarmId)}
+              />
+            </PerAlarm>
+          ))}
+        </AlarmListBox>
+      </AlarmModal>
+    </Backdrop>
   );
 };
 
 export default Alarm;
 
-const StPostingOption = styled.div`
+const Backdrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+`;
+
+const AlarmModal = styled.div`
   width: 300px;
   display: flex;
   flex-direction: column !important;
