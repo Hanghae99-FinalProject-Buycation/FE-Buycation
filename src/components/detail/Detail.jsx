@@ -2,27 +2,26 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
-import { __getDetail } from "../../redux/modules/details/detailSlice";
 import { RiMapPin2Fill } from "react-icons/ri";
+import { getCookies } from "../../core/cookie";
+import useBuyLocation from "../../hooks/useBuyLocation";
+import { __getDetail } from "../../redux/modules/details/detailSlice";
 
 import DetailSpan from "./elements/DetailSpan";
 import DetailMoreButton from "./elements/DetailMoreButton";
 import DetailApplicationBody from "./DetailApplicationBody";
-import { getCookies } from "../../core/cookie";
-import { Spinners } from "../../shared/layout/Spinners";
-import useBuyLocation from "../../hooks/useBuyLocation";
 import DetailApplicationBtns from "./DetailApplicationBtns";
 import DetailCommentList from "./DetailCommentList";
 import DetailCreatorProfile from "./DetailCreatorProfile";
 import DetailContent from "./DetailContent";
-import { __getProfile } from "../../redux/modules/profile/profileSlice";
+import ButtonBasic from "../elements/ButtonBasic";
 
 const Detail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const tokenValue = getCookies("id");
   const postingId = parseInt(useParams().postingId);
-  const { isLoading, error } = useSelector((state) => state.getDetail);
+  const { error } = useSelector((state) => state.getDetail);
   const details = useSelector((state) => state.getDetail.getDetail);
   const isSuccess = useSelector((state) => state.comments.isSuccess);
 

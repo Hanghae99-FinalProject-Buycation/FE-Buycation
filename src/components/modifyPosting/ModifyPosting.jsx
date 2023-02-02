@@ -241,8 +241,9 @@ const ModifyPosting = () => {
                 }
                 name="totalMembers"
                 type="number"
-                _onChange={onChangeValueHandler}
                 defaultValue={getDatas?.totalMembers}
+                placeholder="숫자만 입력 (본인 포함, 최소 2인)"
+                _onChange={onChangeValueHandler}
               />
               <label>모집 마감일 선택</label>
               <InputBasic

@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import DetailCommentModal from "./modals/DetailCommentModal";
 import DetailCommentForm from "./DetailCommentForm";
 import { useSelector } from "react-redux";
+import DetailCommentModifyForm from "./DetailCommentModifyForm";
 
 const DetailCommentList = ({ details, tokenValue, DetailMoreButton }) => {
   const commentsLength = details.commentList?.length || 0;
@@ -41,11 +42,12 @@ const DetailCommentList = ({ details, tokenValue, DetailMoreButton }) => {
                   <p>{comment.content}</p>
                 </span>
                 {comment.status && (
-                  /* memberId === comment.memberId && */ <div className="commentOption">
+                  <div className="commentOption">
                     <DetailCommentModal
                       id={comment.commentId}
                       modalId={modalId}
                       setModalId={setModalId}
+                      commentContent={comment.content}
                     />
                     <DetailMoreButton
                       onClick={() =>
@@ -55,12 +57,11 @@ const DetailCommentList = ({ details, tokenValue, DetailMoreButton }) => {
                   </div>
                 )}
               </StComment>
-              <DetailCommentForm
+              <DetailCommentModifyForm
                 key={"mod" + comment.commentId}
                 id={comment.commentId}
                 className={getCommentId === comment.commentId ? "show" : ""}
                 commentId={comment.commentId}
-                commentContent={comment.content}
               />
               <hr key={"hr" + idx} />
             </StCommentList>
