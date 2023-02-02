@@ -77,7 +77,7 @@ const Backdrop = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 2;
 `;
 
 const AlarmModal = styled.div`
