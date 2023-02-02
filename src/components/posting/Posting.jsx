@@ -234,11 +234,9 @@ const Posting = () => {
               <span>
                 1인당 결제 금액
                 <span>
-                  {perBudget(postData.budget, postData.totalMembers) ===
-                  Infinity
+                  {perBudget(postData.budget, postData.totalMembers) === "∞원"
                     ? ""
                     : perBudget(postData.budget, postData.totalMembers)}
-                  원
                 </span>
               </span>
             </SelectInputForm>
