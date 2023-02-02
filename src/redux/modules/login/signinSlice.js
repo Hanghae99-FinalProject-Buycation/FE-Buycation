@@ -20,7 +20,7 @@ export const __postSignin = createAsyncThunk(
       if (data.headers.authorization !== undefined) {
         setCookies("id", data.headers.authorization, {
           path: "/",
-          maxAge: 1750,
+          maxAge: 3500, //대략 60분
         });
       }
       return thunkAPI.fulfillWithValue(data.data);

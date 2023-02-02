@@ -144,12 +144,16 @@ const Posting = () => {
             </SelectInput>
             <InputBasic
               name="title"
-              placeholder="제목을 입력해 주세요."
+              type="text"
+              maxLength="30"
+              placeholder="제목을 입력해 주세요. (30글자 수 제한)"
               _onChange={onChangeValueHandler}
             />
             <TextArea
               name="content"
-              placeholder="내용을 입력해 주세요."
+              type="text"
+              maxLength="2000"
+              placeholder="내용을 입력해 주세요.  (2000글자 수 제한)"
               onChange={onChangeValueHandler}
             ></TextArea>
             <Label>
@@ -184,7 +188,7 @@ const Posting = () => {
               상세주소
               <InputBasic
                 name="addressDetail"
-                placeholder="선택 사항"
+                placeholder="(선택 사항)"
                 _onChange={onChangeValueHandler}
               />
             </Label>
@@ -192,11 +196,15 @@ const Posting = () => {
 
           <RightDivForm>
             <SelectInputForm>
-              <label>모집 인원</label>
+              <label>
+                모집 인원 <span>(본인 포함, 최소 2명~50명까지)</span>
+              </label>
               <InputBasic
-                min="2"
                 name="totalMembers"
                 type="number"
+                min="2"
+                max="50"
+                placeholder="숫자만 입력해주세요."
                 _onChange={onChangeValueHandler}
               />
               <label>모집 마감일 선택</label>
@@ -222,7 +230,11 @@ const Posting = () => {
               <span>
                 1인당 결제 금액
                 <span>
-                  {perBudget(postData.budget, postData.totalMembers)}원
+                  {perBudget(postData.budget, postData.totalMembers) ===
+                  Infinity
+                    ? ""
+                    : perBudget(postData.budget, postData.totalMembers)}
+                  원
                 </span>
               </span>
             </SelectInputForm>
@@ -359,6 +371,10 @@ const SelectInputForm = styled.div`
   flex-direction: column;
   label {
     margin: 24px 0 8px 0;
+    & > span {
+      color: ${({ theme }) => theme.colors.grayStrong};
+      font-size: ${({ theme }) => theme.fontSize.sm};
+    }
   }
   input {
     width: 100%;

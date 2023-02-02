@@ -34,7 +34,7 @@ const Profile = () => {
     if (isSuccess) {
       dispatch(__isSuccess(false));
     }
-  }, [dispatch, isSuccess, memberId]);
+  }, [dispatch, isSuccess, memberId, tagBtnValue]);
 
   return (
     <Wrap>
