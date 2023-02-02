@@ -28,10 +28,12 @@ const DetailApplicationBody = ({ details }) => {
               subCount.map((y) => (
                 <img key={y} src={participantEmpty} alt="빈 자리" />
               ))}
+            <br />
+            {details?.currentMembers}/{details?.totalMembers} 명 모집 완료
           </span>
         ) : (
           <span>
-            <img src={participantFilled} alt="모집 됨" />{" "}
+            <img src={participantFilled} alt="모집 됨" /> <br />
             {details?.currentMembers}/{details?.totalMembers} 명 모집 완료
           </span>
         )}
@@ -76,6 +78,6 @@ const ElSpan = styled.div`
     color: ${({ color }) => color};
   }
   img {
-    margin-right: 8px;
+    margin: 0 0.1rem 0.5rem 0;
   }
 `;

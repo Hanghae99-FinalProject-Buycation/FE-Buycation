@@ -17,9 +17,7 @@ export const __getEmailValidation = createAsyncThunk(
       const { data } = await baseURL.get(
         `members/signup/email?email=${payload}`
       );
-      // alert(data.msg);
       return thunkAPI.fulfillWithValue(data);
-      // return thunkAPI.fulfillWithValue(data.data);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
@@ -45,8 +43,6 @@ export const __getNicknameDouble = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await baseURL.get(`members/signup?nickname=${payload}`);
-      // alert(data.msg);
-      // return thunkAPI.fulfillWithValue(data.data);
       return thunkAPI.fulfillWithValue(data.msg);
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -59,7 +55,7 @@ export const __postSignup = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await baseURL.post(`members/signup`, payload);
-      return thunkAPI.fulfillWithValue(data.msg);
+      return thunkAPI.fulfillWithValue(data);
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data.msg);
     }

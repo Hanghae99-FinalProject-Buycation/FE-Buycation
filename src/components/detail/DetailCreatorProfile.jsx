@@ -96,4 +96,10 @@ const StCreatorProfile = styled.div`
   .postingOption {
     position: relative;
   }
+
+  select {
+    border: 1px solid #000;
+    border-radius: 1rem;
+    padding: 1rem;
+  }
 `;
