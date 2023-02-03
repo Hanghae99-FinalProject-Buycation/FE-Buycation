@@ -53,6 +53,7 @@ const DetailCommentList = ({ details, tokenValue, DetailMoreButton }) => {
                       onClick={() =>
                         onClickCommentModalHandler(comment.commentId)
                       }
+                      size="1.25rem"
                     />
                   </div>
                 )}
