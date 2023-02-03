@@ -6,6 +6,7 @@ import ReviewModal from "./modal/ReviewModal";
 import { addressForm, titleForm } from "../../utils/editedData";
 import { useDispatch, useSelector } from "react-redux";
 import { __getParticipatedList } from "../../redux/modules/profile/myListSlice";
+import EmptyContents from "./EmptyContents";
 
 const MyParicipation = () => {
   const navigate = useNavigate();
@@ -37,32 +38,42 @@ const MyParicipation = () => {
       {reviewModal ? (
         <ReviewModal onClose={onClickCloseHandler} postingIdData={postingID} />
       ) : null}
-      {participatedList.map((item) => (
-        <ContentsBox key={item.postingId}>
-          <Box>
-            <Image
-              filter={item.doneStatus ? "brightness(40%)" : ""}
-              src={item.image}
-              onClick={() => onClickMoveDetails(item.postingId)}
-            ></Image>
-            <Contents>
-              <p>
-                <FaMapMarkerAlt size="11px" /> {addressForm(item.address)}
-              </p>
-              <p>{titleForm(item.title)}</p>
-              <p>{item.dueDate} 까지 모집</p>
-              <p>
-                <FaUser size="11px" /> {item.currentMembers}/{item.totalMembers}
-              </p>
-              {item.doneStatus ? (
-                <ReviewBtn onClick={() => onClickReviewHandler(item.postingId)}>
-                  후기 작성
-                </ReviewBtn>
-              ) : null}
-            </Contents>
-          </Box>
-        </ContentsBox>
-      ))}
+      {participatedList?.length === 0 ? (
+        <EmptyContents
+          mainText="아직 공구가 없네요, 공구에 참여해 보세요 :)"
+          subText="공구는 수락되었을 경우 참여할 수 있어요."
+        />
+      ) : (
+        participatedList.map((item) => (
+          <ContentsBox key={item.postingId}>
+            <Box>
+              <Image
+                filter={item.doneStatus ? "brightness(40%)" : ""}
+                src={item.image}
+                onClick={() => onClickMoveDetails(item.postingId)}
+              ></Image>
+              <Contents>
+                <p>
+                  <FaMapMarkerAlt size="11px" /> {addressForm(item.address)}
+                </p>
+                <p>{titleForm(item.title)}</p>
+                <p>{item.dueDate}까지 모집</p>
+                <p>
+                  <FaUser size="11px" /> {item.currentMembers}/
+                  {item.totalMembers}
+                </p>
+                {item.doneStatus ? (
+                  <ReviewBtn
+                    onClick={() => onClickReviewHandler(item.postingId)}
+                  >
+                    후기 작성
+                  </ReviewBtn>
+                ) : null}
+              </Contents>
+            </Box>
+          </ContentsBox>
+        ))
+      )}
     </>
   );
 };

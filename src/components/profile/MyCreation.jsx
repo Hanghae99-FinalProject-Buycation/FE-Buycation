@@ -6,6 +6,7 @@ import ReviewModal from "./modal/ReviewModal";
 import { useDispatch, useSelector } from "react-redux";
 import { __getCreatedList } from "../../redux/modules/profile/myListSlice";
 import { addressForm, titleForm } from "../../utils/editedData";
+import EmptyContents from "./EmptyContents";
 
 const MyCreation = () => {
   const navigate = useNavigate();
@@ -37,32 +38,39 @@ const MyCreation = () => {
       {reviewModal ? (
         <ReviewModal onClose={onClickCloseHandler} postingIdData={postingID} />
       ) : null}
-      {createdList.map((item) => (
-        <ContentsBox key={item.postingId}>
-          <Box>
-            <Image
-              filter={item.doneStatus ? "brightness(40%)" : ""}
-              src={item.image}
-              onClick={() => onClickMoveDetails(item.postingId)}
-            ></Image>
-            <Contents>
-              <p>
-                <FaMapMarkerAlt size="11px" /> {addressForm(item.address)}
-              </p>
-              <p>{titleForm(item.title)}</p>
-              <p>{item.dueDate} 까지 모집</p>
-              <p>
-                <FaUser size="11px" /> {item.currentMembers}/{item.totalMembers}
-              </p>
-              {item.doneStatus ? (
-                <ReviewBtn onClick={() => onClickReviewHandler(item.postingId)}>
-                  후기 작성
-                </ReviewBtn>
-              ) : null}
-            </Contents>
-          </Box>
-        </ContentsBox>
-      ))}
+      {createdList?.length === 0 ? (
+        <EmptyContents mainText="아직 공구가 없네요, 나만의 공구 만들어볼까요? :)" />
+      ) : (
+        createdList.map((item) => (
+          <ContentsBox key={item.postingId}>
+            <Box>
+              <Image
+                filter={item.doneStatus ? "brightness(40%)" : ""}
+                src={item.image}
+                onClick={() => onClickMoveDetails(item.postingId)}
+              ></Image>
+              <Contents>
+                <p>
+                  <FaMapMarkerAlt size="11px" /> {addressForm(item.address)}
+                </p>
+                <p>{titleForm(item.title)}</p>
+                <p>{item.dueDate}까지 모집</p>
+                <p>
+                  <FaUser size="11px" /> {item.currentMembers}/
+                  {item.totalMembers}
+                </p>
+                {item.doneStatus ? (
+                  <ReviewBtn
+                    onClick={() => onClickReviewHandler(item.postingId)}
+                  >
+                    후기 작성
+                  </ReviewBtn>
+                ) : null}
+              </Contents>
+            </Box>
+          </ContentsBox>
+        ))
+      )}
     </>
   );
 };
