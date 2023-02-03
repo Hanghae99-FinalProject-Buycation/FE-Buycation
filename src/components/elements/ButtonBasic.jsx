@@ -18,6 +18,7 @@ const ButtonBasic = (props) => {
     justifyContent,
     children,
     _onClick,
+    className,
   } = props;
 
   const styles = {
@@ -37,7 +38,7 @@ const ButtonBasic = (props) => {
   };
 
   return (
-    <ElBtn {...styles} type={type} onClick={_onClick}>
+    <ElBtn {...styles} type={type} onClick={_onClick} className={className}>
       {children}
     </ElBtn>
   );
