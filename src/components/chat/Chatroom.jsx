@@ -17,6 +17,8 @@ import profileIcon from "../../assets/headerIcon/profileIcon.svg";
 import useWindowResize from "../../hooks/useWindowResize";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import ChatZone from "./ChatZone";
+import ChatWaitingRoom from "./ChatWaitingRoom";
+import ChatParticipantModal from "./ChatParticipantModal";
 
 const Chatroom = () => {
   const dispatch = useDispatch();
@@ -161,106 +163,125 @@ const Chatroom = () => {
   if (error) return <span>{error}</span>;
 
   return (
-    <StWrap ref={ref}>
-      <div className="mainTitle">
-        <span></span>
-        <span>채팅</span>
-        {innerWidth < 768 ? (
-          hide ? (
-            <RxCross1
-              onClick={() => {
-                setHide(!hide);
-              }}
-            />
+    <StBackground>
+      <StWrap ref={ref}>
+        <div className="mainTitle">
+          <span></span>
+          <span>채팅</span>
+          {innerWidth < 768 ? (
+            hide ? (
+              <RxCross1
+                onClick={() => {
+                  setHide(!hide);
+                }}
+              />
+            ) : (
+              <RxCross1 onClick={onClickExitHandler} />
+            )
           ) : (
             <RxCross1 onClick={onClickExitHandler} />
-          )
-        ) : (
-          <RxCross1 onClick={onClickExitHandler} />
-        )}
-      </div>
-      <StChatContainer className={innerWidth < 768 ? hide : ""}>
-        <StChatList className={innerWidth < 768 ? `${!hide} list` : ""}>
-          <ul>
-            {chatList?.map((room) => (
-              <StChatRooms
-                onClick={() => {
-                  onClickSelectRoomHandler(room.id);
-                  innerWidth < 768 ? setHide(!hide) : setHide(true);
-                }}
-                key={room.id}
-              >
-                <ElChatRoomImage src={room.image} alt="" />
-
-                <DetailSpan
-                  titleText={
-                    <div className="inner">
-                      <span>{room.title}</span>
-                      <span>{room.lastReceiveTime}</span>
-                    </div>
-                  }
-                  bodyText={
-                    <span className="cropText">{room.lastMessage}</span>
-                  }
-                  margin="0 0 0.25rem"
-                  fontWeight="400"
-                />
-              </StChatRooms>
-            ))}
-          </ul>
-        </StChatList>
-        <StRoomWrap className={innerWidth < 768 ? `${hide} room` : !hide}>
-          <StChatRoomTitle>
-            <div>
-              <ElChatRoomImage
-                src={chatList?.filter((item) => item.id === roomId)[0]?.image}
-                alt=""
-              />
-              {chatList?.filter((item) => item.id === roomId)[0]?.title}
-            </div>
-            <span>
-              <img src={profileIcon} alt="" />
-              {
-                chatList?.filter((item) => item.id === roomId)[0]
-                  ?.currentMembers
-              }
-              /{roomInfo?.totalMembers}명
-            </span>
-          </StChatRoomTitle>
-          <StChatZone className={!hide}>
-            <ChatZone privateChats={privateChats} userData={userData} />
-          </StChatZone>
-          <StSendZone>
-            <input
-              type="text"
-              placeholder="메시지를 입력해주세요"
-              value={userData.message}
-              onKeyDown={onPressEnterHandler}
-              onChange={handleMessage}
+          )}
+        </div>
+        <StChatContainer className={innerWidth < 768 ? hide : ""}>
+          {chatList?.length === 0 && (
+            <ChatWaitingRoom
+              className={innerWidth < 768 ? `${!hide} list` : ""}
             />
-            <IoMdSend color="#ff5f5a" size="1rem" onClick={sendPrivateValue} />
-          </StSendZone>
-        </StRoomWrap>
-      </StChatContainer>
-    </StWrap>
+          )}
+          <StChatList className={innerWidth < 768 ? `${!hide} list` : ""}>
+            <ul>
+              {chatList?.map((room) => (
+                <StChatRooms
+                  onClick={() => {
+                    onClickSelectRoomHandler(room.id);
+                    innerWidth < 768 ? setHide(!hide) : setHide(true);
+                  }}
+                  key={room.id}
+                >
+                  <ElChatRoomImage src={room.image} alt="" />
+                  <DetailSpan
+                    titleText={
+                      <div className="inner">
+                        <span>{room.title}</span>
+                        <span>{room.lastReceiveTime}</span>
+                      </div>
+                    }
+                    bodyText={
+                      <span className="cropText">{room.lastMessage}</span>
+                    }
+                    margin="0 0 0.25rem"
+                    fontWeight="400"
+                  />
+                </StChatRooms>
+              ))}
+            </ul>
+          </StChatList>
+          <StRoomWrap className={innerWidth < 768 ? `${hide} room` : !hide}>
+            {/* <ChatWaitingRoom /> */}
+            <StChatRoomTitle>
+              <div>
+                <ElChatRoomImage
+                  src={chatList?.filter((item) => item.id === roomId)[0]?.image}
+                  alt=""
+                />
+                {chatList?.filter((item) => item.id === roomId)[0]?.title}
+              </div>
+              <span>
+                <img src={profileIcon} alt="" />{" "}
+                {
+                  chatList?.filter((item) => item.id === roomId)[0]
+                    ?.currentMembers
+                }
+                /{roomInfo?.totalMembers}명
+              </span>
+            </StChatRoomTitle>
+            <StChatZone>
+              <ChatZone privateChats={privateChats} userData={userData} />
+            </StChatZone>
+            <StSendZone>
+              <input
+                type="text"
+                placeholder="메시지를 입력해주세요"
+                value={userData.message}
+                onKeyDown={onPressEnterHandler}
+                onChange={handleMessage}
+              />
+              <IoMdSend
+                color="#ff5f5a"
+                size="1rem"
+                onClick={sendPrivateValue}
+              />
+            </StSendZone>
+          </StRoomWrap>
+        </StChatContainer>
+      </StWrap>
+    </StBackground>
   );
 };
 
 export default Chatroom;
 
-const StWrap = styled.div`
-  //
+const StBackground = styled.div`
   position: absolute;
-  top: 50%;
+  top: 4.062rem;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 4.062rem);
+  background: #ecf0f2;
+  overflow: hidden;
+  z-index: 4;
+`;
+
+const StWrap = styled.div`
+  position: absolute;
+  top: 0;
   left: 50%;
-  transform: translate(-50%, -50%);
-  //
+  transform: translate(-50%, 0);
   width: 100%;
   max-width: 60.75rem;
-  height: 41.625rem;
-  border-radius: 0.5rem;
+  height: 100%;
   background: #fff;
-  box-shadow: 0 0 4px 1px ${({ theme }) => theme.colors.grayWeak};
+  box-shadow: 0 0.125rem 0.25rem 0.1rem ${({ theme }) => theme.colors.grayWeak};
   z-index: 5;
 
   .mainTitle {
@@ -308,6 +329,7 @@ const StChatContainer = styled.div`
     grid-template-columns: 1fr;
     grid-template-areas: ${(props) =>
       props.className === true ? "'chatroom'" : "'chatlist'"};
+    overflow-y: auto;
   }
 `;
 

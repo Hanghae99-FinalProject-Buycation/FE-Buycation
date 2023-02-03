@@ -1,20 +1,19 @@
 import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import useOutsideClick from "../../hooks/useOutsideClick";
+import Swal from "sweetalert2";
 import { RxCross1 } from "react-icons/rx";
-import ButtonBasic from "../elements/ButtonBasic";
-import DetailSpan from "../detail/elements/DetailSpan";
+import ButtonBasic from "../../elements/ButtonBasic";
+import DetailSpan from "../elements/DetailSpan";
 import {
   __allowApplication,
   __denyApplication,
   __getApplication,
   __isSuccess,
-} from "../../redux/modules/application/applicationSlice";
-import profileDefault from "../../assets/profileImg/profile_default.svg";
-import footIcon from "../../assets/reviewIcon/reviewFootIcon.svg";
-import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+} from "../../../redux/modules/application/applicationSlice";
+import profileDefault from "../../../assets/profileImg/profile_default.svg";
+import footIcon from "../../../assets/reviewIcon/reviewFootIcon.svg";
+import useOutsideClick from "../../../hooks/useOutsideClick";
 
 const DetailApplicationList = ({ postingId, onClickMoveProfileHandler }) => {
   const dispatch = useDispatch();
@@ -22,7 +21,6 @@ const DetailApplicationList = ({ postingId, onClickMoveProfileHandler }) => {
   const onClickCloseHandler = () => {
     setHide(!hide);
   };
-  const navigate = useNavigate();
   // 더블클릭 해야 다시 버튼 등장함...
   const ref = useOutsideClick(onClickCloseHandler);
   // const applicateStatus = applicationList.data;

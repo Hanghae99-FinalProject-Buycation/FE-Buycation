@@ -46,7 +46,7 @@ const DetailCreatorProfile = ({
       </div>
       <div className="postingOption">
         {postingModal && <DetailPostingOptionModal postingId={postingId} />}
-        {details?.myPosting && (
+        {details?.myPosting && !details?.doneStatus && (
           <DetailMoreButton onClick={onClickPostingModalHandler} />
         )}
       </div>

@@ -3,15 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
 import Swal from "sweetalert2";
-import ButtonBasic from "../elements/ButtonBasic";
+import ButtonBasic from "../../elements/ButtonBasic";
 import DetailApplicationList from "./DetailApplicationList";
 import {
   __cancelApplication,
   __postApplication,
-} from "../../redux/modules/application/applicationSlice";
-import { __getParticipatedList } from "../../redux/modules/profile/myListSlice";
-import applicateBtnIcon from "../../assets/detailIcon/applicateBtnIcon.svg";
-import applicateCancelIcon from "../../assets/detailIcon/applicateCancelIcon.svg";
+} from "../../../redux/modules/application/applicationSlice";
+import { __getParticipatedList } from "../../../redux/modules/profile/myListSlice";
+import applicateBtnIcon from "../../../assets/detailIcon/applicateBtnIcon.svg";
+import applicateCancelIcon from "../../../assets/detailIcon/applicateCancelIcon.svg";
 
 const DetailApplicationBtns = ({
   details,

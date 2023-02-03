@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "@emotion/styled";
-import DetailSpan from "./elements/DetailSpan";
-import participantFilled from "../../assets/detailIcon/participantFilledIcon.svg";
-import participantEmpty from "../../assets/detailIcon/participantEmptyIcon.svg";
-import { countComma } from "../../utils/editedData";
+import DetailSpan from "../elements/DetailSpan";
+import participantFilled from "../../../assets/detailIcon/participantFilledIcon.svg";
+import participantEmpty from "../../../assets/detailIcon/participantEmptyIcon.svg";
+import { countComma } from "../../../utils/editedData";
 
 const DetailApplicationBody = ({ details }) => {
   const subCount = Array.from(
