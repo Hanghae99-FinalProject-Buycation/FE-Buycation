@@ -19,7 +19,7 @@ const Alarm = (props) => {
   const alarmListData = useSelector((data) => data.alarm);
   const alarmList = alarmListData.alarmList.dataList;
   const alarmKey = alarmListData.alarmKey; //무한 스크롤 시 사용될 예정 현재는 ""만 보냄
-  const { deleteState } = useSelector((state) => state.alarm);
+  // const { deleteState } = useSelector((state) => state.alarm);
   // console.log(alarmList);
 
   useEffect(() => {
@@ -28,15 +28,15 @@ const Alarm = (props) => {
     }
   }, [dispatch, tokenValue]);
 
-  useEffect(() => {
-    if (deleteState) {
-      dispatch(__getAlarmList(alarmKey));
-      dispatch(__deleteState(false));
-    }
-  }, [dispatch, deleteState]);
+  // useEffect(() => {
+  //   if (deleteState) {
+  //     dispatch(__getAlarmList(alarmKey));
+  //     dispatch(__deleteState(false));
+  //   }
+  // }, [dispatch, deleteState]);
 
-  const onClickDeleteAlarmHandler = (alarmId) => {
-    dispatch(__deleteAlarm(alarmId));
+  const onClickDeleteAlarmHandler = (alarmId, index) => {
+    dispatch(__deleteAlarm({ alarmId, index }));
   };
 
   const onClickDeleteTotalAlarmListHandler = (alarmId) => {
@@ -56,7 +56,7 @@ const Alarm = (props) => {
           {alarmList?.length === 0 ? (
             <EmptyAlarmListBox>새로운 알림이 없습니다.</EmptyAlarmListBox>
           ) : (
-            alarmList?.map((item) => (
+            alarmList?.map((item, index) => (
               <PerAlarm key={item.alarmId}>
                 <article>
                   <div onClick={() => onMove(item.postingId, item.alarmId)}>
@@ -70,7 +70,7 @@ const Alarm = (props) => {
                 <img
                   alt="alarmClose"
                   src={alarmClose}
-                  onClick={() => onClickDeleteAlarmHandler(item.alarmId)}
+                  onClick={() => onClickDeleteAlarmHandler(item.alarmId, index)}
                 />
               </PerAlarm>
             ))
