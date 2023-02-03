@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
@@ -10,9 +10,9 @@ import { __getDetail } from "../../redux/modules/details/detailSlice";
 
 import DetailSpan from "./elements/DetailSpan";
 import DetailMoreButton from "./elements/DetailMoreButton";
-import DetailApplicationBody from "./DetailApplicationBody";
-import DetailApplicationBtns from "./DetailApplicationBtns";
-import DetailCommentList from "./DetailCommentList";
+import DetailApplicationBody from "./application/DetailApplicationBody";
+import DetailApplicationBtns from "./application/DetailApplicationBtns";
+import DetailCommentList from "./comments/DetailCommentList";
 import DetailCreatorProfile from "./DetailCreatorProfile";
 import DetailContent from "./DetailContent";
 

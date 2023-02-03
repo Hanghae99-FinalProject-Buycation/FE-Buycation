@@ -14,6 +14,7 @@ const ChatZone = ({ privateChats, userData }) => {
       inline: "start",
     });
   }, [privateChats]);
+
   if (privateChats.get(getRoomNo)?.length > 0)
     return (
       <>

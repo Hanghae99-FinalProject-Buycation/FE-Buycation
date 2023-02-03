@@ -270,9 +270,7 @@ const ModifyPosting = () => {
               />
               <span>
                 1인당 결제 금액
-                <span>
-                  {perBudget(postData.budget, postData.totalMembers)}원
-                </span>
+                <span>{perBudget(postData.budget, postData.totalMembers)}</span>
               </span>
             </SelectInputForm>
             <ButtonForm>
