@@ -61,7 +61,13 @@ const CardWrap = styled.div`
   display: flex;
   justify-content: center;
   border-top: 1px solid ${({ theme }) => theme.colors.grayList};
+  &:hover {
+    //border-bottom: 1px solid ${({ theme }) => theme.colors.grayMid};
+    //box-shadow: 0 0 0 1.5px #a6a6a6 inset;
+    box-shadow: 0px -5px 5px -2px #a6a6a6;
+  }
 `;
+
 const CardBox = styled.div`
   width: 100%;
   height: 100%;
@@ -70,18 +76,17 @@ const CardBox = styled.div`
   justify-content: center;
   gap: 1rem;
 `;
+
 const ContentsBox = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
   gap: 1rem;
-
   img {
     width: 6.5rem;
     height: 6.5rem;
     border-radius: 8px;
   }
-
   article {
     width: auto;
     height: auto;
@@ -104,7 +109,6 @@ const ContentsBox = styled.div`
     p:nth-of-type(5) {
       font-weight: 600;
     }
-
     span {
       color: ${({ theme }) => theme.colors.grayMid};
       font-size: ${({ theme }) => theme.fontSize.xs};

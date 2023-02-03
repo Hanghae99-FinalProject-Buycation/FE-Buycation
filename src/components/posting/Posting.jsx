@@ -155,7 +155,7 @@ const Posting = () => {
                 name="content"
                 type="text"
                 maxLength="2000"
-                placeholder="내용을 입력해 주세요.  (2000글자 수 제한)"
+                placeholder="내용을 입력해 주세요."
                 onChange={onChangeValueHandler}
               ></TextArea>
               <span>{postData.content.length}/2000자</span>
@@ -201,7 +201,7 @@ const Posting = () => {
           <RightDivForm>
             <SelectInputForm>
               <label>
-                모집 인원 <span>(본인 포함, 최소 2명~50명까지)</span>
+                모집 인원 <span>(본인포함, 2인~50인)</span>
               </label>
               <InputBasic
                 name="totalMembers"
@@ -286,6 +286,7 @@ const PostingForm = styled.div`
 
 const LeftDivForm = styled.div`
   width: 75%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -297,7 +298,7 @@ const LeftDivForm = styled.div`
   }
   @media screen and (max-width: 768px) {
     width: 100%;
-    height: 100%;
+    height: 550px;
   }
 `;
 
