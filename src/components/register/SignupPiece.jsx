@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
 import Swal from "sweetalert2";
@@ -9,7 +10,6 @@ import {
   __getEmailValidation,
   __getNicknameDouble,
   __getEmailValidationCheck,
-  __isSuccess,
 } from "../../redux/modules/login/signupSlice";
 import useWindowResize from "../../hooks/useWindowResize";
 import { emailCheck, passCheck, passValidate } from "./checkSignup";
@@ -23,26 +23,30 @@ const SignupPiece = (props) => {
     value,
     signupForm,
     compare,
+    checkAll,
+    sendCheckAll,
   } = props;
   const dispatch = useDispatch();
 
-  const isSuccess = useSelector((state) => state.postSignup.isSuccess);
-
   const { innerWidth } = useWindowResize();
-
+  const [click, setClick] = useState(false);
   const onClickEmailValidationHandler = () => {
     if (!emailCheck.test(signupForm.email)) {
       Swal.fire({
         text: "이메일 형식을 지켜주세요.",
         confirmButtonColor: "#FF5A5F",
+        confirmButtonText: "확인",
       });
     } else {
-      dispatch(__getEmailValidation(signupForm.email)).then((res) =>
+      dispatch(__getEmailValidation(signupForm.email)).then((res) => {
+        setClick(true);
         Swal.fire({
           text: res.payload.msg,
           confirmButtonColor: "#FF5A5F",
-        })
-      );
+          confirmButtonText: "확인",
+        });
+        dispatch(sendCheckAll({ ...checkAll, email: true }));
+      });
     }
   };
   const onClickEmailValidationCheckHandler = () => {
@@ -50,6 +54,7 @@ const SignupPiece = (props) => {
       Swal.fire({
         text: "인증번호를 입력해주세요.",
         confirmButtonColor: "#FF5A5F",
+        confirmButtonText: "확인",
       });
     } else {
       dispatch(
@@ -61,24 +66,30 @@ const SignupPiece = (props) => {
         Swal.fire({
           text: res.payload.msg,
           confirmButtonColor: "#FF5A5F",
+          confirmButtonText: "확인",
         });
+        dispatch(sendCheckAll({ ...checkAll, validation: true }));
       });
     }
   };
 
   const onClickNicknameHandler = () => {
     if (signupForm.nickname.trim() !== "") {
-      dispatch(__getNicknameDouble(signupForm.nickname)).then((res) =>
+      dispatch(__getNicknameDouble(signupForm.nickname)).then((res) => {
         Swal.fire({
           text: res.payload,
           padding: "1rem",
           confirmButtonColor: "#FF5A5F",
-        })
-      );
+          confirmButtonText: "확인",
+        });
+        dispatch(sendCheckAll({ ...checkAll, nickname: true }));
+      });
     }
   };
 
-  useEffect(() => {}, [dispatch]);
+  useEffect(() => {
+    sendCheckAll();
+  }, [dispatch]);
 
   return (
     <StGridWrap
@@ -98,17 +109,26 @@ const SignupPiece = (props) => {
             type={item.type}
             name={item.name}
             placeholder={item.placeholder}
-            required={item.required}
             _onChange={onChangeHandler}
             margin="0 0 -0.5rem 0"
           />
-          <ButtonBasic
-            gridArea="elBtn"
-            _onClick={onClickEmailValidationHandler}
-            margin="0 0 -0.5rem 0"
-          >
-            {item.btnText}
-          </ButtonBasic>
+          {!click ? (
+            <ButtonBasic
+              gridArea="elBtn"
+              _onClick={onClickEmailValidationHandler}
+              margin="0 0 -0.5rem 0"
+            >
+              {item.btnText}
+            </ButtonBasic>
+          ) : (
+            <ButtonBasic
+              className="complete"
+              gridArea="elBtn"
+              margin="0 0 -0.5rem 0"
+            >
+              {item.btnTextNext}
+            </ButtonBasic>
+          )}
         </>
       )}
       {/* 닉네임, 비밀번호 */}
@@ -119,7 +139,6 @@ const SignupPiece = (props) => {
             type={item.type}
             name={item.name}
             placeholder={item.placeholder}
-            required={item.required}
             _onChange={onChangeHandler}
           />
           {item.name === "nickname" && (
@@ -248,5 +267,17 @@ const StGridWrap = styled.div`
       color: #fff;
     }
     background: #fff;
+  }
+
+  .complete {
+    border: 0.1rem solid ${({ theme }) => theme.colors.grayMid};
+    background: ${({ theme }) => theme.colors.grayMid};
+    color: #fff;
+    :hover {
+      background: ${({ theme }) => theme.colors.grayMid};
+      color: #fff;
+      cursor: default;
+    }
+    /* background: #fff; */
   }
 `;

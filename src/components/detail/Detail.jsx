@@ -44,6 +44,7 @@ const Detail = () => {
   }, [dispatch, postingId, isSuccess]);
 
   if (error) return <div>{error.msg}</div>;
+
   return (
     <StDetailWrap>
       <StDetailForm>
@@ -51,14 +52,17 @@ const Detail = () => {
           <img src={details.image} alt="" />
         </ElImgWrap>
         <DetailCreatorProfile
+          className="firstDiv"
           details={details}
-          postingId={postingId}
           onClickMoveProfileHandler={onClickMoveProfileHandler}
           DetailSpan={DetailSpan}
-          DetailMoreButton={DetailMoreButton}
         />
         <hr />
-        <DetailContent details={details} />
+        <DetailContent
+          details={details}
+          postingId={postingId}
+          DetailMoreButton={DetailMoreButton}
+        />
 
         <hr />
         <DetailApplicationBody details={details} />
@@ -105,7 +109,7 @@ const StDetailWrap = styled.div`
   }
 
   @media screen and (max-width: 23.5rem) {
-    div:first-of-type {
+    .firstDiv {
       margin-top: 1.5rem;
     }
     padding: 0 1rem;
@@ -123,12 +127,15 @@ const StDetailForm = styled.form`
 
 const ElImgWrap = styled.div`
   ${({ theme }) => theme.common.flexCenter}
+  height: 31.625rem;
   margin: 1.875rem 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+
   img {
     width: 100%;
-    height: 31.625rem;
     object-fit: cover;
-    border-radius: 0.5rem;
+    object-position: center;
 
     @media screen and (max-width: 48rem) {
       height: 25rem;

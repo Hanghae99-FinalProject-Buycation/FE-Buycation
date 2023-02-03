@@ -38,6 +38,7 @@ const DetailApplicationList = ({ postingId, onClickMoveProfileHandler }) => {
       Swal.fire({
         text: res.payload,
         confirmButtonColor: "#ff5f5a",
+        confirmButtonText: "확인",
       });
       if (isSuccess) {
         dispatch(__isSuccess(false));
@@ -62,28 +63,26 @@ const DetailApplicationList = ({ postingId, onClickMoveProfileHandler }) => {
   return (
     !hide && (
       <StApplicationList ref={ref}>
-        <div className="title">
+        <ElTitle>
           <span>신청자 리스트</span>
           <span>
             <RxCross1 onClick={onClickCloseHandler} />
           </span>
-        </div>
+        </ElTitle>
         {applicateStatus &&
           applicateStatus?.map((item) => (
-            <div key={"frag" + item.applicationId} className="wrap">
+            <StNameWrap key={"frag" + item.applicationId}>
               {item?.profileImage ? (
-                <img
+                <ElImg
                   src={item.profileImage}
-                  className="profile"
                   alt=""
                   onClick={() => {
                     onClickMoveProfileHandler(item?.memberId);
                   }}
                 />
               ) : (
-                <img
+                <ElImg
                   src={profileDefault}
-                  className="profile"
                   alt=""
                   onClick={() => {
                     onClickMoveProfileHandler(item?.memberId);
@@ -101,7 +100,7 @@ const DetailApplicationList = ({ postingId, onClickMoveProfileHandler }) => {
                 }
                 margin="0"
                 color="#a6a6a6"
-                fontSize="10px"
+                fontSize="0.6rem"
                 _onClick={() => onClickMoveProfileHandler(item?.memberId)}
               />
               <ButtonBasic
@@ -118,7 +117,7 @@ const DetailApplicationList = ({ postingId, onClickMoveProfileHandler }) => {
               >
                 수락
               </ButtonBasic>
-            </div>
+            </StNameWrap>
           ))}
       </StApplicationList>
     )
@@ -134,48 +133,12 @@ const StApplicationList = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  right: 10%;
+  right: 1rem;
   bottom: 4rem;
   z-index: 5;
   border-radius: 0.5rem;
-  box-shadow: 0px 0px 1px 2px ${({ theme }) => theme.colors.grayList};
+  box-shadow: 0 0 0.1rem 0.125rem ${({ theme }) => theme.colors.grayList};
   background: #fff;
-
-  .title {
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem;
-    border-bottom: 0.1rem solid ${({ theme }) => theme.colors.grayList};
-    span {
-      font-size: ${({ theme }) => theme.fontSize.md};
-      font-weight: 600;
-    }
-  }
-
-  .wrap {
-    display: grid;
-    grid-template-columns: auto 1fr auto auto auto;
-    grid-template-rows: 3.5rem;
-    align-items: center;
-    padding: 0 0.75rem 0;
-    height: fit-content;
-    border-bottom: 0.1rem solid ${({ theme }) => theme.colors.grayList};
-    font-size: ${({ theme }) => theme.fontSize.sm};
-
-    .profile {
-      width: 2rem;
-      height: 2rem;
-      object-fit: cover;
-      border-radius: 5rem;
-      border: 0.1rem solid ${({ theme }) => theme.colors.grayWeak};
-      cursor: pointer;
-    }
-
-    span {
-      display: inline-block;
-      cursor: pointer;
-    }
-  }
 
   .btnWrap {
     width: 1rem;
@@ -198,4 +161,58 @@ const StApplicationList = styled.div`
     border: 0.1rem solid ${({ theme }) => theme.colors.main};
     color: ${({ theme }) => theme.colors.main};
   }
+
+  @media screen and (max-width: 48rem) {
+    width: 100%;
+    max-width: 20.25rem;
+    right: 0;
+  }
+`;
+
+const ElTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 0.1rem solid ${({ theme }) => theme.colors.grayList};
+  span {
+    font-size: ${({ theme }) => theme.fontSize.md};
+    font-weight: 600;
+  }
+`;
+
+const StNameWrap = styled.div`
+  display: grid;
+  grid-template-columns: auto 1fr auto auto auto;
+  grid-template-rows: 3.5rem;
+  align-items: center;
+  width: 100%;
+  padding: 0 0.75rem 0;
+  height: fit-content;
+  border-bottom: 0.1rem solid ${({ theme }) => theme.colors.grayList};
+  font-size: ${({ theme }) => theme.fontSize.sm};
+
+  div {
+    display: flex;
+    justify-content: center;
+  }
+
+  span {
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  @media screen and (max-width: 48rem) {
+    width: 100%;
+    max-width: 20.25rem;
+    grid-template-columns: auto 1fr auto auto auto;
+  }
+`;
+
+const ElImg = styled.img`
+  width: 2rem;
+  height: 2rem;
+  object-fit: cover;
+  border-radius: 5rem;
+  border: 0.1rem solid ${({ theme }) => theme.colors.grayWeak};
+  cursor: pointer;
 `;

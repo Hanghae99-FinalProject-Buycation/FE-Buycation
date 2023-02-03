@@ -7,7 +7,7 @@ import SignupConditions from "../register/SignupConditions";
 import Postcode from "../postcode/Postcode";
 import { signupContents } from "./signupContents";
 import {
-  __isSuccess,
+  sendCheckAll,
   __postSignup,
 } from "../../redux/modules/login/signupSlice";
 import { sendRegisterModalStatus } from "../../redux/modules/postcode/postcodeModalSlice";
@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 const Signup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const checkAll = useSelector((state) => state.postSignup.checkAll);
   const [signupForm, setSignupForm] = useState({
     email: "",
     password: "",
@@ -48,10 +49,29 @@ const Signup = () => {
     setCompare({ ...compare, [name]: value });
   };
   const signupHandler = (e) => {
-    if (signupForm.password === "" || compare.passwordCheck === "") {
+    if (
+      signupForm.email.trim() === "" ||
+      signupForm.nickname.trim() === "" ||
+      compare.emailValidation.trim() === "" ||
+      signupForm.password.trim() === "" ||
+      compare.passwordCheck.trim() === ""
+    ) {
       Swal.fire({
         text: "필수 기입란을 모두 채워주세요.",
         confirmButtonColor: "#FF5A5F",
+        confirmButtonText: "확인",
+      });
+    } else if (!checkAll.checkStatus) {
+      Swal.fire({
+        text: "약관에 동의해주세요.",
+        confirmButtonColor: "#FF5A5F",
+        confirmButtonText: "확인",
+      });
+    } else if (!checkAll.email || !checkAll.validation || !checkAll.nickname) {
+      Swal.fire({
+        text: "확인 절차를 진행해주세요.",
+        confirmButtonColor: "#FF5A5F",
+        confirmButtonText: "확인",
       });
     } else {
       e.preventDefault();
@@ -66,7 +86,6 @@ const Signup = () => {
       });
     }
   };
-
   useEffect(() => {}, [dispatch]);
   return (
     <StSignupForm
@@ -92,12 +111,13 @@ const Signup = () => {
             compare={compare}
             value={address}
             emailCode={emailCode}
+            checkAll={checkAll}
+            sendCheckAll={sendCheckAll}
           />
         ))}
       </StSignupWrap>
       {/* form 다 차지 않으면 disabled */}
-      <SignupConditions />
-      {/* <Postcode /> */}
+      <SignupConditions checkAll={checkAll} sendCheckAll={sendCheckAll} />
       <ButtonBasic width="15rem" type="submit" margin="0 0 2rem">
         회원가입
       </ButtonBasic>
