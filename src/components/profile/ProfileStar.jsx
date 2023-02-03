@@ -2,6 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import reviewFootIcon from "../../assets/reviewIcon/reviewFootIcon.svg";
 import { useSelector } from "react-redux";
+import EmptyContents from "./EmptyContents";
 
 const ProfileStar = () => {
   const getProfileData = useSelector((data) => data.profile.getProfile);
@@ -9,25 +10,29 @@ const ProfileStar = () => {
 
   return (
     <>
-      {myReviewList?.map((item, index) => (
-        <ContentsBox key={index}>
-          <ProfileInfo>
-            <p>익명{index + 1}</p>
-            <p>{item.createAt}</p>
-          </ProfileInfo>
-          <FootReview>
-            {[2, 4, 6, 8, 10].map((el) => (
-              <img
-                className={`${item.reviewScore >= el && "colorStar"}`}
-                alt={el}
-                src={reviewFootIcon}
-                key={el}
-                id={el}
-              />
-            ))}
-          </FootReview>
-        </ContentsBox>
-      ))}
+      {myReviewList?.length === 0 ? (
+        <EmptyContents mainText="아직 남겨진 평점이 없어요 :)" />
+      ) : (
+        myReviewList?.map((item, index) => (
+          <ContentsBox key={index}>
+            <ProfileInfo>
+              <p>익명{index + 1}</p>
+              <p>{item.createAt}</p>
+            </ProfileInfo>
+            <FootReview>
+              {[2, 4, 6, 8, 10].map((el) => (
+                <img
+                  className={`${item.reviewScore >= el && "colorStar"}`}
+                  alt={el}
+                  src={reviewFootIcon}
+                  key={el}
+                  id={el}
+                />
+              ))}
+            </FootReview>
+          </ContentsBox>
+        ))
+      )}
     </>
   );
 };
