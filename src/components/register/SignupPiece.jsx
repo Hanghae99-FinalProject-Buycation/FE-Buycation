@@ -225,7 +225,7 @@ export default SignupPiece;
 const StGridWrap = styled.div`
   display: grid;
   grid-template-columns: ${(props) =>
-    props.className ? "15.5rem 4.5rem" : "8rem 15.5rem 4.5rem"};
+    props.className ? "minmax(auto, 15.5rem) 4.5rem" : "8rem 15.5rem 4.5rem"};
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0;
