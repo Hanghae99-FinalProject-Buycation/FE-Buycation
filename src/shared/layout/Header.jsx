@@ -78,13 +78,13 @@ const Header = () => {
   };
 
   //헤더 사람 아이콘 모달 내용 기능
-  const onMovePostingHandler = () => {
-    navigate("/posting");
+  const onMoveMyProfileHandler = () => {
+    navigate("/myprofile");
     dispatch(sendModalStatus(true));
   };
 
-  const onMoveMyProfileHandler = () => {
-    navigate("/myprofile");
+  const onMovePostingHandler = () => {
+    navigate("/posting");
     dispatch(sendModalStatus(true));
   };
 
@@ -129,12 +129,12 @@ const Header = () => {
         <UserModal
           top="4rem"
           right="0"
-          chat="채팅"
-          chatClick={onClickChatOpenHandler}
-          posting="게시글 작성"
-          postingClick={onMovePostingHandler}
           myProfile="마이페이지"
           myProfileClick={onMoveMyProfileHandler}
+          posting="공구 생성"
+          postingClick={onMovePostingHandler}
+          chat="채팅"
+          chatClick={onClickChatOpenHandler}
           logout="로그아웃"
           logoutClick={onMoveLogoutHandler}
         />
