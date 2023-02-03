@@ -18,7 +18,6 @@ import useWindowResize from "../../hooks/useWindowResize";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import ChatZone from "./ChatZone";
 import ChatWaitingRoom from "./ChatWaitingRoom";
-import ChatParticipantModal from "./ChatParticipantModal";
 
 const Chatroom = () => {
   const dispatch = useDispatch();
