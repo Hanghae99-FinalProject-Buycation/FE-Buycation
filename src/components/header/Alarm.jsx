@@ -7,6 +7,7 @@ import {
   __getAlarmList,
   __deleteAlarm,
   __deleteState,
+  __deleteTotalAlarm,
 } from "../../redux/modules/alarm/alarmSlice";
 import { useEffect } from "react";
 import { midTitleForm } from "../../utils/editedData";
@@ -19,6 +20,7 @@ const Alarm = (props) => {
   const alarmList = alarmListData.alarmList.dataList;
   const alarmKey = alarmListData.alarmKey; //무한 스크롤 시 사용될 예정 현재는 ""만 보냄
   const { deleteState } = useSelector((state) => state.alarm);
+  // console.log(alarmList);
 
   useEffect(() => {
     if (tokenValue) {
@@ -37,32 +39,42 @@ const Alarm = (props) => {
     dispatch(__deleteAlarm(alarmId));
   };
 
+  const onClickDeleteTotalAlarmListHandler = (alarmId) => {
+    dispatch(__deleteTotalAlarm(alarmId));
+  };
+
   return (
     <Backdrop onClick={onClose}>
       <AlarmModal top={top} left={left} right={right}>
         <header>
           <span>알림</span>
-          <span onClick={onClose}>닫기</span>
+          <button onClick={onClickDeleteTotalAlarmListHandler}>
+            모든 알림 삭제
+          </button>
         </header>
         <AlarmListBox>
-          {alarmList?.map((item) => (
-            <PerAlarm key={item.alarmId}>
-              <article>
-                <div onClick={() => onMove(item.postingId, item.alarmId)}>
-                  <p className={item.read ? "read" : ""}>
-                    {midTitleForm(item.title)}
-                  </p>
-                  <p className={item.read ? "read" : ""}>{item.message}</p>
-                  <span>{item.createdAt}</span>
-                </div>
-              </article>
-              <img
-                alt="alarmClose"
-                src={alarmClose}
-                onClick={() => onClickDeleteAlarmHandler(item.alarmId)}
-              />
-            </PerAlarm>
-          ))}
+          {alarmList?.length === 0 ? (
+            <EmptyAlarmListBox>새로운 알림이 없습니다.</EmptyAlarmListBox>
+          ) : (
+            alarmList?.map((item) => (
+              <PerAlarm key={item.alarmId}>
+                <article>
+                  <div onClick={() => onMove(item.postingId, item.alarmId)}>
+                    <p className={item.read ? "read" : ""}>
+                      {midTitleForm(item.title)}
+                    </p>
+                    <p className={item.read ? "read" : ""}>{item.message}</p>
+                    <span>{item.createdAt}</span>
+                  </div>
+                </article>
+                <img
+                  alt="alarmClose"
+                  src={alarmClose}
+                  onClick={() => onClickDeleteAlarmHandler(item.alarmId)}
+                />
+              </PerAlarm>
+            ))
+          )}
         </AlarmListBox>
       </AlarmModal>
     </Backdrop>
@@ -101,14 +113,18 @@ const AlarmModal = styled.div`
     height: 100%;
     padding: 0.5rem 1rem;
     border-bottom: 1px solid ${({ theme }) => theme.colors.grayStrong};
-    span:nth-of-type(1) {
+    span {
+      display: flex;
+      align-items: center;
       font-weight: 600;
     }
-    span:nth-of-type(2) {
+    button {
+      border: 2px solid ${({ theme }) => theme.colors.grayList};
+      background: inherit;
       color: ${({ theme }) => theme.colors.grayStrong};
       font-weight: 600;
     }
-    span:nth-of-type(2):hover {
+    button:hover {
       color: ${({ theme }) => theme.colors.grayHover};
     }
   }
@@ -117,6 +133,14 @@ const AlarmModal = styled.div`
 const AlarmListBox = styled.div`
   overflow: auto;
   height: 380px;
+`;
+
+const EmptyAlarmListBox = styled.span`
+  height: 380px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${({ theme }) => theme.colors.grayStrong};
 `;
 
 const PerAlarm = styled.div`

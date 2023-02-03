@@ -37,6 +37,10 @@ const DetailApplicationList = ({ postingId, onClickMoveProfileHandler }) => {
         postingId: postingId,
       })
     ).then((res) => {
+      Swal.fire({
+        text: res.payload,
+        confirmButtonColor: "#ff5f5a",
+      });
       if (isSuccess) {
         dispatch(__isSuccess(false));
       }

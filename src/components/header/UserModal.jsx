@@ -6,9 +6,9 @@ import { sendModalStatus } from "../../redux/modules/modal/modalSlice";
 
 const UserModal = (props) => {
   const {
-    chat,
-    posting,
     myProfile,
+    posting,
+    chat,
     logout,
     chatClick,
     postingClick,
@@ -37,9 +37,9 @@ const UserModal = (props) => {
       bottom={bottom}
     >
       <div>
-        <button onClick={chatClick}>{chat}</button>
-        <button onClick={postingClick}>{posting}</button>
         <button onClick={myProfileClick}>{myProfile}</button>
+        <button onClick={postingClick}>{posting}</button>
+        <button onClick={chatClick}>{chat}</button>
         <button onClick={logoutClick}>{logout}</button>
       </div>
     </StPostingOption>

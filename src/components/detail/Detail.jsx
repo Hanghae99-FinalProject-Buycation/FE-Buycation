@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
+import Swal from "sweetalert2";
 import { RiMapPin2Fill } from "react-icons/ri";
 import { getCookies } from "../../core/cookie";
 import useBuyLocation from "../../hooks/useBuyLocation";
@@ -14,7 +15,6 @@ import DetailApplicationBtns from "./DetailApplicationBtns";
 import DetailCommentList from "./DetailCommentList";
 import DetailCreatorProfile from "./DetailCreatorProfile";
 import DetailContent from "./DetailContent";
-import ButtonBasic from "../elements/ButtonBasic";
 
 const Detail = () => {
   const dispatch = useDispatch();
@@ -32,11 +32,18 @@ const Detail = () => {
   useBuyLocation(details?.address);
 
   useEffect(() => {
-    dispatch(__getDetail(postingId));
+    dispatch(__getDetail(postingId)).then((res) => {
+      if (res.payload === "POSTING_NOT_FOUND") {
+        Swal.fire({
+          text: "존재하지 않는 공구입니다.",
+          confirmButtonColor: "#ff5f5a",
+        });
+        navigate("/");
+      }
+    });
   }, [dispatch, postingId, isSuccess]);
 
   if (error) return <div>{error.msg}</div>;
-
   return (
     <StDetailWrap>
       <StDetailForm>
