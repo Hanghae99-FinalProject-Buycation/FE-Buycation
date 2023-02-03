@@ -97,7 +97,9 @@ export const alarmSlice = createSlice({
       console.log(action.payload.index);
       state.isLoading = false;
       // state.deleteState = true;
-      state.alarmList = [...state.alarmList.splice(action.payload.index, 1)];
+      state.alarmList = [
+        ...state.alarmList.dataList.splice(action.payload.index, 1),
+      ];
     });
     builder.addCase(__patchAlarmState.fulfilled, (state, action) => {
       state.isLoading = false;
