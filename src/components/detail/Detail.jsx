@@ -35,7 +35,7 @@ const Detail = () => {
     dispatch(__getDetail(postingId)).then((res) => {
       if (res.payload === "POSTING_NOT_FOUND") {
         Swal.fire({
-          text: "페이지를 찾을 수 없습니다.",
+          text: "존재하지 않는 공구입니다.",
           confirmButtonColor: "#ff5f5a",
         });
         navigate("/");
