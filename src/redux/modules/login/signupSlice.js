@@ -5,6 +5,12 @@ const initialState = {
   postSignup: {},
   getEmailValidation: "",
   getEmailValidationCheck: "",
+  checkAll: {
+    checkStatus: false,
+    email: false,
+    nickname: false,
+    validation: false,
+  },
   isLoading: false,
   error: null,
   isSuccess: false,
@@ -70,6 +76,10 @@ export const signupSlice = createSlice({
     __isSuccess: (state, action) => {
       state.isSuccess = action.payload;
     },
+    sendCheckAll: (state, action) => {
+      state.checkAll = action.payload;
+      console.log(state.checkAll);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -111,5 +121,6 @@ export const {
   getEmailValidation,
   getEmailValidationCheck,
   __isSuccess,
+  sendCheckAll,
 } = signupSlice.actions;
 export default signupSlice.reducer;

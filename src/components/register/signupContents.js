@@ -6,6 +6,7 @@ export const signupContents = [
     name: "email",
     placeholder: "이메일",
     btnText: "인증",
+    btnTextNext: "전송 완료",
     gridTemplateAreas: `"elSpan elInput elBtn"`,
     gridTemplateAreasMobile: `"elSpan ." "elInput elBtn"`,
   },
