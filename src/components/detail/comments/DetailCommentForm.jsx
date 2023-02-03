@@ -5,9 +5,9 @@ import {
   sendCommentToggle,
   __isSuccess,
   __postComment,
-} from "../../redux/modules/details/commentSlice";
+} from "../../../redux/modules/details/commentSlice";
 import Swal from "sweetalert2";
-import ButtonBasic from "../elements/ButtonBasic";
+import ButtonBasic from "../../elements/ButtonBasic";
 import { useParams } from "react-router-dom";
 
 const DetailCommentForm = ({ className }) => {

@@ -7,9 +7,9 @@ import {
   sendCommentToggle,
   __isSuccess,
   __putComment,
-} from "../../redux/modules/details/commentSlice";
+} from "../../../redux/modules/details/commentSlice";
 import Swal from "sweetalert2";
-import ButtonBasic from "../elements/ButtonBasic";
+import ButtonBasic from "../../elements/ButtonBasic";
 
 const DetailCommentModifyForm = ({ className, commentId }) => {
   const dispatch = useDispatch();
