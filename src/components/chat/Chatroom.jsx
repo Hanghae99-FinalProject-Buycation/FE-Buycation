@@ -42,7 +42,7 @@ const Chatroom = () => {
   const connect = () => {
     client.current = new Stomp.Client({
       debug: (str) => {
-        console.log(str);
+        // console.log(str);
       },
       splitLargeFrames: true,
       webSocketFactory: () => new SockJS(SOCKET_URL),

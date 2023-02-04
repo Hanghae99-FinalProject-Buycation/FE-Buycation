@@ -16,7 +16,6 @@ export const __getChatList = createAsyncThunk(
       const { data } = await baseURLwToken.get(`talk/room`);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (err) {
-      console.log(err);
       return thunkAPI.rejectWithValue(err);
     }
   }
@@ -29,7 +28,6 @@ export const __getChatRoom = createAsyncThunk(
       const { data } = await baseURLwToken.get(`talk/room/${payload}`);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (err) {
-      console.log(err);
       return thunkAPI.rejectWithValue(err);
     }
   }
