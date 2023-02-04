@@ -19,13 +19,12 @@ const HeaderMobile = (props) => {
     onAlarmCount,
     onClickAlarmModalHandler,
     onMoveSelectPageHandler,
-    onCloseAlarmModalHandler,
-    onAlarmModal,
   } = props;
   const tokenValue = getCookies("id");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const modalStatus = useSelector((state) => state.generalModal.toggleModal);
+  const { alarmModalStatus } = useSelector((state) => state.alarm);
   const [showUserGuide, setShowUserGuide] = useState(true);
 
   const onMoveLoginHandler = () => {
@@ -49,19 +48,14 @@ const HeaderMobile = (props) => {
     <HeaderDiv>
       {tokenValue ? (
         <>
-          {onAlarmModal ? (
+          {alarmModalStatus ? (
             <Icon>
               <img
                 alt="alarm"
                 src={alarmIcon}
                 onClick={onClickAlarmModalHandler}
               />
-              <Alarm
-                top="4rem"
-                left="0"
-                onMove={onMoveSelectPageHandler}
-                onClose={onCloseAlarmModalHandler}
-              />
+              <Alarm top="4rem" left="0" onMove={onMoveSelectPageHandler} />
             </Icon>
           ) : (
             <Icon>
