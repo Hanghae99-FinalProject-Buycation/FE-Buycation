@@ -5,6 +5,7 @@ const initialState = {
   alarmCount: 0,
   alarmList: [],
   alarmKey: "",
+  alarmModalStatus: false,
   isLoading: false,
   error: null,
 };
@@ -73,7 +74,11 @@ export const __deleteTotalAlarm = createAsyncThunk(
 export const alarmSlice = createSlice({
   name: "alarm",
   initialState,
-  reducers: {},
+  reducers: {
+    __sendAlarmModalStatus: (state, action) => {
+      state.alarmModalStatus = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(__getAlarmCount.fulfilled, (state, action) => {
       state.isLoading = false;
@@ -105,4 +110,5 @@ export const alarmSlice = createSlice({
   },
 });
 
+export const { __sendAlarmModalStatus } = alarmSlice.actions;
 export default alarmSlice.reducer;

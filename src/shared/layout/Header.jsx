@@ -11,8 +11,8 @@ import {
   sendModalStatus,
 } from "../../redux/modules/modal/modalSlice";
 import {
-  // __getAlarmCount,
   __patchAlarmState,
+  __sendAlarmModalStatus,
 } from "../../redux/modules/alarm/alarmSlice";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { BACK_API } from "../../core/env";
@@ -26,8 +26,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const modalStatus = useSelector((state) => state.generalModal.toggleModal);
   const chatStatus = useSelector((state) => state.generalModal.toggleChat);
-  //const { alarmCount } = useSelector((data) => data?.alarm);
-  const [alarmModal, setAlarmModal] = useState(false);
+  // const [alarmModal, setAlarmModal] = useState(false);
   const EventSource = EventSourcePolyfill;
   const [alarmCount, setAlarmCount] = useState();
 
@@ -66,16 +65,19 @@ const Header = () => {
 
   //alarm 조회, 삭제, 수정
   const onClickAlarmModalHandler = () => {
-    setAlarmModal(true);
+    //setAlarmModal(true);
+    dispatch(__sendAlarmModalStatus(true));
   };
   const onMoveSelectPageHandler = (postingId, alarmId) => {
-    setAlarmModal(false);
+    //setAlarmModal(false);
+    dispatch(__sendAlarmModalStatus(false));
     navigate(`/details/${postingId}`);
     dispatch(__patchAlarmState(alarmId));
   };
-  const onCloseAlarmModalHandler = () => {
-    setAlarmModal(false);
-  };
+  // const onCloseAlarmModalHandler = () => {
+  //   //setAlarmModal(false);
+  //   dispatch(__sendAlarmModalStatus(true));
+  // };
 
   //헤더 사람 아이콘 모달 내용 기능
   const onMoveMyProfileHandler = () => {
@@ -110,8 +112,8 @@ const Header = () => {
           onAlarmCount={alarmCount}
           onClickAlarmModalHandler={onClickAlarmModalHandler}
           onMoveSelectPageHandler={onMoveSelectPageHandler}
-          onCloseAlarmModalHandler={onCloseAlarmModalHandler}
-          onAlarmModal={alarmModal}
+          // onCloseAlarmModalHandler={onCloseAlarmModalHandler}
+          // onAlarmModal={alarmModal}
           onClickChatOpenHandler={onClickChatOpenHandler}
         />
       ) : (
@@ -120,8 +122,8 @@ const Header = () => {
           onAlarmCount={alarmCount}
           onClickAlarmModalHandler={onClickAlarmModalHandler}
           onMoveSelectPageHandler={onMoveSelectPageHandler}
-          onCloseAlarmModalHandler={onCloseAlarmModalHandler}
-          onAlarmModal={alarmModal}
+          // onCloseAlarmModalHandler={onCloseAlarmModalHandler}
+          // onAlarmModal={alarmModal}
         />
       )}
 

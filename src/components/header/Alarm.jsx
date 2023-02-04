@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import alarmClose from "../../assets/headerIcon/alarmClose.svg";
 import { getCookies } from "../../core/cookie";
@@ -7,9 +7,11 @@ import {
   __getAlarmList,
   __deleteAlarm,
   __deleteTotalAlarm,
+  __sendAlarmModalStatus,
 } from "../../redux/modules/alarm/alarmSlice";
 import { useEffect } from "react";
 import { midTitleForm } from "../../utils/editedData";
+import useOutsideClick from "../../hooks/useOutsideClick";
 
 const Alarm = (props) => {
   const { onMove, onClose, top, left, right } = props;
@@ -18,6 +20,15 @@ const Alarm = (props) => {
   const alarmListData = useSelector((data) => data.alarm);
   const alarmList = alarmListData.alarmList.dataList;
   const alarmKey = alarmListData.alarmKey; //무한 스크롤 시 사용될 예정 현재는 ""만 보냄
+  const [hide, setHide] = useState(false);
+
+  const onClickCloseHandler = () => {
+    console.log("사");
+    setHide(!hide);
+    dispatch(__sendAlarmModalStatus(false));
+    // onClose();
+  };
+  const ref = useOutsideClick(onClickCloseHandler);
 
   useEffect(() => {
     if (tokenValue) {
@@ -34,39 +45,43 @@ const Alarm = (props) => {
   };
 
   return (
-    <Backdrop onClick={onClose}>
-      <AlarmModal top={top} left={left} right={right}>
-        <header>
-          <span>알림</span>
-          <button onClick={onClickDeleteTotalAlarmListHandler}>
-            모든 알림 삭제
-          </button>
-        </header>
-        <AlarmListBox>
-          {alarmList?.length === 0 ? (
-            <EmptyAlarmListBox>새로운 알림이 없습니다.</EmptyAlarmListBox>
-          ) : (
-            alarmList?.map((item, index) => (
-              <PerAlarm key={item.alarmId}>
-                <article>
-                  <div onClick={() => onMove(item.postingId, item.alarmId)}>
-                    <p className={item.read ? "read" : ""}>
-                      {midTitleForm(item.title)}
-                    </p>
-                    <p className={item.read ? "read" : ""}>{item.message}</p>
-                    <span>{item.createdAt}</span>
-                  </div>
-                </article>
-                <img
-                  alt="alarmClose"
-                  src={alarmClose}
-                  onClick={() => onClickDeleteAlarmHandler(item.alarmId, index)}
-                />
-              </PerAlarm>
-            ))
-          )}
-        </AlarmListBox>
-      </AlarmModal>
+    <Backdrop>
+      {!hide && (
+        <AlarmModal top={top} left={left} right={right} ref={ref}>
+          <header>
+            <span>알림</span>
+            <button onClick={onClickDeleteTotalAlarmListHandler}>
+              모든 알림 삭제
+            </button>
+          </header>
+          <AlarmListBox>
+            {alarmList?.length === 0 ? (
+              <EmptyAlarmListBox>새로운 알림이 없습니다.</EmptyAlarmListBox>
+            ) : (
+              alarmList?.map((item, index) => (
+                <PerAlarm key={item.alarmId}>
+                  <article>
+                    <div onClick={() => onMove(item.postingId, item.alarmId)}>
+                      <p className={item.read ? "read" : ""}>
+                        {midTitleForm(item.title)}
+                      </p>
+                      <p className={item.read ? "read" : ""}>{item.message}</p>
+                      <span>{item.createdAt}</span>
+                    </div>
+                  </article>
+                  <img
+                    alt="alarmClose"
+                    src={alarmClose}
+                    onClick={() =>
+                      onClickDeleteAlarmHandler(item.alarmId, index)
+                    }
+                  />
+                </PerAlarm>
+              ))
+            )}
+          </AlarmListBox>
+        </AlarmModal>
+      )}
     </Backdrop>
   );
 };

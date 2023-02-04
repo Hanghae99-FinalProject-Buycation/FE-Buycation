@@ -22,7 +22,7 @@ const HeaderPc = (props) => {
     onClickAlarmModalHandler,
     onMoveSelectPageHandler,
     onCloseAlarmModalHandler,
-    onAlarmModal,
+    // onAlarmModal,
     onClickChatOpenHandler,
   } = props;
   const tokenValue = getCookies("id");
@@ -30,6 +30,7 @@ const HeaderPc = (props) => {
   const dispatch = useDispatch();
   const modalStatus = useSelector((state) => state.generalModal.toggleModal);
   const [showUserGuide, setShowUserGuide] = useState(true);
+  const { alarmModalStatus } = useSelector((state) => state.alarm);
 
   const onMovePostingHandler = () => {
     navigate("/posting");
@@ -64,7 +65,7 @@ const HeaderPc = (props) => {
             src={chattingIcon}
             onClick={onClickChatOpenHandler}
           />
-          {onAlarmModal ? (
+          {alarmModalStatus ? (
             <div>
               <img
                 alt="alarm"
