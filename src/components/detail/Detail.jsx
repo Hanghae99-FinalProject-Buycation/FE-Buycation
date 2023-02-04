@@ -127,13 +127,12 @@ const StDetailForm = styled.form`
 
 const ElImgWrap = styled.div`
   ${({ theme }) => theme.common.flexCenter}
-  height: 31.625rem;
   margin: 1.875rem 0;
-  border-radius: 0.5rem;
-  overflow: hidden;
 
   img {
     width: 100%;
+    height: 31.625rem;
+    border-radius: 0.5rem;
     object-fit: cover;
     object-position: center;
 

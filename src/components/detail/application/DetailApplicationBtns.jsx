@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import styled from "@emotion/styled";
 import Swal from "sweetalert2";
 import ButtonBasic from "../../elements/ButtonBasic";
@@ -23,7 +23,6 @@ const DetailApplicationBtns = ({
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [applicationModal, setApplicationModal] = useState(false);
-  const getMsg = useSelector((data) => data.applicate.postApplication);
 
   const onClickApplicationModalHandler = () => {
     setApplicationModal(!applicationModal);
@@ -47,6 +46,31 @@ const DetailApplicationBtns = ({
           confirmButtonText: "확인",
         })
       );
+    }
+  };
+  const onClickApplicateAskHandler = () => {
+    if (!tokenValue) {
+      Swal.fire({
+        text: "로그인 해주세요.",
+        confirmButtonColor: "#FF5A5F",
+        confirmButtonText: "확인",
+      }).then((res) => {
+        if (res.isConfirmed) {
+          navigate("/login");
+        }
+      });
+    } else {
+      Swal.fire({
+        text: "모집 인원이 찬 게시물입니다. 대기자로 등록하시겠습니까?",
+        confirmButtonColor: "#FF5A5F",
+        confirmButtonText: "등록",
+        showDenyButton: true,
+        denyButtonText: "취소",
+        denyButtonColor: "#adadad",
+      }).then((res) => {
+        if (res.isConfirmed) dispatch(__postApplication(postingId));
+        if (res.isDenied) return;
+      });
     }
   };
   const onClickCancelHandler = () => {
@@ -88,59 +112,63 @@ const DetailApplicationBtns = ({
     });
   };
 
-  useEffect(() => {}, [dispatch, getMsg]);
+  useEffect(() => {}, [dispatch]);
 
-  if (details?.doneStatus)
-    return (
-      <ElApplicationWrap>
+  return (
+    <ElApplicationWrap>
+      {details?.doneStatus && (
         <ButtonBasic background="#adadad" color="white">
           <img src={applicateBtnIcon} alt="" /> 완료된 게시물입니다.
         </ButtonBasic>
-      </ElApplicationWrap>
-    );
-  if (details?.myPosting && details?.totalMembers > details?.currentMembers)
-    return (
-      <ElApplicationWrap>
-        <>
-          {applicationModal && (
-            <DetailApplicationList
-              postingId={postingId}
-              onClickMoveProfileHandler={onClickMoveProfileHandler}
-            />
-          )}
-          <ButtonBasic _onClick={onClickApplicationModalHandler}>
-            <img src={applicateBtnIcon} alt="" /> 신청 리스트 보기
-          </ButtonBasic>
-        </>
-      </ElApplicationWrap>
-    );
+      )}
 
-  if (details?.myPosting && details?.totalMembers === details?.currentMembers)
-    return (
-      <ElApplicationWrap>
-        <ButtonBasic _onClick={onClickSendDoneHandler}>
-          <img src={applicateCompleteIcon} alt="" /> 모집 완료시 클릭!
-        </ButtonBasic>
-      </ElApplicationWrap>
-    );
-  // 미로그인 상태이거나 참가중이지 않을 때
-  if (!tokenValue || !details?.participant)
-    return (
-      <ElApplicationWrap>
-        <ButtonBasic _onClick={onClickApplicateHandler}>
-          <img src={applicateBtnIcon} alt="" /> 참가 신청 하기
-        </ButtonBasic>
-      </ElApplicationWrap>
-    );
-  if (details?.participant)
-    return (
-      <ElApplicationWrap>
+      {details?.myPosting &&
+        details?.totalMembers > details?.currentMembers && (
+          <>
+            {applicationModal && (
+              <DetailApplicationList
+                postingId={postingId}
+                onClickMoveProfileHandler={onClickMoveProfileHandler}
+              />
+            )}
+            <ButtonBasic _onClick={onClickApplicationModalHandler}>
+              <img src={applicateBtnIcon} alt="" /> 신청 리스트 보기
+            </ButtonBasic>
+          </>
+        )}
+
+      {details?.participant && !details?.myPosting && (
         <ButtonBasic _onClick={onClickCancelHandler} background="#939393">
           <img src={applicateCancelIcon} alt="" />
           참가 취소 하기
         </ButtonBasic>
-      </ElApplicationWrap>
-    );
+      )}
+
+      {details?.totalMembers === details?.currentMembers ? (
+        details?.myPosting ? (
+          <ButtonBasic _onClick={onClickSendDoneHandler}>
+            <img src={applicateCompleteIcon} alt="" /> 모집 완료시 클릭!
+          </ButtonBasic>
+        ) : (
+          !details?.participant && (
+            <ButtonBasic
+              background="#939393"
+              _onClick={onClickApplicateAskHandler}
+            >
+              <img src={applicateCompleteIcon} alt="" /> 완료 대기중인
+              게시물입니다.
+            </ButtonBasic>
+          )
+        )
+      ) : (
+        (!tokenValue || !details?.participant) && (
+          <ButtonBasic _onClick={onClickApplicateHandler}>
+            <img src={applicateBtnIcon} alt="" /> 참가 신청 하기
+          </ButtonBasic>
+        )
+      )}
+    </ElApplicationWrap>
+  );
 };
 
 export default DetailApplicationBtns;
