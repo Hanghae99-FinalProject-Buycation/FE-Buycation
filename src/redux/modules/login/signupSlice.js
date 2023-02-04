@@ -78,7 +78,6 @@ export const signupSlice = createSlice({
     },
     sendCheckAll: (state, action) => {
       state.checkAll = action.payload;
-      console.log(state.checkAll);
     },
   },
   extraReducers: (builder) => {
