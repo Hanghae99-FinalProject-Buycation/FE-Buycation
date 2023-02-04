@@ -6,6 +6,7 @@ const initialState = {
   alarmList: [],
   alarmKey: "",
   alarmModalStatus: false,
+  deleteState: false,
   isLoading: false,
   error: null,
 };
@@ -78,6 +79,9 @@ export const alarmSlice = createSlice({
     __sendAlarmModalStatus: (state, action) => {
       state.alarmModalStatus = action.payload;
     },
+    __deleteState: (state, action) => {
+      state.deleteState = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(__getAlarmCount.fulfilled, (state, action) => {
@@ -95,6 +99,7 @@ export const alarmSlice = createSlice({
     builder.addCase(__deleteAlarm.fulfilled, (state, action) => {
       //console.log(action.payload.index);
       state.isLoading = false;
+      state.deleteState = true;
       state.alarmList = [
         ...state.alarmList.dataList.splice(action.payload.index, 1),
       ];
@@ -105,10 +110,11 @@ export const alarmSlice = createSlice({
     });
     builder.addCase(__deleteTotalAlarm.fulfilled, (state, action) => {
       state.isLoading = false;
+      state.deleteState = true;
       state.alarmList = action.payload;
     });
   },
 });
 
-export const { __sendAlarmModalStatus } = alarmSlice.actions;
+export const { __sendAlarmModalStatus, __deleteState } = alarmSlice.actions;
 export default alarmSlice.reducer;
