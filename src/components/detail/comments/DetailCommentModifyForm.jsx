@@ -27,6 +27,7 @@ const DetailCommentModifyForm = ({ className, commentId }) => {
       Swal.fire({
         text: "내용을 입력해주세요.",
         confirmButtonColor: "#ff5a5f",
+        confirmButtonText: "확인",
       });
     } else {
       dispatch(__putComment({ commentId, comment })).then((res) => {

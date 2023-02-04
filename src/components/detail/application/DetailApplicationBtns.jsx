@@ -9,9 +9,10 @@ import {
   __cancelApplication,
   __postApplication,
 } from "../../../redux/modules/application/applicationSlice";
-import { __getParticipatedList } from "../../../redux/modules/profile/myListSlice";
 import applicateBtnIcon from "../../../assets/detailIcon/applicateBtnIcon.svg";
 import applicateCancelIcon from "../../../assets/detailIcon/applicateCancelIcon.svg";
+import applicateCompleteIcon from "../../../assets/detailIcon/applicateCompleteIcon.svg";
+import { __doneDetail } from "../../../redux/modules/details/detailSlice";
 
 const DetailApplicationBtns = ({
   details,
@@ -32,6 +33,7 @@ const DetailApplicationBtns = ({
       Swal.fire({
         text: "로그인 해주세요.",
         confirmButtonColor: "#FF5A5F",
+        confirmButtonText: "확인",
       }).then((res) => {
         if (res.isConfirmed) {
           navigate("/login");
@@ -42,6 +44,7 @@ const DetailApplicationBtns = ({
         Swal.fire({
           text: res.payload,
           confirmButtonColor: "#FF5A5F",
+          confirmButtonText: "확인",
         })
       );
     }
@@ -59,11 +62,28 @@ const DetailApplicationBtns = ({
       if (res.isConfirmed) {
         Swal.fire({
           text: "참가 취소되었습니다.",
-          confirmButtonColor: "#ff5a5f",
+          confirmButtonColor: "#FF5A5F",
+          confirmButtonText: "확인",
         });
         dispatch(__cancelApplication(postingId)).then((res) => navigate("/"));
       } else if (res.isDenied) {
         return;
+      }
+    });
+  };
+  const onClickSendDoneHandler = () => {
+    dispatch(__doneDetail(postingId)).then((res) => {
+      if (res.payload.statusCode !== 200) {
+        Swal.fire({
+          text: res.payload.msg,
+          confirmButtonColor: "#ff5f5a",
+        });
+      } else {
+        Swal.fire({
+          text: res.payload.msg,
+          confirmButtonColor: "#ff5f5a",
+        });
+        navigate("/myProfile");
       }
     });
   };
@@ -78,7 +98,7 @@ const DetailApplicationBtns = ({
         </ButtonBasic>
       </ElApplicationWrap>
     );
-  else if (details?.myPosting)
+  if (details?.myPosting && details?.totalMembers > details?.currentMembers)
     return (
       <ElApplicationWrap>
         <>
@@ -92,6 +112,15 @@ const DetailApplicationBtns = ({
             <img src={applicateBtnIcon} alt="" /> 신청 리스트 보기
           </ButtonBasic>
         </>
+      </ElApplicationWrap>
+    );
+
+  if (details?.myPosting && details?.totalMembers === details?.currentMembers)
+    return (
+      <ElApplicationWrap>
+        <ButtonBasic _onClick={onClickSendDoneHandler}>
+          <img src={applicateCompleteIcon} alt="" /> 모집 완료시 클릭!
+        </ButtonBasic>
       </ElApplicationWrap>
     );
   // 미로그인 상태이거나 참가중이지 않을 때

@@ -10,7 +10,6 @@ import Swal from "sweetalert2";
 import { FaLink } from "react-icons/fa";
 import { __getDetail } from "../../redux/modules/details/detailSlice";
 import { sendRegisterModalStatus } from "../../redux/modules/postcode/postcodeModalSlice";
-import { __getPostingList } from "../../redux/modules/main/postingListSlice";
 import { __putPosting } from "../../redux/modules/modifyPosting/modifyPostingSlice";
 import { selectCategory } from "../../utils/option";
 import { uploadImg } from "../../utils/uploadImg";
@@ -66,7 +65,6 @@ const ModifyPosting = () => {
       postData.category !== "" &&
       postData.title !== "" &&
       postData.content !== "" &&
-      // address !== "" &&
       postData.totalMembers !== "" &&
       postData.dueDate !== "" &&
       postData.dueTime !== "" &&
@@ -100,6 +98,7 @@ const ModifyPosting = () => {
     } else {
       Swal.fire({
         text: "모든 입력칸을 입력해 주세요 :)",
+        confirmButtonText: "확인",
         confirmButtonColor: "#FF5A5F",
       });
     }
@@ -110,7 +109,6 @@ const ModifyPosting = () => {
       postData.category !== "" &&
       postData.title !== "" &&
       postData.content !== "" &&
-      // address !== "" &&
       postData.totalMembers !== "" &&
       postData.dueDate !== "" &&
       postData.dueTime !== "" &&
@@ -133,6 +131,7 @@ const ModifyPosting = () => {
         Swal.fire({
           text: "게시글 수정에 성공하였습니다.",
           confirmButtonColor: "#ff5a5f",
+          confirmButtonText: "확인",
         });
         dispatch(__getDetail(postingId));
       });
@@ -184,17 +183,25 @@ const ModifyPosting = () => {
             </SelectInput>
             <InputBasic
               height="2.25rem"
+              type="text"
               name="title"
-              placeholder="제목을 입력해 주세요."
+              maxLength="30"
+              placeholder="제목을 입력해 주세요. (30자 제한)"
               _onChange={onChangeValueHandler}
               defaultValue={getDatas?.title}
             />
-            <TextArea
-              name="content"
-              placeholder="내용을 입력해 주세요."
-              onChange={onChangeValueHandler}
-              defaultValue={getDatas?.content}
-            ></TextArea>
+            <TextAreaDiv>
+              <TextArea
+                name="content"
+                type="text"
+                placeholder="내용을 입력해 주세요."
+                maxLength="2000"
+                onChange={onChangeValueHandler}
+                defaultValue={getDatas?.content}
+              ></TextArea>
+              <span>{postData.content.length}/2000자</span>
+            </TextAreaDiv>
+
             <Label>
               사진 첨부
               <FileInput>
@@ -210,12 +217,13 @@ const ModifyPosting = () => {
               거래 희망 주소
               <AddressInput
                 name="address"
+                placeholder="이웃과 거래하고 싶은 장소를 선택해 주세요."
                 value={address ? address : getDatas?.address}
                 onChange={onChangeValueHandler}
               />
               <ButtonBasic
                 width="5rem"
-                height="1.938rem"
+                height="2.25rem"
                 fontSize="14px"
                 _onClick={onClickPostcodeHandler}
               >
@@ -234,7 +242,9 @@ const ModifyPosting = () => {
           </LeftDivForm>
           <RightDivForm>
             <SelectInputForm>
-              <label>모집 인원</label>
+              <label>
+                모집 인원 <span>(본인포함, 2인~50인)</span>
+              </label>
               <InputBasic
                 min={
                   getDatas?.currentMembers < 2 ? 2 : getDatas?.currentMembers
@@ -242,7 +252,7 @@ const ModifyPosting = () => {
                 name="totalMembers"
                 type="number"
                 defaultValue={getDatas?.totalMembers}
-                placeholder="숫자만 입력 (본인 포함, 최소 2인)"
+                placeholder="숫자만 입력해주세요"
                 _onChange={onChangeValueHandler}
               />
               <label>모집 마감일 선택</label>
@@ -270,7 +280,11 @@ const ModifyPosting = () => {
               />
               <span>
                 1인당 결제 금액
-                <span>{perBudget(postData.budget, postData.totalMembers)}</span>
+                <span>
+                  {perBudget(postData.budget, postData.totalMembers) === "∞원"
+                    ? ""
+                    : perBudget(postData.budget, postData.totalMembers)}
+                </span>
               </span>
             </SelectInputForm>
             <ButtonForm>
@@ -302,13 +316,13 @@ const Wrap = styled.div`
   justify-content: center;
 `;
 const Container = styled.div`
-  width: 1392px;
+  width: 87rem;
   height: 100%;
   p {
     font-size: ${({ theme }) => theme.fontSize.xl};
     font-weight: 600;
     padding-bottom: 2rem;
-    border-bottom: 3px solid ${({ theme }) => theme.colors.main};
+    border-bottom: 0.19rem solid ${({ theme }) => theme.colors.main};
   }
 `;
 const PostingForm = styled.div`
@@ -316,7 +330,7 @@ const PostingForm = styled.div`
   display: flex;
   margin-top: 2rem;
   gap: 2rem;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 48rem) {
     height: 100%;
     flex-direction: column;
   }
@@ -326,7 +340,7 @@ const LeftDivForm = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 48rem) {
     width: 100%;
     height: 100%;
   }
@@ -335,9 +349,9 @@ const SelectInput = styled.select`
   width: 50%;
   height: 2.25rem;
   padding: 0.5rem 0.5rem;
-  border: 1px solid ${({ theme }) => theme.colors.grayWeak};
+  border: 0.1rem solid ${({ theme }) => theme.colors.grayWeak};
   border-radius: 0.5rem;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 48rem) {
     width: 100%;
   }
 `;
@@ -346,31 +360,43 @@ const Label = styled.label`
   grid-template-columns: 7rem 22rem 5rem;
   grid-template-rows: repeat(1, 1fr);
   align-items: center;
-  gap: 8px;
-  @media screen and (max-width: 768px) {
+  gap: 0.5rem;
+  @media screen and (max-width: 48rem) {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
   }
 `;
 const AddressInput = styled.input`
   width: 100%;
-  height: 1.938rem;
-  border: 1px solid #d9d9d9;
+  height: 2.25rem;
+  border: 0.1rem solid #d9d9d9;
   border-radius: 0.5rem;
   background: white;
   padding: 0.8rem;
 `;
-const TextArea = styled.textarea`
+const TextAreaDiv = styled.div`
+  position: relative;
   width: 100%;
   height: 20rem;
-  border: 1px solid ${({ theme }) => theme.colors.grayWeak};
+  border: 0.1rem solid ${({ theme }) => theme.colors.grayWeak};
   border-radius: 0.5rem;
   padding: 1.8rem;
+  span {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: ${({ theme }) => theme.fontSize.sm};
+    color: ${({ theme }) => theme.colors.grayMid};
+  }
+`;
+const TextArea = styled.textarea`
+  width: 100%;
+  height: 95%;
 `;
 const FileInput = styled.div`
   width: 22rem;
-  height: 1.938rem;
-  border: 1px solid ${({ theme }) => theme.colors.grayWeak};
+  height: 2.25rem;
+  border: 0.1rem solid ${({ theme }) => theme.colors.grayWeak};
   border-radius: 0.5rem;
   padding: 0.5rem;
   display: flex;
@@ -381,7 +407,7 @@ const FileInput = styled.div`
     background: none;
     color: ${({ theme }) => theme.colors.grayMid};
   }
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: 47.5rem) {
     width: 100%;
   }
 `;
@@ -390,30 +416,34 @@ const RightDivForm = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: 47.5rem) {
     width: 100%;
     height: 100%;
     padding-bottom: 1rem;
   }
 `;
 const SelectInputForm = styled.div`
-  border: 1px solid ${({ theme }) => theme.colors.grayStrong};
+  border: 0.1rem solid ${({ theme }) => theme.colors.grayStrong};
   border-radius: 0.5rem;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   label {
-    margin: 24px 0 8px 0;
+    margin: 1.5rem 0 0.5rem 0;
+    span {
+      color: ${({ theme }) => theme.colors.grayStrong};
+      font-size: ${({ theme }) => theme.fontSize.sm};
+    }
   }
-  & > span {
-    border-top: 1px solid ${({ theme }) => theme.colors.grayStrong};
+  > span {
+    border-top: 0.1rem solid ${({ theme }) => theme.colors.grayStrong};
     margin-top: 1.5rem;
-    padding: 8px 0 24px 0;
+    padding: 0.5rem 0 1.5rem 0;
     display: flex;
     justify-content: space-between;
     font-size: ${({ theme }) => theme.fontSize.lg};
   }
-  & > span > span {
+  > span > span {
     font-size: ${({ theme }) => theme.fontSize.lg};
     font-weight: 600;
   }
@@ -421,10 +451,11 @@ const SelectInputForm = styled.div`
 const ButtonForm = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
   button:nth-of-type(2) {
-    background: transparent;
+    border: 0.1rem solid ${({ theme }) => theme.colors.grayStrong};
+    margin-bottom: 2rem;
     color: ${({ theme }) => theme.colors.grayStrong};
-    border: 1px solid ${({ theme }) => theme.colors.grayStrong};
+    background: transparent;
   }
 `;

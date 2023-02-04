@@ -23,7 +23,7 @@ export default ChatWaitingRoom;
 const StWaitWrap = styled.div`
   ${({ theme }) => theme.common.flexCenter};
   flex-direction: column;
-  grid-area: chatlist;
+  grid-area: chatroom;
   height: 80%;
   img {
     width: 8.25rem;
@@ -31,5 +31,9 @@ const StWaitWrap = styled.div`
   }
   p {
     color: ${({ theme }) => theme.colors.grayStrong};
+  }
+
+  @media screen and (max-width: 48rem) {
+    grid-area: chatlist;
   }
 `;

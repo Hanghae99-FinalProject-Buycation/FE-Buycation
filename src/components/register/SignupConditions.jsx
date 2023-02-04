@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { conditionContents } from "./conditionContents";
+import { useDispatch } from "react-redux";
 
-const SignupConditions = () => {
+const SignupConditions = ({ checkAll, sendCheckAll }) => {
+  const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
   const onCheckHandler = (e) => {
     setChecked(!checked);
+    dispatch(sendCheckAll({ ...checkAll, checkStatus: !checked }));
   };
   return (
     <>
@@ -18,9 +21,11 @@ const SignupConditions = () => {
             {conditionContents?.title}{" "}
             <input
               type="checkbox"
+              id="check"
               onChange={onCheckHandler}
               checked={checked}
             />
+            <label htmlFor="check"></label>
           </span>
           <div>
             <p>{conditionContents?.fullText}</p>
@@ -60,16 +65,30 @@ const StConditionDiv = styled.div`
   span {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     margin-bottom: 1rem;
   }
   input {
+    display: none;
+  }
+  input + label {
+    display: inline-block;
     width: 1rem;
     height: 1rem;
     border: 0.1rem solid ${({ theme }) => theme.colors.grayMid};
     border-radius: 0.25rem;
-    :checked {
-      background: ${({ theme }) => theme.colors.main};
-    }
+    position: relative;
+  }
+  input[id="check"]:checked + label::after {
+    content: "✔";
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+    text-align: center;
+    position: absolute;
+    color: ${({ theme }) => theme.colors.main};
+    left: 0;
+    top: 0;
   }
   div {
     width: 100%;

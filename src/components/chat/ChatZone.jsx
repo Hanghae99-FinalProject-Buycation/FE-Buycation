@@ -1,12 +1,12 @@
 import React, { useRef } from "react";
-import styled from "@emotion/styled";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import styled from "@emotion/styled";
+import { chatTime } from "./chatTime";
 
-const ChatZone = ({ privateChats, userData }) => {
+const ChatZone = ({ privateChats, userData, time }) => {
   const getRoomNo = useSelector((state) => state.chat.getRoomNo);
   const bottomRef = useRef(null);
-  const date = new Date().toLocaleString();
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({
@@ -26,13 +26,13 @@ const ChatZone = ({ privateChats, userData }) => {
               )}
               <StBubbleWrap>
                 <StChatMsg>{chat.message}</StChatMsg>
-                <span>{chat.sendDate ? chat.sendDate : date}</span>
+                <span>{chat.sendDate ? chat.sendDate : chatTime}</span>
               </StBubbleWrap>
             </StChatBubble>
           ) : (
             <StChatBubble key={"user" + index} className="self">
               <StBubbleWrap className="self">
-                <span>{chat.sendDate ? chat.sendDate : date}</span>
+                <span>{chat.sendDate ? chat.sendDate : chatTime}</span>
                 <StChatMsg className="self">{chat.message}</StChatMsg>
               </StBubbleWrap>
             </StChatBubble>
