@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   __getAlarmList,
   __deleteAlarm,
-  __deleteState,
   __deleteTotalAlarm,
 } from "../../redux/modules/alarm/alarmSlice";
 import { useEffect } from "react";
@@ -19,21 +18,12 @@ const Alarm = (props) => {
   const alarmListData = useSelector((data) => data.alarm);
   const alarmList = alarmListData.alarmList.dataList;
   const alarmKey = alarmListData.alarmKey; //무한 스크롤 시 사용될 예정 현재는 ""만 보냄
-  // const { deleteState } = useSelector((state) => state.alarm);
-  // console.log(alarmList);
 
   useEffect(() => {
     if (tokenValue) {
       dispatch(__getAlarmList(alarmKey));
     }
   }, [dispatch, tokenValue]);
-
-  // useEffect(() => {
-  //   if (deleteState) {
-  //     dispatch(__getAlarmList(alarmKey));
-  //     dispatch(__deleteState(false));
-  //   }
-  // }, [dispatch, deleteState]);
 
   const onClickDeleteAlarmHandler = (alarmId, index) => {
     dispatch(__deleteAlarm({ alarmId, index }));

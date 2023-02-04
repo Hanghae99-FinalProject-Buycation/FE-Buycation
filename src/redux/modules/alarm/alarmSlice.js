@@ -5,8 +5,6 @@ const initialState = {
   alarmCount: 0,
   alarmList: [],
   alarmKey: "",
-  deleteState: false,
-
   isLoading: false,
   error: null,
 };
@@ -75,18 +73,14 @@ export const __deleteTotalAlarm = createAsyncThunk(
 export const alarmSlice = createSlice({
   name: "alarm",
   initialState,
-  reducers: {
-    __deleteState: (state, action) => {
-      state.deleteState = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(__getAlarmCount.fulfilled, (state, action) => {
       state.isLoading = false;
       state.alarmCount = action.payload;
     });
     builder.addCase(__getAlarmList.fulfilled, (state, action) => {
-      console.log(action.payload);
+      //console.log(action.payload);
       state.isLoading = false;
       state.alarmList = action.payload;
       // if (action.payload.nextPageRequest) {
@@ -94,9 +88,8 @@ export const alarmSlice = createSlice({
       // }
     });
     builder.addCase(__deleteAlarm.fulfilled, (state, action) => {
-      console.log(action.payload.index);
+      //console.log(action.payload.index);
       state.isLoading = false;
-      // state.deleteState = true;
       state.alarmList = [
         ...state.alarmList.dataList.splice(action.payload.index, 1),
       ];
@@ -112,5 +105,4 @@ export const alarmSlice = createSlice({
   },
 });
 
-export const { __deleteState } = alarmSlice.actions;
 export default alarmSlice.reducer;
