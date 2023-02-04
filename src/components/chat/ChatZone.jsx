@@ -87,6 +87,6 @@ const StChatMsg = styled.div`
   color: #fff;
   background: #ff5a5f;
   `};
-  padding: 0.25rem 0.25rem 0.25rem 0.5rem;
+  padding: 0.5rem 0.825rem;
   font-size: ${({ theme }) => theme.fontSize.sm};
 `;

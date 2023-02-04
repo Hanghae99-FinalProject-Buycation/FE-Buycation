@@ -11,8 +11,8 @@ import {
   sendModalStatus,
 } from "../../redux/modules/modal/modalSlice";
 import {
-  // __getAlarmCount,
   __patchAlarmState,
+  __sendAlarmModalStatus,
 } from "../../redux/modules/alarm/alarmSlice";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { BACK_API } from "../../core/env";
@@ -26,8 +26,6 @@ const Header = () => {
   const dispatch = useDispatch();
   const modalStatus = useSelector((state) => state.generalModal.toggleModal);
   const chatStatus = useSelector((state) => state.generalModal.toggleChat);
-  //const { alarmCount } = useSelector((data) => data?.alarm);
-  const [alarmModal, setAlarmModal] = useState(false);
   const EventSource = EventSourcePolyfill;
   const [alarmCount, setAlarmCount] = useState();
 
@@ -50,7 +48,6 @@ const Header = () => {
             const res = await event.data;
             //console.log(res);
             setAlarmCount(res);
-            //dispatch(__getAlarmCount());
           };
 
           /* EVENTSOURCE ONERROR : 에러가 발생하거나 EventSource 객체에서 error event가 감지되었을 때 호출하는 이벤트 핸들러 */
@@ -64,17 +61,20 @@ const Header = () => {
     }
   }, [tokenValue, EventSource]);
 
-  //alarm 조회, 삭제, 수정
+  //alarm 모달, 게시글 이동, 읽음 수정
   const onClickAlarmModalHandler = () => {
-    setAlarmModal(true);
+    dispatch(__sendAlarmModalStatus(true));
   };
   const onMoveSelectPageHandler = (postingId, alarmId) => {
-    setAlarmModal(false);
+    dispatch(__sendAlarmModalStatus(false));
     navigate(`/details/${postingId}`);
     dispatch(__patchAlarmState(alarmId));
   };
-  const onCloseAlarmModalHandler = () => {
-    setAlarmModal(false);
+
+  // 채팅 모달
+  const onClickChatOpenHandler = () => {
+    dispatch(__getChatList());
+    dispatch(sendChatStatus(!chatStatus));
   };
 
   //헤더 사람 아이콘 모달 내용 기능
@@ -82,24 +82,16 @@ const Header = () => {
     navigate("/myprofile");
     dispatch(sendModalStatus(true));
   };
-
   const onMovePostingHandler = () => {
     navigate("/posting");
     dispatch(sendModalStatus(true));
   };
-
   const onMoveLogoutHandler = () => {
     removeCookies("id", {
       path: "/",
     });
     navigate("/");
     dispatch(sendModalStatus(true));
-  };
-
-  // 채팅 모달
-  const onClickChatOpenHandler = () => {
-    dispatch(__getChatList());
-    dispatch(sendChatStatus(!chatStatus));
   };
 
   return (
@@ -110,8 +102,6 @@ const Header = () => {
           onAlarmCount={alarmCount}
           onClickAlarmModalHandler={onClickAlarmModalHandler}
           onMoveSelectPageHandler={onMoveSelectPageHandler}
-          onCloseAlarmModalHandler={onCloseAlarmModalHandler}
-          onAlarmModal={alarmModal}
           onClickChatOpenHandler={onClickChatOpenHandler}
         />
       ) : (
@@ -120,8 +110,6 @@ const Header = () => {
           onAlarmCount={alarmCount}
           onClickAlarmModalHandler={onClickAlarmModalHandler}
           onMoveSelectPageHandler={onMoveSelectPageHandler}
-          onCloseAlarmModalHandler={onCloseAlarmModalHandler}
-          onAlarmModal={alarmModal}
         />
       )}
 

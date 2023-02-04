@@ -21,8 +21,6 @@ const HeaderPc = (props) => {
     onAlarmCount,
     onClickAlarmModalHandler,
     onMoveSelectPageHandler,
-    onCloseAlarmModalHandler,
-    onAlarmModal,
     onClickChatOpenHandler,
   } = props;
   const tokenValue = getCookies("id");
@@ -30,6 +28,8 @@ const HeaderPc = (props) => {
   const dispatch = useDispatch();
   const modalStatus = useSelector((state) => state.generalModal.toggleModal);
   const [showUserGuide, setShowUserGuide] = useState(true);
+  const { alarmModalStatus } = useSelector((state) => state.alarm);
+  console.log(alarmModalStatus);
 
   const onMovePostingHandler = () => {
     navigate("/posting");
@@ -64,19 +64,14 @@ const HeaderPc = (props) => {
             src={chattingIcon}
             onClick={onClickChatOpenHandler}
           />
-          {onAlarmModal ? (
+          {alarmModalStatus ? (
             <div>
               <img
                 alt="alarm"
                 src={alarmIcon}
                 onClick={onClickAlarmModalHandler}
               />
-              <Alarm
-                top="4rem"
-                right="0"
-                onMove={onMoveSelectPageHandler}
-                onClose={onCloseAlarmModalHandler}
-              />
+              <Alarm top="4rem" right="0" onMove={onMoveSelectPageHandler} />
             </div>
           ) : (
             <AlarmBox>
