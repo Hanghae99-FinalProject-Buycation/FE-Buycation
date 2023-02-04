@@ -69,8 +69,9 @@
   <ul>
     <li> KaKao Map API를 사용해 해당 공구 지역의 위치를 마커로 표시하였습니다. </li>
    <br>
-   <img width="500" alt="메인PC" src="https://user-images.githubusercontent.com/96729804/216773400-82fc4ba2-4293-406c-88eb-e729878da55b.png">
+    <img width="500" alt="메인PC" src="https://user-images.githubusercontent.com/96729804/216773400-82fc4ba2-4293-406c-88eb-e729878da55b.png">
   </ul>
+</details>
 
 <details> 
   <summary><strong> 🔍 카테고리 조회 & 검색 </strong></summary>
@@ -96,14 +97,12 @@
 
 |메인 페이지|카테고리 조회|공구 생성|
 |:-:|:-:|:-:|
-|<img src=https://user-images.githubusercontent.com/98294357/171847531-8b19a385-4a6d-4167-9ca3-6d3e43e3fdb1.gif>|<img src=https://user-images.githubusercontent.com/98294357/171858176-119786e5-6cf0-40a0-9ff4-6d647a430f6e.gif>|<img src=https://user-images.githubusercontent.com/98294357/171858248-76bf8378-11cd-4b81-931d-5c5d1384a2de.gif>|
-|<b>공구 상세</b>|<b>공구 신청</b>|<b>신청 수락/거절</b>|
-|<img src=https://user-images.githubusercontent.com/98294357/171858440-587bcf41-0816-4ae1-9f0b-a95e745de2bb.gif>|<img src=https://user-images.githubusercontent.com/98294357/171858520-d7b69e0f-bd0e-425e-9bce-c7fa4a24741b.gif>|<img src=https://user-images.githubusercontent.com/98294357/171858586-9c21d43a-f4ba-4c7d-a4ea-be66735f5f3f.gif>|
-|<b>댓글</b>|<b>채팅</b>|<b>알림</b>|
-|<img src=https://user-images.githubusercontent.com/98294357/171859207-65ec01e9-000d-47e5-9f17-ac30d3243912.gif>|<img src=https://user-images.githubusercontent.com/98294357/171859460-8f71da99-2837-4f74-9afa-b26a81fc7d17.gif>|<img src=https://user-images.githubusercontent.com/98294357/171859506-a8615757-2160-405a-8448-ceb94dbfa001.gif>|
+|![main](https://user-images.githubusercontent.com/96729804/216777251-d49c674e-12df-4a10-aa27-5e2010bad598.gif)|![search](https://user-images.githubusercontent.com/96729804/216777156-285cef93-3229-4766-bca1-21985e2764bb.gif)|![create](https://user-images.githubusercontent.com/96729804/216777095-e963d6cf-ccb0-4090-8b2f-e48178a1180b.gif)|
+|<b>상세 페이지 / 댓글</b>|<b>신청 수락/거절</b>|<b>채팅 및 알림</b>|
+|![detail](https://user-images.githubusercontent.com/96729804/216776892-ad6f8865-7106-4715-a223-bd8e684cbbc7.gif)|![comfirm](https://user-images.githubusercontent.com/96729804/216777338-103f5e74-f6d7-4688-9cd5-495ce131c8aa.gif)|![catting](https://user-images.githubusercontent.com/96729804/216776971-e367baa0-138f-4c96-801f-f9b88eb69769.gif)|
 |<b>마이 페이지</b>|<b>프로필 수정</b>|<b>후기 등록</b>|
-|<img src=https://user-images.githubusercontent.com/98294357/171859072-608bfd84-8738-4bbc-9588-7bc1ef78b18e.gif>|
- 
+| ![profile](https://user-images.githubusercontent.com/96729804/216776547-54430ded-a6da-4d55-be8d-4af71ff517ff.gif)|![edit](https://user-images.githubusercontent.com/96729804/216776172-a5f12fb8-4d61-4280-ac75-cc9bd609f02f.gif)|![review](https://user-images.githubusercontent.com/96729804/216776448-b72c04ed-c4fb-4987-8906-ff998df0a021.gif)|
+
  <br />
 
 ## 팀원
