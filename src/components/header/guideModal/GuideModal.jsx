@@ -1,11 +1,10 @@
 import React from "react";
 import styled from "@emotion/styled";
 import ModalClose from "../../../assets/headerIcon/modalClose.svg";
-//import { Spinners } from "../../../shared/layout/Spinners";
-import guidePcVersion1 from "../../../assets/userGuide/guidePcVersion1.svg";
-import guidePcVersion2 from "../../../assets/userGuide/guidePcVersion2.svg";
-import guideMobileVersion1 from "../../../assets/userGuide/guideMovileVersion1.svg";
-import guideMobileVersion2 from "../../../assets/userGuide/guideMobileVersion2.svg";
+// import guidePcVersion1 from "../../../assets/userGuide/guidePcVersion1.svg";
+// import guidePcVersion2 from "../../../assets/userGuide/guidePcVersion2.svg";
+// import guideMobileVersion1 from "../../../assets/userGuide/guideMovileVersion1.svg";
+// import guideMobileVersion2 from "../../../assets/userGuide/guideMobileVersion2.svg";
 
 const GuideModal = (props) => {
   return (
@@ -19,35 +18,51 @@ const GuideModal = (props) => {
         </Header>
         {props.onInnerWidth > 768 ? (
           <GuidePage>
-            <object type="image/svg+xml" data={guidePcVersion1}>
+            <object
+              type="image/svg+xml"
+              // data={guidePcVersion1}
+              data="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion1.svg"
+            >
               <img
                 alt="guidePcVersion1"
-                src={guidePcVersion1}
-                // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion1.svg"
+                // src={guidePcVersion1}
+                src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion1.svg"
               />
             </object>
-            <object type="image/svg+xml" data={guidePcVersion2}>
+            <object
+              type="image/svg+xml"
+              // data={guidePcVersion2}
+              data="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion2.svg"
+            >
               <img
                 alt="guidePcVersion2"
-                src={guidePcVersion2}
-                // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion2.svg"
+                // src={guidePcVersion2}
+                src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion2.svg"
               />
             </object>
           </GuidePage>
         ) : (
           <GuidePage>
-            <object type="image/svg+xml" data={guideMobileVersion1}>
+            <object
+              type="image/svg+xml"
+              // data={guideMobileVersion1}
+              data="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMovileVersion1.svg"
+            >
               <img
                 alt="guideMobileVersion1"
-                src={guideMobileVersion1}
-                // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMovileVersion1.svg"
+                // src={guideMobileVersion1}
+                src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMovileVersion1.svg"
               />
             </object>
-            <object type="image/svg+xml" data={guideMobileVersion2}>
+            <object
+              type="image/svg+xml"
+              // data={guideMobileVersion2}
+              data="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMobileVersion2.svg"
+            >
               <img
                 alt="guideMobileVersion2"
-                src={guideMobileVersion2}
-                // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMobileVersion2.svg"
+                // src={guideMobileVersion2}
+                src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMobileVersion2.svg"
               />
             </object>
           </GuidePage>
@@ -122,7 +137,6 @@ const GuidePage = styled.div`
   height: 530px;
   img {
     width: 100%;
-    //content-visibility: auto; //화면 밖 콘텐츠의 렌더링을 생략함으로써 초기 로드 시간을 개선
   }
   @media screen and (max-width: 768px) {
     width: 100%;
