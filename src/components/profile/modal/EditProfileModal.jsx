@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import styled from "@emotion/styled";
 import ModalClose from "../../../assets/headerIcon/modalClose.svg";
-import { FaLink } from "react-icons/fa";
+import { FaLink } from "@react-icons/all-files/fa/FaLink";
 import InputBasic from "../../elements/InputBasic";
 import ButtonBasic from "../../elements/ButtonBasic";
 import { useDispatch, useSelector } from "react-redux";

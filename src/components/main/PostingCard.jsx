@@ -1,7 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
-import { FaMapMarkerAlt, FaUser } from "react-icons/fa";
+import { FaMapMarkerAlt } from "@react-icons/all-files/fa/FaMapMarkerAlt";
+import { FaUser } from "@react-icons/all-files/fa/FaUser";
 import ButtonBasic from "../elements/ButtonBasic";
 import { addressForm, titleForm, countComma } from "../../utils/editedData";
 

@@ -7,7 +7,7 @@ import ButtonBasic from "../elements/ButtonBasic";
 import Postcode from "../postcode/Postcode";
 import usePostcode from "../../hooks/usePostcode";
 import Swal from "sweetalert2";
-import { FaLink } from "react-icons/fa";
+import { FaLink } from "@react-icons/all-files/fa/FaLink";
 import { __getDetail } from "../../redux/modules/details/detailSlice";
 import { sendRegisterModalStatus } from "../../redux/modules/postcode/postcodeModalSlice";
 import { __putPosting } from "../../redux/modules/modifyPosting/modifyPostingSlice";

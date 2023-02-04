@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
 import * as Stomp from "@stomp/stompjs";
@@ -6,7 +6,7 @@ import SockJS from "sockjs-client";
 import { SOCKET_URL } from "../../core/env";
 import { __getChatList } from "../../redux/modules/chat/chatSlice";
 import { sendChatStatus } from "../../redux/modules/modal/modalSlice";
-import { RxCross1 } from "react-icons/rx";
+import { HiOutlineX } from "@react-icons/all-files/hi/HiOutlineX";
 import useWindowResize from "../../hooks/useWindowResize";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import ChatWaitingRoom from "./ChatWaitingRoom";
@@ -100,16 +100,16 @@ const Chatroom = () => {
           <span>채팅</span>
           {innerWidth < 768 ? (
             hide ? (
-              <RxCross1
+              <HiOutlineX
                 onClick={() => {
                   setHide(!hide);
                 }}
               />
             ) : (
-              <RxCross1 onClick={onClickExitHandler} />
+              <HiOutlineX onClick={onClickExitHandler} />
             )
           ) : (
-            <RxCross1 onClick={onClickExitHandler} />
+            <HiOutlineX onClick={onClickExitHandler} />
           )}
         </div>
         <StChatContainer className={innerWidth < 768 ? hide : ""}>
