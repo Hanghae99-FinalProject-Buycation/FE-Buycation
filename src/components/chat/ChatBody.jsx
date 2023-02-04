@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
-import { IoMdSend } from "react-icons/io";
+import { IoMdSend } from "@react-icons/all-files/io/IoMdSend";
 import profileIcon from "../../assets/headerIcon/profileIcon.svg";
 import ChatZone from "./ChatZone";
 import ChatParticipantModal from "./ChatParticipantModal";

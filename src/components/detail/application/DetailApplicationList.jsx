@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import { RxCross1 } from "react-icons/rx";
+import { HiOutlineX } from "@react-icons/all-files/hi/HiOutlineX";
 import ButtonBasic from "../../elements/ButtonBasic";
 import DetailSpan from "../elements/DetailSpan";
 import {
@@ -66,7 +66,7 @@ const DetailApplicationList = ({ postingId, onClickMoveProfileHandler }) => {
         <ElTitle>
           <span>신청자 리스트</span>
           <span>
-            <RxCross1 onClick={onClickCloseHandler} />
+            <HiOutlineX onClick={onClickCloseHandler} />
           </span>
         </ElTitle>
         {applicateStatus &&
