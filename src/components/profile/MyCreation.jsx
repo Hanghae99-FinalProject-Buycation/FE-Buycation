@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
-import { FaMapMarkerAlt, FaUser } from "react-icons/fa";
+import { FaMapMarkerAlt } from "@react-icons/all-files/fa/FaMapMarkerAlt";
+import { FaUser } from "@react-icons/all-files/fa/FaUser";
 import ReviewModal from "./modal/ReviewModal";
 import { useDispatch, useSelector } from "react-redux";
 import { __getCreatedList } from "../../redux/modules/profile/myListSlice";

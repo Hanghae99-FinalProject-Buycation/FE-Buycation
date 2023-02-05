@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
 import PostingCard from "./PostingCard";
 import EmptyCard from "./EmptyCard";
 import { useDispatch, useSelector } from "react-redux";

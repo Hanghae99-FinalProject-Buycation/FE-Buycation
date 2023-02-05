@@ -3,6 +3,9 @@ import useWindowResize from "../../hooks/useWindowResize";
 import UserModal from "../../components/header/UserModal";
 import HeaderPc from "../../components/header/HeaderPc";
 import HeaderMobile from "../../components/header/HeaderMobile";
+import Chatroom from "../../components/chat/Chatroom";
+import { EventSourcePolyfill } from "event-source-polyfill";
+import { BACK_API } from "../../core/env";
 import { getCookies, removeCookies } from "../../core/cookie";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,9 +17,6 @@ import {
   __patchAlarmState,
   __sendAlarmModalStatus,
 } from "../../redux/modules/alarm/alarmSlice";
-import { EventSourcePolyfill } from "event-source-polyfill";
-import { BACK_API } from "../../core/env";
-import Chatroom from "../../components/chat/Chatroom";
 import { __getChatList } from "../../redux/modules/chat/chatSlice";
 
 const Header = () => {
@@ -40,7 +40,6 @@ const Header = () => {
               Authorization: tokenValue,
             },
             heartbeatTimeout: 60 * 1000 * 60,
-            //withCredentials: true, //크로스 도메인에 요청을 보낼 때 요청에 credential 정보를 담아서 보낼 지를 결정하는 항목
           });
 
           /* EVENTSOURCE ONMESSAGE : 서버로부터 message를 수신했을 때 호출하는 이벤트 핸들러 */
@@ -48,6 +47,12 @@ const Header = () => {
             const res = await event.data;
             //console.log(res);
             setAlarmCount(res);
+          };
+
+          window.onbeforeunload = () => {
+            //잦은 새로고침으로 인해 서버에서 broken pipe 에러 발생 시, eventSource도 에러 발생 막기
+            //console.log("새로고침 이벤트 감지 후 eventSource 종료");
+            eventSource.close();
           };
 
           /* EVENTSOURCE ONERROR : 에러가 발생하거나 EventSource 객체에서 error event가 감지되었을 때 호출하는 이벤트 핸들러 */

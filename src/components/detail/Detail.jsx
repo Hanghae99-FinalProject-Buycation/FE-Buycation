@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import Swal from "sweetalert2";
-import { RiMapPin2Fill } from "react-icons/ri";
+import { RiMapPin2Fill } from "@react-icons/all-files/ri/RiMapPin2Fill";
 import { getCookies } from "../../core/cookie";
 import useBuyLocation from "../../hooks/useBuyLocation";
 import { __getDetail } from "../../redux/modules/details/detailSlice";

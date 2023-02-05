@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import styled from "@emotion/styled";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
-import { FaLink } from "react-icons/fa";
+import { FaLink } from "@react-icons/all-files/fa/FaLink";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -16,6 +16,7 @@ import usePostcode from "../../hooks/usePostcode";
 import { selectCategory } from "../../utils/option";
 import { uploadImg } from "../../utils/uploadImg";
 import { perBudget } from "./perBudget";
+import imageCompression from "browser-image-compression"; //이미지 사이즈 줄이기
 
 const Posting = () => {
   const { kakao } = window;
@@ -74,7 +75,17 @@ const Posting = () => {
 
   const onChangeFileInputHandler = (e) => {
     const file = e.target.files[0];
-    setImageFile(file);
+
+    //image Resizing
+    imageCompression(file, {
+      maxSizeMB: 1, //최대 1MB
+      maxWidthOrHeight: 1920, //최대 넓이, 높이 지정
+    }).then((compressedFile) => {
+      const newFile = new File([compressedFile], file.name, {
+        type: file.type,
+      });
+      setImageFile(newFile);
+    });
   };
 
   const onChangeValueHandler = (event) => {
