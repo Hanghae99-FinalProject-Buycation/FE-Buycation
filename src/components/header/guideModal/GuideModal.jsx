@@ -1,10 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import ModalClose from "../../../assets/headerIcon/modalClose.svg";
-import guidePcVersion1 from "../../../assets/userGuide/guidePcVersion1.svg";
-import guidePcVersion2 from "../../../assets/userGuide/guidePcVersion2.svg";
-import guideMobileVersion1 from "../../../assets/userGuide/guideMovileVersion1.svg";
-import guideMobileVersion2 from "../../../assets/userGuide/guideMobileVersion2.svg";
+import guideMovileVersion from "../../../assets/userGuide/guideMovileVersion.svg";
 
 const GuideModal = (props) => {
   return (
@@ -20,24 +17,20 @@ const GuideModal = (props) => {
           <GuidePage>
             <object
               type="image/svg+xml"
-              data={guidePcVersion1}
-              // data="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion1.svg"
+              data="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion1.svg"
             >
               <img
                 alt="guidePcVersion1"
-                src={guidePcVersion1}
-                // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion1.svg"
+                src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion2.svg"
               />
             </object>
             <object
               type="image/svg+xml"
-              data={guidePcVersion2}
-              // data="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion2.svg"
+              data="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion2.svg"
             >
               <img
                 alt="guidePcVersion2"
-                src={guidePcVersion2}
-                // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion2.svg"
+                src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guidePcVersion2.svg"
               />
             </object>
           </GuidePage>
@@ -45,24 +38,13 @@ const GuideModal = (props) => {
           <GuidePage>
             <object
               type="image/svg+xml"
-              data={guideMobileVersion1}
-              // data="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMovileVersion1.svg"
+              data={guideMovileVersion}
+              // data="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMovileVersion.svg"
             >
               <img
                 alt="guideMobileVersion1"
-                src={guideMobileVersion1}
-                // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMovileVersion1.svg"
-              />
-            </object>
-            <object
-              type="image/svg+xml"
-              data={guideMobileVersion2}
-              // data="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMobileVersion2.svg"
-            >
-              <img
-                alt="guideMobileVersion2"
-                src={guideMobileVersion2}
-                // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMobileVersion2.svg"
+                src={guideMovileVersion}
+                // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMovileVersion.svg"
               />
             </object>
           </GuidePage>
