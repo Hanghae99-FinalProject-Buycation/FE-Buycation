@@ -2,6 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import DetailSpan from "../elements/DetailSpan";
 import participantFilled from "../../../assets/detailIcon/participantFilledIcon.svg";
+import participantFilledMany from "../../../assets/detailIcon/participantFilledManyIcon.svg";
 import participantEmpty from "../../../assets/detailIcon/participantEmptyIcon.svg";
 import { countComma } from "../../../utils/editedData";
 
@@ -18,7 +19,7 @@ const DetailApplicationBody = ({ details }) => {
     <ElDiv>
       <ElSpan>
         <span>모집인원</span>
-        {details?.totalMembers < 11 ? (
+        {details?.totalMembers < 7 ? (
           <span>
             {currentCount &&
               currentCount.map((x) => (
@@ -33,7 +34,7 @@ const DetailApplicationBody = ({ details }) => {
           </span>
         ) : (
           <span>
-            <img src={participantFilled} alt="모집 됨" /> <br />
+            <img src={participantFilledMany} alt="모집 됨" /> <br />
             {details?.currentMembers}/{details?.totalMembers} 명 모집 완료
           </span>
         )}
