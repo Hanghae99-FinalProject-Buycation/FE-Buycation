@@ -107,7 +107,7 @@
 
 ## 팀원
 #### `Designer`
- <img height="30"  src="https://img.shields.io/static/v1?label=Design&message=박서연 &color=FF7F50&style=for-the-badge&>"/></a>
+ <a href="https://www.behance.net/fbcbe585" target="_blank"><img height="30"  src="https://img.shields.io/static/v1?label=Design&message=박서연 &color=FF7F50&style=for-the-badge&>"/></a>
 #### `Frontend`
  <a href="https://github.com/cchloe0927" target="_blank"><img height="30"  src="https://img.shields.io/static/v1?label=React&message=이현정 (부팀장) &color=61dafb&style=for-the-badge&>"/></a>
  <a href="https://github.com/Dev-RyanK" target="_blank"><img height="30"  src="https://img.shields.io/static/v1?label=React&message=권령빈 &color=61dafb&style=for-the-badge&>"/></a>
