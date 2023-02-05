@@ -15,6 +15,7 @@ import { sendRegisterModalStatus } from "../../../redux/modules/postcode/postcod
 import Postcode from "../../postcode/Postcode";
 import usePostcode from "../../../hooks/usePostcode";
 import { uploadImg } from "../../../utils/uploadImg";
+import imageCompression from "browser-image-compression"; //이미지 사이즈 줄이기
 
 const EditProfileModal = (props) => {
   const dispatch = useDispatch();
@@ -63,8 +64,18 @@ const EditProfileModal = (props) => {
 
   const onChangeFileInputHandler = (e) => {
     const file = e.target.files[0];
-    uploadImg(file).then((data) => {
-      setEditValue({ ...editValue, profileImage: data?.Location });
+
+    imageCompression(file, {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+    }).then((compressedFile) => {
+      const newFile = new File([compressedFile], file.name, {
+        type: file.type,
+      });
+
+      uploadImg(newFile).then((data) => {
+        setEditValue({ ...editValue, profileImage: data?.Location });
+      });
     });
   };
 
