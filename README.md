@@ -101,7 +101,7 @@
 |<b>상세 페이지 / 댓글</b>|<b>신청 수락/거절</b>|<b>채팅 및 알림</b>|
 |![detail](https://user-images.githubusercontent.com/96729804/216776892-ad6f8865-7106-4715-a223-bd8e684cbbc7.gif)|![comfirm](https://user-images.githubusercontent.com/96729804/216777338-103f5e74-f6d7-4688-9cd5-495ce131c8aa.gif)|![catting](https://user-images.githubusercontent.com/96729804/216776971-e367baa0-138f-4c96-801f-f9b88eb69769.gif)|
 |<b>마이 페이지</b>|<b>프로필 수정</b>|<b>후기 등록</b>|
-| ![profile](https://user-images.githubusercontent.com/96729804/216776547-54430ded-a6da-4d55-be8d-4af71ff517ff.gif)|![edit](https://user-images.githubusercontent.com/96729804/216776172-a5f12fb8-4d61-4280-ac75-cc9bd609f02f.gif)|![review](https://user-images.githubusercontent.com/96729804/216776448-b72c04ed-c4fb-4987-8906-ff998df0a021.gif)|
+| ![profile](https://user-images.githubusercontent.com/96729804/216776547-54430ded-a6da-4d55-be8d-4af71ff517ff.gif)|![edit](https://user-images.githubusercontent.com/96729804/216776172-a5f12fb8-4d61-4280-ac75-cc9bd609f02f.gif)|![review](https://user-images.githubusercontent.com/96729804/216799177-1009de86-5bbc-4b97-8400-a1d1eee8a053.gif)|
 
  <br />
 
