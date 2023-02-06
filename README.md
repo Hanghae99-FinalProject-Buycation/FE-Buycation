@@ -57,7 +57,7 @@
 
 
 ## 아키텍쳐
-<img margin="auto" width="940" height="460" alt="스크린샷 2023-02-04 오후 7 43 07" src="https://user-images.githubusercontent.com/96729804/216806295-3601981d-6cd2-44a5-8781-b0e6f66df9e5.png">
+<img margin="auto" width="940" height="420" alt="스크린샷 2023-02-04 오후 7 43 07" src="https://user-images.githubusercontent.com/96729804/216806295-3601981d-6cd2-44a5-8781-b0e6f66df9e5.png">
 
 <br />
 
