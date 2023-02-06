@@ -38,7 +38,7 @@ export const __getAlarmList = createAsyncThunk(
 export const __deleteAlarm = createAsyncThunk(
   "deleteAlarm/delete",
   async (payload, thunkAPI) => {
-    console.log(payload);
+    //console.log(payload);
     try {
       const data = await baseURLwToken.delete(`alarm/${payload.alarmId}`);
       return thunkAPI.fulfillWithValue({ ...data.data, index: payload.index });

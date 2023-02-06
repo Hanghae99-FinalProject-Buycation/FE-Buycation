@@ -11,7 +11,6 @@ const ChatList = (props) => {
     innerWidth,
     privateChats,
     setPrivateChats,
-    setTab,
     setRoomId,
     isSubscribed,
     setIsSubscribed,
@@ -19,6 +18,7 @@ const ChatList = (props) => {
     setUserData,
     hide,
     setHide,
+    // userJoin,
   } = props;
   const dispatch = useDispatch();
   const onPrivateMessage = (message) => {
@@ -32,9 +32,8 @@ const ChatList = (props) => {
   const onClickSelectRoomHandler = (roomNo) => {
     dispatch(__getChatRoom(roomNo)).then((res) => {
       const payloadData = res.payload;
-      const subscriptionId = payloadData.roomInfo.id;
+      const subscriptionId = payloadData.roomInfo?.id;
       privateChats.set(subscriptionId, payloadData.talks);
-      setTab(roomNo);
       setRoomId(roomNo);
       dispatch(sendRoomNo(roomNo));
       if (!isSubscribed) {

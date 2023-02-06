@@ -7,8 +7,6 @@
 
 💕 **[바이케이션 서비스 바로가기](https://buycation.co.kr/)**
 
-🎬 **[서비스 시연 영상]()**
-
 <br />
 
 
@@ -57,7 +55,7 @@
 
 
 ## 아키텍쳐
-<img margin="auto" width="940" height="460" alt="스크린샷 2023-02-04 오후 7 43 07" src="https://user-images.githubusercontent.com/96729804/216806295-3601981d-6cd2-44a5-8781-b0e6f66df9e5.png">
+<img width="920" height="420" alt="스크린샷 2023-02-05 오후 3 49 35" src="https://user-images.githubusercontent.com/96729804/216894359-297b14f2-ea09-4bb6-bb48-b22bc47f37c0.png">
 
 <br />
 
@@ -77,7 +75,7 @@
   <summary><strong> 🔍 카테고리 조회 & 검색 </strong></summary>
   <br/>
   <ul>
-    <li> QueryDSL을 이용한 동적 쿼리 작성으로 [전공/지역] 별 조회 기능과 [제목/닉네임/내용] 별 검색 기능을 조합해서 사용할 수 있도록 했습니다. </li>
+    <li> QueryDSL을 이용한 동적 쿼리 작성으로 [제목/주소] 별 조회 기능과 [카테고리/정렬기준] 별 검색 기능을 조합해서 사용할 수 있도록 했습니다. </li>
    <br>
    <img width="500" alt="스크린샷 2023-02-04 오후 11 26 56" src="https://user-images.githubusercontent.com/96729804/216772875-9b3d8a60-f1b0-4ad6-8b50-6e84802189c9.png">
   </ul>
@@ -87,7 +85,7 @@
   <summary><strong> 🗨️ 실시간 1:1 채팅 및 알림</strong></summary>
   <br/>
   <ul>
-    <li> [WebSocket / Stomp pub/sub] 을 활용한 실시간 데이터 전송으로 유저간 1: 1 채팅 기능을 구현했습니다. </li>
+    <li> [WebSocket / Stomp pub / sub] 을 활용한 실시간 데이터 전송으로 유저간 1:1 채팅 기능을 구현했습니다. </li>
     <li> 사이트를 이용 중인 유저에게 SSE(Server Sent Event)를 이용하여 실시간 알람을 기능 제공하고 있습니다. </li>
     <li> 알람을 통해 해당글에 들어가지 않고도 발생한 이벤트(신청/수락/거절/댓글)를 확인할 수 있습니다. </li>
    <br>

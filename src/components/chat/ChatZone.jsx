@@ -2,9 +2,8 @@ import React, { useRef } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "@emotion/styled";
-import { chatTime } from "./chatTime";
 
-const ChatZone = ({ privateChats, userData, time }) => {
+const ChatZone = ({ privateChats, userData }) => {
   const getRoomNo = useSelector((state) => state.chat.getRoomNo);
   const bottomRef = useRef(null);
 
@@ -26,13 +25,13 @@ const ChatZone = ({ privateChats, userData, time }) => {
               )}
               <StBubbleWrap>
                 <StChatMsg>{chat.message}</StChatMsg>
-                <span>{chat.sendDate ? chat.sendDate : chatTime}</span>
+                <span>{chat.sendDate}</span>
               </StBubbleWrap>
             </StChatBubble>
           ) : (
             <StChatBubble key={"user" + index} className="self">
               <StBubbleWrap className="self">
-                <span>{chat.sendDate ? chat.sendDate : chatTime}</span>
+                <span>{chat.sendDate}</span>
                 <StChatMsg className="self">{chat.message}</StChatMsg>
               </StBubbleWrap>
             </StChatBubble>

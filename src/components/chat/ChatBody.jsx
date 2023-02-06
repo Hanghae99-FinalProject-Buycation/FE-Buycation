@@ -19,12 +19,9 @@ const ChatBody = (props) => {
     setUserData,
     chatList,
     privateChats,
-    connect,
-    disconnect,
   } = props;
+
   const dispatch = useDispatch();
-  const [time, setTime] = useState([]);
-  // const [time, setTime] = useState([]);
   const modalStatus = useSelector(
     (state) => state.generalModal.toggleChatParticipantModal
   );
@@ -32,9 +29,6 @@ const ChatBody = (props) => {
     (state) => state.chat.getChatRoom
   );
 
-  /*   const onSendTimeHandler = () => {
-    setTime([...time, chatTime]);
-  }; */
   const sendPrivateValue = () => {
     if (client.current) {
       let chatMessage = {
@@ -62,13 +56,12 @@ const ChatBody = (props) => {
   const onPressEnterHandler = (e) => {
     if (e.keyCode === 13 /*  || e.keyCode === 261 */) {
       sendPrivateValue();
-      // setTime([...time, chatTime]);
     }
   };
 
   useEffect(() => {
-    connect();
-    return () => disconnect();
+    // connect();
+    // return () => disconnect();
     // return () => client.current.unsubscribe();
   }, []);
 
@@ -94,7 +87,7 @@ const ChatBody = (props) => {
         </span>
       </StChatRoomTitle>
       <StChatZone>
-        <ChatZone privateChats={privateChats} userData={userData} time={time} />
+        <ChatZone privateChats={privateChats} userData={userData} />
       </StChatZone>
       <StSendZone>
         <input
@@ -109,7 +102,6 @@ const ChatBody = (props) => {
           size="1rem"
           onClick={() => {
             sendPrivateValue();
-            // onSendTimeHandler();
           }}
         />
       </StSendZone>
