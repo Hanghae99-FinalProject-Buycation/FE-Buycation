@@ -19,11 +19,9 @@ const Chatroom = () => {
   const chatList = useSelector((state) => state.chat.getChatList);
   const { nickname, memberId } = useSelector((state) => state.chat.getChatRoom);
   const chatStatus = useSelector((state) => state.generalModal.toggleChat);
-
   const [roomId, setRoomId] = useState(null);
   const [hide, setHide] = useState(false);
   const [privateChats, setPrivateChats] = useState(new Map());
-  const [tab, setTab] = useState(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [userData, setUserData] = useState({
     memberId: "",
@@ -42,7 +40,7 @@ const Chatroom = () => {
   const connect = () => {
     client.current = new Stomp.Client({
       debug: (str) => {
-        // console.log(str);
+        console.log(str);
       },
       splitLargeFrames: true,
       webSocketFactory: () => new SockJS(SOCKET_URL),
@@ -60,7 +58,7 @@ const Chatroom = () => {
     client.current.activate();
   };
 
-  const userJoin = () => {
+  const userJoin = (roomId) => {
     let chatMessage = {
       sender: nickname,
       status: "JOIN",
@@ -77,9 +75,8 @@ const Chatroom = () => {
 
   const onClickExitHandler = () => {
     dispatch(sendChatStatus(!chatStatus));
-    /*  isSubscribed &&  */ client.current.unsubscribe();
+    client.current.unsubscribe();
     setIsSubscribed(false);
-    setTab(null);
     setRoomId(null);
     setIsSubscribed(false);
   };
@@ -95,8 +92,7 @@ const Chatroom = () => {
   return (
     <StBackground>
       <StWrap ref={ref}>
-        <div className="mainTitle">
-          <span></span>
+        <ElTitle>
           <span>채팅</span>
           {innerWidth < 768 ? (
             hide ? (
@@ -111,7 +107,7 @@ const Chatroom = () => {
           ) : (
             <HiOutlineX onClick={onClickExitHandler} />
           )}
-        </div>
+        </ElTitle>
         <StChatContainer className={innerWidth < 768 ? hide : ""}>
           {innerWidth < 768 && chatList?.length === 0 && <ChatWaitingRoom />}
           <ChatList
@@ -120,7 +116,6 @@ const Chatroom = () => {
             innerWidth={innerWidth}
             privateChats={privateChats}
             setPrivateChats={setPrivateChats}
-            setTab={setTab}
             setRoomId={setRoomId}
             isSubscribed={isSubscribed}
             setIsSubscribed={setIsSubscribed}
@@ -175,18 +170,6 @@ const StWrap = styled.div`
   box-shadow: 0 0.125rem 0.25rem 0.1rem ${({ theme }) => theme.colors.grayWeak};
   z-index: 5;
 
-  .mainTitle {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 1.5rem 2rem 1.5rem;
-    height: 4rem;
-    font-size: ${({ theme }) => theme.fontSize.xl};
-    font-weight: 600;
-    border-bottom: 0.1rem solid ${({ theme }) => theme.colors.grayWeak};
-  }
-
   ul {
     padding: 0;
     list-style: none;
@@ -198,6 +181,18 @@ const StWrap = styled.div`
     left: 50%;
     transform: translate(-50%, 0%);
   }
+`;
+
+const ElTitle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1.5rem 2rem 1.5rem;
+  height: 4rem;
+  font-size: ${({ theme }) => theme.fontSize.xl};
+  font-weight: 600;
+  border-bottom: 0.1rem solid ${({ theme }) => theme.colors.grayWeak};
 `;
 
 const StChatContainer = styled.div`
