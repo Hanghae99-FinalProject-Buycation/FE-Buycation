@@ -57,9 +57,7 @@
 
 
 ## 아키텍쳐
-<img width="920" height="420" alt="스크린샷 2023-02-05 오후 3 49 35" src="https://user-images.githubusercontent.com/96729804/216894359-297b14f2-ea09-4bb6-bb48-b22bc47f37c0.png">
-
-<br />
+![buycation](https://user-images.githubusercontent.com/96729804/217191176-45483a06-fc2f-49c3-b758-2cc4d75e2d9c.png)
 
 
 ## 주요 기능
