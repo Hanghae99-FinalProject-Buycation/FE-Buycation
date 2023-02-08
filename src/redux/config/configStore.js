@@ -33,7 +33,7 @@ const store = configureStore({
     alarm,
     chat,
   },
-  devTools: false,
+  devTools: false, //devTools 숨기기
 });
 
 export default store;
