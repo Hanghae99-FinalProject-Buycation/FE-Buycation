@@ -7,7 +7,6 @@ import ButtonBasic from "../elements/ButtonBasic";
 import { useDispatch, useSelector } from "react-redux";
 import {
   __postSignin,
-  __statusCode,
   __isSuccess,
 } from "../../redux/modules/login/signinSlice";
 import { CLIENT_ID, REDIRECT_URI } from "../../core/env";
@@ -33,18 +32,17 @@ const SignIn = () => {
         confirmButtonColor: "#FF5A5F",
       }).then(() => {
         dispatch(__isSuccess(false));
-        if (postSigninData.statusCode) {
+        if (postSigninData.statusCode === 200) {
           navigate("/");
-          dispatch(__statusCode(false));
         }
       });
     }
   }, [
+    navigate,
     dispatch,
     postSigninData.isSuccess,
     postSigninData.alertMsg,
     postSigninData.statusCode,
-    navigate,
   ]);
 
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}
@@ -140,7 +138,6 @@ const Wrap = styled.div`
   margin-top: 7.5rem;
   @media screen and (max-width: 768px) {
     margin-top: 5.5rem;
-    /* align-items: center; */
   }
 `;
 
