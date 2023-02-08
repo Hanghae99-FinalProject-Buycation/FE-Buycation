@@ -20,7 +20,6 @@ const HeaderPc = (props) => {
     onInnerWidth,
     onAlarmCount,
     onClickAlarmModalHandler,
-    onMoveSelectPageHandler,
     onClickChatOpenHandler,
   } = props;
   const tokenValue = getCookies("id");
@@ -32,12 +31,10 @@ const HeaderPc = (props) => {
 
   const onMovePostingHandler = () => {
     navigate("/posting");
-    dispatch(sendModalStatus(true));
   };
 
   const onMoveLoginHandler = () => {
     navigate("/login");
-    dispatch(sendModalStatus(true));
   };
 
   const onClickMypageModalHandler = () => {
@@ -70,7 +67,7 @@ const HeaderPc = (props) => {
                 src={alarmIcon}
                 onClick={onClickAlarmModalHandler}
               />
-              <Alarm top="4rem" right="0" onMove={onMoveSelectPageHandler} />
+              <Alarm top="4rem" right="0" />
             </div>
           ) : (
             <AlarmBox>

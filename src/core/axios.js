@@ -18,26 +18,10 @@ export const baseURLwToken = axios.create({
   },
 });
 
+// 모든 통신 요청 시 interceptors
 baseURLwToken.interceptors.request.use((config) => {
   if (config.headers === undefined) return;
   const token = getCookies("id");
   config.headers["Authorization"] = `${token}`;
   return config;
 });
-
-// baseURLwToken.interceptors.response.use(
-//   (res) => {
-//     const { config, data } = res;
-//     console.log("data확인", data);
-//     switch (data.statusCode) {
-//       case 404:
-//         console.log(data.statusCode);
-//         throw new Error("삭제된 공구입니다.");
-//       default:
-//         return res;
-//     }
-//   },
-//   async (error) => {
-//     return Promise.reject(error);
-//   }
-// );

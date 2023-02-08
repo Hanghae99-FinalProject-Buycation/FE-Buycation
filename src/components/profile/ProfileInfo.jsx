@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
-import ButtonBasic from "../elements/ButtonBasic";
-import EditProfileModal from "./modal/EditProfileModal";
 import footer from "../../assets/profileImg/footer.svg";
 import profile_default from "../../assets/profileImg/profile_default.svg";
+import ButtonBasic from "../elements/ButtonBasic";
+import EditProfileModal from "./modal/EditProfileModal";
 import { useSelector } from "react-redux";
 
 const ProfileInfo = ({ onProfileData }) => {

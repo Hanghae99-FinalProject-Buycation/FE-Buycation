@@ -17,9 +17,7 @@ const Oauth2RedirectHandler = () => {
         });
         navigate("/");
       })
-      .catch((error) => {
-        //console.log(error);
-      });
+      .catch((error) => {});
   };
   kakao();
 

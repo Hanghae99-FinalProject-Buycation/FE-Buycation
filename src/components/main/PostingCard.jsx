@@ -1,9 +1,9 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { FaMapMarkerAlt } from "@react-icons/all-files/fa/FaMapMarkerAlt";
 import { FaUser } from "@react-icons/all-files/fa/FaUser";
 import ButtonBasic from "../elements/ButtonBasic";
+import { useNavigate } from "react-router-dom";
 import { addressForm, titleForm, countComma } from "../../utils/editedData";
 
 const PostingCard = ({
@@ -63,9 +63,7 @@ const CardWrap = styled.div`
   justify-content: center;
   border-top: 1px solid ${({ theme }) => theme.colors.grayList};
   &:hover {
-    //border-bottom: 1px solid ${({ theme }) => theme.colors.grayMid};
-    //box-shadow: 0 0 0 1.5px #a6a6a6 inset;
-    box-shadow: 0px -5px 5px -2px #a6a6a6;
+    box-shadow: 0px -5px 5px -2px ${({ theme }) => theme.colors.grayMid};
   }
 `;
 
@@ -94,7 +92,6 @@ const ContentsBox = styled.div`
     display: flex;
     flex-direction: column;
     gap: 4px;
-
     p:nth-of-type(1) {
       font-size: ${({ theme }) => theme.fontSize.sm};
     }

@@ -1,5 +1,11 @@
 import { Global, css } from "@emotion/react";
 
+const GlobalStyles = () => {
+  return <Global styles={styles} />;
+};
+
+export default GlobalStyles;
+
 const styles = css`
   @font-face {
     font-family: "Pretendard";
@@ -30,7 +36,6 @@ const styles = css`
   a {
     border: 0;
     outline: none !important;
-    box-sizing: border-box;
     text-decoration: none;
     resize: none;
   }
@@ -48,10 +53,7 @@ const styles = css`
     color: #a6a6a6;
   }
 
-  textarea::placeholder {
-    color: #a6a6a6;
-  }
-
+  textarea::placeholder,
   input::placeholder {
     color: #a6a6a6;
   }
@@ -70,9 +72,3 @@ const styles = css`
     -webkit-appearance: none;
   }
 `;
-
-const GlobalStyles = () => {
-  return <Global styles={styles} />;
-};
-
-export default GlobalStyles;

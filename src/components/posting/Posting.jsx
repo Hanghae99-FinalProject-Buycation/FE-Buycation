@@ -3,6 +3,8 @@ import Swal from "sweetalert2";
 import styled from "@emotion/styled";
 import InputBasic from "../elements/InputBasic";
 import ButtonBasic from "../elements/ButtonBasic";
+import Postcode from "../postcode/Postcode";
+import usePostcode from "../../hooks/usePostcode";
 import { FaLink } from "@react-icons/all-files/fa/FaLink";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,15 +13,12 @@ import {
   __isSuccess,
 } from "../../redux/modules/posting/postingSlice";
 import { sendRegisterModalStatus } from "../../redux/modules/postcode/postcodeModalSlice";
-import Postcode from "../postcode/Postcode";
-import usePostcode from "../../hooks/usePostcode";
 import { selectCategory } from "../../utils/option";
 import { uploadImg } from "../../utils/uploadImg";
 import { perBudget } from "./perBudget";
 import imageCompression from "browser-image-compression"; //이미지 사이즈 줄이기
 
 const Posting = () => {
-  const { kakao } = window;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const postingData = useSelector((data) => data.postPosting);
@@ -39,7 +38,9 @@ const Posting = () => {
     (state) => state.postcodeModal.openRegisterModal
   );
   const { address } = usePostcode();
-  const geocoder = new kakao.maps.services.Geocoder(); //좌표 객체 생성
+
+  const { kakao } = window; //좌표 객체 생성
+  const geocoder = new kakao.maps.services.Geocoder();
   const [coords, setCoords] = useState({
     coordsX: "",
     coordsY: "",
@@ -67,7 +68,7 @@ const Posting = () => {
         dispatch(__isSuccess(false));
       });
     }
-  }, [postingData.isSuccess, postingData.alertMsg, navigate, dispatch]);
+  }, [navigate, dispatch, postingData.isSuccess, postingData.alertMsg]);
 
   const onClickPostcodeHandler = () => {
     dispatch(sendRegisterModalStatus(true));
