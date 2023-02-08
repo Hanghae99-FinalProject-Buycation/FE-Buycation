@@ -5,7 +5,7 @@ const PostingCard = () => {
   return (
     <CardWrap>
       <ContentsBox>
-        <article>게시글이 존재하지 않습니다 :(</article>
+        <article>게시글이 존재하지 않습니다.</article>
       </ContentsBox>
     </CardWrap>
   );
