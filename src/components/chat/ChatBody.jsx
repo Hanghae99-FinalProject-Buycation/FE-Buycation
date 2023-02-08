@@ -1,12 +1,10 @@
 import React from "react";
-import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "@emotion/styled";
 import { IoMdSend } from "@react-icons/all-files/io/IoMdSend";
 import profileIcon from "../../assets/headerIcon/profileIcon.svg";
 import ChatZone from "./ChatZone";
 import ChatParticipantModal from "./ChatParticipantModal";
-import { useState } from "react";
-import { useEffect } from "react";
 import { sendChatModalStatus } from "../../redux/modules/modal/modalSlice";
 
 const ChatBody = (props) => {
@@ -14,11 +12,11 @@ const ChatBody = (props) => {
     client,
     memberId,
     nickname,
-    roomId,
     userData,
     setUserData,
     chatList,
     privateChats,
+    setPrivateChats,
   } = props;
 
   const dispatch = useDispatch();
@@ -28,19 +26,20 @@ const ChatBody = (props) => {
   const { roomInfo, participants } = useSelector(
     (state) => state.chat.getChatRoom
   );
+  const { getRoomNo } = useSelector((state) => state.chat);
 
   const sendPrivateValue = () => {
     if (client.current) {
       let chatMessage = {
         memberId: memberId,
         sender: nickname,
-        receiver: roomId,
+        receiver: getRoomNo,
         message: userData.message,
         status: "MESSAGE",
       };
       if (chatMessage.message.trim() !== "") {
         client.current.publish({
-          destination: `/send/${roomId}`,
+          destination: `/send/${getRoomNo}`,
           body: JSON.stringify(chatMessage),
         });
         setUserData({ ...userData, message: "" });
@@ -54,16 +53,10 @@ const ChatBody = (props) => {
   };
 
   const onPressEnterHandler = (e) => {
-    if (e.keyCode === 13 /*  || e.keyCode === 261 */) {
+    if (e.keyCode === 13) {
       sendPrivateValue();
     }
   };
-
-  useEffect(() => {
-    // connect();
-    // return () => disconnect();
-    // return () => client.current.unsubscribe();
-  }, []);
 
   return (
     <>
@@ -71,23 +64,28 @@ const ChatBody = (props) => {
         {modalStatus && <ChatParticipantModal data={participants} />}
         <div>
           <ElChatRoomImage
-            src={chatList?.filter((item) => item.id === roomId)[0]?.image}
+            src={chatList?.filter((item) => item.id === getRoomNo)[0]?.image}
             alt=""
           />
           <span>
             {chatList
-              ?.filter((item) => item.id === roomId)[0]
+              ?.filter((item) => item.id === getRoomNo)[0]
               ?.title.substr(0, 18)}
           </span>
         </div>
         <span onClick={() => dispatch(sendChatModalStatus(!modalStatus))}>
           <img src={profileIcon} alt="" />{" "}
-          {chatList?.filter((item) => item.id === roomId)[0]?.currentMembers}/
-          {roomInfo?.totalMembers}명
+          {chatList?.filter((item) => item.id === getRoomNo)[0]?.currentMembers}
+          /{roomInfo?.totalMembers}명
         </span>
       </StChatRoomTitle>
       <StChatZone>
-        <ChatZone privateChats={privateChats} userData={userData} />
+        <ChatZone
+          privateChats={privateChats}
+          setPrivateChats={setPrivateChats}
+          userData={userData}
+          client={client}
+        />
       </StChatZone>
       <StSendZone>
         <input
