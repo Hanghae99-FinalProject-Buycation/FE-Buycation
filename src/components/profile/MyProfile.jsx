@@ -37,7 +37,7 @@ const MyProfile = () => {
       <Container>
         <ProfileInfo />
         <TagBtnDiv>
-          <Button onClick={onClickStarBtnHandler}>나의 평점</Button>
+          <Button onClick={onClickStarBtnHandler}>평점 내역</Button>
           <Button onClick={onClickGuestBtnHandler}>참여한 공구</Button>
           <Button onClick={onClickOwnerBtnHandler}>오픈한 공구</Button>
         </TagBtnDiv>
@@ -92,7 +92,7 @@ const Button = styled.button`
   width: 100%;
   font-size: ${({ theme }) => theme.fontSize.md};
   font-weight: 500;
-  background: white;
+  background: none;
   color: ${({ theme }) => theme.colors.black};
   cursor: pointer;
   :focus {
