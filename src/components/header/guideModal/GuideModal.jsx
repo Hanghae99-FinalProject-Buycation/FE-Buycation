@@ -36,16 +36,8 @@ const GuideModal = (props) => {
           </GuidePage>
         ) : (
           <GuidePage>
-            <object
-              type="image/svg+xml"
-              data={guideMovileVersion}
-              // data="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMovileVersion.svg"
-            >
-              <img
-                alt="guideMobileVersion1"
-                src={guideMovileVersion}
-                // src="https://buycation-image.s3.ap-northeast-2.amazonaws.com/guideMovileVersion.svg"
-              />
+            <object type="image/svg+xml" data={guideMovileVersion}>
+              <img alt="guideMobileVersion" src={guideMovileVersion} />
             </object>
           </GuidePage>
         )}
@@ -73,7 +65,7 @@ const UserGuide = styled.div`
   right: 0;
   top: 10%;
   width: 935px;
-  height: 590;
+  height: 590px;
   z-index: 10;
   background: white;
   border-radius: 5px;
