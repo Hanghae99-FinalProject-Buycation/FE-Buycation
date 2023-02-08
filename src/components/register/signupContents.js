@@ -23,7 +23,7 @@ export const signupContents = [
     title: "· 인증번호 확인*",
     type: "text",
     name: "emailValidation",
-    placeholder: "제한시간 10분",
+    placeholder: "제한시간 3분",
     btnText: "확인",
     gridTemplateAreas: `"elSpan elInput elBtn"`,
     gridTemplateAreasMobile: `"elSpan ." "elInput elBtn"`,

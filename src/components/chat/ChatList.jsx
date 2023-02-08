@@ -6,45 +6,20 @@ import DetailSpan from "../detail/elements/DetailSpan";
 
 const ChatList = (props) => {
   const {
-    client,
     chatList,
     innerWidth,
     privateChats,
-    setPrivateChats,
-    setRoomId,
-    isSubscribed,
-    setIsSubscribed,
     userData,
     setUserData,
     hide,
     setHide,
-    // userJoin,
   } = props;
   const dispatch = useDispatch();
-  const onPrivateMessage = (message) => {
-    const payloadData = JSON.parse(message.body);
-    privateChats.set(payloadData.talkRoomId, [
-      ...privateChats?.get(payloadData.talkRoomId),
-      payloadData,
-    ]);
-    setPrivateChats(new Map(privateChats));
-  };
   const onClickSelectRoomHandler = (roomNo) => {
     dispatch(__getChatRoom(roomNo)).then((res) => {
-      const payloadData = res.payload;
-      const subscriptionId = payloadData.roomInfo?.id;
-      privateChats.set(subscriptionId, payloadData.talks);
-      setRoomId(roomNo);
       dispatch(sendRoomNo(roomNo));
-      if (!isSubscribed) {
-        client.current.subscribe(`/talk/${roomNo}`, onPrivateMessage, {
-          id: subscriptionId,
-        });
-        setIsSubscribed(true);
-      } else {
-        client.current.unsubscribe(subscriptionId);
-        setIsSubscribed(false);
-      }
+      const payloadData = res.payload;
+      privateChats.set(payloadData.roomInfo?.id, payloadData.talks);
       privateChats.delete("");
       privateChats.delete(null);
       privateChats.delete(undefined);

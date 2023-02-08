@@ -4,11 +4,11 @@ import markerMain from "../../assets/mapMarker/markerMain.svg";
 
 const Map = () => {
   const postingList = useSelector((data) => data.getPostingList.getPostingList);
-  //console.log("게시글 리스트", postingList);
+
   //해당 게시글 클릭 시 좌표 값
   const onGetCoordsData = useSelector((data) => data.getPostingList.getCoords);
-  const coordsX = Number(onGetCoordsData.coordsX);
   const coordsY = Number(onGetCoordsData.coordsY);
+  const coordsX = Number(onGetCoordsData.coordsX);
 
   useEffect(() => {
     kakaoMap();
@@ -23,9 +23,10 @@ const Map = () => {
       center: new kakao.maps.LatLng(
         postingList[0]?.coordsY || 33.450701,
         postingList[0]?.coordsX || 126.570667
-      ), //지도 중심좌표
+      ), //지도 중심좌표 (최초: 카카오 본사 세팅)
       lever: 3, //지도 확대 레벨
     };
+
     //지도 생성
     const map = new kakao.maps.Map(container, options);
 

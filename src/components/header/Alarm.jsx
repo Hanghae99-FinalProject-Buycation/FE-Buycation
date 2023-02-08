@@ -1,22 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import alarmClose from "../../assets/headerIcon/alarmClose.svg";
 import { getCookies } from "../../core/cookie";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   __sendAlarmModalStatus,
   __getAlarmList,
+  __deleteState,
   __deleteAlarm,
   __deleteTotalAlarm,
-  __deleteState,
+  __patchAlarmState,
 } from "../../redux/modules/alarm/alarmSlice";
-import { useEffect } from "react";
-import { midTitleForm } from "../../utils/editedData";
 import useOutsideClick from "../../hooks/useOutsideClick";
+import { midTitleForm } from "../../utils/editedData";
 
 const Alarm = (props) => {
-  const { onMove, top, left, right } = props;
+  const { top, left, right } = props;
   const tokenValue = getCookies("id");
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const alarmListData = useSelector((data) => data.alarm);
   const alarmList = alarmListData.alarmList.dataList;
@@ -33,7 +35,7 @@ const Alarm = (props) => {
       dispatch(__getAlarmList(alarmKey));
       dispatch(__deleteState(false));
     }
-  }, [dispatch, tokenValue, deleteState]);
+  }, [dispatch, tokenValue, deleteState, alarmKey]);
 
   const onClickDeleteAlarmHandler = (alarmId, index) => {
     dispatch(__deleteAlarm({ alarmId, index }));
@@ -41,6 +43,12 @@ const Alarm = (props) => {
 
   const onClickDeleteTotalAlarmListHandler = (alarmId) => {
     dispatch(__deleteTotalAlarm(alarmId));
+  };
+
+  const onMoveSelectPageHandler = (postingId, alarmId) => {
+    dispatch(__sendAlarmModalStatus(false));
+    navigate(`/details/${postingId}`);
+    dispatch(__patchAlarmState(alarmId));
   };
 
   return (
@@ -58,7 +66,11 @@ const Alarm = (props) => {
           alarmList?.map((item, index) => (
             <PerAlarm key={item.alarmId}>
               <article>
-                <div onClick={() => onMove(item.postingId, item.alarmId)}>
+                <div
+                  onClick={() =>
+                    onMoveSelectPageHandler(item.postingId, item.alarmId)
+                  }
+                >
                   <p className={item.read ? "read" : ""}>
                     {midTitleForm(item.title)}
                   </p>

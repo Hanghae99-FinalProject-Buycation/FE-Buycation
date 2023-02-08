@@ -14,12 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { sendModalStatus } from "../../redux/modules/modal/modalSlice";
 
 const HeaderMobile = (props) => {
-  const {
-    onInnerWidth,
-    onAlarmCount,
-    onClickAlarmModalHandler,
-    onMoveSelectPageHandler,
-  } = props;
+  const { onInnerWidth, onAlarmCount, onClickAlarmModalHandler } = props;
   const tokenValue = getCookies("id");
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -29,7 +24,6 @@ const HeaderMobile = (props) => {
 
   const onMoveLoginHandler = () => {
     navigate("/login");
-    dispatch(sendModalStatus(true));
   };
 
   const onClickMypageModalHandler = () => {
@@ -55,7 +49,7 @@ const HeaderMobile = (props) => {
                 src={alarmIcon}
                 onClick={onClickAlarmModalHandler}
               />
-              <Alarm top="4rem" left="0" onMove={onMoveSelectPageHandler} />
+              <Alarm top="4rem" left="0" />
             </Icon>
           ) : (
             <Icon>

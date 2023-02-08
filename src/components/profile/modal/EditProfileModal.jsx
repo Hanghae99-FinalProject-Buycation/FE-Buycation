@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import imageCompression from "browser-image-compression";
 import Swal from "sweetalert2";
 import styled from "@emotion/styled";
-import ModalClose from "../../../assets/headerIcon/modalClose.svg";
 import { FaLink } from "@react-icons/all-files/fa/FaLink";
+import ModalClose from "../../../assets/headerIcon/modalClose.svg";
 import InputBasic from "../../elements/InputBasic";
 import ButtonBasic from "../../elements/ButtonBasic";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +16,6 @@ import { sendRegisterModalStatus } from "../../../redux/modules/postcode/postcod
 import Postcode from "../../postcode/Postcode";
 import usePostcode from "../../../hooks/usePostcode";
 import { uploadImg } from "../../../utils/uploadImg";
-import imageCompression from "browser-image-compression"; //이미지 사이즈 줄이기
 
 const EditProfileModal = (props) => {
   const dispatch = useDispatch();

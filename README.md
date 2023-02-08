@@ -42,7 +42,6 @@
 
 **Backend Tech Stack**  
 <img src="https://img.shields.io/badge/JAVA-007396?style=for-the-badge&logo=java&logoColor=white">
-<img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white"> 
 <img src="https://img.shields.io/badge/Springboot-6DB33F?style=for-the-badge&logo=Springboot&logoColor=white">
 <img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white">
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
@@ -50,14 +49,15 @@
 <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white">
 <img src="https://img.shields.io/badge/GitHub Actions-2088FF?style=for-the-badge&logo=GitHub Actions&logoColor=white"> 
 <img src="https://img.shields.io/badge/codedeploy-6DB33F?style=for-the-badge&logo=codedeploy&logoColor=white">
+<img src="https://img.shields.io/badge/redis-red?style=for-the-badge&logo=redis&logoColor=white">
+<img src="https://img.shields.io/badge/websocket-yellow?style=for-the-badge&logo=websocket&logoColor=white">
+<img src="https://img.shields.io/badge/SSE-informational?style=for-the-badge&logo=SSE&logoColor=white">
 
 <br />
 
 
 ## 아키텍쳐
-<img width="920" height="420" alt="스크린샷 2023-02-05 오후 3 49 35" src="https://user-images.githubusercontent.com/96729804/216894359-297b14f2-ea09-4bb6-bb48-b22bc47f37c0.png">
-
-<br />
+![buycation](https://user-images.githubusercontent.com/96729804/217191176-45483a06-fc2f-49c3-b758-2cc4d75e2d9c.png)
 
 
 ## 주요 기능

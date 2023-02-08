@@ -4,11 +4,10 @@ import { baseURLwToken } from "../../../core/axios";
 const initialState = {
   memberId: {},
   getProfile: [],
-  isLoading: false,
-  error: null,
-
   isSuccess: false,
   alertMsg: {},
+  isLoading: false,
+  error: null,
 };
 
 export const __getProfile = createAsyncThunk(

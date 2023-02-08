@@ -3,10 +3,9 @@ import { baseURLwToken } from "../../../core/axios";
 
 const initialState = {
   reviews: [],
+  isSuccess: {},
   isLoading: false,
   error: null,
-
-  isSuccess: {},
 };
 
 export const __getReviewList = createAsyncThunk(

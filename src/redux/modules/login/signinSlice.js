@@ -8,7 +8,7 @@ const initialState = {
   error: null,
 
   isSuccess: false,
-  statusCode: false,
+  statusCode: null,
   alertMsg: {},
 };
 
@@ -37,21 +37,16 @@ export const signinSlice = createSlice({
     __isSuccess: (state, action) => {
       state.isSuccess = action.payload;
     },
-    __statusCode: (state, action) => {
-      state.statusCode = action.payload;
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(__postSignin.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
       state.alertMsg = action.payload.msg;
-      if (action.payload.statusCode === 200) {
-        state.statusCode = true;
-      }
+      state.statusCode = action.payload.statusCode;
     });
   },
 });
 
-export const { __isSuccess, __statusCode } = signinSlice.actions;
+export const { __isSuccess } = signinSlice.actions;
 export default signinSlice.reducer;
