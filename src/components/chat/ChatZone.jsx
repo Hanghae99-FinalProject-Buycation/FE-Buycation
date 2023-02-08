@@ -2,17 +2,52 @@ import React, { useRef } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "@emotion/styled";
+import { useState } from "react";
 
-const ChatZone = ({ privateChats, userData }) => {
-  const getRoomNo = useSelector((state) => state.chat.getRoomNo);
+const ChatZone = (props) => {
+  const { privateChats, setPrivateChats, userData, client } = props;
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const { getRoomNo } = useSelector((state) => state.chat);
   const bottomRef = useRef(null);
+  const onPrivateMessage = (message) => {
+    const payloadData = JSON.parse(message.body);
+    privateChats.set(payloadData.talkRoomId, [
+      ...privateChats?.get(payloadData.talkRoomId),
+      payloadData,
+    ]);
+    setPrivateChats(new Map(privateChats));
+  };
+  useEffect(() => {
+    const scrollDown = () =>
+      bottomRef.current?.scrollIntoView({
+        block: "nearest",
+        inline: "start",
+      });
+    scrollDown();
+
+    return () => {
+      scrollDown();
+    };
+  }, [privateChats, getRoomNo]);
+
+  const what = client.current;
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({
-      block: "nearest",
-      inline: "start",
-    });
-  }, [privateChats]);
+    if (getRoomNo === null) return;
+    else if (!isSubscribed) {
+      what.subscribe(`/talk/${getRoomNo}`, onPrivateMessage, {
+        id: getRoomNo,
+      });
+      setIsSubscribed(true);
+    }
+
+    return () => {
+      if (isSubscribed) {
+        what.unsubscribe(getRoomNo);
+        setIsSubscribed(false);
+      }
+    };
+  }, [getRoomNo, isSubscribed]);
 
   if (privateChats.get(getRoomNo)?.length > 0)
     return (

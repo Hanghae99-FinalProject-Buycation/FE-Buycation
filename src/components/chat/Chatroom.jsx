@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import * as Stomp from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import { SOCKET_URL } from "../../core/env";
-import { __getChatList } from "../../redux/modules/chat/chatSlice";
+import { sendRoomNo, __getChatList } from "../../redux/modules/chat/chatSlice";
 import { sendChatStatus } from "../../redux/modules/modal/modalSlice";
 import { HiOutlineX } from "@react-icons/all-files/hi/HiOutlineX";
 import useWindowResize from "../../hooks/useWindowResize";
@@ -15,14 +15,12 @@ import ChatBody from "./ChatBody";
 
 const Chatroom = () => {
   const dispatch = useDispatch();
-  const { error } = useSelector((state) => state.chat);
+  const { error, getRoomNo } = useSelector((state) => state.chat);
   const chatList = useSelector((state) => state.chat.getChatList);
   const { nickname, memberId } = useSelector((state) => state.chat.getChatRoom);
   const chatStatus = useSelector((state) => state.generalModal.toggleChat);
-  const [roomId, setRoomId] = useState(null);
   const [hide, setHide] = useState(false);
   const [privateChats, setPrivateChats] = useState(new Map());
-  const [isSubscribed, setIsSubscribed] = useState(false);
   const [userData, setUserData] = useState({
     memberId: "",
     sender: "",
@@ -76,9 +74,7 @@ const Chatroom = () => {
   const onClickExitHandler = () => {
     dispatch(sendChatStatus(!chatStatus));
     client.current.unsubscribe();
-    setIsSubscribed(false);
-    setRoomId(null);
-    setIsSubscribed(false);
+    dispatch(sendRoomNo(null));
   };
 
   useEffect(() => {
@@ -111,32 +107,25 @@ const Chatroom = () => {
         <StChatContainer className={innerWidth < 768 ? hide : ""}>
           {innerWidth < 768 && chatList?.length === 0 && <ChatWaitingRoom />}
           <ChatList
-            client={client}
             chatList={chatList}
-            innerWidth={innerWidth}
-            privateChats={privateChats}
-            setPrivateChats={setPrivateChats}
-            setRoomId={setRoomId}
-            isSubscribed={isSubscribed}
-            setIsSubscribed={setIsSubscribed}
             userData={userData}
             setUserData={setUserData}
             hide={hide}
             setHide={setHide}
+            privateChats={privateChats}
+            innerWidth={innerWidth}
           />
           {innerWidth > 768 && !hide && <ChatWaitingRoom />}
           <StRoomWrap className={innerWidth < 768 ? `${hide} room` : !hide}>
             <ChatBody
               client={client}
+              chatList={chatList}
               memberId={memberId}
               nickname={nickname}
-              roomId={roomId}
               userData={userData}
               setUserData={setUserData}
-              chatList={chatList}
               privateChats={privateChats}
-              connect={connect}
-              disconnect={disconnect}
+              setPrivateChats={setPrivateChats}
             />
           </StRoomWrap>
         </StChatContainer>
