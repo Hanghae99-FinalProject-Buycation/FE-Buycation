@@ -120,4 +120,4 @@
 
 ## 프로젝트 기록
 📔  **[노션 링크](https://www.notion.so/10-A-6-72a2a86ec3f9426b935c004867205c45)**
-🗂  **[발표 자료](https://github.com/Hanghae99-FinalProject-Buycation/FE-Buycation/files/10694338/default.pdf)**
+🗂  **[발표 자료](https://docs.google.com/presentation/d/1Hzk6Dl5FgpQGfV8lnKj-WgLyvgEXysrq/edit#slide=id.p1)**
