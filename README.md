@@ -7,6 +7,8 @@
 
 💕 **[바이케이션 서비스 바로가기](https://buycation.co.kr/)**
 
+📽 **[발표 영상](https://www.youtube.com/watch?v=tudZA3Wh4WE)**
+
 <br />
 
 
@@ -118,4 +120,4 @@
 
 ## 프로젝트 기록
 📔  **[노션 링크](https://www.notion.so/10-A-6-72a2a86ec3f9426b935c004867205c45)**
-
+🗂  **[발표 자료](https://docs.google.com/presentation/d/1Hzk6Dl5FgpQGfV8lnKj-WgLyvgEXysrq/edit#slide=id.p1)**
