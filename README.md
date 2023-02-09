@@ -7,6 +7,8 @@
 
 💕 **[바이케이션 서비스 바로가기](https://buycation.co.kr/)**
 
+📽 **[발표 영상](https://www.youtube.com/watch?v=tudZA3Wh4WE)**
+
 <br />
 
 
