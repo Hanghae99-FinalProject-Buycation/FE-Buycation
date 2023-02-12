@@ -119,5 +119,5 @@
 <br/>
 
 ## 프로젝트 기록
-📔  **[노션 링크](https://www.notion.so/10-A-6-72a2a86ec3f9426b935c004867205c45)**
+📔  **[노션 링크](https://www.notion.so/Buycation-e6d8faf2d37c4b1aa52d1f1daf9bd96a)**
 🗂  **[발표 자료](https://docs.google.com/presentation/d/1Hzk6Dl5FgpQGfV8lnKj-WgLyvgEXysrq/edit#slide=id.p1)**
