@@ -30,12 +30,10 @@ const ChatZone = (props) => {
     };
   }, [privateChats, getRoomNo]);
 
-  const what = client.current;
-
   useEffect(() => {
     if (getRoomNo === null) return;
     else if (!isSubscribed) {
-      what.subscribe(`/talk/${getRoomNo}`, onPrivateMessage, {
+      client.current.subscribe(`/talk/${getRoomNo}`, onPrivateMessage, {
         id: getRoomNo,
       });
       setIsSubscribed(true);
@@ -43,7 +41,7 @@ const ChatZone = (props) => {
 
     return () => {
       if (isSubscribed) {
-        what.unsubscribe(getRoomNo);
+        client.current.unsubscribe(getRoomNo);
         setIsSubscribed(false);
       }
     };
